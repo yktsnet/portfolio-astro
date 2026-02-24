@@ -1,42 +1,52 @@
 ---
+import MainLayout from '../layouts/MainLayout.astro';
 import Logo from '../layouts/Logo.astro';
 ---
 
-<section class="mt-16 border-t border-zinc-200 pt-10 dark:border-zinc-800">
-  <h2 class="mb-8 text-xl font-bold tracking-tight text-zinc-900 dark:text-[#e4f0fb]">Identity Architecture</h2>
-  
-  <div class="flex flex-col gap-8 sm:flex-row sm:items-stretch">
-    <div class="flex flex-1 items-center justify-center rounded-xl bg-zinc-100/50 p-8 dark:bg-zinc-900/30">
-      <div class="relative h-32 w-32">
-        <Logo size="100%" class="h-full w-full" />
-      </div>
-    </div>
+<MainLayout title="About">
+  <section>
+    <h1 class="mb-8 text-2xl font-bold text-zinc-900 dark:text-[#e4f0fb]">About</h1>
 
-    <div class="relative flex-1 min-w-0">
-      <div class="absolute -top-3 left-4 z-10 bg-zinc-50 px-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500 dark:bg-[#1b1e28]">
-        SVG Source
+    <div class="space-y-4 font-sans text-zinc-700 dark:text-[#e4f0fb]/90 leading-relaxed">
+      <p>ここに自己紹介が入ります。</p>
+    </div>
+  </section>
+
+  <!-- Identity Architecture — サイトロゴの設計思想 -->
+  <section class="mt-20 border-t border-zinc-200 pt-10 dark:border-zinc-700/40">
+    <h2 class="mb-8 text-lg font-bold tracking-tight text-zinc-900 dark:text-[#e4f0fb]">Identity Architecture</h2>
+
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-stretch">
+      <!-- Logo preview -->
+      <div class="flex flex-none items-center justify-center rounded-xl bg-zinc-100/50 p-8 dark:bg-zinc-900/30 sm:w-40">
+        <Logo size={80} class="h-20 w-20" />
       </div>
-      <div class="h-full overflow-hidden rounded-lg bg-zinc-950 shadow-lg">
-        <pre class="h-full overflow-x-auto p-6 text-[10px] leading-relaxed text-[#5de4c7] scrollbar-thin scrollbar-thumb-zinc-700">
-<code>{`<svg viewBox="0 0 24 24" fill="none">
-  <path d="M22 12a1 1 0 0 1-10 0 
-           a1 1 0 0 0-10 0" 
+
+      <!-- SVG source -->
+      <div class="relative min-w-0 flex-1">
+        <span class="absolute -top-3 left-4 z-10 bg-zinc-50 px-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500 dark:bg-[#1b1e28] dark:text-zinc-500">
+          SVG Source
+        </span>
+        <div class="overflow-hidden rounded-lg bg-zinc-950 shadow-lg">
+          <pre class="overflow-x-auto p-5 text-[11px] leading-relaxed text-[#5de4c7]"><code>{`<svg viewBox="0 0 24 24" fill="none">
+  <path d="M22 12a1 1 0 0 1-10 0
+           a1 1 0 0 0-10 0"
         stroke="#5de4c7" />
-  <path d="M7 20.7a1 1 0 1 1 5-8.7 
-           a1 1 0 1 0 5-8.6" 
+  <path d="M7 20.7a1 1 0 1 1 5-8.7
+           a1 1 0 1 0 5-8.6"
         stroke="#d482ab" />
-  <path d="M7 3.3a1 1 0 1 1 5 8.6 
-           a1 1 0 1 0 5 8.6" 
+  <path d="M7 3.3a1 1 0 1 1 5 8.6
+           a1 1 0 1 0 5 8.6"
         stroke="#89ddff" />
-  <circle cx="12" cy="12" r="2" 
+  <circle cx="12" cy="12" r="2"
         stroke="#cdffb8" />
 </svg>`}</code></pre>
+        </div>
       </div>
     </div>
-  </div>
 
-  <p class="mt-6 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
-    このロゴは、静的な画像ではなく、一連の幾何学的な座標データとしてプログラムされています。
-    コードを直接描画エンジンに渡すことで、解像度に依存しない明晰な視覚言語を実現しています。
-  </p>
-</section>
+    <p class="mt-5 text-sm leading-relaxed text-zinc-500 dark:text-zinc-500">
+      このロゴは静的な画像ではなく、幾何学的な座標データとしてプログラムされています。コードを直接描画エンジンに渡すことで、解像度に依存しない明晰な視覚言語を実現しています。
+    </p>
+  </section>
+</MainLayout>
