@@ -5,6 +5,15 @@ import Search from '../components/Search.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 
 const { title = "Home" } = Astro.props;
+
+const menuLinks = [
+  { path: "/", title: "Home" },
+  { path: "/about", title: "About" },
+  { path: "/posts", title: "Posts" },
+  { path: "/Status", title: "Status" },
+];
+
+const year = new Date().getFullYear();
 ---
 <html lang="ja" class="scroll-smooth">
   <head>
@@ -32,32 +41,137 @@ const { title = "Home" } = Astro.props;
   
 <body class="bg-zinc-50 text-zinc-900 dark:bg-[#1b1e28] dark:text-[#e4f0fb] mx-auto flex min-h-screen max-w-3xl flex-col px-4 pt-16 font-mono text-sm font-normal antialiased sm:px-8 transition-colors duration-300">
     
-    <header class="group relative mb-28 flex items-center justify-between sm:ps-0" id="main-header">
+    {/* ===== HEADER ===== */}
+    <header class="group relative mb-28 flex items-center sm:ps-[4.5rem]" id="main-header">
       <div class="flex sm:flex-col">
-        <a href="/" class="inline-flex items-center sm:relative sm:inline-block sm:hover:opacity-80 transition-opacity" aria-current="page">
+        <a
+          aria-current={Astro.url.pathname === "/" ? "page" : false}
+          class="inline-flex items-center sm:relative sm:inline-block sm:grayscale sm:hover:filter-none"
+          href="/"
+        >
+          {/* Pinwheel icon: mobile=inline colored, PC=absolute left grayscale->color on hover */}
+          <svg
+            aria-hidden="true"
+            class="me-3 h-10 w-6 sm:absolute sm:-start-[4.5rem] sm:me-0 sm:h-20 sm:w-12"
+            fill="none"
+            focusable="false"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>Site Logo</title>
+            <path d="M22 12a1 1 0 0 1-10 0 1 1 0 0 0-10 0" stroke="#5de4c7" />
+            <path d="M7 20.7a1 1 0 1 1 5-8.7 1 1 0 1 0 5-8.6" stroke="#d482ab" />
+            <path d="M7 3.3a1 1 0 1 1 5 8.6 1 1 0 1 0 5 8.6" stroke="#89ddff" />
+            <circle cx="12" cy="12" r="2" stroke="#cdffb8" />
+          </svg>
           <span class="text-xl font-bold sm:text-2xl text-zinc-900 dark:text-[#e4f0fb]">Katsuhiro Yamakawa</span>
         </a>
-        
-        <nav class="absolute -inset-x-4 top-14 hidden flex-col px-2 py-4 sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:divide-x divide-[#d0679d] dark:divide-[#5de4c7] sm:p-0" aria-label="Main menu">
-  <a href="/" class="text-[#d0679d] dark:text-[#5de4c7] px-2 py-4 font-semibold hover:text-[#506477] dark:hover:text-[#add7ff] sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline">Home</a>
-  <a href="/about" class="text-[#d0679d] dark:text-[#5de4c7] px-2 py-4 font-semibold hover:text-[#506477] dark:hover:text-[#add7ff] sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline">About</a>
-  <a href="/posts" class="text-[#d0679d] dark:text-[#5de4c7] px-2 py-4 font-semibold hover:text-[#506477] dark:hover:text-[#add7ff] sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline">Posts</a>
-  <a href="/Status" class="text-[#d0679d] dark:text-[#5de4c7] px-2 py-4 font-semibold hover:text-[#506477] dark:hover:text-[#add7ff] sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline">Status</a>
-</nav>
+        {/* Nav: hidden on mobile, shown via hamburger toggle */}
+        <nav
+          aria-label="Main menu"
+          class="bg-zinc-50 dark:bg-[#1b1e28] absolute -inset-x-4 top-12 hidden flex-col divide-y px-2 py-4 group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:divide-x sm:divide-y-0 sm:divide-[#d0679d] dark:sm:divide-[#5de4c7] sm:bg-transparent sm:p-0"
+          id="navigation-menu"
+        >
+          {menuLinks.map((link) => (
+            <a
+              aria-current={Astro.url.pathname === link.path ? "page" : false}
+              class="text-[#d0679d] dark:text-[#5de4c7] px-2 py-4 font-semibold sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline"
+              href={link.path}
+            >
+              {link.title}
+            </a>
+          ))}
+        </nav>
       </div>
-      
-      <div class="flex items-center gap-x-1 sm:ms-auto">
-        <Search />
-        <ThemeToggle />
-      </div>
+      {/* Right: Search, Theme, Mobile hamburger */}
+      <Search />
+      <ThemeToggle />
+      <mobile-button>
+        <button
+          aria-expanded="false"
+          aria-haspopup="menu"
+          class="group relative ms-4 h-7 w-7 sm:invisible sm:hidden"
+          id="toggle-navigation-menu"
+          type="button"
+        >
+          <span class="sr-only">Open main menu</span>
+          <svg
+            aria-hidden="true"
+            class="absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 transition-all group-aria-expanded:scale-0 group-aria-expanded:opacity-0"
+            fill="none"
+            focusable="false"
+            stroke="currentColor"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M3.75 9h16.5m-16.5 6.75h16.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <svg
+            aria-hidden="true"
+            class="text-[#d0679d] dark:text-[#5de4c7] absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all group-aria-expanded:scale-100 group-aria-expanded:opacity-100"
+            fill="none"
+            focusable="false"
+            stroke="currentColor"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </mobile-button>
     </header>
 
     <main id="main" class="flex-1">
       <slot />
     </main>
 
-    <footer class="mt-24 pb-8 flex items-center justify-center font-mono text-xs text-zinc-500 dark:text-[#a6accd]/50">
-      <p>© 2026 ykts.net</p>
+    {/* ===== FOOTER ===== */}
+    <footer
+      class="mt-auto flex w-full flex-col items-center justify-center gap-y-2 pt-20 pb-4 text-center align-top font-semibold text-zinc-500 dark:text-[#a6accd]/50 sm:flex-row sm:justify-between sm:text-xs"
+    >
+      <div class="me-0 sm:me-4">
+        &copy; Katsuhiro Yamakawa {year}.<span class="inline-block">&nbsp;🚀&nbsp;ykts.net</span>
+      </div>
+      <nav
+        aria-labelledby="footer_links"
+        class="flex gap-x-2 sm:gap-x-0 sm:divide-x sm:divide-zinc-400 dark:sm:divide-[#a6accd]/30"
+      >
+        <p id="footer_links" class="sr-only">More on this site</p>
+        {menuLinks.map((link) => (
+          <a
+            class="px-4 py-2 hover:text-zinc-900 dark:hover:text-[#e4f0fb] hover:underline sm:py-0"
+            href={link.path}
+          >
+            {link.title}
+          </a>
+        ))}
+      </nav>
     </footer>
+
+    {/* ===== Mobile menu script ===== */}
+    <script>
+      class MobileNavBtn extends HTMLElement {
+        #menuOpen: boolean = false;
+
+        connectedCallback() {
+          const headerEl = document.getElementById("main-header")!;
+          const mobileButtonEl = this.querySelector<HTMLButtonElement>("button");
+
+          mobileButtonEl?.addEventListener("click", () => {
+            if (headerEl) headerEl.classList.toggle("menu-open");
+            this.#menuOpen = !this.#menuOpen;
+            mobileButtonEl.setAttribute("aria-expanded", this.#menuOpen.toString());
+          });
+        }
+      }
+
+      customElements.define("mobile-button", MobileNavBtn);
+    </script>
   </body>
 </html>
