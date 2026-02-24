@@ -19,8 +19,9 @@ const year = new Date().getFullYear();
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/jpeg" href="/avatar.jpg" />
-    <title>{title} | ykts.net</title>
+    <title>{title} • ykts.net</title>
+    {/* Inline SVG favicon - pinwheel icon */}
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12a1 1 0 0 1-10 0a1 1 0 0 0-10 0' stroke='%235de4c7'/><path d='M7 20.7a1 1 0 1 1 5-8.7a1 1 0 1 0 5-8.6' stroke='%23d482ab'/><path d='M7 3.3a1 1 0 1 1 5 8.6a1 1 0 1 0 5 8.6' stroke='%2389ddff'/><circle cx='12' cy='12' r='2' stroke='%23cdffb8'/></svg>" type="image/svg+xml" />
     <script is:inline>
       const theme = (() => {
         if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
@@ -37,35 +38,64 @@ const year = new Date().getFullYear();
         document.documentElement.classList.add('dark');
       }
     </script>
+    {/* Prevent icon FOUC: set explicit dimensions before CSS loads */}
+    <style is:inline>
+      .site-logo-icon {
+        width: 1.5rem;
+        height: 2.5rem;
+      }
+      @media (min-width: 640px) {
+        .site-logo-icon {
+          width: 3rem;
+          height: 5rem;
+        }
+      }
+    </style>
   </head>
   
 <body class="bg-zinc-50 text-zinc-900 dark:bg-[#1b1e28] dark:text-[#e4f0fb] mx-auto flex min-h-screen max-w-3xl flex-col px-4 pt-16 font-mono text-sm font-normal antialiased sm:px-8 transition-colors duration-300">
     
     {/* ===== HEADER ===== */}
     <header class="group relative mb-28 flex items-center sm:ps-[4.5rem]" id="main-header">
-      <div class="flex sm:flex-col">
+      <div class="relative flex sm:flex-col">
+        {/* Pinwheel icon: mobile=inline inside link, PC=absolute centered against title+nav group */}
+        <svg
+          aria-hidden="true"
+          class="site-logo-icon hidden sm:block sm:absolute sm:-start-[4.5rem] sm:top-1/2 sm:-translate-y-1/2 sm:grayscale sm:hover:filter-none sm:transition-[filter]"
+          fill="none"
+          focusable="false"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>Site Logo</title>
+          <path d="M22 12a1 1 0 0 1-10 0a1 1 0 0 0-10 0" stroke="#5de4c7" />
+          <path d="M7 20.7a1 1 0 1 1 5-8.7a1 1 0 1 0 5-8.6" stroke="#d482ab" />
+          <path d="M7 3.3a1 1 0 1 1 5 8.6a1 1 0 1 0 5 8.6" stroke="#89ddff" />
+          <circle cx="12" cy="12" r="2" stroke="#cdffb8" />
+        </svg>
         <a
           aria-current={Astro.url.pathname === "/" ? "page" : false}
-          class="inline-flex items-center sm:relative sm:inline-block sm:grayscale sm:hover:filter-none"
+          class="inline-flex items-center"
           href="/"
         >
-          {/* Pinwheel icon: mobile=inline colored, PC=absolute left grayscale->color on hover */}
+          {/* Mobile-only inline icon (colored) */}
           <svg
             aria-hidden="true"
-            class="me-3 h-10 w-6 sm:absolute sm:-start-[4.5rem] sm:me-0 sm:h-20 sm:w-12"
+            class="site-logo-icon me-3 sm:hidden"
             fill="none"
             focusable="false"
-            stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title>Site Logo</title>
-            <path d="M22 12a1 1 0 0 1-10 0 1 1 0 0 0-10 0" stroke="#5de4c7" />
-            <path d="M7 20.7a1 1 0 1 1 5-8.7 1 1 0 1 0 5-8.6" stroke="#d482ab" />
-            <path d="M7 3.3a1 1 0 1 1 5 8.6 1 1 0 1 0 5 8.6" stroke="#89ddff" />
+            <path d="M22 12a1 1 0 0 1-10 0a1 1 0 0 0-10 0" stroke="#5de4c7" />
+            <path d="M7 20.7a1 1 0 1 1 5-8.7a1 1 0 1 0 5-8.6" stroke="#d482ab" />
+            <path d="M7 3.3a1 1 0 1 1 5 8.6a1 1 0 1 0 5 8.6" stroke="#89ddff" />
             <circle cx="12" cy="12" r="2" stroke="#cdffb8" />
           </svg>
           <span class="text-xl font-bold sm:text-2xl text-zinc-900 dark:text-[#e4f0fb]">Katsuhiro Yamakawa</span>
@@ -73,7 +103,7 @@ const year = new Date().getFullYear();
         {/* Nav: hidden on mobile, shown via hamburger toggle */}
         <nav
           aria-label="Main menu"
-          class="bg-zinc-50 dark:bg-[#1b1e28] absolute -inset-x-4 top-12 hidden flex-col divide-y px-2 py-4 group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:divide-x sm:divide-y-0 sm:divide-[#d0679d] dark:sm:divide-[#5de4c7] sm:bg-transparent sm:p-0"
+          class="bg-zinc-50 dark:bg-[#1b1e28] absolute -inset-x-4 top-14 hidden flex-col divide-y px-2 py-4 group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:divide-x sm:divide-y-0 sm:divide-[#d0679d] dark:sm:divide-[#5de4c7] sm:bg-transparent sm:p-0"
           id="navigation-menu"
         >
           {menuLinks.map((link) => (
