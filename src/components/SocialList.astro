@@ -1,0 +1,31 @@
+---
+import { Github } from "lucide-react";
+
+const socialLinks = [
+  {
+    friendlyName: "Github",
+    link: "https://github.com/yktsnet",
+  },
+];
+---
+
+<div class="flex flex-wrap items-end gap-x-2">
+  <p class="font-mono text-zinc-500 dark:text-[#a6accd]">Find me on</p>
+  <ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
+    {
+      socialLinks.map(({ friendlyName, link }) => (
+        <li class="flex">
+          <a
+  class="hover:opacity-80 text-[#d0679d] dark:text-[#f083a2] inline-block transition-all"
+  href={link}
+  rel="noreferrer"
+  target="_blank"
+>
+  <Github className="h-6 w-6" aria-hidden="true" />
+  <span class="sr-only">{friendlyName}</span>
+</a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

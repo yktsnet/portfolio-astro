@@ -1,19 +1,63 @@
 ---
-import { Monitor } from 'lucide-react';
-const { title = "Portfolio" } = Astro.props;
+import '@fontsource/fira-code';
+import "../styles/global.css";
+import Search from '../components/Search.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+const { title = "Home" } = Astro.props;
 ---
-<html lang="ja">
+<html lang="ja" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
-    <title>{title}</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/jpeg" href="/avatar.jpg" />
+    <title>{title} | ykts.net</title>
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      })();
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
   </head>
-  <body class="bg-slate-900 text-slate-100 min-h-screen">
-    <nav class="p-4 border-b border-slate-800 flex items-center gap-2">
-      <Monitor className="w-5 h-5 text-blue-400" />
-      <span class="font-bold">T14 thinkpad Dev Port</span>
-    </nav>
-    <main class="container mx-auto p-8">
+  
+<body class="bg-zinc-50 text-zinc-900 dark:bg-[#1b1e28] dark:text-[#e4f0fb] mx-auto flex min-h-screen max-w-3xl flex-col px-4 pt-16 font-mono text-sm font-normal antialiased sm:px-8 transition-colors duration-300">
+    
+    <header class="group relative mb-28 flex items-center justify-between sm:ps-0" id="main-header">
+      <div class="flex sm:flex-col">
+        <a href="/" class="inline-flex items-center sm:relative sm:inline-block sm:hover:opacity-80 transition-opacity" aria-current="page">
+          <span class="text-xl font-bold sm:text-2xl text-zinc-900 dark:text-[#e4f0fb]">Katsuhiro Yamakawa</span>
+        </a>
+        
+        <nav class="absolute -inset-x-4 top-14 hidden flex-col px-2 py-4 sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:divide-x divide-[#d0679d] dark:divide-[#5de4c7] sm:p-0" aria-label="Main menu">
+  <a href="/" class="text-[#d0679d] dark:text-[#5de4c7] px-2 py-4 font-semibold hover:text-[#506477] dark:hover:text-[#add7ff] sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline">Home</a>
+  <a href="/about" class="text-[#d0679d] dark:text-[#5de4c7] px-2 py-4 font-semibold hover:text-[#506477] dark:hover:text-[#add7ff] sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline">About</a>
+  <a href="/posts" class="text-[#d0679d] dark:text-[#5de4c7] px-2 py-4 font-semibold hover:text-[#506477] dark:hover:text-[#add7ff] sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline">Posts</a>
+  <a href="/Status" class="text-[#d0679d] dark:text-[#5de4c7] px-2 py-4 font-semibold hover:text-[#506477] dark:hover:text-[#add7ff] sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline">Status</a>
+</nav>
+      </div>
+      
+      <div class="flex items-center gap-x-1 sm:ms-auto">
+        <Search />
+        <ThemeToggle />
+      </div>
+    </header>
+
+    <main id="main" class="flex-1">
       <slot />
     </main>
+
+    <footer class="mt-24 pb-8 flex items-center justify-center font-mono text-xs text-zinc-500 dark:text-[#a6accd]/50">
+      <p>© 2026 ykts.net</p>
+    </footer>
   </body>
 </html>

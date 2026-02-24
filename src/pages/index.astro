@@ -1,7 +1,48 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import SocialList from '../components/SocialList.astro';
 ---
+
 <MainLayout title="Home">
-  <h1 class="text-4xl font-bold tracking-tighter">Logical Efficiency Verified</h1>
-  <p class="mt-4 text-slate-400">Astro 5 + Hono + Tailwind + Lucide</p>
+  <section>
+    <h1 class="mb-12 text-2xl font-bold text-[#506477] dark:text-[#add7ff]">#human_centric_DX</h1>
+    
+    <p class="mb-4 font-sans text-zinc-700 dark:text-[#e4f0fb] leading-relaxed">
+      ここに本文が入ります。
+    </p>
+    
+    <SocialList />
+  </section>
+
+  <section class="mt-16">
+    <h2 class="mb-6 text-xl font-bold text-zinc-900 dark:text-[#e4f0fb]">Pinned Posts</h2>
+    <ul class="space-y-4" role="list">
+      <li class="grid gap-1 sm:grid-cols-[auto_1fr] items-baseline">
+        <span class="font-mono text-sm text-zinc-500 dark:text-[#a6accd]/70 min-w-[120px]">24 Feb 2026</span>
+        <a
+          href="#"
+          class="cactus-link text-zinc-800 dark:text-[#e4f0fb] hover:text-[#d0679d] dark:hover:text-[#5de4c7]"
+        >
+          Environment constructed
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="mb-6 text-xl font-bold text-zinc-900 dark:text-[#e4f0fb]">
+      <a href="/posts/" class="hover:text-[#d0679d] dark:hover:text-[#5de4c7] transition-colors">Posts</a>
+    </h2>
+    <ul class="space-y-4" role="list">
+      <li class="grid gap-1 sm:grid-cols-[auto_1fr] items-baseline">
+        <span class="font-mono text-sm text-zinc-500 dark:text-[#a6accd]/70 min-w-[120px]">23 Feb 2026</span>
+        <a
+          href="#"
+          class="cactus-link text-zinc-800 dark:text-[#e4f0fb] hover:text-[#d0679d] dark:hover:text-[#5de4c7]"
+        >
+          Initial setup and configuration
+        </a>
+      </li>
+    </ul>
+  </section>
 </MainLayout>

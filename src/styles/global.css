@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .cactus-link {
+    @apply relative inline-block border-b border-zinc-400 dark:border-[#303340] pb-px transition-all hover:border-[#d0679d] dark:hover:border-[#5de4c7];
+    text-decoration: none;
+  }
+}

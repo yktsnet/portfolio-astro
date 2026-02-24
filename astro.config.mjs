@@ -6,7 +6,8 @@ import react from '@astrojs/react';
 export default defineConfig({
   output: 'server',
   adapter: cloudflare({
-    mode: 'directory'
+    mode: 'directory',
+    imageService: 'compile'
   }),
   integrations: [tailwind(), react()]
 });

@@ -1,0 +1,41 @@
+#cactus__search {
+	--pagefind-ui-primary: theme("colors.poi.blue");
+	--pagefind-ui-text: theme("colors.zinc.900");
+	--pagefind-ui-background: theme("colors.zinc.50");
+	--pagefind-ui-border: theme("colors.zinc.300");
+	--pagefind-ui-tag: theme("colors.poi.blue");
+	width: 100%;
+}
+
+html.dark #cactus__search {
+	--pagefind-ui-text: theme("colors.poi.text");
+	--pagefind-ui-background: theme("colors.poi.panel");
+	--pagefind-ui-border: theme("colors.poi.border");
+}
+
+#cactus__search .pagefind-ui__drawer {
+	@apply gap-y-4;
+}
+
+#cactus__search .pagefind-ui__results-area {
+	@apply mt-0 sm:basis-full;
+}
+
+#cactus__search .pagefind-ui__result {
+	@apply border-none p-0;
+}
+
+#cactus__search .pagefind-ui__result-link {
+	@apply text-poi-blue decoration-zinc-300 dark:decoration-poi-border hover:text-poi-focus inline-block font-semibold underline underline-offset-4;
+}
+
+#cactus__search .pagefind-ui__result-excerpt {
+	@apply text-zinc-700 dark:text-poi-text mt-1 italic leading-relaxed overflow-hidden text-ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+#cactus__search mark {
+	@apply bg-poi-blue/20 text-poi-blue font-bold;
+}
