@@ -18,9 +18,10 @@ const year = new Date().getFullYear();
 <html lang="ja" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width" />
     <title>{title} • ykts.net</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12a1 1 0 0 1-10 0a1 1 0 0 0-10 0' stroke='%235de4c7'/><path d='M7 20.7a1 1 0 1 1 5-8.7a1 1 0 1 0 5-8.6' stroke='%23d482ab'/><path d='M7 3.3a1 1 0 1 1 5 8.6a1 1 0 1 0 5-8.6' stroke='%2389ddff'/><circle cx='12' cy='12' r='2' stroke='%23cdffb8'/></svg>" type="image/svg+xml" />
+    {/* Inline SVG favicon - pinwheel icon */}
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12a1 1 0 0 1-10 0a1 1 0 0 0-10 0' stroke='%235de4c7'/><path d='M7 20.7a1 1 0 1 1 5-8.7a1 1 0 1 0 5-8.6' stroke='%23d482ab'/><path d='M7 3.3a1 1 0 1 1 5 8.6a1 1 0 1 0 5 8.6' stroke='%2389ddff'/><circle cx='12' cy='12' r='2.5' fill='%23cdffb8'/></svg>" type="image/svg+xml" />
     <script is:inline>
       const theme = (() => {
         if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
@@ -37,6 +38,7 @@ const year = new Date().getFullYear();
         document.documentElement.classList.add('dark');
       }
     </script>
+    {/* Prevent icon FOUC: set explicit dimensions before CSS loads */}
     <style is:inline>
       .site-logo-icon {
         width: 1.5rem;
@@ -53,31 +55,33 @@ const year = new Date().getFullYear();
   
 <body class="bg-zinc-50 text-zinc-900 dark:bg-[#1b1e28] dark:text-[#e4f0fb] mx-auto flex min-h-screen max-w-3xl flex-col px-4 pt-16 font-mono text-sm font-normal antialiased sm:px-8 transition-colors duration-300">
     
+    {/* ===== HEADER ===== */}
     <header class="group relative mb-28 flex items-center sm:ps-[4.5rem]" id="main-header">
       <div class="relative flex sm:flex-col">
+        {/* Pinwheel icon: mobile=inline inside link, PC=absolute centered against title+nav group */}
+        <svg
+          aria-hidden="true"
+          class="site-logo-icon hidden sm:block sm:absolute sm:-start-[4.5rem] sm:top-1/2 sm:-translate-y-1/2 sm:grayscale sm:hover:filter-none sm:transition-[filter]"
+          fill="none"
+          focusable="false"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>Site Logo</title>
+          <path d="M22 12a1 1 0 0 1-10 0a1 1 0 0 0-10 0" stroke="#5de4c7" />
+          <path d="M7 20.7a1 1 0 1 1 5-8.7a1 1 0 1 0 5-8.6" stroke="#d482ab" />
+          <path d="M7 3.3a1 1 0 1 1 5 8.6a1 1 0 1 0 5 8.6" stroke="#89ddff" />
+          <circle cx="12" cy="12" r="2" stroke="#cdffb8" />
+        </svg>
         <a
           aria-current={Astro.url.pathname === "/" ? "page" : false}
           class="inline-flex items-center"
           href="/"
         >
-          <svg
-            aria-hidden="true"
-            class="site-logo-icon hidden sm:block sm:absolute sm:-start-[4.5rem] sm:top-1/2 sm:-translate-y-1/2 sm:grayscale sm:hover:filter-none sm:transition-[filter]"
-            fill="none"
-            focusable="false"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Site Logo</title>
-            <path d="M22 12a1 1 0 0 1-10 0a1 1 0 0 0-10 0" stroke="#5de4c7" />
-            <path d="M7 20.7a1 1 0 1 1 5-8.7a1 1 0 1 0 5-8.6" stroke="#d482ab" />
-            <path d="M7 3.3a1 1 0 1 1 5 8.6a1 1 0 1 0 5 8.6" stroke="#89ddff" />
-            <circle cx="12" cy="12" r="2" stroke="#cdffb8" />
-          </svg>
-
+          {/* Mobile-only inline icon (colored) */}
           <svg
             aria-hidden="true"
             class="site-logo-icon me-3 sm:hidden"
@@ -96,6 +100,7 @@ const year = new Date().getFullYear();
           </svg>
           <span class="text-xl font-bold sm:text-2xl text-zinc-900 dark:text-[#e4f0fb]">Katsuhiro Yamakawa</span>
         </a>
+        {/* Nav: hidden on mobile, shown via hamburger toggle */}
         <nav
           aria-label="Main menu"
           class="bg-zinc-50 dark:bg-[#1b1e28] absolute -inset-x-4 top-14 hidden flex-col divide-y px-2 py-4 group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:divide-x sm:divide-y-0 sm:divide-[#d0679d] dark:sm:divide-[#5de4c7] sm:bg-transparent sm:p-0"
@@ -112,6 +117,7 @@ const year = new Date().getFullYear();
           ))}
         </nav>
       </div>
+      {/* Right: Search, Theme, Mobile hamburger */}
       <Search />
       <ThemeToggle />
       <mobile-button>
@@ -155,6 +161,7 @@ const year = new Date().getFullYear();
       <slot />
     </main>
 
+    {/* ===== FOOTER ===== */}
     <footer
       class="mt-auto flex w-full flex-col items-center justify-center gap-y-2 pt-20 pb-4 text-center align-top font-semibold text-zinc-500 dark:text-[#a6accd]/50 sm:flex-row sm:justify-between sm:text-xs"
     >
@@ -177,6 +184,7 @@ const year = new Date().getFullYear();
       </nav>
     </footer>
 
+    {/* ===== Mobile menu script ===== */}
     <script>
       class MobileNavBtn extends HTMLElement {
         #menuOpen: boolean = false;
