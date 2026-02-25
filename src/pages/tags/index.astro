@@ -1,0 +1,29 @@
+---
+import { getAllPosts, getUniqueTagsWithCount } from "../../data/post";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+const allPosts = await getAllPosts();
+const allTags = getUniqueTagsWithCount(allPosts);
+---
+
+<MainLayout title="Tags">
+  <h1 class="mb-6 text-2xl font-bold text-zinc-900 dark:text-[#e4f0fb]">Tags</h1>
+  <ul class="space-y-4">
+    {
+      allTags.map(([tag, val]) => (
+        <li class="flex items-center gap-x-2">
+          
+            class="cactus-link inline-block"
+            href={`/tags/${tag}/`}
+            title={`View posts with the tag: ${tag}`}
+          >
+            &#35;{tag}
+          </a>
+          <span class="inline-block text-zinc-500 dark:text-[#a6accd]">
+            - {val} Post{val > 1 && "s"}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</MainLayout>
