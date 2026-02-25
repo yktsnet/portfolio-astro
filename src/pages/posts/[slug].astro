@@ -15,23 +15,23 @@ if (!post) {
 const { Content } = await render(post);
 ---
 
-<MainLayout title={post.data.title}>
+<MainLayout title={post.data.title} description={post.data.description}>
   <article class="grow break-words" data-pagefind-body>
     <div id="blog-hero" class="mb-12">
       <Masthead content={post} />
     </div>
     <div
       class="prose prose-sm max-w-none
-        prose-headings:font-semibold prose-headings:text-zinc-900 dark:prose-headings:text-[#e4f0fb]
-        prose-p:text-zinc-700 dark:prose-p:text-[#e4f0fb]/90
-        prose-a:text-[#d0679d] dark:prose-a:text-[#5de4c7] prose-a:underline prose-a:underline-offset-2
-        prose-strong:text-zinc-900 dark:prose-strong:text-[#e4f0fb]
-        prose-code:text-[#d0679d] dark:prose-code:text-[#5de4c7]
-        prose-blockquote:border-[#d0679d] dark:prose-blockquote:border-[#5de4c7]
-        prose-li:text-zinc-700 dark:prose-li:text-[#e4f0fb]/90
-        prose-pre:bg-zinc-950 dark:prose-pre:bg-[#232735]
-        prose-th:text-zinc-900 dark:prose-th:text-[#e4f0fb]
-        prose-td:text-zinc-700 dark:prose-td:text-[#e4f0fb]/90
+        prose-headings:font-semibold prose-headings:text-zinc-900 dark:prose-headings:text-poi-focus
+        prose-p:text-zinc-700 dark:prose-p:text-poi-focus/90
+        prose-a:text-light-accent dark:prose-a:text-poi-accent prose-a:underline prose-a:underline-offset-2
+        prose-strong:text-zinc-900 dark:prose-strong:text-poi-focus
+        prose-code:text-light-accent dark:prose-code:text-poi-accent
+        prose-blockquote:border-light-accent dark:prose-blockquote:border-poi-accent
+        prose-li:text-zinc-700 dark:prose-li:text-poi-focus/90
+        prose-pre:bg-zinc-950 dark:prose-pre:bg-poi-panel
+        prose-th:text-zinc-900 dark:prose-th:text-poi-focus
+        prose-td:text-zinc-700 dark:prose-td:text-poi-focus/90
         font-sans"
     >
       <Content />
@@ -39,7 +39,7 @@ const { Content } = await render(post);
   </article>
 
   <button
-    class="fixed end-4 bottom-8 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-[#d0679d] dark:hover:border-[#5de4c7] sm:end-8 sm:h-12 sm:w-12"
+    class="fixed end-4 bottom-8 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-light-accent dark:hover:border-poi-accent sm:end-8 sm:h-12 sm:w-12"
     id="to-top-btn"
   >
     <span class="sr-only">Back to top</span>

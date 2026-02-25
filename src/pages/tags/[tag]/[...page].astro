@@ -46,14 +46,14 @@ const paginationProps = {
   <nav class="mb-8" aria-label="Breadcrumbs">
     <ul class="flex items-center gap-1 text-sm">
       <li>
-        <a class="text-[#d0679d] dark:text-[#5de4c7]" href="/tags/">Tags</a>
+        <a class="text-light-accent dark:text-poi-accent" href="/tags/">Tags</a>
       </li>
       <li class="text-zinc-500">›</li>
       <li aria-current="page"><span aria-hidden="true">#</span>{tag}</li>
     </ul>
   </nav>
-  <h1 class="mb-4 text-2xl font-bold capitalize text-zinc-900 dark:text-[#e4f0fb]">{tagMeta?.data.title ?? `Posts about ${tag}`}</h1>
-  {tagMeta?.data.description && <p class="mb-4 text-zinc-600 dark:text-[#a6accd]">{tagMeta.data.description}</p>}
+  <h1 class="mb-4 text-2xl font-bold capitalize text-zinc-900 dark:text-poi-focus">{tagMeta?.data.title ?? `Posts about ${tag}`}</h1>
+  {tagMeta?.data.description && <p class="mb-4 text-zinc-600 dark:text-poi-muted">{tagMeta.data.description}</p>}
   {TagContent && <div class="prose prose-sm mb-8 max-w-none dark:prose-invert"><TagContent /></div>}
   <ul class="space-y-4">
     {

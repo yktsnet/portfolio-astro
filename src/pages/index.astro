@@ -16,9 +16,9 @@ const recentPosts = sortedPosts.slice(0, MAX_RECENT);
 
 <MainLayout title="Home">
   <section>
-    <h1 class="mb-12 text-2xl font-bold text-zinc-900 dark:text-[#e4f0fb]">#human_centric_DX</h1>
+    <h1 class="mb-12 text-2xl font-bold text-zinc-900 dark:text-poi-focus">#human_centric_DX</h1>
     
-    <p class="mb-4 font-sans text-zinc-700 dark:text-[#e4f0fb] leading-relaxed">
+    <p class="mb-4 font-sans text-zinc-700 dark:text-poi-focus leading-relaxed">
       ここに本文が入ります。
     </p>
     
@@ -27,7 +27,7 @@ const recentPosts = sortedPosts.slice(0, MAX_RECENT);
 
   {pinnedPosts.length > 0 && (
     <section class="mt-16">
-      <h2 class="mb-6 text-xl font-bold text-zinc-900 dark:text-[#e4f0fb]">Pinned Posts</h2>
+      <h2 class="mb-6 text-xl font-bold text-zinc-900 dark:text-poi-focus">Pinned Posts</h2>
       <ul class="space-y-4" role="list">
         {pinnedPosts.map((p) => (
           <li class="grid gap-1 sm:grid-cols-[auto_1fr] items-baseline">
@@ -39,7 +39,7 @@ const recentPosts = sortedPosts.slice(0, MAX_RECENT);
   )}
 
   <section class="mt-16">
-    <h2 class="mb-6 text-xl font-bold text-[#d0679d] dark:text-[#5de4c7]">
+    <h2 class="mb-6 text-xl font-bold text-light-accent dark:text-poi-accent">
       <a href="/posts/">Posts</a>
     </h2>
     <ul class="space-y-4" role="list">

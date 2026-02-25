@@ -16,16 +16,16 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 ---
 
 {data.draft ? <span class="text-base text-red-500">(Draft)</span> : null}
-<h1 class="title text-2xl font-bold text-zinc-900 dark:text-[#e4f0fb]">
+<h1 class="title text-2xl font-bold text-zinc-900 dark:text-poi-focus">
   {data.title}
 </h1>
 <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-  <p class="font-semibold text-zinc-500 dark:text-[#a6accd]">
+  <p class="font-semibold text-zinc-500 dark:text-poi-muted">
     <FormattedDate date={data.publishDate} dateTimeOptions={dateTimeOptions} />
   </p>
   {
     data.updatedDate && (
-      <span class="rounded-lg bg-zinc-200/50 dark:bg-[#303446]/50 text-zinc-600 dark:text-[#a6accd] px-2 py-1 text-sm">
+      <span class="rounded-lg bg-zinc-200/50 dark:bg-poi-border/50 text-zinc-600 dark:text-poi-muted px-2 py-1 text-sm">
         Updated:
         <FormattedDate class="ms-1" date={data.updatedDate} dateTimeOptions={dateTimeOptions} />
       </span>
@@ -37,7 +37,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
     <div class="mt-2">
       <svg
         aria-hidden="true"
-        class="inline-block h-5 w-5 text-zinc-500 dark:text-[#a6accd]"
+        class="inline-block h-5 w-5 text-zinc-500 dark:text-poi-muted"
         fill="none"
         focusable="false"
         stroke="currentColor"

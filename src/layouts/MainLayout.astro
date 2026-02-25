@@ -3,23 +3,33 @@ import '@fontsource/fira-code';
 import "../styles/global.css";
 import Search from '../components/Search.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import Logo from './Logo.astro';
+import { siteConfig, menuLinks } from '../site.config';
 
-const { title = "Home" } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+}
 
-const menuLinks = [
-  { path: "/", title: "Home" },
-  { path: "/about", title: "About" },
-  { path: "/posts", title: "Posts" },
-  { path: "/Status", title: "Status" },
-];
-
+const { title = "Home", description = siteConfig.description } = Astro.props;
+const fullTitle = `${title} • ${siteConfig.title}`;
+const canonicalURL = new URL(Astro.url.pathname, siteConfig.url);
 const year = new Date().getFullYear();
 ---
-<html lang="ja" class="scroll-smooth">
+<html lang={siteConfig.lang} class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>{title} • ykts.net</title>
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {/* OGP */}
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content={siteConfig.ogLocale} />
+    <meta property="og:site_name" content={siteConfig.title} />
     {/* Inline SVG favicon - pinwheel icon */}
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12a1 1 0 0 1-10 0a1 1 0 0 0-10 0' stroke='%235de4c7'/><path d='M7 20.7a1 1 0 1 1 5-8.7a1 1 0 1 0 5-8.6' stroke='%23d482ab'/><path d='M7 3.3a1 1 0 1 1 5 8.6a1 1 0 1 0 5 8.6' stroke='%2389ddff'/><circle cx='12' cy='12' r='2.5' fill='%23cdffb8'/></svg>" type="image/svg+xml" />
     <script is:inline>
@@ -53,63 +63,36 @@ const year = new Date().getFullYear();
     </style>
   </head>
   
-<body class="bg-zinc-50 text-zinc-900 dark:bg-[#1b1e28] dark:text-[#e4f0fb] mx-auto flex min-h-screen max-w-3xl flex-col px-4 pt-16 font-mono text-sm font-normal antialiased sm:px-8 transition-colors duration-300">
+<body class="bg-zinc-50 text-zinc-900 dark:bg-poi-base dark:text-poi-focus mx-auto flex min-h-screen max-w-3xl flex-col px-4 pt-16 font-mono text-sm font-normal antialiased sm:px-8 transition-colors duration-300">
     
     {/* ===== HEADER ===== */}
     <header class="group relative mb-28 flex items-center sm:ps-[4.5rem]" id="main-header">
       <div class="relative flex sm:flex-col">
         {/* Pinwheel icon: mobile=inline inside link, PC=absolute centered against title+nav group */}
-        <svg
-          aria-hidden="true"
-          class="site-logo-icon hidden sm:block sm:absolute sm:-start-[4.5rem] sm:top-1/2 sm:-translate-y-1/2 sm:grayscale sm:hover:filter-none sm:transition-[filter]"
-          fill="none"
-          focusable="false"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>Site Logo</title>
-          <path d="M22 12a1 1 0 0 1-10 0a1 1 0 0 0-10 0" stroke="#5de4c7" />
-          <path d="M7 20.7a1 1 0 1 1 5-8.7a1 1 0 1 0 5-8.6" stroke="#d482ab" />
-          <path d="M7 3.3a1 1 0 1 1 5 8.6a1 1 0 1 0 5 8.6" stroke="#89ddff" />
-          <circle cx="12" cy="12" r="2" stroke="#cdffb8" />
-        </svg>
+        <div class="hidden sm:block sm:absolute sm:-start-[4.5rem] sm:top-1/2 sm:-translate-y-1/2 sm:grayscale sm:hover:filter-none sm:transition-[filter]">
+          <Logo class="site-logo-icon" />
+        </div>
         <a
           aria-current={Astro.url.pathname === "/" ? "page" : false}
           class="inline-flex items-center"
           href="/"
         >
           {/* Mobile-only inline icon (colored) */}
-          <svg
-            aria-hidden="true"
-            class="site-logo-icon me-3 sm:hidden"
-            fill="none"
-            focusable="false"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M22 12a1 1 0 0 1-10 0a1 1 0 0 0-10 0" stroke="#5de4c7" />
-            <path d="M7 20.7a1 1 0 1 1 5-8.7a1 1 0 1 0 5-8.6" stroke="#d482ab" />
-            <path d="M7 3.3a1 1 0 1 1 5 8.6a1 1 0 1 0 5 8.6" stroke="#89ddff" />
-            <circle cx="12" cy="12" r="2" stroke="#cdffb8" />
-          </svg>
-          <span class="text-xl font-bold sm:text-2xl text-zinc-900 dark:text-[#e4f0fb]">Katsuhiro Yamakawa</span>
+          <div class="me-3 sm:hidden">
+            <Logo class="site-logo-icon" />
+          </div>
+          <span class="text-xl font-bold sm:text-2xl text-zinc-900 dark:text-poi-focus">Katsuhiro Yamakawa</span>
         </a>
         {/* Nav: hidden on mobile, shown via hamburger toggle */}
         <nav
           aria-label="Main menu"
-          class="bg-zinc-50 dark:bg-[#1b1e28] absolute -inset-x-4 top-14 hidden flex-col divide-y px-2 py-4 group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:divide-x sm:divide-y-0 sm:divide-[#d0679d] dark:sm:divide-[#5de4c7] sm:bg-transparent sm:p-0"
+          class="bg-zinc-50 dark:bg-poi-base absolute -inset-x-4 top-14 hidden flex-col divide-y px-2 py-4 group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:divide-x sm:divide-y-0 sm:divide-light-accent dark:sm:divide-poi-accent sm:bg-transparent sm:p-0"
           id="navigation-menu"
         >
           {menuLinks.map((link) => (
             <a
               aria-current={Astro.url.pathname === link.path ? "page" : false}
-              class="text-[#d0679d] dark:text-[#5de4c7] px-2 py-4 font-semibold sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline"
+              class="text-light-accent dark:text-poi-accent px-2 py-4 font-semibold sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline"
               href={link.path}
             >
               {link.title}
@@ -143,7 +126,7 @@ const year = new Date().getFullYear();
           </svg>
           <svg
             aria-hidden="true"
-            class="text-[#d0679d] dark:text-[#5de4c7] absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all group-aria-expanded:scale-100 group-aria-expanded:opacity-100"
+            class="text-light-accent dark:text-poi-accent absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all group-aria-expanded:scale-100 group-aria-expanded:opacity-100"
             fill="none"
             focusable="false"
             stroke="currentColor"
@@ -163,19 +146,19 @@ const year = new Date().getFullYear();
 
     {/* ===== FOOTER ===== */}
     <footer
-      class="mt-auto flex w-full flex-col items-center justify-center gap-y-2 pt-20 pb-4 text-center align-top font-semibold text-zinc-500 dark:text-[#a6accd]/50 sm:flex-row sm:justify-between sm:text-xs"
+      class="mt-auto flex w-full flex-col items-center justify-center gap-y-2 pt-20 pb-4 text-center align-top font-semibold text-zinc-500 dark:text-poi-muted/50 sm:flex-row sm:justify-between sm:text-xs"
     >
       <div class="me-0 sm:me-4">
         &copy; Katsuhiro Yamakawa {year}.<span class="inline-block">&nbsp;🐈&nbsp;ykts.net</span>
       </div>
       <nav
         aria-labelledby="footer_links"
-        class="flex gap-x-2 sm:gap-x-0 sm:divide-x sm:divide-zinc-400 dark:sm:divide-[#a6accd]/30"
+        class="flex gap-x-2 sm:gap-x-0 sm:divide-x sm:divide-zinc-400 dark:sm:divide-poi-muted/30"
       >
         <p id="footer_links" class="sr-only">More on this site</p>
         {menuLinks.map((link) => (
           <a
-            class="px-4 py-2 hover:text-zinc-900 dark:hover:text-[#e4f0fb] hover:underline sm:py-0"
+            class="px-4 py-2 hover:text-zinc-900 dark:hover:text-poi-focus hover:underline sm:py-0"
             href={link.path}
           >
             {link.title}

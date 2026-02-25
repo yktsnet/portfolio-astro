@@ -7,7 +7,7 @@ const allTags = getUniqueTagsWithCount(allPosts);
 ---
 
 <MainLayout title="Tags">
-  <h1 class="mb-6 text-2xl font-bold text-zinc-900 dark:text-[#e4f0fb]">Tags</h1>
+  <h1 class="mb-6 text-2xl font-bold text-zinc-900 dark:text-poi-focus">Tags</h1>
   <ul class="space-y-4">
     {
       allTags.map(([tag, val]) => (
@@ -19,7 +19,7 @@ const allTags = getUniqueTagsWithCount(allPosts);
           >
             &#35;{tag}
           </a>
-          <span class="inline-block text-zinc-500 dark:text-[#a6accd]">
+          <span class="inline-block text-zinc-500 dark:text-poi-muted">
             - {val} Post{val > 1 && "s"}
           </span>
         </li>
