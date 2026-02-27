@@ -58,14 +58,15 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
         </span>
       ))}
     </div>
-    <div class="mt-2">
+  )
+}
+<div class="mt-2">
   <span
-    class="inline-flex items-center gap-1 rounded-full border border-zinc-300 dark:border-zinc-600 px-2 py-0.5 text-xs text-zinc-500 dark:text-zinc-400 cursor-default"
-    title="AI-Drafted, Human-Verified"
+    class="group inline-flex items-center gap-1 rounded-full border border-zinc-300 dark:border-zinc-600 px-2 py-0.5 text-xs text-zinc-500 dark:text-zinc-400 cursor-default transition-all duration-300 ease-in-out"
   >
     <svg
       aria-hidden="true"
-      class="h-3 w-3"
+      class="h-3 w-3 shrink-0"
       fill="none"
       stroke="currentColor"
       stroke-width="1.5"
@@ -74,8 +75,6 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
     >
       <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456Z" />
     </svg>
-    AI-Drafted
+    <span class="whitespace-nowrap">AI-Drafted<span class="inline-block max-w-0 overflow-hidden opacity-0 align-bottom transition-all duration-300 ease-in-out group-hover:max-w-[10rem] group-hover:opacity-100">, Human-Verified</span></span>
   </span>
 </div>
-  )
-}
