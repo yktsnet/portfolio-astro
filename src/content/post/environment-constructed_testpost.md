@@ -3,7 +3,6 @@ title: "Environment constructed"
 description: "Astro + Cloudflare Workers + Hono による開発環境の構築記録"
 publishDate: "24 Feb 2026"
 tags: ["astro", "cloudflare"]
-pinned: true
 ---
 
 ## 構成
