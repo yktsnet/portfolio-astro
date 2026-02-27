@@ -69,8 +69,8 @@ const year = new Date().getFullYear();
     <header class="group relative mb-28 flex items-center sm:ps-[4.5rem]" id="main-header">
       <div class="relative flex sm:flex-col">
         {/* Pinwheel icon: mobile=inline inside link, PC=absolute centered against title+nav group */}
-        <div class="hidden sm:block sm:absolute sm:-start-[4.5rem] sm:top-1/2 sm:-translate-y-1/2 sm:grayscale sm:hover:filter-none sm:transition-[filter]">
-          <Logo class="site-logo-icon" />
+        <div class="group/logo hidden sm:block sm:absolute sm:-start-[4.5rem] sm:top-1/2 sm:-translate-y-1/2 sm:grayscale sm:hover:filter-none sm:transition-[filter]">
+          <Logo class="site-logo-icon transition-transform duration-500 ease-out group-hover/logo:rotate-180" />
         </div>
         <a
           aria-current={Astro.url.pathname === "/" ? "page" : false}
@@ -78,8 +78,8 @@ const year = new Date().getFullYear();
           href="/"
         >
           {/* Mobile-only inline icon (colored) */}
-          <div class="me-3 sm:hidden">
-            <Logo class="site-logo-icon" />
+          <div class="group/logo me-3 sm:hidden">
+            <Logo class="site-logo-icon transition-transform duration-500 ease-out group-hover/logo:rotate-180" />
           </div>
           <span class="text-xl font-bold sm:text-2xl text-zinc-900 dark:text-poi-focus">Katsuhiro Yamakawa</span>
         </a>
