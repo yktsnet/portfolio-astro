@@ -17,11 +17,12 @@ app.post('/api/contact', async (c) => {
   const name = String(body.name || '').trim();
   const email = String(body.email || '').trim();
   const phone = String(body.phone || '').trim();
+  const category = String(body.category || '').trim();
   const message = String(body.message || '').trim();
 
-  if (!name || !email || !phone) {
-    return c.json({ error: 'name, email, phone are required' }, 400);
-  }
+  if (!name || !email || !phone || !category) {
+  return c.json({ error: 'name, email, phone, category are required' }, 400);
+}
 
   // Turnstile verification (skipped if no secret key)
   const token = String(body.cfToken || '');
@@ -54,6 +55,7 @@ app.post('/api/contact', async (c) => {
           { name: 'Name', value: name, inline: true },
           { name: 'Email', value: email, inline: true },
           { name: 'Phone', value: phone, inline: true },
+          { name: 'Category', value: category, inline: true },
           ...(message ? [{ name: 'Message', value: message.slice(0, 1024) }] : []),
         ],
         timestamp: new Date().toISOString(),

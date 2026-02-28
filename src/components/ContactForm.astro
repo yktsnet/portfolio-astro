@@ -42,7 +42,22 @@ const { turnstileSiteKey = '' } = Astro.props;
         class="w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-800/50 px-3 py-2 text-sm text-zinc-900 dark:text-poi-focus placeholder-zinc-400 dark:placeholder-zinc-500 focus:border-light-accent dark:focus:border-poi-accent focus:outline-none transition-colors"
       />
     </div>
-
+    <div>
+  <label for="cf-category" class="block text-sm font-semibold text-zinc-700 dark:text-poi-focus/90 mb-1">Category <span class="text-red-400">*</span></label>
+  <select
+    id="cf-category"
+    name="category"
+    required
+    class="w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-800/50 px-3 py-2 text-sm text-zinc-900 dark:text-poi-focus focus:border-light-accent dark:focus:border-poi-accent focus:outline-none transition-colors"
+  >
+    <option value="" disabled selected class="bg-zinc-50 dark:bg-zinc-800">選択してください</option>
+    <option value="学習不要なシステム開発" class="bg-zinc-50 dark:bg-zinc-800">学習不要なシステム開発</option>
+    <option value="AIによる自動化" class="bg-zinc-50 dark:bg-zinc-800">AIによる自動化</option>
+    <option value="静的・動的ウェブサイト制作" class="bg-zinc-50 dark:bg-zinc-800">静的・動的ウェブサイト制作</option>
+    <option value="その他" class="bg-zinc-50 dark:bg-zinc-800">その他</option>
+    [&>option]:bg-zinc-50 dark:[&>option]:bg-zinc-800 [&>option]:text-zinc-900 dark:[&>option]:text-zinc-100
+  </select>
+</div>
     <div>
       <label for="cf-message" class="block text-sm font-semibold text-zinc-700 dark:text-poi-focus/90 mb-1">Message</label>
       <textarea
@@ -87,6 +102,7 @@ const { turnstileSiteKey = '' } = Astro.props;
       name: form.name.value,
       email: form.email.value,
       phone: form.phone.value,
+      category: form.category.value,
       message: form.message.value,
       cfToken: form.querySelector('[name="cf-turnstile-response"]')?.value || '',
     };
