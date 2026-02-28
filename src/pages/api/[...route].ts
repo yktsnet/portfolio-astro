@@ -1,15 +1,16 @@
 import { Hono } from 'hono';
+import type { APIRoute } from 'astro';
 
 const app = new Hono();
 
-app.get('/hello', (c) => {
+app.get('/api/hello', (c) => {
   return c.json({
     message: 'Hello from Hono!',
     status: 'logical_efficiency_verified',
   });
 });
 
-app.post('/contact', async (c) => {
+app.post('/api/contact', async (c) => {
   const body = await c.req.json().catch(() => null);
   if (!body) return c.json({ error: 'invalid_json' }, 400);
 
@@ -22,10 +23,10 @@ app.post('/contact', async (c) => {
     return c.json({ error: 'name, email, phone are required' }, 400);
   }
 
-  // Turnstile verification
+  // Turnstile verification (skipped if no secret key)
   const token = String(body.cfToken || '');
-  const tsSecret = (c.env as any).TURNSTILE_SECRET_KEY;
-  if (tsSecret) {
+  const tsSecret = (c.env as any)?.TURNSTILE_SECRET_KEY;
+  if (tsSecret && token) {
     const tsRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -38,7 +39,7 @@ app.post('/contact', async (c) => {
   }
 
   // Discord webhook
-  const webhookUrl = (c.env as any).CONTACT_DISCORD_WEBHOOK_URL;
+  const webhookUrl = (c.env as any)?.CONTACT_DISCORD_WEBHOOK_URL;
   if (!webhookUrl) {
     console.error('CONTACT_DISCORD_WEBHOOK_URL not set');
     return c.json({ error: 'server_config_error' }, 500);
@@ -74,9 +75,8 @@ app.post('/contact', async (c) => {
   return c.json({ ok: true });
 });
 
-export const ALL = ({ request, locals }: { request: Request; locals: any }) => {
-  // Pass Cloudflare env bindings to Hono context
-  const env = locals?.runtime?.env ?? {};
+export const ALL: APIRoute = ({ request, locals }) => {
+  const env = (locals as any)?.runtime?.env ?? {};
   return app.fetch(request, env);
 };
 export const prerender = false;
