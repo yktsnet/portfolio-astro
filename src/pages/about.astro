@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import Logo from '../layouts/Logo.astro';
+import ContactForm from '../components/ContactForm.astro';
 ---
 
 <MainLayout title="About" description="Katsuhiro Yamakawa について">
@@ -49,4 +50,5 @@ import Logo from '../layouts/Logo.astro';
       このロゴは静的な画像ではなく、幾何学的な座標データとしてプログラムされています。コードを直接描画エンジンに渡すことで、解像度に依存しない明晰な視覚言語を実現しています。
     </p>
   </section>
+  <ContactForm turnstileSiteKey="" />
 </MainLayout>
