@@ -1,0 +1,231 @@
+---
+interface Props {
+  payload: string;
+}
+const { payload } = Astro.props;
+---
+
+<div id="charts-root" data-payload={payload} />
+
+<script>
+  import { formatTimeUTC, formatDateShort } from "../../lib/status";
+
+  const MONO = '"Fira Code", "IBM Plex Mono", monospace';
+  const C = {
+    latency: "#89ddff", open: "#5de4c7", close: "#fae4fc",
+    grid: "#ffffff10", axis: "#ffffff55",
+  };
+  const NS = "http://www.w3.org/2000/svg";
+
+  function el(tag: string, attrs: Record<string, string | number> = {}) {
+    const e = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, String(v));
+    return e;
+  }
+  function txt(content: string, attrs: Record<string, string | number> = {}) {
+    const e = el("text", { fill: C.axis, "font-size": 13, "font-family": MONO, ...attrs });
+    e.textContent = content;
+    return e;
+  }
+
+  function makeScrollable(svgEl: SVGElement, dataLen: number, threshold = 20, fixedPxPerItem = 10): HTMLElement {
+    const wrap = document.createElement("div");
+    const needsScroll = dataLen > threshold;
+    const minW = needsScroll ? Math.max(600, dataLen * fixedPxPerItem) : 600;
+    wrap.style.cssText = `overflow-x:${needsScroll ? "auto" : "hidden"};-webkit-overflow-scrolling:touch;cursor:${needsScroll ? "grab" : "default"};user-select:none;`;
+    const inner = document.createElement("div");
+    inner.style.cssText = `min-width:${minW}px;`;
+    // SVGをminW幅に固定
+    svgEl.setAttribute("width", String(minW));
+    svgEl.setAttribute("preserveAspectRatio", "none");
+    inner.appendChild(svgEl);
+    wrap.appendChild(inner);
+    if (needsScroll) {
+      let down = false, startX = 0, scrollLeft = 0;
+      wrap.addEventListener("mousedown", e => { down = true; startX = e.pageX - wrap.offsetLeft; scrollLeft = wrap.scrollLeft; wrap.style.cursor = "grabbing"; });
+      wrap.addEventListener("mouseleave", () => { down = false; wrap.style.cursor = "grab"; });
+      wrap.addEventListener("mouseup",    () => { down = false; wrap.style.cursor = "grab"; });
+      wrap.addEventListener("mousemove",  e => { if (!down) return; e.preventDefault(); wrap.scrollLeft = scrollLeft - (e.pageX - wrap.offsetLeft - startX); });
+    }
+    return wrap;
+  }
+
+  // ── Chart 1: Order Latency (bar) ──────────────────────────────
+  function makeLatencyChart(data: { t: string; v: number }[]): [SVGElement, number] {
+    const W = 600, H = 220, PL = 44, PR = 12, PT = 16, PB = 38;
+    const cW = W - PL - PR, cH = H - PT - PB;
+    const svg = el("svg", { viewBox: `0 0 ${W} ${H}` });
+    if (!data.length) { svg.appendChild(txt("no data", { x: W/2, y: H/2, "text-anchor": "middle" })); return [svg as unknown as SVGElement, 0]; }
+    const maxV = Math.max(...data.map(d => d.v)) * 1.1 || 1;
+    const barW = Math.max(2, cW / data.length - 2);
+    [0, 0.5, 1].forEach(r => {
+      const y = PT + r * cH;
+      svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C.grid }));
+      svg.appendChild(txt(`${Math.round(maxV*(1-r))}s`, { x: PL-6, y: y+4, "text-anchor": "end" }));
+    });
+    data.forEach((d, i) => {
+      const x = PL + (i / data.length) * cW;
+      const barH = (d.v / maxV) * cH;
+      svg.appendChild(el("rect", { x, y: PT+cH-barH, width: barW, height: Math.max(1,barH), fill: C.latency, opacity: 0.8, rx: 1 }));
+    });
+    const step = Math.max(1, Math.floor(data.length / 5));
+    data.forEach((d, i) => {
+      if (i % step !== 0 && i !== data.length-1) return;
+      svg.appendChild(txt(formatTimeUTC(d.t), { x: PL+(i/data.length)*cW+barW/2, y: H-6, "text-anchor": "middle" }));
+    });
+    return [svg as unknown as SVGElement, data.length];
+  }
+
+  // ── Chart 2: Session Activity (dots) ─────────────────────────
+  function makeSessionChart(data: { t: string; open: number; close: number; session: string }[]): [SVGElement, number] {
+    const W = 600, H = 220, PL = 16, PR = 12, PT = 24, PB = 38;
+    const cW = W - PL - PR, cH = H - PT - PB;
+    const svg = el("svg", { viewBox: `0 0 ${W} ${H}` });
+    if (!data.length) { svg.appendChild(txt("no activity", { x: W/2, y: H/2, "text-anchor": "middle" })); return [svg as unknown as SVGElement, 0]; }
+    const ROW_OPEN  = PT + cH * 0.25;
+    const ROW_CLOSE = PT + cH * 0.75;
+    svg.appendChild(txt("OPEN",  { x: PL+2, y: ROW_OPEN-10,  "font-size": 11, fill: C.open,  opacity: 0.8 }));
+    svg.appendChild(txt("CLOSE", { x: PL+2, y: ROW_CLOSE-10, "font-size": 11, fill: C.close, opacity: 0.8 }));
+    [ROW_OPEN, ROW_CLOSE].forEach(y => svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C.grid })));
+    data.forEach((d, i) => {
+      const x = PL + ((i+0.5) / data.length) * cW;
+      if (d.open  > 0) svg.appendChild(el("circle", { cx: x, cy: ROW_OPEN,  r: 5+(d.open-1),  fill: C.open,  opacity: 0.85 }));
+      if (d.close > 0) svg.appendChild(el("circle", { cx: x, cy: ROW_CLOSE, r: 5+(d.close-1), fill: C.close, opacity: 0.85 }));
+    });
+    const step = Math.max(1, Math.floor(data.length / 5));
+    data.forEach((d, i) => {
+      if (i % step !== 0 && i !== data.length-1) return;
+      svg.appendChild(txt(formatTimeUTC(d.t), { x: PL+((i+0.5)/data.length)*cW, y: H-6, "text-anchor": "middle" }));
+    });
+    return [svg as unknown as SVGElement, data.length];
+  }
+
+  // ── Chart 3: Activity Heatmap (hour × day) ───────────────────
+  function makeHeatmapChart(data: { t: string; open: number; close: number }[]): [SVGElement, number] {
+    const W = 600, H = 220, PL = 44, PR = 12, PT = 20, PB = 38;
+    const svg = el("svg", { viewBox: `0 0 ${W} ${H}` });
+    if (!data.length) { svg.appendChild(txt("no data", { x: W/2, y: H/2, "text-anchor": "middle" })); return [svg as unknown as SVGElement, 0]; }
+    const hourMap: Record<string, Record<number, number>> = {};
+    data.forEach(d => {
+      const day = formatDateShort(d.t);
+      const hour = new Date(d.t).getUTCHours();
+      if (!hourMap[day]) hourMap[day] = {};
+      hourMap[day][hour] = (hourMap[day][hour] || 0) + d.open + d.close;
+    });
+    const days = Object.keys(hourMap).sort();
+    const HOURS = 24;
+    const cellW = (W - PL - PR) / HOURS;
+    const cellH = (H - PT - PB) / Math.max(days.length, 1);
+    const allVals = Object.values(hourMap).flatMap(h => Object.values(h));
+    const maxVal = Math.max(...allVals, 1);
+    [0, 4, 8, 12, 16, 20].forEach(h => {
+      svg.appendChild(txt(`${String(h).padStart(2,"0")}:00`, { x: PL + h * cellW + cellW/2, y: H-6, "text-anchor": "middle", "font-size": 11 }));
+    });
+    days.forEach((day, di) => {
+      const y = PT + di * cellH;
+      svg.appendChild(txt(day, { x: PL-6, y: y+cellH*0.65, "text-anchor": "end", "font-size": 11 }));
+      for (let h = 0; h < HOURS; h++) {
+        const val = hourMap[day][h] || 0;
+        const alpha = 0.04 + (val / maxVal) * 0.86;
+        svg.appendChild(el("rect", { x: PL+h*cellW+1, y: y+1, width: cellW-2, height: cellH-2, fill: val > 0 ? C.open : C.axis, opacity: alpha, rx: 2 }));
+      }
+    });
+    return [svg as unknown as SVGElement, 0];
+  }
+
+  // ── Chart 4: Scatter (time × latency, colored by hour) ───────
+  function makeScatterChart(data: { t: string; v: number }[]): [SVGElement, number] {
+    const W = 600, H = 220, PL = 44, PR = 12, PT = 16, PB = 38;
+    const cW = W - PL - PR, cH = H - PT - PB;
+    const svg = el("svg", { viewBox: `0 0 ${W} ${H}` });
+    if (!data.length) { svg.appendChild(txt("no data", { x: W/2, y: H/2, "text-anchor": "middle" })); return [svg as unknown as SVGElement, 0]; }
+
+    const maxV = Math.max(...data.map(d => d.v)) * 1.1 || 1;
+
+    // グリッド
+    [0, 0.5, 1].forEach(r => {
+      const y = PT + r * cH;
+      svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C.grid }));
+      svg.appendChild(txt(`${Math.round(maxV*(1-r))}s`, { x: PL-6, y: y+4, "text-anchor": "end" }));
+    });
+
+    // 散布図: 時刻をx軸（0-24h）、latencyをy軸、時間帯で色相変化
+    const times = data.map(d => new Date(d.t));
+    const minT = Math.min(...times.map(t => t.getTime()));
+    const maxT = Math.max(...times.map(t => t.getTime()));
+    const rangeT = maxT - minT || 1;
+
+    data.forEach(d => {
+      const t = new Date(d.t).getTime();
+      const x = PL + ((t - minT) / rangeT) * cW;
+      const y = PT + (1 - d.v / maxV) * cH;
+      const hour = new Date(d.t).getUTCHours();
+      // 時間帯で色相変化: 東京(0-8) → blue, ロンドン(8-16) → green, NY(16-24) → pink
+      const color = hour < 8 ? C.latency : hour < 16 ? C.open : C.close;
+      svg.appendChild(el("circle", { cx: x, cy: y, r: 3, fill: color, opacity: 0.7 }));
+    });
+
+    // x軸ラベル
+    const step = Math.max(1, Math.floor(data.length / 5));
+    data.forEach((d, i) => {
+      if (i % step !== 0 && i !== data.length-1) return;
+      const t = new Date(d.t).getTime();
+      const x = PL + ((t - minT) / rangeT) * cW;
+      svg.appendChild(txt(formatTimeUTC(d.t), { x, y: H-6, "text-anchor": "middle" }));
+    });
+
+    // 凡例
+    [{ label: "00-08", color: C.latency }, { label: "08-16", color: C.open }, { label: "16-24", color: C.close }].forEach((leg, i) => {
+      const lx = PL + 10 + i * 70;
+      svg.appendChild(el("circle", { cx: lx, cy: PT+8, r: 3, fill: leg.color, opacity: 0.8 }));
+      svg.appendChild(txt(leg.label, { x: lx+8, y: PT+12, "font-size": 10, fill: leg.color, opacity: 0.7 }));
+    });
+
+    return [svg as unknown as SVGElement, data.length];
+  }
+
+  // ── render ────────────────────────────────────────────────────
+  function renderCharts() {
+    const root = document.getElementById("charts-root");
+    if (!root) return;
+    let payload: any;
+    try { payload = JSON.parse(root.dataset.payload || "{}"); } catch { return; }
+
+    const latency = payload.latency || [];
+    const session = payload.session || [];
+
+    const [latEl, latLen] = makeLatencyChart(latency);
+    const [sesEl, sesLen] = makeSessionChart(session);
+    const [hmEl]          = makeHeatmapChart(session);
+    const [scEl, scLen]   = makeScatterChart(latency);
+
+    const sections = [
+      { title: "ORDER LATENCY",    sub: "time from bar close to order send (seconds)", svgEl: latEl, dataLen: latLen, pxPer: 8  },
+      { title: "SESSION ACTIVITY", sub: "open / close events · last 12h",              svgEl: sesEl, dataLen: sesLen, pxPer: 6  },
+      { title: "ACTIVITY HEATMAP", sub: "events per hour · UTC",                       svgEl: hmEl,  dataLen: 0,      pxPer: 0  },
+      { title: "LATENCY SCATTER",  sub: "each dot = one order · color = UTC hour band", svgEl: scEl,  dataLen: scLen,  pxPer: 6  },
+    ];
+
+    const container = document.createElement("div");
+    container.className = "charts-container";
+    sections.forEach(s => {
+      const card = document.createElement("div");
+      card.className = "chart-card";
+      card.innerHTML = `<div class="chart-header"><span class="chart-title">${s.title}</span><span class="chart-sub">${s.sub}</span></div>`;
+      card.appendChild(makeScrollable(s.svgEl, s.dataLen, 20, s.pxPer));
+      container.appendChild(card);
+    });
+    root.replaceWith(container);
+  }
+
+  document.addEventListener("DOMContentLoaded", renderCharts);
+</script>
+
+<style>
+  :global(.charts-container) { display: flex; flex-direction: column; gap: 1.25rem; }
+  :global(.chart-card) { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 6px; padding: 1.25rem 1.25rem 0.75rem; }
+  :global(.chart-header) { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 0.75rem; }
+  :global(.chart-title) { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; color: #e4f0fb; font-family: "Fira Code", monospace; }
+  :global(.chart-sub) { font-size: 0.6rem; color: rgba(255,255,255,0.28); font-family: "Fira Code", monospace; }
+  :global(.chart-wrap-scroll) { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+</style>

@@ -10,6 +10,19 @@ app.get('/api/hello', (c) => {
   });
 });
 
+app.get('/api/status', async (c) => {
+  const kv = (c.env as any)?.ykts_status_metrics;
+  if (!kv) {
+    return c.json({ error: 'kv_not_bound' }, 500);
+  }
+  const raw = await kv.get('status:latest');
+  if (!raw) {
+    return c.json({ error: 'no_data' }, 404);
+  }
+  const data = JSON.parse(raw);
+  return c.json(data);
+});
+
 app.post('/api/contact', async (c) => {
   const body = await c.req.json().catch(() => null);
   if (!body) return c.json({ error: 'invalid_json' }, 400);
@@ -21,8 +34,8 @@ app.post('/api/contact', async (c) => {
   const message = String(body.message || '').trim();
 
   if (!name || !email || !phone || !category) {
-  return c.json({ error: 'name, email, phone, category are required' }, 400);
-}
+    return c.json({ error: 'name, email, phone, category are required' }, 400);
+  }
 
   // Turnstile verification (skipped if no secret key)
   const token = String(body.cfToken || '');

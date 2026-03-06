@@ -1,0 +1,87 @@
+---
+import StatusCharts from "./StatusCharts.astro";
+import type { StatusPayload } from "../../lib/status";
+import { formatUpdatedAt, relativeTime } from "../../lib/status";
+
+interface Props {
+  data: StatusPayload | null;
+  error: string | null;
+}
+
+const { data, error } = Astro.props;
+
+const updatedStatic = data ? formatUpdatedAt(data.updated_at) : null;
+---
+
+<section>
+  <!-- Header -->
+  <div class="mb-10">
+    <p class="mb-2 font-mono text-xs tracking-widest text-poi-accent dark:text-poi-accent uppercase">
+      Live System Metrics
+    </p>
+    <h1 class="mb-3 text-2xl font-bold text-zinc-900 dark:text-poi-focus">Status</h1>
+    <p class="text-sm text-zinc-500 dark:text-poi-muted">
+    </p>
+    {data && (
+      <p class="mt-2 font-mono text-xs text-zinc-400 dark:text-poi-muted/60">
+        <span id="updated-static">{updatedStatic}</span>
+        <span class="mx-1 opacity-40">·</span>
+        <span id="updated-relative" data-ts={data.updated_at}>—</span>
+      </p>
+    )}
+  </div>
+
+  <!-- Error state -->
+  {error && (
+    <p class="mb-8 font-mono text-xs text-zinc-400 dark:text-poi-muted/50">
+      <span class="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-red-400 align-middle"></span>
+      data unavailable
+    </p>
+  )}
+
+  {!data && !error && (
+    <p class="mb-8 font-mono text-xs text-zinc-400 dark:text-poi-muted/50">
+      <span class="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-zinc-400 align-middle"></span>
+      no data yet
+    </p>
+  )}
+
+  <!-- Charts -->
+  {data && <StatusCharts payload={JSON.stringify(data)} />}
+
+  <!-- Footer -->
+  <div class="mt-12 border-t border-zinc-200 pt-6 dark:border-zinc-700/40">
+    <p class="font-mono text-xs text-zinc-400 dark:text-poi-muted/50">
+      het (NixOS · systemd) → Cloudflare KV → Astro SSR (Cloudflare Pages)
+    </p>
+    <p class="mt-2 font-mono text-xs text-zinc-400 dark:text-poi-muted/50">
+      <a
+        href="https://github.com/yktsnet"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-light-accent dark:text-poi-accent hover:underline"
+      >
+        GitHub
+      </a>
+      <span class="mx-1 opacity-40">·</span>
+      values are masked · 5-min delay
+    </p>
+  </div>
+</section>
+
+<script>
+  import { relativeTime } from "../../lib/status";
+
+  function updateRelative() {
+    const el = document.getElementById("updated-relative");
+    if (!el) return;
+    const ts = el.dataset.ts;
+    if (!ts) return;
+    el.textContent = relativeTime(ts);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    updateRelative();
+    setInterval(updateRelative, 30_000);
+  });
+</script>

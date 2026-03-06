@@ -1,0 +1,26 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import StatusPage from "../components/status/StatusPage.astro";
+import type { StatusPayload } from "../lib/status";
+
+let statusData: StatusPayload | null = null;
+let fetchError: string | null = null;
+
+try {
+  const res = await fetch(`${Astro.url.origin}/api/status`);
+  if (res.ok) {
+    statusData = await res.json();
+  } else {
+    fetchError = `api ${res.status}`;
+  }
+} catch (e) {
+  fetchError = String(e);
+}
+---
+
+<MainLayout
+  title="Status"
+  description="Live system metrics for the Zero Claw automated trading pipeline."
+>
+  <StatusPage data={statusData} error={fetchError} />
+</MainLayout>
