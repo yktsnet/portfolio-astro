@@ -51,22 +51,38 @@ const updatedStatic = data ? formatUpdatedAt(data.updated_at) : null;
 
   <!-- Footer -->
   <div class="mt-12 border-t border-zinc-200 pt-6 dark:border-zinc-700/40">
-    <p class="font-mono text-xs text-zinc-400 dark:text-poi-muted/50">
-      het (NixOS · systemd) → Cloudflare KV → Astro SSR (Cloudflare Pages)
+  <div class="space-y-4">
+  <h2 class="mb-3 font-mono text-lg text-zinc-900 dark:text-poi-focus">About This Data</h2>
+    <p class="font-sans text-sm leading-relaxed text-zinc-600 dark:text-poi-muted">
+      各チャートは個人で運用しているパイプラインのデータを反映しています。<br />
+      機密性のある数値は除外し、5分の遅延を挟んで公開しています。<br />
+      各指標の詳細については別途ポストで解説予定です。
     </p>
-    <p class="mt-2 font-mono text-xs text-zinc-400 dark:text-poi-muted/50">
+
+    <div class="font-mono text-xs leading-6 text-zinc-400 dark:text-poi-muted/50 space-y-1">
+  <p>稼働時間: 月〜金 · 00:00–17:00 UTC (09:00–02:00 JST)</p>
+
+  <pre class="overflow-x-auto rounded-md border border-zinc-200/80 bg-zinc-50 px-4 py-3 text-xs leading-6 text-zinc-700 dark:border-zinc-700/50 dark:bg-zinc-900/40 dark:text-poi-muted/85">Hetzner (NixOS)
+  └─ status_metrics_push.py  →  Cloudflare KV
+                                ↓
+                           Astro SSR  →  /Status</pre>
+
+  <div class="pt-3">
+    <p>
       <a
-        href="https://github.com/yktsnet"
+        href="https://github.com/yktsnet/portfolio-astro"
         target="_blank"
         rel="noopener noreferrer"
         class="text-light-accent dark:text-poi-accent hover:underline"
       >
-        GitHub
+        portfolio-astro
       </a>
-      <span class="mx-1 opacity-40">·</span>
-      values are masked · 5-min delay
+      <span class="mx-1 opacity-40">&middot;</span>
+      このページのソースコード
     </p>
   </div>
+</div>
+</div>
 </section>
 
 <script>

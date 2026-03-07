@@ -3,7 +3,7 @@ title: "NFC attendance system for a small office"
 description: "マンション管理会社にNFC勤怠システムを導入した設計思想と試行錯誤log"
 publishDate: "27 Feb 2026"
 tags: ["raspberry-pi", "python", "gas"]
-pinned: true
+pinned: false
 ---
 
 <div class="zoomable-wrap">

@@ -11,9 +11,15 @@ const { payload } = Astro.props;
   import { formatTimeUTC, formatDateShort } from "../../lib/status";
 
   const MONO = '"Fira Code", "IBM Plex Mono", monospace';
-  const C = {
+  const isDark = () => document.documentElement.classList.contains("dark");
+  const C = () => isDark() ? {
     latency: "#89ddff", open: "#5de4c7", close: "#fae4fc",
     grid: "#ffffff10", axis: "#ffffff55",
+    card: "rgba(255,255,255,0.03)", border: "rgba(255,255,255,0.07)", borderLeft: "rgba(93,228,199,0.35)",
+  } : {
+    latency: "#d0679d", open: "#d0679d", close: "#d0679d",
+    grid: "#00000010", axis: "#00000066",
+    card: "rgba(0,0,0,0.03)", border: "rgba(0,0,0,0.08)", borderLeft: "rgba(208,103,157,0.5)",
   };
   const NS = "http://www.w3.org/2000/svg";
 
@@ -23,7 +29,7 @@ const { payload } = Astro.props;
     return e;
   }
   function txt(content: string, attrs: Record<string, string | number> = {}) {
-    const e = el("text", { fill: C.axis, "font-size": 13, "font-family": MONO, ...attrs });
+    const e = el("text", { fill: C().axis, "font-size": 13, "font-family": MONO, ...attrs });
     e.textContent = content;
     return e;
   }
@@ -54,13 +60,13 @@ const { payload } = Astro.props;
     const barW = Math.max(2, cW / data.length - 2);
     [0, 0.5, 1].forEach(r => {
       const y = PT + r * cH;
-      svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C.grid }));
+      svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C().grid }));
       svg.appendChild(txt(`${Math.round(maxV*(1-r))}s`, { x: PL-6, y: y+4, "text-anchor": "end" }));
     });
     data.forEach((d, i) => {
       const x = PL + (i / data.length) * cW;
       const barH = (d.v / maxV) * cH;
-      svg.appendChild(el("rect", { x, y: PT+cH-barH, width: barW, height: Math.max(1,barH), fill: C.latency, opacity: 0.8, rx: 1 }));
+      svg.appendChild(el("rect", { x, y: PT+cH-barH, width: barW, height: Math.max(1,barH), fill: C().latency, opacity: 0.8, rx: 1 }));
     });
     const xOf = (i: number) => PL + (i / data.length) * cW + barW/2;
     xLabelsTime(svg, data, xOf, H-6);
@@ -74,13 +80,13 @@ const { payload } = Astro.props;
     if (!data.length) { svg.appendChild(txt("no activity", { x: W/2, y: H/2, "text-anchor": "middle" })); return svg as unknown as SVGElement; }
     const ROW_OPEN  = PT + cH * 0.25;
     const ROW_CLOSE = PT + cH * 0.75;
-    svg.appendChild(txt("OPEN",  { x: PL+2, y: ROW_OPEN-10,  "font-size": 11, fill: C.open,  opacity: 0.8 }));
-    svg.appendChild(txt("CLOSE", { x: PL+2, y: ROW_CLOSE-10, "font-size": 11, fill: C.close, opacity: 0.8 }));
-    [ROW_OPEN, ROW_CLOSE].forEach(y => svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C.grid })));
+    svg.appendChild(txt("OPEN",  { x: PL+2, y: ROW_OPEN-10,  "font-size": 11, fill: C().open,  opacity: 0.8 }));
+    svg.appendChild(txt("CLOSE", { x: PL+2, y: ROW_CLOSE-10, "font-size": 11, fill: C().close, opacity: 0.8 }));
+    [ROW_OPEN, ROW_CLOSE].forEach(y => svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C().grid })));
     data.forEach((d, i) => {
       const x = PL + ((i+0.5) / data.length) * cW;
-      if (d.open  > 0) svg.appendChild(el("circle", { cx: x, cy: ROW_OPEN,  r: 5+(d.open-1),  fill: C.open,  opacity: 0.85 }));
-      if (d.close > 0) svg.appendChild(el("circle", { cx: x, cy: ROW_CLOSE, r: 5+(d.close-1), fill: C.close, opacity: 0.85 }));
+      if (d.open  > 0) svg.appendChild(el("circle", { cx: x, cy: ROW_OPEN,  r: 5+(d.open-1),  fill: C().open,  opacity: 0.85 }));
+      if (d.close > 0) svg.appendChild(el("circle", { cx: x, cy: ROW_CLOSE, r: 5+(d.close-1), fill: C().close, opacity: 0.85 }));
     });
     const xOf = (i: number) => PL + ((i+0.5) / data.length) * cW;
     xLabelsTime(svg, data, xOf, H-6);
@@ -113,7 +119,7 @@ const { payload } = Astro.props;
       for (let h = 0; h < HOURS; h++) {
         const val = hourMap[day][h] || 0;
         const alpha = 0.04 + (val / maxVal) * 0.86;
-        svg.appendChild(el("rect", { x: PL+h*cellW+1, y: y+1, width: cellW-2, height: cellH-2, fill: val > 0 ? C.open : C.axis, opacity: alpha, rx: 2 }));
+        svg.appendChild(el("rect", { x: PL+h*cellW+1, y: y+1, width: cellW-2, height: cellH-2, fill: val > 0 ? C().open : C().axis, opacity: alpha, rx: 2 }));
       }
     });
     return svg as unknown as SVGElement;
@@ -135,7 +141,7 @@ const { payload } = Astro.props;
 
       [0, 0.5, 1].forEach(r => {
       const y = PT + r * cH;
-      svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C.grid }));
+      svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C().grid }));
       const vLabel = Math.round(maxV * (1 - r));
       svg.appendChild(txt(`${vLabel}s`, { x: PL-6, y: y+4, "text-anchor": "end" }));
     });
@@ -148,7 +154,7 @@ const { payload } = Astro.props;
       for (let b = 0; b < clampedBuckets; b++) {
               const cy = PT + cH - (b + 0.5) * (cH / numRows);
               const ratio = d.v / maxV;
-        const color = ratio > 0.6 ? "#ff8b92" : ratio > 0.3 ? C.close : C.latency;
+        const color = ratio > 0.6 ? "#ff8b92" : ratio > 0.3 ? C().close : C().latency;
         svg.appendChild(el("circle", { cx, cy, r: dotR, fill: color, opacity: 0.75 }));
       }
     });
@@ -196,7 +202,10 @@ const { payload } = Astro.props;
 <style>
   :global(.charts-container) { display: flex; flex-direction: column; gap: 2rem; }
   :global(.chart-card) { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-left: 2px solid rgba(93,228,199,0.35); border-radius: 6px; padding: 1.25rem 1.25rem 0.75rem; }
+  :global(html:not(.dark) .chart-card) { background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.08); border-left: 2px solid rgba(208,103,157,0.5); }
   :global(.chart-header) { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 0.75rem; }
   :global(.chart-title) { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; color: #e4f0fb; font-family: "Fira Code", monospace; }
+  :global(html:not(.dark) .chart-title) { color: #1b1e28; }
   :global(.chart-sub) { font-size: 0.7rem; color: rgba(255,255,255,0.45); font-family: "Fira Code", monospace; }
+  :global(html:not(.dark) .chart-sub) { color: rgba(0,0,0,0.45); }
 </style>
