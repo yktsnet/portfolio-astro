@@ -1,66 +1,83 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import SocialList from '../components/SocialList.astro';
-import PostPreview from '../components/blog/PostPreview.astro';
-import { getAllPosts } from '../data/post';
-import { collectionDateSort } from '../utils/date';
-
-const MAX_PINNED = 3;
-const MAX_RECENT = 5;
-
-const allPosts = await getAllPosts();
-const sortedPosts = allPosts.sort(collectionDateSort);
-const pinnedPosts = sortedPosts.filter((p) => p.data.pinned).slice(0, MAX_PINNED);
-const recentPosts = sortedPosts.slice(0, MAX_RECENT);
 ---
 
 <MainLayout title="Home">
-  <section>
-    <h1 class="mb-12 text-2xl font-bold text-zinc-900 dark:text-poi-focus">#human_centric_DX</h1>
 
-    <div class="mb-6 font-sans leading-loose space-y-1">
-  <p class="text-zinc-900 dark:text-poi-focus font-semibold">
-    The hardest systems to build are the ones that disappear into the background.
-  </p>
-  <p class="text-zinc-900 dark:text-poi-focus font-semibold">
-    Humans are the noisiest component. So I design around them.
-  </p>
-  <p class="text-light-accent dark:text-poi-accent font-semibold">
-    That's what #human_centric_DX means.
-  </p>
-</div>
-<div class="mb-8 border-l-2 border-zinc-200 dark:border-poi-border pl-4 font-sans text-sm text-zinc-500 dark:text-poi-muted leading-loose">
-  技術が見えなくなるとき、はじめて人が主役になる。<br />
-  人間がいちばん複雑だから、面白い。<br />
-  その複雑さごと動くように設計します。
-</div>
-        
-    <SocialList />
+  <!-- ===== Hero ===== -->
+  <section class="mb-16">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-center">
+      <img
+        src="/images/profile/me.webp"
+        alt="Katsuhiro Yamakawa"
+        class="h-20 w-20 shrink-0 rounded-full object-cover sm:h-24 sm:w-24"
+      />
+      <div>
+        <h1 class="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-3xl dark:text-poi-focus">
+          Katsuhiro Yamakawa
+        </h1>
+        <p class="mt-2 font-sans text-base leading-7 text-zinc-600 dark:text-poi-muted">
+          現場システム開発・Web 制作。学習不要な仕組みづくりから、AI を含む業務自動化まで。
+        </p>
+      </div>
+    </div>
   </section>
 
-  {pinnedPosts.length > 0 && (
-    <section class="mt-16">
-      <h2 class="mb-6 text-xl font-bold text-zinc-900 dark:text-poi-focus">Pinned Posts</h2>
-      <ul class="space-y-4" role="list">
-        {pinnedPosts.map((p) => (
-          <li class="grid gap-1 sm:grid-cols-[auto_1fr] items-baseline">
-            <PostPreview post={p} />
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
-
-  <section class="mt-16">
-    <h2 class="mb-6 text-xl font-bold text-light-accent dark:text-poi-accent">
-      <a href="/posts/">Posts</a>
-    </h2>
-    <ul class="space-y-4" role="list">
-      {recentPosts.map((p) => (
-        <li class="grid gap-1 sm:grid-cols-[auto_1fr] items-baseline">
-          <PostPreview post={p} />
-        </li>
-      ))}
-    </ul>
+  <!-- ===== Theme ===== -->
+  <section class="mb-16 max-w-3xl">
+    <p class="mb-3 text-sm text-light-accent dark:text-poi-accent">#human_centric_DX</p>
+    <blockquote class="border-l-2 border-light-accent dark:border-poi-accent pl-4">
+      <p class="font-sans text-base italic leading-8 text-zinc-600 dark:text-poi-muted">
+        The hardest systems to build are the ones that disappear into the background.
+      </p>
+    </blockquote>
+    <p class="mt-5 font-sans text-base leading-8 text-zinc-700 dark:text-poi-focus/90">
+      技術が見えなくなるとき、はじめて人が主役になる。
+      人間がいちばん複雑だから、その複雑さごと動くように設計します。
+    </p>
   </section>
+
+  <!-- ===== Service ===== -->
+  <section class="mb-16 max-w-3xl">
+    <h2 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus">Service</h2>
+    <div class="mt-6 grid gap-6 md:grid-cols-2">
+      <div class="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-poi-border dark:bg-poi-panel">
+        <h3 class="text-lg font-semibold text-zinc-900 dark:text-poi-focus">現場システム開発</h3>
+        <p class="mt-3 font-sans text-base leading-8 text-zinc-700 dark:text-poi-focus/90">
+          現場に小さなコンピュータを置き、記録・通知・計測・連携を無理なく回る仕組みをつくります。
+          既存ハードウェアや安価なデバイスを活かし、操作を覚えさせないことを前提に設計します。
+        </p>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-poi-border dark:bg-poi-panel">
+        <h3 class="text-lg font-semibold text-zinc-900 dark:text-poi-focus">Web 制作</h3>
+        <p class="mt-3 font-sans text-base leading-8 text-zinc-700 dark:text-poi-focus/90">
+          個人サイトから動的なページまで、表示速度とメンテナンス性を重視して構築します。
+          必要に応じて AI や自動化も組み込み、公開後も改善しやすい形で整えます。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Explore ===== -->
+  <section class="mb-14 max-w-3xl">
+    <h2 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus">Explore</h2>
+    <div class="mt-6 space-y-4">
+      <p class="font-sans text-base leading-8 text-zinc-700 dark:text-poi-focus/90">
+        <a class="cactus-link" href="/works/">Works</a>
+        <span class="text-zinc-500 dark:text-zinc-400"> — </span>
+        実際に作ったものをまとめています。
+      </p>
+      <p class="font-sans text-base leading-8 text-zinc-700 dark:text-poi-focus/90">
+        <a class="cactus-link" href="/posts/">Posts</a>
+        <span class="text-zinc-500 dark:text-zinc-400"> — </span>
+        制作背景や設計の考え方を書いています。
+      </p>
+      <p class="font-sans text-base leading-8 text-zinc-700 dark:text-poi-focus/90">
+        <a class="cactus-link" href="/contact/">Contact</a>
+        <span class="text-zinc-500 dark:text-zinc-400"> — </span>
+        お問い合わせ先と各種リンクを載せています。
+      </p>
+    </div>
+  </section>
+
 </MainLayout>
