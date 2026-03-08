@@ -175,10 +175,10 @@ const { payload } = Astro.props;
     const barLag  = payload.bar_lag  || [];
 
     const sections = [
-      { title: "ORDER LATENCY",    sub: "time from bar close to order send (seconds)", el: makeLatencyChart(latency) },
-      { title: "SESSION ACTIVITY", sub: "open / close events · last 12h",              el: makeSessionChart(session) },
-      { title: "ACTIVITY HEATMAP", sub: "events per hour · UTC",                       el: makeHeatmapChart(session) },
-      { title: "DATA FRESHNESS",   sub: "bar data lag · dot height = delay magnitude", el: makeBarLagChart(barLag)  },
+      { title: "1. ORDER LATENCY",    sub: "time from bar close to order send (seconds)", el: makeLatencyChart(latency) },
+      { title: "2. SESSION ACTIVITY", sub: "open / close events · last 12h",              el: makeSessionChart(session) },
+      { title: "3. ACTIVITY HEATMAP", sub: "events per hour · UTC",                       el: makeHeatmapChart(session) },
+      { title: "4. DATA FRESHNESS",   sub: "bar data lag · dot height = delay magnitude", el: makeBarLagChart(barLag)  },
     ];
 
     const container = document.createElement("div");
