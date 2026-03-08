@@ -4,6 +4,8 @@ description: "ライブで動いているものを、そのまま見せるため
 publishDate: "08 Mar 2026"
 tags: ["astro", "cloudflare", "dashboard"]
 pinned: true
+image: "/images/posts/202603/live-status.webp"
+imageAlt: "ライブ・ステータス・ページの構成図"
 ---
 
 <div class="zoomable-wrap">

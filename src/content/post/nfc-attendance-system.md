@@ -4,6 +4,8 @@ description: "マンション管理会社にNFC勤怠システムを導入した
 publishDate: "27 Feb 2026"
 tags: ["raspberry-pi", "python", "gas"]
 pinned: false
+image: "/images/posts/202602/nfc-pic1.webp"
+imageAlt: "NFCシステムの構成図"
 ---
 
 <div class="zoomable-wrap">

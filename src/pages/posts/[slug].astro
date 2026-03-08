@@ -15,7 +15,15 @@ if (!post) {
 const { Content } = await render(post);
 ---
 
-<MainLayout title={post.data.title} description={post.data.description}>
+<MainLayout
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.image}
+  ogImageAlt={post.data.imageAlt ?? post.data.title}
+  ogType="article"
+  publishedTime={post.data.publishDate}
+  modifiedTime={post.data.updatedDate}
+>
   <article class="grow break-words" data-pagefind-body>
     <div id="blog-hero" class="mb-12">
       <Masthead content={post} />
