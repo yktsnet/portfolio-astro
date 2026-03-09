@@ -1,38 +1,39 @@
 # ykts.net
 
-A personal portfolio and technical blog built with Astro, deployed on Cloudflare Pages. The site serves as both a writing space and a live demonstration of systems I actively develop and operate myself.
+A personal portfolio and technical blog built with Astro, deployed on Cloudflare Pages.
 
-The Status page is a direct example of this: logs from an automation pipeline running on my Hetzner VPS are aggregated every five minutes and pushed to Cloudflare KV. The Astro SSR worker fetches that payload on each request and renders four SVG charts client-side — no charting library involved. The goal is to show what an SSR site can do, rather than describe it.
+The site is a space for writing about technical decisions and a showcase of systems I build and operate. Posts are written in Japanese and focus on the reasoning behind design choices — not setup instructions.
 
 <details>
 <summary>🇯🇵 日本語による説明を表示する</summary>
 
 ## このサイトについて
 
-ykts.net は、ポートフォリオとしての文章発信の場であり、同時に私が普段から開発・運用しているシステムをそのままサイトに組み込んだ実例集でもあります。
+ykts.net は、技術的な判断の背景を書き残す場であり、実際に作って動かしているシステムのショーケースです。
 
-Statusページはその代表例です。自宅サーバー上で継続的に動かしている自動化パイプラインのログを集約し、Cloudflare KV経由でWebへ接続しています。「SSRを使うとどんなサイトが作れるのか」という問いに対して、説明するより見せるほうが早いという考えのもとで設計しました。
-
-Hetzner VPS で5分ごとにKVへ書き込み、AstroのSSRエンドポイントがそれをJSONで返す3層構造がStatusページのバックボーンです。静的サイトでは実現できない、データと画面が常に連動する構成をCloudflare Pages上で動かしています。
-
-表示されるデータは個人情報に関わる部分を除外し、5分の遅延を挟んで公開しています。
+バックエンドで動かしているものをフロントに接続して公開する、という発想のもとで作品を作っています。自動売買パイプラインのメトリクスをリアルタイムで表示する [Live Demo](https://ykts.net/live-demo/) や、NFC を使った勤怠管理システムなど、実際に稼働しているものをそのまま載せています。
 
 ブログ記事はすべて日本語で書いており、セットアップ手順ではなく「なぜこの構成にしたのか」という判断の背景を中心に記録しています。
 
 </details>
 
-## Architecture
+## Works
 
+- **[NFC Attendance System](https://github.com/yktsnet/nfc-attendance-kit)** — Sony RC-S300 + Raspberry Pi 2 による勤怠管理。Python · GAS · Discord Webhook
+- **[Live Demo (Trading System)](https://ykts.net/live-demo/)** — 自動売買パイプラインのライブメトリクス。Cloudflare KV + Astro SSR + SVG charts
+- **[ykts.net](https://ykts.net/)** — このサイト。Astro SSR + Cloudflare Pages + Hono
+
+## Architecture (Live Demo)
 ```
 Hetzner VPS (NixOS · systemd timer)
   └─ status_metrics_push.py  ─→  Cloudflare KV
                                        │
                               Astro SSR (Cloudflare Pages)
                                   ├─ /api/status  (Hono)
-                                  └─ /Status      (SVG charts · client-side DOM)
+                                  └─ /live-demo   (SVG charts · client-side DOM)
 ```
 
-## Status Page — Data Sources
+## Live Demo — Data Sources
 
 | Chart | Source | What it shows |
 |---|---|---|

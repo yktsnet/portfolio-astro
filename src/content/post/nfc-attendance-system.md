@@ -6,6 +6,7 @@ tags: ["raspberry-pi", "python", "gas"]
 pinned: false
 image: "/images/posts/202602/nfc-pic1.webp"
 imageAlt: "NFCシステムの構成図"
+icon: "id-card"
 ---
 
 <div class="zoomable-wrap">

@@ -5,27 +5,19 @@ import Pagination from "../../../components/Paginator.astro";
 import { getAllPosts, getTagMeta } from "../../../data/post";
 import MainLayout from "../../../layouts/MainLayout.astro";
 import { collectionDateSort } from "../../../utils/date";
-
 const { tag, page: pageParam } = Astro.params;
-
 if (!tag) return Astro.redirect("/tags/");
-
 const currentPage = Number(pageParam) || 1;
 const PAGE_SIZE = 10;
-
 const allPosts = await getAllPosts();
 const sortedPosts = allPosts.sort(collectionDateSort);
 const postsWithTag = sortedPosts.filter((post) => post.data.tags.includes(tag));
-
 if (postsWithTag.length === 0) return Astro.redirect("/tags/");
-
 const totalPages = Math.ceil(postsWithTag.length / PAGE_SIZE);
 const start = (currentPage - 1) * PAGE_SIZE;
 const paginatedPosts = postsWithTag.slice(start, start + PAGE_SIZE);
-
 const tagMeta = await getTagMeta(tag);
 const TagContent = tagMeta ? (await render(tagMeta)).Content : null;
-
 const paginationProps = {
   ...(currentPage > 1 && {
     prevUrl: {
@@ -41,7 +33,6 @@ const paginationProps = {
   }),
 };
 ---
-
 <MainLayout title={tagMeta?.data.title ?? `Posts about ${tag}`}>
   <nav class="mb-8" aria-label="Breadcrumbs">
     <ul class="flex items-center gap-1 text-sm">
@@ -55,14 +46,10 @@ const paginationProps = {
   <h1 class="mb-4 text-2xl font-bold capitalize text-zinc-900 dark:text-poi-focus">{tagMeta?.data.title ?? `Posts about ${tag}`}</h1>
   {tagMeta?.data.description && <p class="mb-4 text-zinc-600 dark:text-poi-muted">{tagMeta.data.description}</p>}
   {TagContent && <div class="prose prose-sm mb-8 max-w-none dark:prose-invert"><TagContent /></div>}
-  <ul class="space-y-4">
-    {
-      paginatedPosts.map((p) => (
-        <li class="grid gap-1 sm:grid-cols-[auto_1fr]">
-          <PostPreview as="h2" post={p} />
-        </li>
-      ))
-    }
-  </ul>
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    {paginatedPosts.map((p) => (
+      <PostPreview as="h2" post={p} cardMode={true} />
+    ))}
+  </div>
   <Pagination {...paginationProps} />
 </MainLayout>

@@ -10,5 +10,10 @@ export default defineConfig({
     mode: 'directory',
     imageService: 'compile'
   }),
+  vite: {
+    ssr: {
+       external: ["node:fs", "node:path"],
+    },
+  },
   integrations: [tailwind(), react()]
 });
