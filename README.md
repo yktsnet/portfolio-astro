@@ -69,5 +69,5 @@ Blog posts are written in Japanese and focus on the reasoning behind technical d
 
 ## License & Credits
 
-- **Code**: MIT
-- **Theme foundation**: [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus) — minimalist philosophy inherited, reimagined for Astro + Hono. (c) 2022 Chris Williams
+- Code: MIT
+- Initial foundation: Astro Cactus by Chris Williams (MIT), later heavily reworked for this project.
