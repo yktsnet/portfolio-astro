@@ -12,42 +12,31 @@ import MainLayout from '../layouts/MainLayout.astro';
       alt="Katsuhiro Yamakawa"
       class="h-20 w-20 shrink-0 rounded-full object-cover sm:h-24 sm:w-24"
     />
-    <div class="group">
+    <div>
       <h1 class="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-3xl dark:text-poi-focus">
         Katsuhiro Yamakawa
       </h1>
       <p class="mt-2 font-sans text-base leading-7 text-zinc-600 dark:text-poi-muted">
         Builder / Operator
       </p>
-      <p id="coding-since" class="mt-1 font-mono text-xs text-poi-blue opacity-0 transition-opacity duration-500">
-        ── since 2025.07
-      </p>
     </div>
   </div>
 </section>
 
-<script is:inline>
-  const el = document.getElementById('coding-since');
-  el?.parentElement?.addEventListener('mouseenter', () => {
-    el.style.opacity = '1';
-  });
-</script>
-
   <!-- ===== Theme ===== -->
   <section class="mb-16 max-w-3xl">
-    <p class="mb-3 text-sm text-light-accent dark:text-poi-accent">#human_centric_DX</p>
-    <blockquote class="border-l-2 border-light-accent dark:border-poi-accent pl-4">
-      <p class="font-sans text-base italic leading-8 text-zinc-600 dark:text-poi-muted">
-        The hardest systems to build are the ones that disappear into the background.
-      </p>
-    </blockquote>
-    <p class="mt-5 font-sans text-base leading-8 text-zinc-700 dark:text-poi-focus/90">
+  <p class="mb-3 text-sm text-light-accent dark:text-poi-accent">#human_centric_DX</p>
+  <blockquote class="border-l-2 border-light-accent pl-4 dark:border-poi-accent">
+    <p class="font-sans text-base italic leading-8 text-zinc-600 dark:text-poi-muted">
+      The hardest systems to build are the ones that disappear into the background.
+    </p>
+  </blockquote>
   <p class="mt-5 font-sans text-base leading-8 text-zinc-700 dark:text-poi-focus/90">
-  大学を出てから、事業の立ち上げと運営を続けてきました。<br />
-  その中で現場の課題を自分で仕組みに落とす必要があり、コードを書くようになりました。<br />
-  事業側と運用側の視点から、壊れにくく、現場に自然に溶け込む仕組み、作ります。
-</p>
-  </section>
+    大学を出てから、事業の立ち上げと運営を続けてきました。<br />
+    その中で現場の課題を自分で仕組みに落とす必要があり、コードを書くようになりました。<br />
+    事業側と運用側の視点から、壊れにくく、現場に自然に溶け込む仕組みを設計・実装します。
+  </p>
+</section>
 
   <!-- ===== Works ===== -->
   <section class="mb-16 max-w-3xl">
