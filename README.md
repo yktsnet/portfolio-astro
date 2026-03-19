@@ -21,3 +21,7 @@ npm run dev
 ## License
 
 MIT
+
+## Credits
+
+Based on [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus) by Chris Williams (MIT).
