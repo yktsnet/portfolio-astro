@@ -1,0 +1,442 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+export const prerender = true;
+---
+
+<MainLayout
+  title="NFC Attendance System"
+  description="NFCカードをかざすだけで勤怠を記録し、給与計算まで自動化する業務システム。"
+>
+
+  <!-- ===== Hero ===== -->
+  <section class="mb-16">
+    <p class="font-mono text-xs tracking-widest text-light-accent dark:text-poi-accent uppercase mb-3">
+      現場 · 業務自動化
+    </p>
+    <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900 dark:text-poi-focus mb-4">
+      NFC Attendance System
+    </h1>
+    <p class="font-sans text-base leading-8 text-zinc-600 dark:text-poi-muted max-w-xl mb-6">
+      カードをかざすだけで打刻が完結。Raspberry Pi 2 と 100円の NFC カードで作った
+      勤怠管理システム。Google スプレッドシートへ自動同期し、給与計算まで自動化する。
+    </p>
+    <div class="flex flex-wrap gap-2">
+      {["Raspberry Pi 2", "Python", "PCSC", "GAS", "Discord Webhook", "systemd"].map(tag => (
+        <span class="inline-block font-mono text-xs px-2.5 py-1 rounded-full border border-zinc-300 dark:border-poi-border text-zinc-500 dark:text-poi-muted">
+          {tag}
+        </span>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== Demo ===== -->
+  <section class="mb-16">
+    <h2 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus mb-2">Demo</h2>
+    <p class="font-sans text-sm text-zinc-500 dark:text-poi-muted mb-8">
+      カードをタッチして打刻をシミュレートできます。IN → OUT → IN と交互に切り替わります。
+    </p>
+
+    <div class="flex flex-col lg:flex-row gap-6 items-start">
+
+      <!-- Left: Discord Kiosk -->
+      <div class="w-full lg:w-[340px] shrink-0">
+        <div class="rounded-xl border border-zinc-200 dark:border-poi-border overflow-hidden shadow-sm">
+          <!-- Kiosk title bar -->
+          <div class="flex items-center gap-2 px-4 py-3 bg-[#5865F2] dark:bg-[#404EED]">
+            <svg class="w-4 h-4 text-white/80" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.033.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+            </svg>
+            <span class="font-mono text-xs text-white font-semibold tracking-wide">勤怠 · キオスク</span>
+            <span class="ml-auto font-mono text-[10px] text-white/50" id="kiosk-time">--:--</span>
+          </div>
+          <!-- Channel header -->
+          <div class="px-4 py-2 bg-[#2b2d31] border-b border-[#1e1f22]">
+            <span class="font-mono text-xs text-[#949ba4]"># attendance-log</span>
+          </div>
+          <!-- Log feed -->
+          <div
+            id="discord-feed"
+            class="bg-[#313338] font-mono text-xs leading-6 px-4 py-3 h-[280px] overflow-y-auto space-y-0.5"
+          >
+            <!-- JS populates this -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Sheets mock + annotation -->
+      <div class="flex-1 min-w-0 flex flex-col sm:flex-row gap-6">
+
+        <!-- Sheets panel -->
+        <div class="flex-1 min-w-0 rounded-xl border border-zinc-200 dark:border-poi-border overflow-hidden shadow-sm">
+          <!-- Sheets title bar -->
+          <div class="flex items-center gap-2 px-4 py-3 bg-[#0f9d58]">
+            <svg class="w-4 h-4 text-white/80" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.9 3H14V1h-4v2H4.1C3 3 2 4 2 5.1v15.8C2 22 3 23 4.1 23h15.8c1.1 0 2.1-1 2.1-2.1V5.1C22 4 21 3 19.9 3zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/>
+            </svg>
+            <span class="font-mono text-xs text-white font-semibold tracking-wide">給与計算シート</span>
+          </div>
+          <!-- Tab bar -->
+          <div class="flex border-b border-zinc-200 dark:border-poi-border bg-zinc-50 dark:bg-poi-panel">
+            <button
+              id="tab-daily"
+              class="sheets-tab px-4 py-2 font-mono text-xs border-b-2 border-[#0f9d58] text-[#0f9d58] dark:text-emerald-400 dark:border-emerald-400 -mb-px whitespace-nowrap"
+            >
+              日別明細
+            </button>
+            <button
+              id="tab-monthly"
+              class="sheets-tab px-4 py-2 font-mono text-xs border-b-2 border-transparent text-zinc-400 dark:text-poi-muted hover:text-zinc-600 dark:hover:text-poi-muted/80 -mb-px whitespace-nowrap"
+            >
+              月次集計
+            </button>
+          </div>
+          <!-- Table area -->
+          <div id="sheets-daily" class="overflow-x-auto">
+            <table class="w-full font-mono text-[11px] border-collapse">
+              <thead>
+                <tr class="bg-zinc-100 dark:bg-zinc-800/60">
+                  <th class="px-3 py-2 text-left text-zinc-500 dark:text-poi-muted font-semibold border-b border-zinc-200 dark:border-poi-border whitespace-nowrap">氏名</th>
+                  <th class="px-3 py-2 text-left text-zinc-500 dark:text-poi-muted font-semibold border-b border-zinc-200 dark:border-poi-border whitespace-nowrap">IN</th>
+                  <th class="px-3 py-2 text-left text-zinc-500 dark:text-poi-muted font-semibold border-b border-zinc-200 dark:border-poi-border whitespace-nowrap">OUT</th>
+                  <th class="px-3 py-2 text-right text-zinc-500 dark:text-poi-muted font-semibold border-b border-zinc-200 dark:border-poi-border whitespace-nowrap">勤務時間</th>
+                  <th class="px-3 py-2 text-right text-zinc-500 dark:text-poi-muted font-semibold border-b border-zinc-200 dark:border-poi-border whitespace-nowrap">給与</th>
+                </tr>
+              </thead>
+              <tbody id="daily-tbody">
+                <!-- JS populates -->
+              </tbody>
+            </table>
+          </div>
+          <div id="sheets-monthly" class="overflow-x-auto hidden">
+            <table class="w-full font-mono text-[11px] border-collapse">
+              <thead>
+                <tr class="bg-zinc-100 dark:bg-zinc-800/60">
+                  <th class="px-3 py-2 text-left text-zinc-500 dark:text-poi-muted font-semibold border-b border-zinc-200 dark:border-poi-border">氏名</th>
+                  <th class="px-3 py-2 text-right text-zinc-500 dark:text-poi-muted font-semibold border-b border-zinc-200 dark:border-poi-border whitespace-nowrap">出勤日数</th>
+                  <th class="px-3 py-2 text-right text-zinc-500 dark:text-poi-muted font-semibold border-b border-zinc-200 dark:border-poi-border whitespace-nowrap">合計時間</th>
+                  <th class="px-3 py-2 text-right text-zinc-500 dark:text-poi-muted font-semibold border-b border-zinc-200 dark:border-poi-border whitespace-nowrap">給与合計</th>
+                </tr>
+              </thead>
+              <tbody id="monthly-tbody">
+                <!-- JS populates -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Annotation -->
+        <div class="sm:w-40 shrink-0 space-y-4 sm:pt-2">
+          <div class="space-y-2">
+            {[
+              { icon: "⚡", text: "デバウンス5分。二重打刻を自動で無視。" },
+              { icon: "⏱", text: "15時間タイムアウトで退勤漏れを検知。" },
+              { icon: "¥",  text: "5分単位で丸め、時給から給与を自動計算。" },
+              { icon: "↻",  text: "毎日定時にGASへ同期、Sheetsが更新される。" },
+            ].map(item => (
+              <div class="flex items-start gap-2 text-xs font-sans text-zinc-500 dark:text-poi-muted leading-5">
+                <span class="shrink-0 font-mono text-light-accent dark:text-poi-accent mt-0.5">{item.icon}</span>
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NFC Cards -->
+    <div class="mt-8">
+      <p class="font-mono text-xs text-zinc-400 dark:text-poi-muted/50 mb-4 uppercase tracking-wide">
+        NFC カードをタッチ
+      </p>
+      <div class="flex flex-wrap gap-3" id="nfc-cards">
+        <!-- JS populates -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Architecture ===== -->
+  <section class="mb-16">
+    <h2 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus mb-6">Architecture</h2>
+    <div class="font-mono text-xs text-zinc-400 dark:text-poi-muted/60 leading-6 whitespace-pre overflow-x-auto rounded-lg bg-zinc-950 px-5 py-4 border border-zinc-800 dark:border-poi-border">
+<code>[NFC Card] → [Sony RC-S300] → [Pi 2 / Linux PC]
+                                      │
+                         attendance_reader.py   (PCSC · state machine)
+                                      │
+                    ┌─────────────────┴──────────────────┐
+          attendance_discord.py              attendance_payroll.py
+          (tail events → Discord)            (daily cron → GAS)
+                    │                                    │
+           [Discord Webhook]                    [Google Sheets]
+           [Kiosk Display]                      [給与自動計算]</code>
+    </div>
+  </section>
+
+  <!-- ===== Stack ===== -->
+  <section class="mb-16">
+    <h2 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus mb-6">Stack</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      {[
+        { layer: "Edge",     tech: "Raspberry Pi 2",   sub: "Sony RC-S300 / PCSC" },
+        { layer: "Logic",    tech: "Python 3.11+",      sub: "stdlib only · no pip" },
+        { layer: "State",    tech: "State machine",     sub: "debounce · timeout · rollover" },
+        { layer: "Backend",  tech: "Google Apps Script",sub: "Spreadsheet sync" },
+        { layer: "Notify",   tech: "Discord Webhook",   sub: "Kiosk display" },
+        { layer: "Infra",    tech: "systemd user",      sub: "3 services + timer" },
+      ].map(item => (
+        <div class="rounded-lg border border-zinc-200 dark:border-poi-border bg-white dark:bg-poi-panel p-4">
+          <p class="font-mono text-xs text-light-accent dark:text-poi-accent mb-1">{item.layer}</p>
+          <p class="font-mono text-sm text-zinc-900 dark:text-poi-focus leading-snug">{item.tech}</p>
+          <p class="font-mono text-xs text-zinc-400 dark:text-poi-muted/70 mt-0.5">{item.sub}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== Links ===== -->
+  <section class="border-t border-zinc-200 dark:border-zinc-700/40 pt-10">
+    <div class="flex flex-wrap gap-6 font-mono text-sm">
+      <a
+        href="https://github.com/yktsnet/nfc-attendance-kit"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-light-accent dark:text-poi-accent hover:underline underline-offset-2 flex items-center gap-1.5"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+        </svg>
+        GitHub
+      </a>
+      <a
+        href="/posts/nfc-attendance-system/"
+        class="text-zinc-400 dark:text-poi-muted hover:text-zinc-700 dark:hover:text-poi-focus underline underline-offset-2"
+      >
+        制作記事 →
+      </a>
+    </div>
+  </section>
+
+</MainLayout>
+
+<script>
+// ── Data ─────────────────────────────────────────────────────────
+interface Employee {
+  id: string;
+  name: string;
+  hourly: number;
+  color: string;
+  state: 'out' | 'in';
+  inTime: Date | null;
+  totalMinToday: number;   // accumulated today (minutes, rounded)
+  totalMinMonth: number;   // this month running total
+  daysMonth: number;
+}
+
+const EMPLOYEES: Employee[] = [
+  { id: 'emp01', name: '田中 恵子', hourly: 1500, color: '#5de4c7', state: 'out', inTime: null, totalMinToday: 0, totalMinMonth: 5640, daysMonth: 16 },
+  { id: 'emp02', name: '鈴木 正雄', hourly: 1300, color: '#89ddff', state: 'out', inTime: null, totalMinToday: 0, totalMinMonth: 4800, daysMonth: 14 },
+  { id: 'emp03', name: '佐藤 みき', hourly: 1200, color: '#d482ab', state: 'out', inTime: null, totalMinToday: 0, totalMinMonth: 6000, daysMonth: 17 },
+  { id: 'emp04', name: '山田 浩二', hourly: 1400, color: '#fae4fc', state: 'out', inTime: null, totalMinToday: 0, totalMinMonth: 3600, daysMonth: 12 },
+];
+
+const ROUND = 5; // minutes
+
+function roundMin(m: number) { return Math.floor(m / ROUND) * ROUND; }
+
+function fmtTime(d: Date) {
+  return d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('ja-JP', { month: '2-digit', day: '2-digit' }).replace('/', '-');
+}
+function fmtDur(min: number) {
+  const h = Math.floor(min / 60), m = min % 60;
+  return m > 0 ? `${h}h${String(m).padStart(2,'0')}m` : `${h}h00m`;
+}
+function fmtYen(yen: number) {
+  return '¥' + yen.toLocaleString('ja-JP');
+}
+
+// ── Discord Feed ──────────────────────────────────────────────────
+const feed = document.getElementById('discord-feed')!;
+const logLines: string[] = [];
+
+function addLog(text: string, color = '#b5bac1') {
+  logLines.push(text);
+  const el = document.createElement('div');
+  el.style.color = color;
+  el.textContent = text;
+  el.className = 'opacity-0 transition-opacity duration-300';
+  feed.appendChild(el);
+  requestAnimationFrame(() => { el.style.opacity = '1'; });
+  feed.scrollTop = feed.scrollHeight;
+}
+
+function seedLogs() {
+  const now = new Date();
+  const base = new Date(now);
+  base.setHours(8, 30, 0, 0);
+  addLog(`${fmtDate(base)} 08:30  田中 恵子  IN`, '#5de4c7');
+  base.setMinutes(45);
+  addLog(`${fmtDate(base)} 08:45  鈴木 正雄  IN`, '#89ddff');
+  base.setHours(9, 2, 0, 0);
+  addLog(`${fmtDate(base)} 09:02  佐藤 みき  IN`, '#d482ab');
+  base.setHours(10, 15, 0, 0);
+  addLog(`${fmtDate(base)} 10:15  山田 浩二  IN`, '#c9c7c0');
+  base.setHours(12, 31, 0, 0);
+  addLog(`${fmtDate(base)} 12:31  田中 恵子  OUT  (3h31m)`, '#5de4c7');
+  base.setHours(13, 10, 0, 0);
+  addLog(`${fmtDate(base)} 13:10  田中 恵子  IN`, '#5de4c7');
+  addLog('─────────────────────────────', '#3c3f45');
+}
+
+// ── Clock ─────────────────────────────────────────────────────────
+const clockEl = document.getElementById('kiosk-time')!;
+function updateClock() {
+  clockEl.textContent = new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// ── Sheets rendering ──────────────────────────────────────────────
+function renderDaily() {
+  const tbody = document.getElementById('daily-tbody')!;
+  tbody.innerHTML = '';
+  for (const emp of EMPLOYEES) {
+    const tr = document.createElement('tr');
+    tr.className = 'border-b border-zinc-100 dark:border-poi-border/50 transition-colors duration-300';
+    const inStr  = emp.inTime ? fmtTime(emp.inTime) : (emp.totalMinToday > 0 ? '—' : '');
+    const outStr = (emp.state === 'out' && emp.totalMinToday > 0) ? fmtTime(new Date()) : (emp.state === 'in' ? '---' : '');
+    const minR   = roundMin(emp.totalMinToday);
+    const yen    = Math.floor(minR * emp.hourly / 60);
+    const durStr = minR > 0 ? fmtDur(minR) : (emp.state === 'in' ? '稼働中' : '');
+    const yenStr = yen > 0 ? fmtYen(yen) : '';
+    tr.innerHTML = `
+      <td class="px-3 py-2 text-zinc-700 dark:text-poi-focus font-semibold whitespace-nowrap" style="color:${emp.color}">${emp.name}</td>
+      <td class="px-3 py-2 text-zinc-500 dark:text-poi-muted whitespace-nowrap">${inStr || '—'}</td>
+      <td class="px-3 py-2 text-zinc-500 dark:text-poi-muted whitespace-nowrap">${outStr || '—'}</td>
+      <td class="px-3 py-2 text-right whitespace-nowrap ${emp.state === 'in' ? 'text-emerald-500 dark:text-emerald-400' : 'text-zinc-700 dark:text-poi-focus'}">${durStr || '—'}</td>
+      <td class="px-3 py-2 text-right whitespace-nowrap text-zinc-700 dark:text-poi-focus">${yenStr || '—'}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+function renderMonthly() {
+  const tbody = document.getElementById('monthly-tbody')!;
+  tbody.innerHTML = '';
+  for (const emp of EMPLOYEES) {
+    const total = emp.totalMinMonth + roundMin(emp.totalMinToday);
+    const yen = Math.floor(total * emp.hourly / 60);
+    const tr = document.createElement('tr');
+    tr.className = 'border-b border-zinc-100 dark:border-poi-border/50';
+    tr.innerHTML = `
+      <td class="px-3 py-2 font-semibold whitespace-nowrap" style="color:${emp.color}">${emp.name}</td>
+      <td class="px-3 py-2 text-right text-zinc-500 dark:text-poi-muted whitespace-nowrap">${emp.daysMonth + (emp.totalMinToday > 0 ? 1 : 0)}日</td>
+      <td class="px-3 py-2 text-right text-zinc-700 dark:text-poi-focus whitespace-nowrap">${fmtDur(total)}</td>
+      <td class="px-3 py-2 text-right text-zinc-700 dark:text-poi-focus whitespace-nowrap">${fmtYen(yen)}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+// ── NFC Card buttons ──────────────────────────────────────────────
+function buildCards() {
+  const container = document.getElementById('nfc-cards')!;
+  for (const emp of EMPLOYEES) {
+    const btn = document.createElement('button');
+    btn.id = `card-${emp.id}`;
+    btn.className = [
+      'nfc-card group relative flex items-center gap-3 rounded-xl border-2 px-5 py-4',
+      'transition-all duration-200 cursor-pointer active:scale-95',
+      'bg-white dark:bg-poi-panel hover:shadow-md',
+    ].join(' ');
+    btn.style.borderColor = emp.color + '60';
+    btn.innerHTML = `
+      <div class="relative shrink-0">
+        <div class="w-10 h-7 rounded-md border-2 flex items-center justify-center text-[8px] font-bold text-white tracking-widest" style="border-color:${emp.color};background:${emp.color}20;color:${emp.color}">
+          NFC
+        </div>
+        <div id="dot-${emp.id}" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-poi-panel bg-zinc-300 dark:bg-zinc-600 transition-colors duration-300"></div>
+      </div>
+      <div class="text-left">
+        <p class="font-mono text-sm font-semibold text-zinc-800 dark:text-poi-focus leading-tight">${emp.name}</p>
+        <p id="status-${emp.id}" class="font-mono text-xs text-zinc-400 dark:text-poi-muted mt-0.5">OUT</p>
+      </div>
+    `;
+    btn.addEventListener('click', () => handleTap(emp));
+    container.appendChild(btn);
+  }
+}
+
+function updateCardUI(emp: Employee) {
+  const dot    = document.getElementById(`dot-${emp.id}`)!;
+  const status = document.getElementById(`status-${emp.id}`)!;
+  const btn    = document.getElementById(`card-${emp.id}`)!;
+  if (emp.state === 'in') {
+    dot.style.backgroundColor = '#4ade80';
+    status.textContent = '稼働中';
+    status.style.color = '#4ade80';
+    btn.style.borderColor = emp.color;
+  } else {
+    dot.style.backgroundColor = '';
+    dot.style.background = '';
+    status.textContent = 'OUT';
+    status.style.color = '';
+    btn.style.borderColor = emp.color + '60';
+  }
+}
+
+function handleTap(emp: Employee) {
+  const now = new Date();
+  const dtStr = `${fmtDate(now)} ${fmtTime(now)}`;
+  if (emp.state === 'out') {
+    emp.state = 'in';
+    emp.inTime = now;
+    addLog(`${dtStr}  ${emp.name}  IN`, emp.color);
+  } else {
+    const dur = Math.floor((now.getTime() - emp.inTime!.getTime()) / 60000);
+    const rounded = roundMin(dur);
+    emp.totalMinToday += dur;
+    emp.state = 'out';
+    const durStr = fmtDur(rounded > 0 ? rounded : 1);
+    addLog(`${dtStr}  ${emp.name}  OUT  (${durStr})`, emp.color);
+    emp.inTime = null;
+  }
+  updateCardUI(emp);
+  renderDaily();
+  renderMonthly();
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────
+document.getElementById('tab-daily')!.addEventListener('click', () => {
+  document.getElementById('sheets-daily')!.classList.remove('hidden');
+  document.getElementById('sheets-monthly')!.classList.add('hidden');
+  document.getElementById('tab-daily')!.className =
+    'sheets-tab px-4 py-2 font-mono text-xs border-b-2 border-[#0f9d58] text-[#0f9d58] dark:text-emerald-400 dark:border-emerald-400 -mb-px whitespace-nowrap';
+  document.getElementById('tab-monthly')!.className =
+    'sheets-tab px-4 py-2 font-mono text-xs border-b-2 border-transparent text-zinc-400 dark:text-poi-muted hover:text-zinc-600 -mb-px whitespace-nowrap';
+});
+document.getElementById('tab-monthly')!.addEventListener('click', () => {
+  document.getElementById('sheets-daily')!.classList.add('hidden');
+  document.getElementById('sheets-monthly')!.classList.remove('hidden');
+  document.getElementById('tab-monthly')!.className =
+    'sheets-tab px-4 py-2 font-mono text-xs border-b-2 border-[#0f9d58] text-[#0f9d58] dark:text-emerald-400 dark:border-emerald-400 -mb-px whitespace-nowrap';
+  document.getElementById('tab-daily')!.className =
+    'sheets-tab px-4 py-2 font-mono text-xs border-b-2 border-transparent text-zinc-400 dark:text-poi-muted hover:text-zinc-600 -mb-px whitespace-nowrap';
+});
+
+// ── Init ──────────────────────────────────────────────────────────
+seedLogs();
+buildCards();
+renderDaily();
+renderMonthly();
+</script>
+
+<style>
+  .nfc-card:hover {
+    transform: translateY(-1px);
+  }
+  .nfc-card:active {
+    transform: scale(0.96);
+  }
+</style>

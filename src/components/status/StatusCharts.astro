@@ -3,24 +3,90 @@ interface Props {
   payload: string;
 }
 const { payload } = Astro.props;
+
+const tabs = [
+  { id: "session",  label: "SESSION",   icon: "↕"  },
+  { id: "heatmap",  label: "HEATMAP",   icon: "⬛" },
+  { id: "latency",  label: "LATENCY",   icon: "⚡" },
+  { id: "freshness",label: "FRESHNESS", icon: "◎"  },
+] as const;
 ---
 
-<div id="charts-root" data-payload={payload} />
+<!-- Tab row + annotation, chart below -->
+<div id="charts-root" data-payload={payload}>
+
+  <div class="flex flex-col sm:flex-row sm:items-start gap-6 sm:gap-10">
+
+    <!-- Left column: tabs + chart -->
+    <div class="flex-1 min-w-0">
+
+      <!-- Tabs -->
+      <div class="flex border-b border-zinc-200 dark:border-poi-border overflow-x-auto">
+        {tabs.map((tab, i) => (
+          <button
+            data-tab={tab.id}
+            class={[
+              "chart-tab shrink-0 flex items-center gap-1.5 px-3 py-2.5 font-mono text-xs transition-colors duration-150 border-b-2 -mb-px whitespace-nowrap",
+              i === 0
+                ? "border-light-accent dark:border-poi-accent text-light-accent dark:text-poi-accent"
+                : "border-transparent text-zinc-400 dark:text-poi-muted/60 hover:text-zinc-700 dark:hover:text-poi-muted",
+            ].join(" ")}
+          >
+            <span aria-hidden="true">{tab.icon}</span>
+            <span>{tab.label}</span>
+          </button>
+        ))}
+      </div>
+
+      <!-- Chart display -->
+      <div
+        class="mt-5 rounded-xl border border-zinc-200 dark:border-poi-border bg-white dark:bg-poi-panel px-4 py-5 sm:px-6"
+        id="chart-card"
+      >
+        <div id="chart-display" class="w-full overflow-hidden transition-opacity duration-200">
+          <!-- JS injects SVG here -->
+          <div class="h-[220px] flex items-center justify-center">
+            <span class="font-mono text-xs text-zinc-400 dark:text-poi-muted/40">Rendering…</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column: annotation (matches phone-annotation pattern) -->
+    <div class="sm:w-48 shrink-0 sm:pt-14 space-y-4">
+      <div>
+        <p id="chart-sub" class="font-mono text-[10px] text-zinc-400 dark:text-poi-muted/50 leading-5 mb-3 uppercase tracking-wide"></p>
+        <p id="chart-desc" class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted"></p>
+      </div>
+      <div class="space-y-2" id="chart-bullets"></div>
+    </div>
+
+  </div>
+</div>
 
 <script>
-  import { formatTimeUTC, formatDateShort } from "../../lib/status";
+  import { formatDateShort } from "../../lib/status";
 
   const MONO = '"Fira Code", "IBM Plex Mono", monospace';
   const isDark = () => document.documentElement.classList.contains("dark");
-  const C = () => isDark() ? {
-    latency: "#89ddff", open: "#5de4c7", close: "#fae4fc",
-    grid: "#ffffff10", axis: "#ffffff55",
-    card: "rgba(255,255,255,0.03)", border: "rgba(255,255,255,0.07)", borderLeft: "rgba(93,228,199,0.35)",
-  } : {
-    latency: "#d0679d", open: "#d0679d", close: "#d0679d",
-    grid: "#00000010", axis: "#00000066",
-    card: "rgba(0,0,0,0.03)", border: "rgba(0,0,0,0.08)", borderLeft: "rgba(208,103,157,0.5)",
-  };
+
+  const C = () =>
+    isDark()
+      ? {
+          latency: "#89ddff",
+          open: "#5de4c7",
+          close: "#fae4fc",
+          grid: "#ffffff10",
+          axis: "#ffffff55",
+        }
+      : {
+          latency: "#d0679d",
+          open: "#d0679d",
+          close: "#d0679d",
+          grid: "#00000010",
+          axis: "#00000066",
+        };
+
   const NS = "http://www.w3.org/2000/svg";
 
   function el(tag: string, attrs: Record<string, string | number> = {}) {
@@ -29,76 +95,115 @@ const { payload } = Astro.props;
     return e;
   }
   function txt(content: string, attrs: Record<string, string | number> = {}) {
-    const e = el("text", { fill: C().axis, "font-size": 13, "font-family": MONO, ...attrs });
+    const e = el("text", {
+      fill: C().axis,
+      "font-size": 13,
+      "font-family": MONO,
+      ...attrs,
+    });
     e.textContent = content;
     return e;
   }
 
-  function xLabelsTime(svg: Element, data: {t:string}[], xOf: (i:number)=>number, y: number) {
+  function xLabelsTime(
+    svg: Element,
+    data: { t: string }[],
+    xOf: (i: number) => number,
+    y: number
+  ) {
     const n = data.length;
-    if (n === 0) return;
-    const nowMs = new Date(data[n-1].t).getTime();
-    const indices = [0, Math.floor(n*0.25), Math.floor(n*0.5), Math.floor(n*0.75), n-1];
-    indices.forEach(i => {
+    if (!n) return;
+    const nowMs = new Date(data[n - 1].t).getTime();
+    [0, Math.floor(n * 0.25), Math.floor(n * 0.5), Math.floor(n * 0.75), n - 1].forEach((i) => {
       const diffMin = Math.round((nowMs - new Date(data[i].t).getTime()) / 60000);
-      let label: string;
-      if (diffMin === 0) label = "now";
-      else if (diffMin < 60) label = `${diffMin}m ago`;
-      else label = `${Math.round(diffMin/60)}h ago`;
-      const anchor = i === 0 ? "start" : i === n-1 ? "end" : "middle";
+      const label =
+        diffMin === 0 ? "now" : diffMin < 60 ? `${diffMin}m ago` : `${Math.round(diffMin / 60)}h ago`;
+      const anchor = i === 0 ? "start" : i === n - 1 ? "end" : "middle";
       svg.appendChild(txt(label, { x: xOf(i), y, "text-anchor": anchor }));
     });
   }
-
 
   function makeLatencyChart(data: { t: string; v: number }[]): SVGElement {
     const W = 600, H = 220, PL = 44, PR = 12, PT = 16, PB = 38;
     const cW = W - PL - PR, cH = H - PT - PB;
     const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%" });
-    if (!data.length) { svg.appendChild(txt("no data", { x: W/2, y: H/2, "text-anchor": "middle" })); return svg as unknown as SVGElement; }
-    const maxV = Math.max(...data.map(d => d.v)) * 1.1 || 1;
+    if (!data.length) {
+      svg.appendChild(txt("no data", { x: W / 2, y: H / 2, "text-anchor": "middle" }));
+      return svg as unknown as SVGElement;
+    }
+    const maxV = Math.max(...data.map((d) => d.v)) * 1.1 || 1;
     const barW = Math.max(2, cW / data.length - 2);
-    [0, 0.5, 1].forEach(r => {
+    [0, 0.5, 1].forEach((r) => {
       const y = PT + r * cH;
-      svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C().grid }));
-      svg.appendChild(txt(`${Math.round(maxV*(1-r))}s`, { x: PL-6, y: y+4, "text-anchor": "end" }));
+      svg.appendChild(el("line", { x1: PL, x2: PL + cW, y1: y, y2: y, stroke: C().grid }));
+      svg.appendChild(
+        txt(`${Math.round(maxV * (1 - r))}s`, { x: PL - 6, y: y + 4, "text-anchor": "end" })
+      );
     });
     data.forEach((d, i) => {
       const x = PL + (i / data.length) * cW;
       const barH = (d.v / maxV) * cH;
-      svg.appendChild(el("rect", { x, y: PT+cH-barH, width: barW, height: Math.max(1,barH), fill: C().latency, opacity: 0.8, rx: 1 }));
+      svg.appendChild(
+        el("rect", {
+          x,
+          y: PT + cH - barH,
+          width: barW,
+          height: Math.max(1, barH),
+          fill: C().latency,
+          opacity: 0.8,
+          rx: 1,
+        })
+      );
     });
-    const xOf = (i: number) => PL + (i / data.length) * cW + barW/2;
-    xLabelsTime(svg, data, xOf, H-6);
+    xLabelsTime(svg, data, (i) => PL + (i / data.length) * cW + barW / 2, H - 6);
     return svg as unknown as SVGElement;
   }
 
-  function makeSessionChart(data: { t: string; open: number; close: number; session: string }[]): SVGElement {
+  function makeSessionChart(
+    data: { t: string; open: number; close: number; session: string }[]
+  ): SVGElement {
     const W = 600, H = 220, PL = 16, PR = 12, PT = 24, PB = 38;
     const cW = W - PL - PR, cH = H - PT - PB;
     const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%" });
-    if (!data.length) { svg.appendChild(txt("no activity", { x: W/2, y: H/2, "text-anchor": "middle" })); return svg as unknown as SVGElement; }
-    const ROW_OPEN  = PT + cH * 0.25;
+    if (!data.length) {
+      svg.appendChild(txt("no activity", { x: W / 2, y: H / 2, "text-anchor": "middle" }));
+      return svg as unknown as SVGElement;
+    }
+    const ROW_OPEN = PT + cH * 0.25;
     const ROW_CLOSE = PT + cH * 0.75;
-    svg.appendChild(txt("OPEN",  { x: PL+2, y: ROW_OPEN-10,  "font-size": 11, fill: C().open,  opacity: 0.8 }));
-    svg.appendChild(txt("CLOSE", { x: PL+2, y: ROW_CLOSE-10, "font-size": 11, fill: C().close, opacity: 0.8 }));
-    [ROW_OPEN, ROW_CLOSE].forEach(y => svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C().grid })));
+    svg.appendChild(
+      txt("OPEN", { x: PL + 2, y: ROW_OPEN - 10, "font-size": 11, fill: C().open, opacity: 0.8 })
+    );
+    svg.appendChild(
+      txt("CLOSE", { x: PL + 2, y: ROW_CLOSE - 10, "font-size": 11, fill: C().close, opacity: 0.8 })
+    );
+    [ROW_OPEN, ROW_CLOSE].forEach((y) =>
+      svg.appendChild(el("line", { x1: PL, x2: PL + cW, y1: y, y2: y, stroke: C().grid }))
+    );
     data.forEach((d, i) => {
-      const x = PL + ((i+0.5) / data.length) * cW;
-      if (d.open  > 0) svg.appendChild(el("circle", { cx: x, cy: ROW_OPEN,  r: 5+(d.open-1),  fill: C().open,  opacity: 0.85 }));
-      if (d.close > 0) svg.appendChild(el("circle", { cx: x, cy: ROW_CLOSE, r: 5+(d.close-1), fill: C().close, opacity: 0.85 }));
+      const x = PL + ((i + 0.5) / data.length) * cW;
+      if (d.open > 0)
+        svg.appendChild(
+          el("circle", { cx: x, cy: ROW_OPEN, r: 5 + (d.open - 1), fill: C().open, opacity: 0.85 })
+        );
+      if (d.close > 0)
+        svg.appendChild(
+          el("circle", { cx: x, cy: ROW_CLOSE, r: 5 + (d.close - 1), fill: C().close, opacity: 0.85 })
+        );
     });
-    const xOf = (i: number) => PL + ((i+0.5) / data.length) * cW;
-    xLabelsTime(svg, data, xOf, H-6);
+    xLabelsTime(svg, data, (i) => PL + ((i + 0.5) / data.length) * cW, H - 6);
     return svg as unknown as SVGElement;
   }
 
   function makeHeatmapChart(data: { t: string; open: number; close: number }[]): SVGElement {
     const W = 600, H = 220, PL = 44, PR = 12, PT = 20, PB = 38;
     const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%" });
-    if (!data.length) { svg.appendChild(txt("no data", { x: W/2, y: H/2, "text-anchor": "middle" })); return svg as unknown as SVGElement; }
+    if (!data.length) {
+      svg.appendChild(txt("no data", { x: W / 2, y: H / 2, "text-anchor": "middle" }));
+      return svg as unknown as SVGElement;
+    }
     const hourMap: Record<string, Record<number, number>> = {};
-    data.forEach(d => {
+    data.forEach((d) => {
       const day = formatDateShort(d.t);
       const hour = new Date(d.t).getUTCHours();
       if (!hourMap[day]) hourMap[day] = {};
@@ -108,18 +213,37 @@ const { payload } = Astro.props;
     const HOURS = 24;
     const cellW = (W - PL - PR) / HOURS;
     const cellH = (H - PT - PB) / Math.max(days.length, 1);
-    const allVals = Object.values(hourMap).flatMap(h => Object.values(h));
+    const allVals = Object.values(hourMap).flatMap((h) => Object.values(h));
     const maxVal = Math.max(...allVals, 1);
-    [0, 4, 8, 12, 16, 20].forEach(h => {
-      svg.appendChild(txt(`${String(h).padStart(2,"0")}:00`, { x: PL + h * cellW + cellW/2, y: H-6, "text-anchor": "middle", "font-size": 11 }));
+    [0, 4, 8, 12, 16, 20].forEach((h) => {
+      svg.appendChild(
+        txt(`${String(h).padStart(2, "0")}:00`, {
+          x: PL + h * cellW + cellW / 2,
+          y: H - 6,
+          "text-anchor": "middle",
+          "font-size": 11,
+        })
+      );
     });
     days.forEach((day, di) => {
       const y = PT + di * cellH;
-      svg.appendChild(txt(day, { x: PL-6, y: y+cellH*0.65, "text-anchor": "end", "font-size": 11 }));
+      svg.appendChild(
+        txt(day, { x: PL - 6, y: y + cellH * 0.65, "text-anchor": "end", "font-size": 11 })
+      );
       for (let h = 0; h < HOURS; h++) {
         const val = hourMap[day][h] || 0;
         const alpha = 0.04 + (val / maxVal) * 0.86;
-        svg.appendChild(el("rect", { x: PL+h*cellW+1, y: y+1, width: cellW-2, height: cellH-2, fill: val > 0 ? C().open : C().axis, opacity: alpha, rx: 2 }));
+        svg.appendChild(
+          el("rect", {
+            x: PL + h * cellW + 1,
+            y: y + 1,
+            width: cellW - 2,
+            height: cellH - 2,
+            fill: val > 0 ? C().open : C().axis,
+            opacity: alpha,
+            rx: 2,
+          })
+        );
       }
     });
     return svg as unknown as SVGElement;
@@ -129,83 +253,164 @@ const { payload } = Astro.props;
     const W = 600, H = 220, PL = 44, PR = 12, PT = 16, PB = 38;
     const cW = W - PL - PR, cH = H - PT - PB;
     const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%" });
-    if (!data.length) { svg.appendChild(txt("no data", { x: W/2, y: H/2, "text-anchor": "middle" })); return svg as unknown as SVGElement; }
-
-      const BUCKET = 30;
+    if (!data.length) {
+      svg.appendChild(txt("no data", { x: W / 2, y: H / 2, "text-anchor": "middle" }));
+      return svg as unknown as SVGElement;
+    }
+    const BUCKET = 30;
     const MAX_ROWS = 10;
-    const maxV = Math.max(...data.map(d => d.v));
+    const maxV = Math.max(...data.map((d) => d.v));
     const numRows = Math.min(MAX_ROWS, Math.ceil(maxV / BUCKET));
-
-      const colW = cW / data.length;
-    const dotR = Math.min(4, colW * 0.38, cH / numRows * 0.38);
-
-      [0, 0.5, 1].forEach(r => {
+    const colW = cW / data.length;
+    const dotR = Math.min(4, colW * 0.38, (cH / numRows) * 0.38);
+    [0, 0.5, 1].forEach((r) => {
       const y = PT + r * cH;
-      svg.appendChild(el("line", { x1: PL, x2: PL+cW, y1: y, y2: y, stroke: C().grid }));
-      const vLabel = Math.round(maxV * (1 - r));
-      svg.appendChild(txt(`${vLabel}s`, { x: PL-6, y: y+4, "text-anchor": "end" }));
+      svg.appendChild(el("line", { x1: PL, x2: PL + cW, y1: y, y2: y, stroke: C().grid }));
+      svg.appendChild(
+        txt(`${Math.round(maxV * (1 - r))}s`, { x: PL - 6, y: y + 4, "text-anchor": "end" })
+      );
     });
-
     data.forEach((d, i) => {
       const cx = PL + (i + 0.5) * colW;
-      const buckets = Math.ceil(d.v / BUCKET);
-      const clampedBuckets = Math.min(buckets, MAX_ROWS);
-
+      const clampedBuckets = Math.min(Math.ceil(d.v / BUCKET), MAX_ROWS);
       for (let b = 0; b < clampedBuckets; b++) {
-              const cy = PT + cH - (b + 0.5) * (cH / numRows);
-              const ratio = d.v / maxV;
+        const cy = PT + cH - (b + 0.5) * (cH / numRows);
+        const ratio = d.v / maxV;
         const color = ratio > 0.6 ? "#ff8b92" : ratio > 0.3 ? C().close : C().latency;
         svg.appendChild(el("circle", { cx, cy, r: dotR, fill: color, opacity: 0.75 }));
       }
     });
-
-    const xOf = (i: number) => PL + (i + 0.5) * colW;
-    xLabelsTime(svg, data, xOf, H-6);
+    xLabelsTime(svg, data, (i) => PL + (i + 0.5) * colW, H - 6);
     return svg as unknown as SVGElement;
   }
 
-  function renderCharts() {
+  // ── Annotations ───────────────────────────────────────────
+  type TabId = "latency" | "session" | "heatmap" | "freshness";
+
+  const ANNOTATIONS: Record<
+    TabId,
+    { sub: string; desc: string; bullets: string[] }
+  > = {
+    latency: {
+      sub: "bar close → order send",
+      desc: "バー確定から注文送信までの時間差（秒）。値が低いほど判断と実行のラグが小さい。",
+      bullets: [
+        "均一なバーが健全な状態",
+        "突発スパイクは通信遅延を示す",
+      ],
+    },
+    session: {
+      sub: "open / close · last 12h",
+      desc: "直近12時間のopen/closeイベント。円が並んでいれば、今日もシステムが動いている。",
+      bullets: [
+        "上段：ポジション開始",
+        "下段：ポジション終了",
+        "円の大きさ = 連続イベント数",
+        "空白 = 非稼働時間帯",
+      ],
+    },
+    heatmap: {
+      sub: "events per hour · UTC",
+      desc: "日付×UTC時間帯別のイベント密度マップ。活動しやすい時間帯のパターンを把握できる。",
+      bullets: [
+        "色が濃いほど活動多",
+        "横軸：UTC時刻",
+        "縦軸：日付（新しい順）",
+      ],
+    },
+    freshness: {
+      sub: "bar data lag · dot = delay",
+      desc: "元データ（バー）の遅れ具合。ドットの高さが遅延の大きさに対応する。",
+      bullets: [
+        "低いほどデータが新鮮",
+        "赤ドット = 遅延大",
+        "5分の公開遅延を含む",
+      ],
+    },
+  };
+
+  // ── Main ──────────────────────────────────────────────────
+  function init() {
     const root = document.getElementById("charts-root");
     if (!root) return;
-    let payload: any;
-    try { payload = JSON.parse(root.dataset.payload || "{}"); } catch { return; }
 
-    const latency = payload.latency || [];
-    const session = payload.session || [];
-    const barLag  = payload.bar_lag  || [];
+    let payload: {
+      latency?: { t: string; v: number }[];
+      session?: { t: string; open: number; close: number; session: string }[];
+      bar_lag?: { t: string; v: number }[];
+    };
+    try {
+      payload = JSON.parse((root as HTMLElement).dataset.payload || "{}");
+    } catch {
+      return;
+    }
 
-    const sections = [
-      { title: "1. ORDER LATENCY",    sub: "time from bar close to order send (seconds)", el: makeLatencyChart(latency) },
-      { title: "2. SESSION ACTIVITY", sub: "open / close events · last 12h",              el: makeSessionChart(session) },
-      { title: "3. ACTIVITY HEATMAP", sub: "events per hour · UTC",                       el: makeHeatmapChart(session) },
-      { title: "4. DATA FRESHNESS",   sub: "bar data lag · dot height = delay magnitude", el: makeBarLagChart(barLag)  },
-    ];
+    const charts: Record<TabId, SVGElement> = {
+      latency:  makeLatencyChart(payload.latency  || []),
+      session:  makeSessionChart(payload.session   || []),
+      heatmap:  makeHeatmapChart(payload.session   || []),
+      freshness:makeBarLagChart(payload.bar_lag    || []),
+    };
 
-    const container = document.createElement("div");
-    container.className = "charts-container";
-    sections.forEach(s => {
-      const card = document.createElement("div");
-      card.className = "chart-card";
-      card.innerHTML = `<div class="chart-header"><span class="chart-title">${s.title}</span><span class="chart-sub">${s.sub}</span></div>`;
-      const wrap = document.createElement("div");
-      wrap.style.cssText = "width:100%;overflow:hidden;";
-      wrap.appendChild(s.el);
-      card.appendChild(wrap);
-      container.appendChild(card);
+    const display = document.getElementById("chart-display")!;
+    const subEl   = document.getElementById("chart-sub")!;
+    const descEl  = document.getElementById("chart-desc")!;
+    const bulletsEl= document.getElementById("chart-bullets")!;
+
+    function showTab(id: TabId) {
+      // Fade out
+      display.style.opacity = "0.2";
+
+      setTimeout(() => {
+        // Swap chart
+        display.innerHTML = "";
+        display.appendChild(charts[id]);
+
+        // Swap annotation
+        const ann = ANNOTATIONS[id];
+        subEl.textContent = ann.sub;
+        descEl.textContent = ann.desc;
+        bulletsEl.innerHTML = ann.bullets
+          .map(
+            (b) =>
+              `<div class="flex items-start gap-2 text-xs font-mono text-zinc-400 dark:text-poi-muted/60 leading-5">
+                <span class="shrink-0 mt-0.5 text-light-accent dark:text-poi-accent">—</span>
+                <span>${b}</span>
+              </div>`
+          )
+          .join("");
+
+        // Fade in
+        display.style.opacity = "1";
+      }, 150);
+
+      // Update tab styles
+      document.querySelectorAll<HTMLButtonElement>(".chart-tab").forEach((btn) => {
+        const active = btn.dataset.tab === id;
+        btn.classList.toggle("border-light-accent",    active);
+        btn.classList.toggle("dark:border-poi-accent", active);
+        btn.classList.toggle("text-light-accent",      active);
+        btn.classList.toggle("dark:text-poi-accent",   active);
+        btn.classList.toggle("border-transparent",     !active);
+        btn.classList.toggle("text-zinc-400",          !active);
+        btn.classList.toggle("dark:text-poi-muted/60", !active);
+      });
+    }
+
+    // Wire up tab buttons
+    document.querySelectorAll<HTMLButtonElement>(".chart-tab").forEach((btn) => {
+      btn.addEventListener("click", () => showTab(btn.dataset.tab as TabId));
     });
-    root.replaceWith(container);
+
+    // Initial render — session is the proof-of-life chart
+    showTab("session");
   }
 
-  document.addEventListener("DOMContentLoaded", renderCharts);
+  document.addEventListener("DOMContentLoaded", init);
 </script>
 
 <style>
-  :global(.charts-container) { display: flex; flex-direction: column; gap: 2rem; }
-  :global(.chart-card) { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-left: 2px solid rgba(93,228,199,0.35); border-radius: 6px; padding: 1.25rem 1.25rem 0.75rem; }
-  :global(html:not(.dark) .chart-card) { background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.08); border-left: 2px solid rgba(208,103,157,0.5); }
-  :global(.chart-header) { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 0.75rem; }
-  :global(.chart-title) { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; color: #e4f0fb; font-family: "Fira Code", monospace; }
-  :global(html:not(.dark) .chart-title) { color: #1b1e28; }
-  :global(.chart-sub) { font-size: 0.7rem; color: rgba(255,255,255,0.45); font-family: "Fira Code", monospace; }
-  :global(html:not(.dark) .chart-sub) { color: rgba(0,0,0,0.45); }
+  #chart-display {
+    transition: opacity 0.15s ease;
+  }
 </style>

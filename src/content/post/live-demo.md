@@ -3,10 +3,11 @@ title: "Building a live demo from scratch"
 description: "自動売買パイプラインのデータをフロントに接続し、外から見える形にした記録"
 publishDate: "08 Mar 2026"
 tags: ["astro", "cloudflare", "dashboard"]
-pinned: true
+pinned: false
 image: "/images/posts/202603/live-status.webp"
 imageAlt: "ライブ・デモページの構成図"
 icon: "chart-candlestick"
+aiDrafted: true
 ---
 
 <div class="zoomable-wrap">

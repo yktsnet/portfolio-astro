@@ -1,7 +1,7 @@
 ---
 import StatusCharts from "./StatusCharts.astro";
 import type { StatusPayload } from "../../lib/status";
-import { formatUpdatedAt, relativeTime } from "../../lib/status";
+import { formatUpdatedAt } from "../../lib/status";
 
 interface Props {
   data: StatusPayload | null;
@@ -9,114 +9,115 @@ interface Props {
 }
 
 const { data, error } = Astro.props;
-
 const updatedStatic = data ? formatUpdatedAt(data.updated_at) : null;
 ---
 
-<section>
-  <!-- Header -->
-  <div class="mb-10">
-    <p class="mb-2 font-mono text-xs tracking-widest text-poi-accent dark:text-poi-accent uppercase">
-      Live System Metrics
-    </p>
-    <h1 class="mb-3 text-2xl font-bold text-zinc-900 dark:text-poi-focus">Live Demo</h1>
-    <p class="text-sm text-zinc-500 dark:text-poi-muted">
-    </p>
-    {data && (
-      <p class="mt-2 font-mono text-xs text-zinc-400 dark:text-poi-muted/60">
-        <span id="updated-static">{updatedStatic}</span>
-        <span class="mx-1 opacity-40">·</span>
-        <span id="updated-relative" data-ts={data.updated_at}>—</span>
-      </p>
-    )}
+<!-- ===== Hero ===== -->
+<section class="mb-16">
+  <p class="font-mono text-xs tracking-widest text-light-accent dark:text-poi-accent uppercase mb-3">
+    運用基盤 · 可視化
+  </p>
+  <div class="flex items-baseline gap-3 mb-4">
+    <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900 dark:text-poi-focus">
+      Live Demo
+    </h1>
+    <span class="inline-flex items-center gap-1.5 font-mono text-xs text-emerald-500 dark:text-emerald-400">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block"></span>
+      LIVE
+    </span>
   </div>
+  <p class="font-sans text-base leading-8 text-zinc-600 dark:text-poi-muted max-w-xl mb-4">
+    Hetzner VPS で今も稼働中の自動売買パイプライン。ログを Cloudflare KV 経由で集約し、
+    5分ディレイで公開している。チャートに円が並んでいれば、今日もシステムは動いている。
+  </p>
 
-  <!-- Error state -->
+  {data && (
+    <p class="font-mono text-xs text-zinc-400 dark:text-poi-muted/60 mb-4">
+      <span>{updatedStatic}</span>
+      <span class="mx-1 opacity-40">·</span>
+      <span id="updated-relative" data-ts={data.updated_at}>—</span>
+    </p>
+  )}
+
   {error && (
-    <p class="mb-8 font-mono text-xs text-zinc-400 dark:text-poi-muted/50">
-      <span class="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-red-400 align-middle"></span>
-      data unavailable
+    <p class="font-mono text-xs flex items-center gap-2 mb-4 text-zinc-400 dark:text-poi-muted/50">
+      <span class="w-1.5 h-1.5 rounded-full bg-red-400 inline-block"></span>
+      data unavailable · Active Mon–Fri
     </p>
   )}
 
-  {!data && !error && (
-    <p class="mb-8 font-mono text-xs text-zinc-400 dark:text-poi-muted/50">
-      <span class="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-zinc-400 align-middle"></span>
-      no data yet
-    </p>
-  )}
-
-  <!-- Charts -->
-  {data && <StatusCharts payload={JSON.stringify(data)} />}
-
-  <!-- Footer -->
-  <div class="mt-12 border-t border-zinc-200 pt-6 dark:border-zinc-700/40">
-  <div class="space-y-6">
-    <h2 class="font-mono text-lg text-zinc-900 dark:text-poi-focus">How to Read This Page</h2>
-
-    <div class="grid gap-3 sm:grid-cols-2">
-      <div class="rounded-md border border-zinc-200/80 bg-zinc-50/80 p-4 dark:border-zinc-700/50 dark:bg-zinc-900/40">
-        <h3 class="font-mono text-sm text-zinc-900 dark:text-poi-focus">1. Order Latency</h3>
-        <p class="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-poi-muted">
-          バー確定から注文送信までの時間差です。判断から実行までの反応速度を見ています。
-        </p>
-      </div>
-
-      <div class="rounded-md border border-zinc-200/80 bg-zinc-50/80 p-4 dark:border-zinc-700/50 dark:bg-zinc-900/40">
-        <h3 class="font-mono text-sm text-zinc-900 dark:text-poi-focus">2. Session Activity</h3>
-        <p class="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-poi-muted">
-          直近12時間の open / close イベントの流れです。セッション全体の動き方を見ます。
-        </p>
-      </div>
-
-      <div class="rounded-md border border-zinc-200/80 bg-zinc-50/80 p-4 dark:border-zinc-700/50 dark:bg-zinc-900/40">
-        <h3 class="font-mono text-sm text-zinc-900 dark:text-poi-focus">3. Activity Heatmap</h3>
-        <p class="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-poi-muted">
-          日付と時刻ごとのイベント密度です。どの時間帯に動きやすいかを見ます。
-        </p>
-      </div>
-
-      <div class="rounded-md border border-zinc-200/80 bg-zinc-50/80 p-4 dark:border-zinc-700/50 dark:bg-zinc-900/40">
-        <h3 class="font-mono text-sm text-zinc-900 dark:text-poi-focus">4. Data Freshness</h3>
-        <p class="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-poi-muted">
-          元データの遅れ具合です。表示内容がどれだけ新しいかを確認できます。
-        </p>
-      </div>
-    </div>
-
-    <div class="space-y-2 text-sm leading-relaxed text-zinc-600 dark:text-poi-muted">
-      <p>
-        各チャートは個人で運用しているパイプラインのデータを反映しています。機密性のある値は除外し、5分の遅延を挟んで公開しています。
-      </p>
-      <p class="font-mono text-xs text-zinc-400 dark:text-poi-muted/60">
-        Active Mon–Fri
-      </p>
-    </div>
-
-    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-zinc-400 dark:text-poi-muted/60">
-      <a
-        href="/posts/live-demo/"
-        class="text-light-accent dark:text-poi-accent hover:underline"
-      >
-        background article
-      </a>
-      <span class="opacity-40">&middot;</span>
-      <a
-        href="https://github.com/yktsnet/portfolio-astro"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-light-accent dark:text-poi-accent hover:underline"
-      >
-        source code
-      </a>
-    </div>
+  <div class="flex flex-wrap gap-2">
+    {["Cloudflare KV", "Astro SSR", "Hono", "NixOS", "Python", "SVG"].map((tag) => (
+      <span class="font-mono text-xs px-2.5 py-1 rounded-full border border-zinc-300 dark:border-poi-border text-zinc-500 dark:text-poi-muted">
+        {tag}
+      </span>
+    ))}
   </div>
-</div>
+</section>
+
+<!-- ===== Charts ===== -->
+<section class="mb-16">
+  {data ? (
+    <StatusCharts payload={JSON.stringify(data)} />
+  ) : (
+    <div class="rounded-xl border border-zinc-200 dark:border-poi-border bg-white dark:bg-poi-panel p-12 text-center">
+      <p class="font-mono text-sm text-zinc-400 dark:text-poi-muted/60">
+        {error ? "データを取得できませんでした" : "データがありません"}
+      </p>
+      <p class="font-mono text-xs text-zinc-300 dark:text-poi-muted/40 mt-2">Active Mon–Fri</p>
+    </div>
+  )}
+</section>
+
+<!-- ===== Architecture ===== -->
+<section class="mb-16">
+  <h2 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus mb-6">Architecture</h2>
+  <div class="font-mono text-xs text-zinc-400 dark:text-poi-muted/60 leading-6 whitespace-pre overflow-x-auto rounded-lg bg-zinc-950 px-5 py-4 border border-zinc-800 dark:border-poi-border">
+<code>het (Hetzner VPS · NixOS · systemd timer)
+  └─ status_metrics_push.py ──→ Cloudflare KV
+                                       │
+                              Astro SSR (Cloudflare Pages)
+                                  ├─ /api/status  (Hono)
+                                  └─ /live-demo   (this page)</code>
+  </div>
+  <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
+    {[
+      { layer: "Source", tech: "Python script",  sub: "Hetzner · NixOS"  },
+      { layer: "Store",  tech: "Cloudflare KV",  sub: "status:latest"    },
+      { layer: "API",    tech: "Hono",            sub: "/api/status"      },
+      { layer: "Render", tech: "Astro SSR",       sub: "SVG · no deps"    },
+    ].map((item) => (
+      <div class="rounded-lg border border-zinc-200 dark:border-poi-border bg-white dark:bg-poi-panel p-4">
+        <p class="font-mono text-xs text-light-accent dark:text-poi-accent mb-1">{item.layer}</p>
+        <p class="font-mono text-sm text-zinc-900 dark:text-poi-focus leading-snug">{item.tech}</p>
+        <p class="font-mono text-xs text-zinc-400 dark:text-poi-muted/70 mt-0.5">{item.sub}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- ===== Links ===== -->
+<section class="border-t border-zinc-200 dark:border-zinc-700/40 pt-10">
+  <div class="flex flex-wrap gap-6 font-mono text-sm">
+    <a
+      href="/posts/live-demo/"
+      class="text-light-accent dark:text-poi-accent hover:underline underline-offset-2"
+    >
+      制作記事 →
+    </a>
+    <a
+      href="https://github.com/yktsnet/portfolio-astro"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-zinc-400 dark:text-poi-muted hover:text-zinc-700 dark:hover:text-poi-focus underline underline-offset-2"
+    >
+      GitHub
+    </a>
+  </div>
 </section>
 
 <script>
   import { relativeTime } from "../../lib/status";
-
   function updateRelative() {
     const el = document.getElementById("updated-relative");
     if (!el) return;
@@ -124,7 +125,6 @@ const updatedStatic = data ? formatUpdatedAt(data.updated_at) : null;
     if (!ts) return;
     el.textContent = relativeTime(ts);
   }
-
   document.addEventListener("DOMContentLoaded", () => {
     updateRelative();
     setInterval(updateRelative, 30_000);

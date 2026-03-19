@@ -1,0 +1,307 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+export const prerender = true;
+---
+
+<MainLayout
+  title="Cat Feed Tracker"
+  description="Pico W のリードスイッチで給餌を自動検知し、LINE で家族に通知する IoT システム。"
+>
+
+  <!-- ===== Hero ===== -->
+  <section class="mb-16">
+    <p class="font-mono text-xs tracking-widest text-light-accent dark:text-poi-accent uppercase mb-3">
+      IoT · プロダクト
+    </p>
+    <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900 dark:text-poi-focus mb-4">
+      Cat Feed Tracker
+    </h1>
+    <p class="font-sans text-base leading-8 text-zinc-600 dark:text-poi-muted max-w-xl mb-6">
+      猫の給餌棚にリードスイッチを取り付け、棚を開けるだけで給餌を自動記録。
+      LINE で家族全員に通知・照会・設定変更まで完結する家庭向け IoT システム。
+    </p>
+    <div class="flex flex-wrap gap-2">
+      {["Pico W", "MicroPython", "FastAPI", "PostgreSQL", "LINE API", "NixOS"].map(tag => (
+        <span class="inline-block font-mono text-xs px-2.5 py-1 rounded-full border border-zinc-300 dark:border-poi-border text-zinc-500 dark:text-poi-muted">
+          {tag}
+        </span>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== Demo ===== -->
+  <section class="mb-16">
+    <h2 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus mb-2">Demo</h2>
+    <p class="font-sans text-sm text-zinc-500 dark:text-poi-muted mb-8">
+      ボタンをタップすると、LINE に届くメッセージのプレビューを確認できます。
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-8 sm:gap-12 items-start">
+
+      <!-- Phone mock -->
+      <div class="shrink-0 mx-auto sm:mx-0">
+        <div class="relative w-64" id="phone-mock">
+          <!-- Phone shell -->
+          <div class="rounded-[2.5rem] border-2 border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 shadow-xl overflow-hidden"
+               style="box-shadow: 0 0 0 6px #e4e4e7, 0 20px 60px rgba(0,0,0,.25);"
+               id="phone-shell-outer">
+            <!-- Status bar -->
+            <div class="flex items-center justify-between px-5 pt-3 pb-1 bg-[#06C755]">
+              <span class="font-mono text-[10px] text-white/90">9:41</span>
+              <div class="w-16 h-4 rounded-full bg-black/20 mx-auto absolute left-1/2 -translate-x-1/2 top-2" style="width:3rem;height:0.7rem;border-radius:99px;background:rgba(0,0,0,.25);"></div>
+              <span class="font-mono text-[10px] text-white/90">●●●</span>
+            </div>
+            <!-- LINE header -->
+            <div class="flex items-center gap-2 px-4 py-3 bg-[#06C755]">
+              <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-lg leading-none">
+                🐱
+              </div>
+              <div>
+                <p class="text-white text-sm font-semibold leading-tight">ネコ給餌</p>
+                <p class="text-white/70 text-[10px]">家族グループ</p>
+              </div>
+            </div>
+
+            <!-- Chat area -->
+            <div class="bg-[#87ceeb]/20 dark:bg-zinc-800 min-h-[280px] px-3 py-4 relative" id="chat-area">
+              <!-- Timestamp -->
+              <p class="text-center text-[10px] text-zinc-400 dark:text-zinc-500 mb-3 font-mono">今日 12:00</p>
+
+              <!-- Bot message bubble -->
+              <div class="flex gap-2 items-end mb-2" id="msg-bubble">
+                <div class="w-7 h-7 rounded-full bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 flex items-center justify-center text-sm leading-none shrink-0">
+                  🤖
+                </div>
+                <div class="max-w-[170px] rounded-2xl rounded-bl-sm bg-white dark:bg-zinc-700 border border-zinc-100 dark:border-zinc-600 px-3 py-2.5 shadow-sm">
+                  <pre id="msg-text" class="text-[11px] leading-[1.7] text-zinc-700 dark:text-zinc-200 font-mono whitespace-pre-wrap break-words" style="font-family: 'Fira Code', monospace;">🐱 給餌まとめ（〜12:00）
+
+08:32
+10:15  +1時間43分
+─────────
+本日計2回</pre>
+                </div>
+              </div>
+
+              <!-- Typing indicator -->
+              <div class="flex gap-1.5 ml-9 mt-1 opacity-0 transition-opacity duration-300" id="typing-dots">
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce" style="animation-delay:0ms"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce" style="animation-delay:150ms"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce" style="animation-delay:300ms"></span>
+              </div>
+            </div>
+
+            <!-- Rich menu -->
+            <div class="grid grid-cols-3 border-t border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800">
+              {[
+                { id: "today",   label: "今日の記録", icon: "📋" },
+                { id: "average", label: "平均",       icon: "📊" },
+                { id: "settings",label: "設定",       icon: "⚙️"  },
+              ].map((btn, i) => (
+                <button
+                  data-msg-id={btn.id}
+                  class={[
+                    "rich-menu-btn flex flex-col items-center justify-center gap-0.5 py-3 text-[10px] font-mono transition-colors",
+                    "text-zinc-500 dark:text-zinc-400 hover:bg-[#06C755]/10 dark:hover:bg-[#06C755]/20 active:bg-[#06C755]/20",
+                    i < 2 ? "border-r border-zinc-200 dark:border-zinc-700" : "",
+                  ].join(" ")}
+                >
+                  <span class="text-lg leading-none">{btn.icon}</span>
+                  <span>{btn.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <!-- Reflection overlay -->
+          <div class="absolute inset-0 rounded-[2.5rem] pointer-events-none"
+               style="background: linear-gradient(135deg, rgba(255,255,255,.07) 0%, transparent 50%);">
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature annotations -->
+      <div class="flex-1 space-y-5 pt-2">
+        <div id="feature-panel" class="space-y-5">
+
+          <!-- Default: scheduled notify -->
+          <div data-panel="today" class="hidden feature-panel-item">
+            <h3 class="font-mono text-sm text-zinc-900 dark:text-poi-focus mb-1">今日の記録</h3>
+            <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+              当日0時JST〜現在までの全給餌ログを一覧表示。
+              時刻と直前給餌からの経過時間を並べて表示します。
+            </p>
+          </div>
+          <div data-panel="average" class="hidden feature-panel-item">
+            <h3 class="font-mono text-sm text-zinc-900 dark:text-poi-focus mb-1">週・月平均</h3>
+            <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+              直近4週の週別集計と直近3ヶ月の月別平均を返します。
+              給餌ペースの変化を手軽に把握できます。
+            </p>
+          </div>
+          <div data-panel="settings" class="hidden feature-panel-item">
+            <h3 class="font-mono text-sm text-zinc-900 dark:text-poi-focus mb-1">設定変更</h3>
+            <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+              通知ON/OFFや1日の上限回数をLINEから直接変更できます。
+              会話形式なのでアプリ不要です。
+            </p>
+          </div>
+          <div data-panel="default" class="feature-panel-item">
+            <h3 class="font-mono text-sm text-zinc-900 dark:text-poi-focus mb-1">定時まとめ通知</h3>
+            <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+              12:00・18:00 JSTに自動でまとめを送信。時刻と経過時間を表示し、
+              スロットをまたぐ場合は区切り線で整理されます。
+            </p>
+          </div>
+
+          <!-- Always-visible feature pills -->
+          <div class="pt-2 space-y-2">
+            {[
+              { icon: "⚡", text: "棚を開けるだけで自動記録。スマホ操作ゼロ。" },
+              { icon: "🔁", text: "デバウンス200ms・クールダウン100sをエッジ側で処理。" },
+              { icon: "⚠️", text: "上限超過アラートは当日1回のみ発火。" },
+            ].map(item => (
+              <div class="flex items-start gap-2.5 text-sm font-sans text-zinc-600 dark:text-poi-muted leading-6">
+                <span class="shrink-0 mt-0.5">{item.icon}</span>
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Architecture ===== -->
+  <section class="mb-16">
+    <h2 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus mb-6">Architecture</h2>
+    <div class="mt-6 font-mono text-xs text-zinc-400 dark:text-poi-muted/60 leading-6 whitespace-pre overflow-x-auto rounded-lg bg-zinc-950 dark:bg-poi-panel/80 px-5 py-4 border border-zinc-800 dark:border-poi-border">
+<code>[Pico W]
+  Reed switch on GP14 (PULL_UP)
+  CLOSED→OPEN + debounce 200ms + cooldown 100s
+  → HTTPS POST /api/events (Bearer token)
+
+[Hetzner VPS — NixOS / systemd]
+  Nginx (reverse proxy)
+  FastAPI :8001
+  ├── POST /api/events       # event ingestion
+  ├── POST /api/webhook/line # LINE webhook
+  └── GET  /healthz
+  PostgreSQL 16
+
+[LINE Messaging API]
+  APScheduler: 12:00 / 18:00 JST
+  Rich menu: 今日の記録 / 平均 / 設定</code>
+    </div>
+  </section>
+
+  <!-- ===== Stack ===== -->
+  <section class="mb-16">
+    <h2 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus mb-6">Stack</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      {[
+        { layer: "Edge",    tech: "Raspberry Pi Pico W",  sub: "MicroPython" },
+        { layer: "Server",  tech: "FastAPI + APScheduler", sub: "Python 3.11" },
+        { layer: "DB",      tech: "PostgreSQL 16",         sub: "VPS (Hetzner)" },
+        { layer: "Notify",  tech: "LINE Messaging API",    sub: "Webhook + Push" },
+        { layer: "Infra",   tech: "NixOS / systemd",       sub: "Nginx + Cloudflare" },
+        { layer: "Protocol","tech": "HTTPS Bearer token",  sub: "Edge → Server" },
+      ].map(item => (
+        <div class="rounded-lg border border-zinc-200 dark:border-poi-border bg-white dark:bg-poi-panel p-4">
+          <p class="font-mono text-xs text-light-accent dark:text-poi-accent mb-1">{item.layer}</p>
+          <p class="font-mono text-sm text-zinc-900 dark:text-poi-focus leading-snug">{item.tech}</p>
+          <p class="font-mono text-xs text-zinc-400 dark:text-poi-muted/70 mt-0.5">{item.sub}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== Links ===== -->
+  <section class="border-t border-zinc-200 dark:border-zinc-700/40 pt-10">
+    <div class="flex flex-wrap gap-6 font-mono text-sm">
+      <a
+        href="https://github.com/yktsnet/cat-feed-tracker"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-light-accent dark:text-poi-accent hover:underline underline-offset-2 flex items-center gap-1.5"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+        </svg>
+        GitHub
+      </a>
+      <a
+        href="/posts/cat-feed-tracker"
+        class="text-zinc-400 dark:text-poi-muted hover:text-zinc-700 dark:hover:text-poi-focus underline underline-offset-2"
+      >
+        関連記事 →
+      </a>
+    </div>
+  </section>
+
+</MainLayout>
+
+<script>
+  // LINE mock message content
+  const messages: Record<string, string> = {
+    default: "🐱 給餌まとめ（〜12:00）\n\n08:32\n10:15  +1時間43分\n─────────\n本日計2回",
+    today:   "🐱 今日の記録\n\n08:32\n10:15  +1時間43分\n11:50  +1時間35分\n14:22  +2時間32分\n\n本日計4回",
+    average: "🐱 給餌平均\n\n週平均（直近4週）\n 03/03〜03/10  21回\n 02/24〜03/03  19回\n 02/17〜02/24  22回\n 02/10〜02/17  20回\n\n月平均（直近3ヶ月）\n 2026/03  2.2回/日\n 2026/02  2.0回/日\n 2026/01  2.1回/日",
+    settings:"🐱 設定\n\n通知：ON\n上限アラート：15回\n\n変更するには以下を送信：\n・「通知オフ」または「通知オン」\n・「上限変更」",
+  };
+
+  const msgText    = document.getElementById("msg-text")!;
+  const typingDots = document.getElementById("typing-dots")!;
+  const buttons    = document.querySelectorAll<HTMLButtonElement>(".rich-menu-btn");
+
+  function showMessage(id: string) {
+    // Show typing indicator
+    typingDots.style.opacity = "1";
+    msgText.style.opacity = "0.3";
+
+    setTimeout(() => {
+      typingDots.style.opacity = "0";
+      msgText.textContent = messages[id] ?? messages.default;
+      msgText.style.opacity = "1";
+      msgText.style.transition = "opacity .2s";
+    }, 700);
+
+    // Update annotation panel
+    document.querySelectorAll<HTMLElement>(".feature-panel-item").forEach(el => {
+      el.classList.add("hidden");
+    });
+    const target = document.querySelector<HTMLElement>(`[data-panel="${id}"]`);
+    if (target) {
+      target.classList.remove("hidden");
+    } else {
+      document.querySelector<HTMLElement>('[data-panel="default"]')!.classList.remove("hidden");
+    }
+
+    // Highlight active button
+    buttons.forEach(btn => {
+      btn.classList.toggle("bg-[#06C755]/10", btn.dataset.msgId === id);
+      btn.classList.toggle("dark:bg-[#06C755]/20", btn.dataset.msgId === id);
+    });
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      showMessage(btn.dataset.msgId ?? "default");
+    });
+  });
+
+  // Animate in on load
+  setTimeout(() => { showMessage("default"); }, 300);
+</script>
+
+<style>
+  #msg-text {
+    transition: opacity .2s ease;
+  }
+  #typing-dots {
+    transition: opacity .2s ease;
+  }
+  /* Ensure dark mode phone shell looks right */
+  html.dark #phone-shell-outer {
+    box-shadow: 0 0 0 6px #303446, 0 20px 60px rgba(0,0,0,.5) !important;
+  }
+</style>
