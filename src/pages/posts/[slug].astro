@@ -1,17 +1,19 @@
 ---
 import { render, getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import Masthead from "../../components/blog/Masthead.astro";
 import MainLayout from "../../layouts/MainLayout.astro";
 
-const { slug } = Astro.params;
-
-const allPosts = await getCollection("post");
-const post = allPosts.find((p) => p.id === slug);
-
-if (!post) {
-  return Astro.redirect("/404");
+export async function getStaticPaths() {
+  const posts = await getCollection("post");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
 }
 
+type Props = { post: CollectionEntry<"post"> };
+const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
@@ -45,7 +47,6 @@ const { Content } = await render(post);
       <Content />
     </div>
   </article>
-
   <button
     class="fixed end-4 bottom-8 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-light-accent dark:hover:border-poi-accent sm:end-8 sm:h-12 sm:w-12"
     id="to-top-btn"

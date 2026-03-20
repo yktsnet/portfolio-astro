@@ -5,7 +5,7 @@ import react from '@astrojs/react';
 
 export default defineConfig({
   site: 'https://ykts.net',
-  output: 'server',
+  output: 'static',
   adapter: cloudflare({
     mode: 'directory',
     imageService: 'compile'

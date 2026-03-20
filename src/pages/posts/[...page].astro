@@ -10,6 +10,19 @@ const MAX_POSTS_PER_PAGE = 10;
 const MAX_TAGS = 7;
 const MAX_PINNED_POSTS = 3;
 
+export async function getStaticPaths() {
+  const MAX_POSTS_PER_PAGE = 10;
+  const { getAllPosts } = await import("../../data/post");
+  const allPosts = await getAllPosts();
+  const totalPages = Math.ceil(allPosts.length / MAX_POSTS_PER_PAGE);
+  return [
+    { params: { page: undefined } },
+    ...Array.from({ length: totalPages - 1 }, (_, i) => ({
+      params: { page: String(i + 2) },
+    })),
+  ];
+}
+
 const currentPage = Number(Astro.params.page) || 1;
 
 const allPosts = await getAllPosts();

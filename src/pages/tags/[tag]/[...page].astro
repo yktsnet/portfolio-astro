@@ -2,13 +2,33 @@
 import { render } from "astro:content";
 import PostPreview from "../../../components/blog/PostPreview.astro";
 import Pagination from "../../../components/Paginator.astro";
-import { getAllPosts, getTagMeta } from "../../../data/post";
+import { getAllPosts, getTagMeta, getUniqueTags } from "../../../data/post";
 import MainLayout from "../../../layouts/MainLayout.astro";
 import { collectionDateSort } from "../../../utils/date";
+
+const PAGE_SIZE = 10;
+
+export async function getStaticPaths() {
+  const PAGE_SIZE = 10; 
+  const { getAllPosts, getUniqueTags } = await import("../../../data/post");
+  const allPosts = await getAllPosts();
+  const tags = getUniqueTags(allPosts);
+  const paths = [];
+  for (const tag of tags) {
+    const postsWithTag = allPosts.filter((p) => p.data.tags.includes(tag));
+    const totalPages = Math.ceil(postsWithTag.length / PAGE_SIZE);
+    paths.push({ params: { tag, page: undefined } });
+    for (let i = 2; i <= totalPages; i++) {
+      paths.push({ params: { tag, page: String(i) } });
+    }
+  }
+  return paths;
+}
+
 const { tag, page: pageParam } = Astro.params;
 if (!tag) return Astro.redirect("/tags/");
 const currentPage = Number(pageParam) || 1;
-const PAGE_SIZE = 10;
+
 const allPosts = await getAllPosts();
 const sortedPosts = allPosts.sort(collectionDateSort);
 const postsWithTag = sortedPosts.filter((post) => post.data.tags.includes(tag));
@@ -18,6 +38,7 @@ const start = (currentPage - 1) * PAGE_SIZE;
 const paginatedPosts = postsWithTag.slice(start, start + PAGE_SIZE);
 const tagMeta = await getTagMeta(tag);
 const TagContent = tagMeta ? (await render(tagMeta)).Content : null;
+
 const paginationProps = {
   ...(currentPage > 1 && {
     prevUrl: {
