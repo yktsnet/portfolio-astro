@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import Logo from '../../layouts/Logo.astro';
+import { works } from '../../data/works';
 ---
 
 <MainLayout title="Works" description="実際に作ったものをまとめています。">
@@ -12,68 +13,45 @@ import Logo from '../../layouts/Logo.astro';
   </section>
 
   <section class="mt-12 space-y-6">
-
-    <!-- NFC Attendance System -->
-    <div class="rounded-xl border border-zinc-200 border-l-2 bg-white p-6 transition-colors hover:border-zinc-300 dark:border-poi-border dark:bg-poi-panel dark:hover:border-zinc-600"
-         style="border-left-color: #5de4c7;">
-      <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-mono"
-            style="background: #5de4c715; color: #5de4c7;">現場 · 業務自動化</span>
-      <h2 class="mt-3 text-lg font-semibold text-zinc-900 dark:text-poi-focus">
-        NFC Attendance System
-      </h2>
-      <p class="mt-2 font-sans text-sm leading-7 text-zinc-700 dark:text-poi-focus/90">
-        Sony RC-S300 と Raspberry Pi 2 で作った勤怠管理。カードをかざすだけで記録が完結し、Google スプレッドシートへ自動同期。マンション管理事業者に導入・運用中。
-      </p>
-      <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm">
-        <a class="hover:underline underline-offset-2" style="color: #5de4c7;" href="/nfc-attendance/">Demo →</a>
-        <a class="hover:underline underline-offset-2" style="color: #5de4c7;" href="/posts/nfc-attendance-system/">制作記事</a>
-        <a class="hover:underline underline-offset-2" style="color: #5de4c7;" href="https://github.com/yktsnet/nfc-attendance-kit" target="_blank" rel="noopener noreferrer">GitHub</a>
+    {works.map((work) => (
+      <div
+        class="rounded-xl border border-zinc-200 border-l-2 bg-white p-6 transition-colors hover:border-zinc-300 dark:border-poi-border dark:bg-poi-panel dark:hover:border-zinc-600"
+        style={`border-left-color: ${work.color};`}
+      >
+        <span
+          class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-mono"
+          style={`background: ${work.color}15; color: ${work.color};`}
+        >
+          {work.tag}
+        </span>
+        <h2 class="mt-3 text-lg font-semibold text-zinc-900 dark:text-poi-focus">
+          {work.title}
+        </h2>
+        <p class="mt-2 font-sans text-sm leading-7 text-zinc-700 dark:text-poi-focus/90">
+          {work.description}
+        </p>
+        <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm">
+          {work.links.map((link) => (
+            <a
+              class="hover:underline underline-offset-2"
+              style={`color: ${work.color};`}
+              href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
       </div>
-    </div>
-
-    <!-- cat-feed-tracker -->
-    <div class="rounded-xl border border-zinc-200 border-l-2 bg-white p-6 transition-colors hover:border-zinc-300 dark:border-poi-border dark:bg-poi-panel dark:hover:border-zinc-600"
-         style="border-left-color: #addb67;">
-      <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-mono"
-            style="background: #addb6715; color: #addb67;">IoT · プロダクト</span>
-      <h2 class="mt-3 text-lg font-semibold text-zinc-900 dark:text-poi-focus">
-        Cat Feed Tracker
-      </h2>
-      <p class="mt-2 font-sans text-sm leading-7 text-zinc-700 dark:text-poi-focus/90">
-        Pico W のリードスイッチで給餌棚の開閉を検知し、FastAPI + PostgreSQL で記録。LINE で家族に定時通知・照会・設定変更ができる家庭向け IoT システム。
-      </p>
-      <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm">
-        <a class="hover:underline underline-offset-2" style="color: #addb67;" href="/cat-feed-tracker/">Demo →</a>
-        <a class="hover:underline underline-offset-2" style="color: #addb67;" href="/posts/cat-feed-tracker/">制作記事</a>
-        <a class="hover:underline underline-offset-2" style="color: #addb67;" href="https://github.com/yktsnet/cat-feed-tracker" target="_blank" rel="noopener noreferrer">GitHub</a>
-      </div>
-    </div>
-
-    <!-- Live Demo (Trading System) -->
-    <div class="rounded-xl border border-zinc-200 border-l-2 bg-white p-6 transition-colors hover:border-zinc-300 dark:border-poi-border dark:bg-poi-panel dark:hover:border-zinc-600"
-         style="border-left-color: #89ddff;">
-      <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-mono"
-            style="background: #89ddff15; color: #89ddff;">運用基盤 · 可視化</span>
-      <h2 class="mt-3 text-lg font-semibold text-zinc-900 dark:text-poi-focus">
-        Live Demo (Trading System)
-      </h2>
-      <p class="mt-2 font-sans text-sm leading-7 text-zinc-700 dark:text-poi-focus/90">
-        自動売買パイプラインのログを Cloudflare KV 経由で集約し、Astro SSR でリアルタイムに表示。稼働中バックエンドの状態を外部に見せる可視化基盤。
-      </p>
-      <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm">
-        <a class="hover:underline underline-offset-2" style="color: #89ddff;" href="/live-demo/">Live Demo →</a>
-        <a class="hover:underline underline-offset-2" style="color: #89ddff;" href="/posts/live-demo/">制作記事</a>
-        <a class="hover:underline underline-offset-2" style="color: #89ddff;" href="https://github.com/yktsnet/portfolio-astro" target="_blank" rel="noopener noreferrer">GitHub</a>
-      </div>
-    </div>
-
+    ))}
   </section>
 
   <!-- このサイトについて -->
   <section class="mt-16 border-t border-zinc-200 pt-10 dark:border-zinc-700/40">
     <h2 class="text-sm font-mono text-zinc-500 dark:text-zinc-400">このサイトについて</h2>
     <p class="mt-3 font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-      Astro SSR + Cloudflare Pages で構築したポートフォリオ兼技術ブログ。ロゴは純粋な SVG パスで記述した独自デザイン。3 本の曲線が中心を共有しながら干渉しない構造は「人間を中心に置きながらシステムが自律して動く」という設計思想を座標データとして直接表現しています。
+      Astro + Cloudflare Pages で構築したポートフォリオ兼技術ブログ。ロゴは純粋な SVG パスで記述した独自デザイン。3 本の曲線が中心を共有しながら干渉しない構造は「人間を中心に置きながらシステムが自律して動く」という設計思想を座標データとして直接表現しています。
     </p>
     <div class="mt-6 flex flex-col gap-6 sm:flex-row sm:items-stretch">
       <div class="flex items-center justify-center rounded-xl bg-zinc-100/50 p-8 dark:bg-zinc-900/30 sm:basis-1/4 group/logo">

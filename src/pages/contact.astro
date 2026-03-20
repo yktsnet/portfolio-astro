@@ -1,10 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import ContactForm from '../components/ContactForm.astro';
 ---
-
 <MainLayout title="Contact" description="お問い合わせ・各種リンク">
-  <section>
     <h1 class="mb-8 text-2xl font-bold text-zinc-900 dark:text-poi-focus">Contact</h1>
 
     <p class="font-sans text-base leading-8 text-zinc-700 dark:text-poi-focus/90">
@@ -127,6 +124,12 @@ import ContactForm from '../components/ContactForm.astro';
           class="w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-800/50 px-3 py-2 text-sm text-zinc-900 dark:text-poi-focus placeholder-zinc-400 dark:placeholder-zinc-500 focus:border-light-accent dark:focus:border-poi-accent focus:outline-none transition-colors resize-y"
         ></textarea>
       </div>
+      <!-- Cloudflare Turnstile -->
+      <div
+        class="cf-turnstile"
+        data-sitekey="0x4AAAAAACtlG-abZy2cvpsN"
+        data-theme="auto"
+      ></div>
 
       <button
         type="submit"
@@ -139,6 +142,10 @@ import ContactForm from '../components/ContactForm.astro';
     </form>
   </section>
 </MainLayout>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script is:inline>
 
 <script is:inline>
   document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
