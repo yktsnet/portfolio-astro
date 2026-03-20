@@ -8,7 +8,7 @@ The focus is on documenting *why* systems are designed a certain way, and connec
 
 ## Selected Works
 
-- **[NFC Attendance System](https://github.com/yktsnet/nfc-attendance-kit)** — Sony RC-S300 + Raspberry Pi 2 による勤怠管理。Python · GAS · Discord Webhook
+- **[NFC Attendance System](https://ykts.net/nfc-attendance)** — Sony RC-S300 + Raspberry Pi 2 による勤怠管理。Python · GAS · Discord Webhook
 - **[Live Demo (Trading System)](https://ykts.net/live-demo/)** — 自動売買パイプラインのライブメトリクス。Cloudflare KV + Astro + SVG charts
 - **[Cat Feed Tracker](https://ykts.net/posts/cat-feed-tracker/)** — Pico W を起点にした給餌記録システム。FastAPI · PostgreSQL · LINE Messaging API · NixOS
 
