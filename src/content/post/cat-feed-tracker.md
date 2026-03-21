@@ -1,5 +1,6 @@
 ---
 title: "Cat feeding tracker with a reed switch"
+image: "/images/posts/202603/cat-feed-tracker.webp"
 description: "餌のあげ過ぎを防ぎ、給餌記録と体重管理をつなげるために作った、猫の健康管理システムの記録。"
 publishDate: "19 Mar 2026"
 tags: ["raspberry-pi", "python", "line-api"]
