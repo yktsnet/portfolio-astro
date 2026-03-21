@@ -10,7 +10,7 @@ export const siteConfig: SiteConfig = {
       year: "numeric",
     },
   },
-  description: "human centric DX",
+  description: "Systems that disappear into the workflow.",
   lang: "ja",
   ogLocale: "ja_JP",
   title: "ykts.net",
