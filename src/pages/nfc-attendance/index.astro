@@ -18,7 +18,7 @@ export const prerender = true;
     </h1>
     <p class="font-sans text-base leading-8 text-zinc-600 dark:text-poi-muted max-w-xl mb-6">
       カードをかざすだけで打刻が完結。Raspberry Pi 2 と 100円の NFC カードで作った
-      勤怠管理システム。Google スプレッドシートへ自動同期し、給与計算まで自動化する。
+      勤怠管理システム。Google スプレッドシートへ自動同期し、給与計算まで自動化します。
     </p>
     <div class="flex flex-wrap gap-2">
       {["Raspberry Pi 2", "Python", "PCSC", "GAS", "Discord Webhook", "systemd"].map(tag => (
@@ -131,7 +131,7 @@ export const prerender = true;
               { icon: "⚡", text: "デバウンス5分。二重打刻を自動で無視。" },
               { icon: "⏱", text: "15時間タイムアウトで退勤漏れを検知。" },
               { icon: "¥",  text: "5分単位で丸め、時給から給与を自動計算。" },
-              { icon: "↻",  text: "毎日定時にGASへ同期、Sheetsが更新される。" },
+              { icon: "↻",  text: "毎日定時にGASへ同期、Sheetsが更新。" },
             ].map(item => (
               <div class="flex items-start gap-2 text-xs font-sans text-zinc-500 dark:text-poi-muted leading-5">
                 <span class="shrink-0 font-mono text-light-accent dark:text-poi-accent mt-0.5">{item.icon}</span>
