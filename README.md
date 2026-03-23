@@ -8,9 +8,9 @@ The focus is on documenting *why* systems are designed a certain way, and connec
 
 ## Selected Works
 
-- **[NFC Attendance System](https://github.com/yktsnet/nfc-attendance-kit)** — Sony RC-S300 + Raspberry Pi 2 による勤怠管理。Python · GAS · Discord Webhook
-- **[Live Demo (Trading System)](https://ykts.net/live-demo/)** — 自動売買パイプラインのライブメトリクス。Cloudflare KV + Astro + SVG charts
-- **[Cat Feed Tracker](https://ykts.net/posts/cat-feed-tracker/)** — Pico W を起点にした給餌記録システム。FastAPI · PostgreSQL · LINE Messaging API · NixOS
+- **[NFC Attendance System](https://github.com/yktsnet/nfc-attendance-kit)** — Attendance management with Sony RC-S300 + Raspberry Pi 2. Python · GAS · Discord Webhook
+- **[Live Demo (Trading System)](https://ykts.net/live-demo/)** — Live metrics for an automated trading pipeline. Cloudflare KV + Astro + SVG charts
+- **[Cat Feed Tracker](https://ykts.net/posts/cat-feed-tracker/)** — Cat feeding log system built around a Pico W. FastAPI · PostgreSQL · LINE Messaging API · NixOS
 
 → Full list: [ykts.net/works](https://ykts.net/works/)
 
@@ -49,10 +49,10 @@ Sensitive values (instrument names, lot size, P&L) are excluded. A 5-minute dela
 
 ### Cloudflare
 
-1. Cloudflare Pages でプロジェクトを作成
-2. KV namespace を作成し、`SESSION` としてバインド
-3. Wrangler config に KV バインディングを追記
-4. 上記の環境変数を Pages の設定から追加
+1. Create a project on Cloudflare Pages
+2. Create a KV namespace and bind it as `SESSION`
+3. Add the KV binding to your Wrangler config
+4. Add the environment variables above via the Pages dashboard
 
 ## Development
 ```bash
