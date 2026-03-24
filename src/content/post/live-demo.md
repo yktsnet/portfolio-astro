@@ -7,7 +7,7 @@ pinned: false
 image: "/images/posts/202603/live-status.webp"
 imageAlt: "ライブ・デモページの構成図"
 icon: "chart-candlestick"
-aiDrafted: false
+aiDrafted: true
 ---
 
 <div class="zoomable-wrap">
