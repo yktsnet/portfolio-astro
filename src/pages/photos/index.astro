@@ -14,13 +14,16 @@ type Photo = typeof validPhotos[number];
 type Section = { location: string; date: string; items: Photo[] };
 const sections: Section[] = [];
 for (const photo of validPhotos) {
-  const last = sections[sections.length - 1];
-  if (last && last.location === photo.location && last.date === photo.date) {
-    last.items.push(photo);
+  const existing = sections.find(
+    s => s.location === photo.location && s.date === photo.date
+  );
+  if (existing) {
+    existing.items.push(photo);
   } else {
     sections.push({ location: photo.location, date: photo.date, items: [photo] });
   }
 }
+sections.sort((a, b) => b.date.localeCompare(a.date));
 
 // Split a flat array into alternating rhythm chunks: [full, pair, full, pair, ...]
 // chunk pattern per 3: [1 full] [2 side-by-side]
