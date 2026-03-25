@@ -52,10 +52,8 @@ function toRhythmChunks(items: Photo[]) {
 
 <MainLayout title="Photos">
   <div class="-mx-4 sm:-mx-8">
-
     {sections.map((section) => (
       <section class="mb-20">
-
         <!-- Section header — no border -->
         <div class="flex items-center gap-3 px-4 sm:px-8 pb-4">
           <span class="font-mono text-xs text-light-accent dark:text-poi-accent tracking-wide">
@@ -112,10 +110,8 @@ function toRhythmChunks(items: Photo[]) {
             )
           )}
         </div>
-
       </section>
     ))}
-
   </div>
 
   <!-- Lightbox -->
@@ -123,6 +119,18 @@ function toRhythmChunks(items: Photo[]) {
     <img id="lightbox-img" src="" alt="" />
     <p id="lightbox-meta" class="lightbox-meta"></p>
   </div>
+
+  <!-- Back to top -->
+  <button
+    class="fixed end-4 bottom-8 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-light-accent dark:hover:border-poi-accent sm:end-8 sm:h-12 sm:w-12"
+    id="to-top-btn"
+  >
+    <span class="sr-only">Back to top</span>
+    <svg aria-hidden="true" class="h-6 w-6" fill="none" focusable="false"
+      stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M4.5 15.75l7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
 </MainLayout>
 
 <style>
@@ -177,4 +185,13 @@ function toRhythmChunks(items: Photo[]) {
     lightbox.classList.remove("open");
     document.body.style.overflow = "";
   }
+
+  // Back to top
+  const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
+  window.addEventListener("scroll", () => {
+    const show = window.scrollY > 300;
+    scrollBtn.style.opacity = show ? "1" : "0";
+    scrollBtn.style.pointerEvents = show ? "auto" : "none";
+  });
+  scrollBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 </script>
