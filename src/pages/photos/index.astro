@@ -1,0 +1,96 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { photos } from "../../data/photos";
+---
+
+<MainLayout title="Photos">
+  <div class="-mx-4 sm:-mx-8">
+
+    <div class="flex justify-start px-1 mb-1">
+      <button
+        id="view-toggle"
+        aria-label="Toggle view mode"
+        class="p-1.5 text-zinc-400 hover:text-zinc-700 dark:hover:text-poi-focus transition-colors"
+        title="Toggle aspect ratio"
+      >
+        <!-- Lucide layout-grid icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect width="7" height="7" x="3" y="3" rx="1"/>
+          <rect width="7" height="7" x="14" y="3" rx="1"/>
+          <rect width="7" height="7" x="14" y="14" rx="1"/>
+          <rect width="7" height="7" x="3" y="14" rx="1"/>
+        </svg>
+      </button>
+    </div>
+
+    <div id="photo-grid" data-mode="square">
+      {photos.map((photo) => (
+        <div class="photo-item">
+          <img
+            src={`/images/photos/${photo.src}`}
+            alt={photo.alt ?? ""}
+            loading="lazy"
+            decoding="async"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+
+  </div>
+</MainLayout>
+
+<style>
+  /* ── Square grid (default) ── */
+  #photo-grid[data-mode="square"] {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  #photo-grid[data-mode="square"] .photo-item {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+  }
+  #photo-grid[data-mode="square"] .photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Natural ratio (columns masonry) ── */
+  #photo-grid[data-mode="natural"] {
+    display: block;
+    columns: 3;
+    column-gap: 2px;
+  }
+  #photo-grid[data-mode="natural"] .photo-item {
+    break-inside: avoid;
+    margin-bottom: 2px;
+  }
+  #photo-grid[data-mode="natural"] .photo-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @media (min-width: 640px) {
+    #photo-grid[data-mode="square"] {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    #photo-grid[data-mode="natural"] {
+      columns: 4;
+    }
+  }
+</style>
+
+<script>
+  const grid = document.getElementById("photo-grid");
+  const btn = document.getElementById("view-toggle");
+
+  btn?.addEventListener("click", () => {
+    const next = grid?.getAttribute("data-mode") === "square" ? "natural" : "square";
+    grid?.setAttribute("data-mode", next);
+  });
+</script>

@@ -1,0 +1,117 @@
+---
+import Search from './Search.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import RightNav from './RightNav.astro';
+import Logo from '../layouts/Logo.astro';
+import { menuLinks } from '../site.config';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const isHome = currentPath === "/";
+const isPhotos = currentPath === "/photos/";
+const navLinks = menuLinks.map((l) => ({
+  ...l,
+  isCurrent: currentPath === l.path,
+}));
+---
+<header class="group relative mb-28 flex items-center sm:ps-[4.5rem]" id="main-header">
+  <div class="relative flex sm:flex-col">
+    <div class="group/logo hidden sm:block sm:absolute sm:-start-[4.5rem] sm:top-1/2 sm:-translate-y-1/2 sm:grayscale sm:hover:filter-none sm:transition-[filter]">
+      <Logo class="site-logo-icon transition-transform duration-500 ease-out group-hover/logo:rotate-180" />
+    </div>
+    <a
+      aria-current={isHome ? "page" : false}
+      class="inline-flex items-center"
+      href="/"
+    >
+      <div class="group/logo me-3 sm:hidden">
+        <Logo class="site-logo-icon transition-transform duration-500 ease-out group-hover/logo:rotate-180" />
+      </div>
+      <span class="text-xl font-bold sm:text-2xl text-zinc-900 dark:text-poi-focus">ykts.net</span>
+    </a>
+    <nav
+      aria-label="Main menu"
+      class="bg-zinc-50 dark:bg-poi-base absolute -inset-x-4 top-14 hidden flex-col divide-y px-2 py-4 sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:divide-x sm:divide-y-0 sm:divide-light-accent dark:sm:divide-poi-accent sm:bg-transparent sm:p-0"
+      id="navigation-menu"
+    >
+      {navLinks.map((link) => (
+        <a
+          aria-current={link.isCurrent ? "page" : false}
+          class="text-light-accent dark:text-poi-accent px-2 py-4 font-semibold sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline"
+          href={link.path}
+        >
+          {link.title}
+        </a>
+      ))}
+    </nav>
+  </div>
+  <RightNav isPhotos={isPhotos}>
+    <Search />
+    <ThemeToggle />
+  </RightNav>
+  <mobile-button>
+    <button
+      aria-expanded="false"
+      aria-haspopup="menu"
+      class="group relative ms-4 h-7 w-7 sm:invisible sm:hidden"
+      id="toggle-navigation-menu"
+      type="button"
+    >
+      <span class="sr-only">Open main menu</span>
+      <svg
+        aria-hidden="true"
+        class="absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 transition-all group-aria-expanded:scale-0 group-aria-expanded:opacity-0"
+        fill="none"
+        focusable="false"
+        stroke="currentColor"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M3.75 9h16.5m-16.5 6.75h16.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <svg
+        aria-hidden="true"
+        class="text-light-accent dark:text-poi-accent absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all group-aria-expanded:scale-100 group-aria-expanded:opacity-100"
+        fill="none"
+        focusable="false"
+        stroke="currentColor"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </button>
+  </mobile-button>
+</header>
+
+<style>
+  #main-header.menu-open #navigation-menu {
+    display: flex;
+    z-index: 50;
+  }
+</style>
+
+<script>
+  class MobileNavBtn extends HTMLElement {
+    #menuOpen: boolean = false;
+
+    connectedCallback() {
+      const headerEl = document.getElementById("main-header")!;
+      const mobileButtonEl = this.querySelector<HTMLButtonElement>("button");
+
+      mobileButtonEl?.addEventListener("click", () => {
+        if (headerEl) headerEl.classList.toggle("menu-open");
+        this.#menuOpen = !this.#menuOpen;
+        mobileButtonEl.setAttribute("aria-expanded", this.#menuOpen.toString());
+      });
+    }
+  }
+
+  customElements.define("mobile-button", MobileNavBtn);
+</script>
