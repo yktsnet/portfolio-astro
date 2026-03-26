@@ -21,7 +21,7 @@ export const prerender = true;
       LINE で家族全員に通知・照会・設定変更まで完結する家庭向け IoT システム。
     </p>
     <div class="flex flex-wrap gap-2">
-      {["Pico W", "MicroPython", "FastAPI", "PostgreSQL", "LINE API", "NixOS"].map(tag => (
+      {["Pico W", "MicroPython", "FastAPI", "PostgreSQL", "LINE API", "Nginx", "Cloudflare", "NixOS"].map(tag => (
         <span class="inline-block font-mono text-xs px-2.5 py-1 rounded-full border border-zinc-300 dark:border-poi-border text-zinc-500 dark:text-poi-muted">
           {tag}
         </span>
@@ -174,7 +174,7 @@ export const prerender = true;
   <!-- ===== Architecture ===== -->
   <section class="mb-16">
     <h2 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus mb-6">Architecture</h2>
-    <div class="mt-6 font-mono text-xs text-zinc-400 dark:text-poi-muted/60 leading-6 whitespace-pre overflow-x-auto rounded-lg bg-zinc-950 dark:bg-poi-panel/80 px-5 py-4 border border-zinc-800 dark:border-poi-border">
+    <div class="mt-6 font-mono text-xs text-zinc-400 dark:text-poi-muted/60 leading-6 whitespace-pre overflow-x-auto rounded-lg bg-zinc-950 px-5 py-4 border border-zinc-800 dark:border-poi-border">
 <code>[Pico W]
   Reed switch on GP14 (PULL_UP)
   CLOSED→OPEN + debounce 200ms + cooldown 100s
