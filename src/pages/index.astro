@@ -5,22 +5,38 @@ import { getLucideIcon } from '../lib/lucide';
 import { getBrandIcon } from '../lib/brand-icons';
 import { roadmapItems } from '../data/roadmap';
 
-type StackItem = { label: string; icon: string; type: "brand" | "lucide" };
+type StackRow = { label: string; icon: string; type: "brand" | "lucide" };
+type StackGroup = { group: string; items: StackRow[] };
 
-const stackItems: StackItem[] = [
-  { label: "Raspberry Pi", icon: "raspberry-pi", type: "brand" },
-  { label: "Pico W",       icon: "cpu",          type: "lucide" },
-  { label: "ESP32",        icon: "espressif",    type: "brand" },
-  { label: "LoRa32",       icon: "cpu",          type: "lucide" },
-  { label: "Cloudflare",   icon: "cloudflare",   type: "brand" },
-  { label: "NixOS",        icon: "nixos",        type: "brand" },
-  { label: "Python",       icon: "python",       type: "brand" },
+const stackGroups: StackGroup[] = [
+  {
+    group: "Hardware",
+    items: [
+      { label: "Raspberry Pi", icon: "raspberry-pi", type: "brand" },
+      { label: "Pico W",       icon: "cpu",          type: "lucide" },
+      { label: "ESP32",        icon: "espressif",    type: "brand" },
+      { label: "LoRa32",       icon: "cpu",          type: "lucide" },
+    ],
+  },
+  {
+    group: "Stack",
+    items: [
+      { label: "Cloudflare",   icon: "cloudflare",   type: "brand" },
+      { label: "NixOS",        icon: "nixos",        type: "brand" },
+      { label: "Astro",        icon: "astro",        type: "brand" },
+      { label: "Hono",         icon: "hono",         type: "brand" },
+      { label: "Python",       icon: "python",       type: "brand" },
+    ],
+  },
 ];
 
-const stackResolved = stackItems.map(item => ({
-  ...item,
-  brand: item.type === "brand" ? getBrandIcon(item.icon) : null,
-  lucidePath: item.type === "lucide" ? getLucideIcon(item.icon) : null,
+const stackGroupsResolved = stackGroups.map(group => ({
+  ...group,
+  items: group.items.map(item => ({
+    ...item,
+    brand: item.type === "brand" ? getBrandIcon(item.icon) : null,
+    lucidePath: item.type === "lucide" ? getLucideIcon(item.icon) : null,
+  })),
 }));
 
 const featuredWorks = works.filter(w => w.featured).map(work => ({
@@ -32,7 +48,7 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
 <MainLayout title="Home">
 
   <!-- ===== Hero ===== -->
-  <section class="mb-12">
+  <section class="mb-6">
     <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
       <img
         src="/images/profile/me.webp"
@@ -44,55 +60,60 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
           Katsuhiro Yamakawa
         </h1>
         <p class="mt-1 font-mono text-sm text-zinc-500 dark:text-poi-muted">Builder / Operator</p>
-
-        <!-- Stack row with icons -->
-        <div class="mt-4 flex flex-wrap items-center gap-x-1 gap-y-1">
-          {stackResolved.map((item) => (
-            <span class="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-600 dark:text-zinc-400 bg-black/[.08] dark:bg-white/[.08] rounded px-1.5 py-1">
-              {item.brand && (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="13" height="13"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  style={`color:#${item.brand.hex}`}
-                  aria-hidden="true"
-                >
-                  <path d={item.brand.path} />
-                </svg>
-              )}
-              {item.lucidePath && (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="13" height="13"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  set:html={item.lucidePath}
-                />
-              )}
-              {item.label}
-            </span>
-          ))}
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Tagline + Description ===== -->
+  <!-- ===== Description + Stack ===== -->
   <section class="mb-10 max-w-3xl">
-    <blockquote class="border-l-4 border-light-accent pl-5 dark:border-poi-accent">
-      <p class="font-sans text-base italic leading-8 text-zinc-600 dark:text-poi-muted">
-        Systems that disappear into the workflow.
-      </p>
-    </blockquote>
-    <p class="mt-4 font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+    <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
       現場のカオスをちょうどいい粒感のシステムに。ハードウェアからクラウドまで、設計・実装・運用を一人で完結させています。
     </p>
+
+    <!-- Stack groups -->
+    <div class="mt-5 space-y-1.5">
+      {stackGroupsResolved.map((group) => (
+        <div class="flex items-center gap-3 font-mono text-xs">
+          <span class="w-16 shrink-0 text-light-accent dark:text-poi-accent">{group.group}</span>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+            {group.items.map((item, i) => (
+              <>
+                {i > 0 && <span class="text-zinc-300 dark:text-poi-border select-none">·</span>}
+                <span class="inline-flex items-center gap-1 text-zinc-600 dark:text-zinc-400">
+                  {item.brand && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12" height="12"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      style={`color:#${item.brand.hex}`}
+                      aria-hidden="true"
+                    >
+                      <path d={item.brand.path} />
+                    </svg>
+                  )}
+                  {item.lucidePath && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12" height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      set:html={item.lucidePath}
+                    />
+                  )}
+                  {item.label}
+                </span>
+              </>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   </section>
 
   <!-- ===== Works ===== -->
