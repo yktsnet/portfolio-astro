@@ -43,7 +43,7 @@ export const works: Work[] = [
     featured: true,
   },
   {
-    title: "Live Demo (Trading System)",
+    title: "Trading System",
     tag: "運用基盤 · 可視化",
     color: "#89ddff",
     icon: "chart-candlestick", 
@@ -52,7 +52,7 @@ export const works: Work[] = [
     featuredDescription:
       "自動売買パイプラインのログを Cloudflare KV 経由で集約。稼働中バックエンドをリアルタイム可視化。",
     links: [
-      { label: "Live Demo →", href: "/live-demo/" },
+      { label: "Demo →", href: "/live-demo/" },
       { label: "制作記事", href: "/posts/live-demo/" },
       { label: "GitHub", href: "https://github.com/yktsnet/portfolio-astro", external: true },
     ],
