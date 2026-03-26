@@ -3,6 +3,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 import { works } from '../data/works';
 import { getLucideIcon } from '../lib/lucide';
 import { getBrandIcon } from '../lib/brand-icons';
+import { roadmapItems, roadmapDeadline } from '../data/roadmap';
 
 type StackItem = { label: string; icon: string; type: "brand" | "lucide" };
 
@@ -26,6 +27,9 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
   ...work,
   iconPath: getLucideIcon(work.icon),
 }));
+
+const doneCount = roadmapItems.filter(i => i.done).length;
+const totalCount = roadmapItems.length;
 ---
 
 <MainLayout title="Home">
@@ -78,7 +82,6 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
             </span>
           ))}
         </div>
-
       </div>
     </div>
   </section>
@@ -150,7 +153,7 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
   </section>
 
   <!-- ===== Likes ===== -->
-  <section class="mb-16 mt-2">
+  <section class="mb-10 mt-2">
     <p class="font-mono text-xs flex flex-wrap items-center gap-x-2">
       <span class="font-mono text-xs font-semibold text-zinc-900 dark:text-poi-focus">Likes</span>
       <span class="text-zinc-300 dark:text-poi-border">·</span>
@@ -171,5 +174,43 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
     </p>
   </section>
 
- 
+  <!-- ===== Roadmap ===== -->
+  <section class="mb-16">
+    <div class="flex items-baseline gap-3 mb-3">
+      <span class="font-mono text-xs font-semibold text-zinc-900 dark:text-poi-focus">Roadmap</span>
+      <span class="font-mono text-xs text-zinc-400 dark:text-zinc-500">by Apr 2026</span>
+      <span class="font-mono text-xs text-zinc-400 dark:text-zinc-500 ml-auto" id="roadmap-countdown"></span>
+    </div>
+    <ul class="space-y-1.5">
+      {roadmapItems.map((item) => (
+        <li class="flex items-center gap-2 font-mono text-xs">
+          <span class={item.done
+            ? "text-light-accent dark:text-poi-accent"
+            : "text-zinc-300 dark:text-zinc-600"
+          }>
+            {item.done ? "✓" : "○"}
+          </span>
+          <span class={item.done
+            ? "line-through text-zinc-400 dark:text-zinc-600"
+            : "text-zinc-600 dark:text-zinc-400"
+          }>
+            {item.label}
+          </span>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-3 font-mono text-xs text-zinc-400 dark:text-zinc-600">
+      {doneCount} / {totalCount} done
+    </p>
+  </section>
+
 </MainLayout>
+
+<script define:vars={{ roadmapDeadline }}>
+  const el = document.getElementById('roadmap-countdown');
+  if (el) {
+    const deadline = new Date(roadmapDeadline);
+    const diff = Math.ceil((deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+    el.textContent = diff > 0 ? `${diff} days left` : 'deadline passed';
+  }
+</script>
