@@ -52,7 +52,7 @@ export const works: Work[] = [
     featuredDescription:
       "自動売買パイプラインのログを Cloudflare KV 経由で集約。稼働中バックエンドをリアルタイム可視化。",
     links: [
-      { label: "Demo →", href: "/live-demo/" },
+      { label: "Demo →", href: "/trading-system/" },
       { label: "制作記事", href: "/posts/live-demo/" },
       { label: "GitHub", href: "https://github.com/yktsnet/portfolio-astro", external: true },
     ],
