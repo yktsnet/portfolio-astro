@@ -56,7 +56,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 
 <MainLayout title="Posts">
   <div class="mb-12 flex items-center gap-3">
-    <h1 class="text-2xl font-bold text-zinc-900 dark:text-poi-focus">Posts</h1>
+    <h1 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus">Posts</h1>
     <a class="text-light-accent dark:text-poi-accent" href="/rss.xml" target="_blank">
       <span class="sr-only">RSS feed</span>
       <svg aria-hidden="true" class="h-5 w-5" fill="none" focusable="false" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +71,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
       {
         pinnedPosts.length > 0 && currentPage === 1 && (
           <section class="mb-16">
-            <h2 class="mb-6 text-xl font-bold text-zinc-900 dark:text-poi-focus">Pinned Posts</h2>
+            <h2 class="mb-6 text-base font-semibold text-zinc-900 dark:text-poi-focus">Pinned Posts</h2>
             <ul class="grid grid-cols-2 gap-4" role="list">
               {pinnedPosts.map((p) => (
                 <li>
@@ -85,7 +85,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
       {
         descYearKeys.map((yearKey) => (
           <section class="mb-16">
-            <h2 class="text-lg font-bold text-zinc-900 dark:text-poi-focus">
+            <h2 class="text-base font-semibold text-zinc-900 dark:text-poi-focus">
               <span class="sr-only">Posts in</span>
               {yearKey}
             </h2>
@@ -104,7 +104,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
     {
       !!uniqueTags.length && (
         <aside>
-          <h2 class="mb-4 flex items-center gap-2 text-lg font-bold text-zinc-900 dark:text-poi-focus">
+          <h2 class="mb-4 flex items-center gap-2 text-base font-semibold text-zinc-900 dark:text-poi-focus">
             Tags
             <svg
               aria-hidden="true"

@@ -4,19 +4,29 @@ import { works } from '../data/works';
 import { getLucideIcon } from '../lib/lucide';
 import { getBrandIcon } from '../lib/brand-icons';
 
-const stackItems = [
-  { label: "Raspberry Pi", icon: "raspberry-pi", type: "brand" as const },
-  { label: "ESP32",        icon: "espressif",    type: "brand" as const },
-  { label: "LoRa32",       icon: "cpu",          type: "lucide" as const },
-  { label: "Cloudflare",   icon: "cloudflare",   type: "brand" as const },
-  { label: "NixOS",        icon: "nixos",        type: "brand" as const },
+type StackItem = { label: string; icon: string; type: "brand" | "lucide" };
+
+const stackRow1: StackItem[] = [
+  { label: "Raspberry Pi", icon: "raspberry-pi", type: "brand" },
+  { label: "Pico W",       icon: "cpu",          type: "lucide" },
+  { label: "ESP32",        icon: "espressif",    type: "brand" },
+  { label: "LoRa32",       icon: "cpu",          type: "lucide" },
 ];
 
-const stackItemsResolved = stackItems.map(item => ({
+const stackRow2: StackItem[] = [
+  { label: "Cloudflare",   icon: "cloudflare",   type: "brand" },
+  { label: "NixOS",        icon: "nixos",        type: "brand" },
+  { label: "Python",       icon: "python",       type: "brand" },
+];
+
+const resolveStack = (items: StackItem[]) => items.map(item => ({
   ...item,
   brand: item.type === "brand" ? getBrandIcon(item.icon) : null,
   lucidePath: item.type === "lucide" ? getLucideIcon(item.icon) : null,
 }));
+
+const row1 = resolveStack(stackRow1);
+const row2 = resolveStack(stackRow2);
 
 const featuredWorks = works.filter(w => w.featured).map(work => ({
   ...work,
@@ -40,55 +50,45 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
         </h1>
         <p class="mt-1 font-mono text-sm text-zinc-500 dark:text-poi-muted">Builder / Operator</p>
 
-        <!-- Works name row -->
-        <div class="mt-4 flex flex-wrap items-center gap-x-1 gap-y-1 font-mono text-xs">
-          {featuredWorks.map((work, i) => (
-            <>
-              {i > 0 && <span class="text-zinc-300 dark:text-poi-border select-none px-1">·</span>}
-              <a
-                href={work.links[0]?.href}
-                class="text-zinc-700 dark:text-poi-focus hover:text-light-accent dark:hover:text-poi-accent transition-colors"
-              >
-                {work.title}
-              </a>
-            </>
+        <!-- Stack rows with icons -->
+        <div class="mt-4 flex flex-col gap-y-1">
+          {[row1, row2].map((row) => (
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+              {row.map((item) => (
+                <span class="inline-flex items-center gap-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
+                  {item.brand && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="11" height="11"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      style={`color:#${item.brand.hex}`}
+                      aria-hidden="true"
+                    >
+                      <path d={item.brand.path} />
+                    </svg>
+                  )}
+                  {item.lucidePath && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="11" height="11"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      set:html={item.lucidePath}
+                    />
+                  )}
+                  {item.label}
+                </span>
+              ))}
+            </div>
           ))}
         </div>
 
-        <!-- Stack row with icons -->
-        <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-          {stackItemsResolved.map((item) => (
-            <span class="inline-flex items-center gap-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
-              {item.brand && (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="11" height="11"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  style={`color:#${item.brand.hex}`}
-                  aria-hidden="true"
-                >
-                  <path d={item.brand.path} />
-                </svg>
-              )}
-              {item.lucidePath && (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="11" height="11"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                  set:html={item.lucidePath}
-                />
-              )}
-              {item.label}
-            </span>
-          ))}
-        </div>
       </div>
     </div>
   </section>
@@ -105,23 +105,13 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
     </p>
   </section>
 
-  <!-- ===== Likes ===== -->
-  <section class="mb-14">
-    <p class="font-mono text-xs flex flex-wrap items-center gap-x-1">
-      <span class="text-light-accent dark:text-poi-accent">Likes</span>
-      <span class="text-zinc-300 dark:text-poi-border px-1">·</span>
-      <a href="/photos/" class="text-zinc-700 dark:text-poi-focus hover:text-light-accent dark:hover:text-poi-accent underline underline-offset-2 decoration-zinc-300 dark:decoration-poi-border transition-colors">Photography</a>
-      <span class="text-zinc-300 dark:text-poi-border px-1">·</span>
-      <span class="text-zinc-400 dark:text-zinc-500">Travel</span>
-      <span class="text-zinc-300 dark:text-poi-border px-1">·</span>
-      <span class="text-zinc-400 dark:text-zinc-500">Bike</span>
-    </p>
-  </section>
-
   <!-- ===== Works ===== -->
-  <section class="mb-16">
+  <section class="mb-6">
     <div class="flex items-baseline justify-between mb-1">
-      <h2 class="font-mono text-xs font-semibold text-zinc-900 dark:text-poi-focus">Works</h2>
+      <div class="flex items-baseline gap-3">
+        <h2 class="font-mono text-xs font-semibold text-zinc-900 dark:text-poi-focus">Works</h2>
+        <span class="font-mono text-xs text-zinc-400 dark:text-zinc-500">{featuredWorks.length} in production</span>
+      </div>
       <a class="cactus-link font-mono text-xs" href="/works/">すべて見る →</a>
     </div>
     <div class="divide-y divide-zinc-100 dark:divide-poi-border/60">
@@ -168,6 +158,19 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
       ))}
     </div>
   </section>
+
+  <!-- ===== Likes ===== -->
+<section class="mb-16 mt-2">
+  <p class="font-mono text-xs flex flex-wrap items-center gap-x-1">
+    <span class="font-mono text-xs font-semibold text-zinc-900 dark:text-poi-focus">Likes</span>
+    <span class="text-zinc-300 dark:text-poi-border px-1">·</span>
+    <a href="/photos/" class="text-zinc-900 dark:text-poi-focus hover:text-light-accent dark:hover:text-poi-accent underline underline-offset-2 decoration-zinc-300 dark:decoration-poi-border transition-colors">Photography</a>
+    <span class="text-zinc-300 dark:text-poi-border px-1">·</span>
+    <span class="text-zinc-500 dark:text-poi-muted">Travel</span>
+    <span class="text-zinc-300 dark:text-poi-border px-1">·</span>
+    <span class="text-zinc-500 dark:text-poi-muted">Bike</span>
+  </p>
+</section>
 
   <!-- ===== Footer nav ===== -->
   <section class="border-t border-zinc-100 dark:border-poi-border pt-8 space-y-2">
