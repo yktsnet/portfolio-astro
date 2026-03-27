@@ -73,7 +73,7 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
     <!-- Stack groups -->
     <div class="mt-5 space-y-1.5">
       {stackGroupsResolved.map((group) => (
-        <div class="flex items-center gap-3 font-mono text-xs">
+        <div class="flex items-start gap-3 font-mono text-xs">
           <span class="w-16 shrink-0 text-light-accent dark:text-poi-accent">{group.group}</span>
           <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
             {group.items.map((item, i) => (
