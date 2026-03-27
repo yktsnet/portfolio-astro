@@ -5,10 +5,6 @@ export type RoadmapItem = {
 
 export const roadmapItems: RoadmapItem[] = [
   {
-    label: "Portfolio improvements",
-    detail: "Geoguessr stats page · Bike dashboard (Strava API)"
-  },
-  {
     label: "Build irrigation management system",
     detail: "LoRa32 · for farmers"
   },
