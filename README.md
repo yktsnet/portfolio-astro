@@ -2,19 +2,20 @@
 
 A personal portfolio and technical blog built with Astro, deployed on Cloudflare Pages.
 
-The focus is on documenting *why* systems are designed a certain way, and connecting backend infrastructure to public-facing work.
+The focus is on documenting *why* systems are designed a certain way, and connecting working backend systems to public-facing surfaces.
 
 > 日本語の記事・作品一覧: [ykts.net](https://ykts.net/)
 
 ## Selected Works
 
 - **[NFC Attendance System](https://github.com/yktsnet/nfc-attendance-kit)** — Attendance management with Sony RC-S300 + Raspberry Pi 2. Python · GAS · Discord Webhook
-- **[Live Demo (Trading System)](https://ykts.net/live-demo/)** — Live metrics for an automated trading pipeline. Cloudflare KV + Astro + SVG charts
+- **[Trading System](https://ykts.net/live-demo/)** — Public monitoring surface for an automated trading system. Cloudflare KV + Astro + SVG charts
 - **[Cat Feed Tracker](https://ykts.net/posts/cat-feed-tracker/)** — Cat feeding log system built around a Pico W. FastAPI · PostgreSQL · LINE Messaging API · NixOS
 
 → Full list: [ykts.net/works](https://ykts.net/works/)
 
-## Architecture (Live Demo)
+## Architecture (Trading System)
+
 ```text
 Hetzner VPS (NixOS · systemd timer)
   └─ status_metrics_push.py  ─→  Cloudflare KV
