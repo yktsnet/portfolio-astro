@@ -8,9 +8,9 @@ The focus is on documenting *why* systems are designed a certain way, and connec
 
 ## Selected Works
 
-- **[NFC Attendance System](https://github.com/yktsnet/nfc-attendance-kit)** — Attendance management with Sony RC-S300 + Raspberry Pi 2. Python · GAS · Discord Webhook
-- **[Trading System](https://ykts.net/live-demo/)** — Public monitoring surface for an automated trading system. Cloudflare KV + Astro + SVG charts
-- **[Cat Feed Tracker](https://ykts.net/posts/cat-feed-tracker/)** — Cat feeding log system built around a Pico W. FastAPI · PostgreSQL · LINE Messaging API · NixOS
+- **[NFC Attendance System](https://ykts.net/nfc-attendance/)** — Attendance management with Sony RC-S300 + Raspberry Pi 2. Python · GAS · Discord Webhook
+- **[Trading System](https://ykts.net/trading-system/)** — Public monitoring surface for an automated trading system. Cloudflare KV + Astro + SVG charts
+- **[Cat Feed Tracker](https://ykts.net/cat-feed-tracker/)** — Cat feeding log system built around a Pico W. FastAPI · PostgreSQL · LINE Messaging API · NixOS
 
 → Full list: [ykts.net/works](https://ykts.net/works/)
 
