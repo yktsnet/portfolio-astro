@@ -8,6 +8,7 @@ const icons: Record<string, string> = {
   "bike": `<circle cx="18.5" cy="17.5" r="3.5" />  <circle cx="5.5" cy="17.5" r="3.5" />  <circle cx="15" cy="5" r="1" />  <path d="M12 17.5V14l-3-3 4-3 2 3h2" />`,
   "map-pin": `<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />  <circle cx="12" cy="10" r="3" />`,
   "camera": `<path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z" />  <circle cx="12" cy="13" r="3" />`,
+  "trending-up": `<path d="M16 7h6v6" />  <path d="m22 7-8.5 8.5-5-5L2 17" />`,
 };
 
 export function getLucideIcon(name: string): string {
