@@ -1,4 +1,4 @@
-import { siRaspberrypi, siCloudflare, siNixos, siEspressif, siPython, siAstro, siHono } from "simple-icons";
+import { siRaspberrypi, siCloudflare, siNixos, siEspressif, siPython, siAstro, siHono, siReact } from "simple-icons";
 
 type BrandIcon = { path: string; hex: string };
 
@@ -10,6 +10,7 @@ const map: Record<string, BrandIcon> = {
   "python":       { path: siPython.path,       hex: siPython.hex      },
   "astro":        { path: siAstro.path,        hex: siAstro.hex       },
   "hono":         { path: siHono.path,         hex: siHono.hex        },
+  "react":        { path: siReact.path,        hex: siReact.hex       },
 };
 
 export function getBrandIcon(name: string): BrandIcon | null {
