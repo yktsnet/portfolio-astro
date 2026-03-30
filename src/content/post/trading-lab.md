@@ -1,5 +1,5 @@
 ---
-title: "A backtest console with a web UI"
+title: "Backtest console with a web UI"
 description: "普段はターミナルで扱っていたバックテストを、あえて Web UI に寄せてみた記録。TUI と GUI の違い、研究用の道具として見えてきたことを書く。"
 publishDate: "2026-03-29"
 tags: ["react", "fastapi", "nixos", "trading"]

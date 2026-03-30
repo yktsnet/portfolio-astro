@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import type { HTMLTag, Polymorphic } from "astro/types";
 import FormattedDate from "../FormattedDate.astro";
 import { getLucideIcon } from "../../lib/lucide";
+import { getPostVisualMeta } from "../../data/works";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
   post: CollectionEntry<"post">;
@@ -11,13 +12,11 @@ type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 };
 
 const { as: Tag = "div", post, withDesc = false, cardMode = false } = Astro.props;
-const COLORS = ["#5de4c7", "#89ddff", "#d482ab", "#fae4fc"];
-const hash = [...post.id].reduce((acc, c) => acc + c.charCodeAt(0), 0);
-const accentColor = COLORS[hash % COLORS.length];
+const visual = getPostVisualMeta(post.id, post.data.icon ?? "code");
 const postUrl = `/posts/${post.id}/`;
-const svgContent = getLucideIcon(post.data.icon ?? "code");
-const borderStyle = `border-left-color:${accentColor}`;
-const iconStyle = `color:${accentColor}`;
+const svgContent = getLucideIcon(visual.icon);
+const borderStyle = `border-left-color:${visual.color}`;
+const iconStyle = `color:${visual.color}`;
 ---
 
 {cardMode && (

@@ -3,6 +3,7 @@ export type Work = {
   tag: string;
   color: string;
   icon: string;
+  postSlug?: string;
   description: string;
   links: { label: string; href: string; external?: boolean }[];
   featured: boolean;
@@ -15,6 +16,7 @@ export const works: Work[] = [
     tag: "現場自動化 · 業務改善",
     color: "#c792ea",
     icon: "id-card",
+    postSlug: "nfc-attendance-system",
     description:
       "Sony RC-S300 と Raspberry Pi 2 で作った勤怠管理。カードをかざすだけで記録が完結し、Google スプレッドシートへ自動同期。マンション管理事業者に導入・運用中。",
     featuredDescription:
@@ -31,6 +33,7 @@ export const works: Work[] = [
     tag: "IoT · プロダクト",
     color: "#addb67",
     icon: "cat",
+    postSlug: "cat-feed-tracker",
     description:
       "Pico W のリードスイッチで給餌棚の開閉を検知し、FastAPI + PostgreSQL で記録。LINE で家族に定時通知・照会・設定変更ができる家庭向け IoT システム。",
     featuredDescription:
@@ -47,6 +50,7 @@ export const works: Work[] = [
     tag: "運用基盤 · ライブ",
     color: "#89ddff",
     icon: "chart-candlestick",
+    postSlug: "live-demo",
     description:
       "自動売買パイプラインのログを Cloudflare KV 経由で集約し、Astro でリアルタイムに表示。稼働中のバックエンドを5分ディレイで外部に公開するライブモニタリング基盤。",
     featuredDescription:
@@ -62,6 +66,7 @@ export const works: Work[] = [
     tag: "運用基盤 · バックテスト",
     color: "#89ddff",
     icon: "trending-up",
+    postSlug: "trading-lab",
     description:
       "自動売買で使う戦略を選ぶための内製コンソール。パイプラインで候補を段階的に絞り込み、セッション別の成績ランキングをブラウザから確認・操作できる。",
     featuredDescription:
@@ -74,3 +79,14 @@ export const works: Work[] = [
     featured: true,
   },
 ];
+
+const DEFAULT_POST_COLOR = "#5de4c7";
+
+export function getPostVisualMeta(postSlug: string, fallbackIcon = "code") {
+  const work = works.find((item) => item.postSlug === postSlug);
+
+  return {
+    color: work?.color ?? DEFAULT_POST_COLOR,
+    icon: work?.icon ?? fallbackIcon,
+  };
+}

@@ -2,7 +2,7 @@
 title: "Turning backend work into a live demo"
 description: "見えにくいバックエンドの実装と運用を、機密を保ったままポートフォリオとして伝わる形に変換した記録"
 publishDate: "08 Mar 2026"
-tags: ["astro", "cloudflare", "dashboard"]
+tags: ["trading", "cloudflare", "dashboard"]
 pinned: false
 image: "/images/posts/202603/live-status.webp"
 imageAlt: "ライブ・デモページの構成図"
