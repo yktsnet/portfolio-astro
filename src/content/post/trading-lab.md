@@ -3,6 +3,8 @@ title: "Backtest console with a web UI"
 description: "ターミナルで扱っていたバックテストを、あえて Web UI に置き直してみた記録。"
 publishDate: "2026-03-29"
 tags: ["react", "fastapi", "nixos", "trading"]
+image: "/images/posts/202603/trading-lab.webp"
+imageAlt: "トレードラボの構図"
 pinned: false
 icon: "layout-dashboard"
 aiDrafted: true
