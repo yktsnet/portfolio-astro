@@ -1,4 +1,7 @@
 ---
+import Search from './Search.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
 interface Props {
   isPhotos: boolean;
 }
@@ -27,5 +30,6 @@ const { isPhotos } = Astro.props;
       <circle cx="12" cy="13" r="3"/>
     </svg>
   </a>
-  <slot />
+  <Search />
+  <ThemeToggle />
 </div>
