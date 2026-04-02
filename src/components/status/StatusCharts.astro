@@ -258,10 +258,22 @@ const tabs = [
       return svg as unknown as SVGElement;
     }
 
+    // 5分バケツに集約（各バケツの最大値）
+    const bucketMs = 5 * 60 * 1000;
+    const bucketMap = new Map<number, { t: string; v: number }>();
+    data.forEach((d) => {
+      const key = Math.floor(new Date(d.t).getTime() / bucketMs) * bucketMs;
+      const existing = bucketMap.get(key);
+      if (!existing || d.v > existing.v) bucketMap.set(key, d);
+    });
+    const bucketed = Array.from(bucketMap.entries())
+      .sort(([a], [b]) => a - b)
+      .map(([, d]) => d);
+
     const NUM_ROWS = 8;
     const PERIOD = 300;
     const maxV = PERIOD;
-    const colW = cW / data.length;
+    const colW = cW / bucketed.length;
     const rowH = cH / NUM_ROWS;
     const dotR = Math.min(4, colW * 0.38, rowH * 0.38);
 
@@ -272,7 +284,7 @@ const tabs = [
       svg.appendChild(el("line", { x1: PL, x2: PL + cW, y1: y, y2: y, stroke: C().grid }));
     });
 
-    data.forEach((d, i) => {
+    bucketed.forEach((d, i) => {
       const cx = PL + (i + 0.5) * colW;
       const ratio = Math.min(d.v / maxV, 1);
       const color = ratio > 0.65 ? "#ff8b92"
@@ -287,7 +299,7 @@ const tabs = [
       }
     });
 
-    xLabelsTime(svg, data, (i) => PL + (i + 0.5) * colW, H - 6);
+    xLabelsTime(svg, bucketed, (i) => PL + (i + 0.5) * colW, H - 6);
     return svg as unknown as SVGElement;
   }
 
