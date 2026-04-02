@@ -250,47 +250,46 @@ const tabs = [
   }
 
   function makeBarLagChart(data: { t: string; v: number }[]): SVGElement {
-  const W = 600, H = 220, PL = 44, PR = 12, PT = 16, PB = 38;
-  const cW = W - PL - PR, cH = H - PT - PB;
-  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%" });
-  if (!data.length) {
-    svg.appendChild(txt("no data", { x: W / 2, y: H / 2, "text-anchor": "middle" }));
+    const W = 600, H = 220, PL = 44, PR = 12, PT = 16, PB = 38;
+    const cW = W - PL - PR, cH = H - PT - PB;
+    const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%" });
+    if (!data.length) {
+      svg.appendChild(txt("no data", { x: W / 2, y: H / 2, "text-anchor": "middle" }));
+      return svg as unknown as SVGElement;
+    }
+
+    const NUM_ROWS = 8;
+    const PERIOD = 300;
+    const maxV = PERIOD;
+    const colW = cW / data.length;
+    const rowH = cH / NUM_ROWS;
+    const dotR = Math.min(4, colW * 0.38, rowH * 0.38);
+
+    svg.appendChild(txt("300s", { x: PL - 6, y: PT + 4, "text-anchor": "end" }));
+    svg.appendChild(txt("0s",   { x: PL - 6, y: PT + cH + 4, "text-anchor": "end" }));
+    [0, 1].forEach((r) => {
+      const y = PT + r * cH;
+      svg.appendChild(el("line", { x1: PL, x2: PL + cW, y1: y, y2: y, stroke: C().grid }));
+    });
+
+    data.forEach((d, i) => {
+      const cx = PL + (i + 0.5) * colW;
+      const ratio = Math.min(d.v / maxV, 1);
+      const color = ratio > 0.65 ? "#ff8b92"
+                  : ratio > 0.35 ? C().close
+                  :                C().latency;
+
+      for (let row = 0; row < NUM_ROWS; row++) {
+        const cy = PT + (row + 0.5) * rowH;
+        const rowRatio = (NUM_ROWS - 1 - row) / (NUM_ROWS - 1);
+        const opacity = rowRatio < ratio ? 0.75 : 0.08;
+        svg.appendChild(el("circle", { cx, cy, r: dotR, fill: color, opacity }));
+      }
+    });
+
+    xLabelsTime(svg, data, (i) => PL + (i + 0.5) * colW, H - 6);
     return svg as unknown as SVGElement;
   }
-
-  const NUM_ROWS = 8;
-  const maxV = Math.max(...data.map((d) => d.v));
-  const colW = cW / data.length;
-  const rowH = cH / NUM_ROWS;
-  const dotR = Math.min(4, colW * 0.38, rowH * 0.38);
-
-  // Y軸ラベルは lag の代わりに鮮度の目安
-  svg.appendChild(txt(`${Math.round(maxV)}s`, { x: PL - 6, y: PT + 4, "text-anchor": "end" }));
-  svg.appendChild(txt("0s",                   { x: PL - 6, y: PT + cH + 4, "text-anchor": "end" }));
-  [0, 1].forEach((r) => {
-    const y = PT + r * cH;
-    svg.appendChild(el("line", { x1: PL, x2: PL + cW, y1: y, y2: y, stroke: C().grid }));
-  });
-
-  data.forEach((d, i) => {
-    const cx = PL + (i + 0.5) * colW;
-    const ratio = d.v / maxV;                          // 0=新鮮, 1=古い
-    const color = ratio > 0.65 ? "#ff8b92"
-                : ratio > 0.35 ? C().close
-                :                C().latency;
-
-    for (let row = 0; row < NUM_ROWS; row++) {
-      const cy = PT + (row + 0.5) * rowH;
-      // 上の行ほど「高lagのときだけ濃くなる」opacity
-      const rowRatio = (NUM_ROWS - 1 - row) / (NUM_ROWS - 1); // 0=下, 1=上
-      const opacity = rowRatio < ratio ? 0.75 : 0.08;
-      svg.appendChild(el("circle", { cx, cy, r: dotR, fill: color, opacity }));
-    }
-  });
-
-  xLabelsTime(svg, data, (i) => PL + (i + 0.5) * colW, H - 6);
-  return svg as unknown as SVGElement;
-}
 
   // ── Annotations ───────────────────────────────────────────
   type TabId = "latency" | "session" | "heatmap" | "freshness";
