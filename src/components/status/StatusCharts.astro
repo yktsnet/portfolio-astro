@@ -257,12 +257,11 @@ const tabs = [
       svg.appendChild(txt("no data", { x: W / 2, y: H / 2, "text-anchor": "middle" }));
       return svg as unknown as SVGElement;
     }
-    const BUCKET = 30;
-    const MAX_ROWS = 10;
+    const NUM_ROWS = 12;
     const maxV = Math.max(...data.map((d) => d.v));
-    const numRows = Math.min(MAX_ROWS, Math.ceil(maxV / BUCKET));
     const colW = cW / data.length;
-    const dotR = Math.min(4, colW * 0.38, (cH / numRows) * 0.38);
+    const rowH = cH / NUM_ROWS;
+    const dotR = Math.min(4, colW * 0.38, rowH * 0.38);
     [0, 0.5, 1].forEach((r) => {
       const y = PT + r * cH;
       svg.appendChild(el("line", { x1: PL, x2: PL + cW, y1: y, y2: y, stroke: C().grid }));
@@ -272,11 +271,11 @@ const tabs = [
     });
     data.forEach((d, i) => {
       const cx = PL + (i + 0.5) * colW;
-      const clampedBuckets = Math.min(Math.ceil(d.v / BUCKET), MAX_ROWS);
-      for (let b = 0; b < clampedBuckets; b++) {
-        const cy = PT + cH - (b + 0.5) * (cH / numRows);
-        const ratio = d.v / maxV;
-        const color = ratio > 0.6 ? "#ff8b92" : ratio > 0.3 ? C().close : C().latency;
+      const dotCount = Math.round(NUM_ROWS * (d.v / maxV));
+      const ratio = d.v / maxV;
+      const color = ratio > 0.6 ? "#ff8b92" : ratio > 0.3 ? C().close : C().latency;
+      for (let b = 0; b < dotCount; b++) {
+        const cy = PT + cH - (b + 0.5) * rowH;
         svg.appendChild(el("circle", { cx, cy, r: dotR, fill: color, opacity: 0.75 }));
       }
     });
