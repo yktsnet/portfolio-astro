@@ -63,14 +63,13 @@ export const works: Work[] = [
   },
   {
     title: "Trading Lab",
-    tag: "運用基盤 · バックテスト",
+    tag: "運用基盤 · WebUI",
     color: "#89ddff",
     icon: "trending-up",
     postSlug: "trading-lab",
-    description:
-      "自動売買で使う戦略を選ぶための内製コンソール。パイプラインで候補を段階的に絞り込み、セッション別の成績ランキングをブラウザから確認・操作できる。",
-    featuredDescription:
-      "自動売買の戦略選定を管理する内製コンソール。段階的に候補を絞り込み、成績ランキングをブラウザから操作できる。",
+    description: "ターミナルで見ていた運用導線を Web console に置き直し、Live 状態と戦略選定を同じ画面から確認・操作できる内製ツール。",
+
+    featuredDescription: "ターミナル中心だった運用導線を Web console に置き直し、Live 状態と戦略選定を同じ画面で確認・操作できる内製ツール。",
     links: [
       { label: "Demo →", href: "https://trading-lab.pages.dev", external: true },
       { label: "制作記事", href: "/posts/trading-lab/" },
