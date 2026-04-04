@@ -1,7 +1,9 @@
 import { Hono } from 'hono';
+import { cors } from 'hono/cors'; 
 import type { APIRoute } from 'astro';
 
 const app = new Hono();
+app.use('/api/status', cors());
 
 app.get('/api/hello', (c) => {
   return c.json({
