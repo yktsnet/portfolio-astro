@@ -46,24 +46,8 @@ export const works: Work[] = [
     featured: true,
   },
   {
-    title: "Trading System",
-    tag: "運用基盤 · ライブ",
-    color: "#89ddff",
-    icon: "chart-candlestick",
-    postSlug: "live-demo",
-    description:
-      "自動売買パイプラインのログを Cloudflare KV 経由で集約し、Astro でリアルタイムに表示。稼働中のバックエンドを5分ディレイで外部に公開するライブモニタリング基盤。",
-    featuredDescription:
-      "自動売買パイプラインのログを Cloudflare KV 経由で集約。稼働中バックエンドをリアルタイムで外部公開。",
-    links: [
-      { label: "Demo →", href: "/trading-system/" },
-      { label: "制作記事", href: "/posts/live-demo/" },
-    ],
-    featured: true,
-  },
-  {
     title: "Trading Lab",
-    tag: "運用基盤 · WebUI",
+    tag: "運用基盤 · ダッシュボード",
     color: "#89ddff",
     icon: "trending-up",
     postSlug: "trading-lab",

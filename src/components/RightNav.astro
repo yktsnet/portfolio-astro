@@ -1,6 +1,7 @@
 ---
 import Search from './Search.astro';
 import ThemeToggle from './ThemeToggle.astro';
+import { siZenn } from 'simple-icons';
 
 interface Props {
   isPhotos: boolean;
@@ -8,6 +9,17 @@ interface Props {
 const { isPhotos } = Astro.props;
 ---
 <div class="ms-auto flex items-center gap-1">
+  <a
+    href="https://zenn.dev/yktsnet"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Zenn"
+    class="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-md text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-poi-text dark:hover:bg-poi-panel"
+  >
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d={siZenn.path} />
+    </svg>
+  </a>
   <a
     href="https://github.com/yktsnet"
     target="_blank"
