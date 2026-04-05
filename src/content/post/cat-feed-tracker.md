@@ -122,7 +122,8 @@ Cat Feed Tracker は、餌のあげ過ぎを防ぎたいことと、長期的に
 
 そして今回は、LINE という普段使っているインターフェイスを入口にできたことで、その流れをかなり自然な形で作れました。記録が共有されること、観察しやすくなること、そこから少しずつ学べること。その設計を、生活の中に無理なく置けたことが、このシステムではいちばん大きかったと思っています。
 
-技術的な詳細やセットアップ手順は [GitHub](https://github.com/yktsnet/cat-feed-tracker) にまとめています。
+技術的な詳細やセットアップ手順は [GitHub](https://github.com/yktsnet/cat-feed-tracker) にまとめています。実装の構成や設計の意図については [Zenn の技術記事](https://zenn.dev/yktsnet/articles/202604-cat-feed-tracker) にまとめています。
+
 <style>
 .zoomable-wrap img { cursor: zoom-in; max-width: 100%; max-height: 65vh; display: block; margin: 0 auto; }
 #lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:9999; cursor:zoom-out; align-items:center; justify-content:center; }

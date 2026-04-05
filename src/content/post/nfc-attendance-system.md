@@ -22,7 +22,7 @@ aiDrafted: true
 
 導入後は、月あたり約5時間の確認・集計工数を削減し、月3〜4万円程度あった申告差異の抑制にもつながりました。ここで書きたいのは、その数字そのものよりも、なぜその改善が小さな現場で無理なく回る形にできたのか、という設計の話です。
 
-技術的な仕様やインストール手順については [GitHub](https://github.com/yktsnet/nfc-attendance-kit) を参照してください。
+技術的な仕様やインストール手順については [GitHub](https://github.com/yktsnet/nfc-attendance-kit) を参照してください。実装の詳細や設計判断については [Zenn の技術記事](https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2) にまとめています。
 
 ## 背景 ─ 手書きの勤怠管理と給与計算
 
