@@ -1,66 +1,55 @@
 # ykts.net
 
-A personal portfolio and technical blog built with Astro, deployed on Cloudflare Pages.
+> Systems that disappear into the workflow.
 
-The focus is on documenting *why* systems are designed a certain way, and connecting working backend systems to public-facing surfaces.
+個人ポートフォリオ・技術ブログ。Works / Posts / Contact で構成。
 
-> 日本語の記事・作品一覧: [ykts.net](https://ykts.net/)
+https://ykts.net
 
-## Selected Works
+## 技術選定
 
-- **[NFC Attendance System](https://ykts.net/nfc-attendance/)** — Attendance management with Sony RC-S300 + Raspberry Pi 2. Python · GAS · Discord Webhook
-- **[Trading System](https://ykts.net/trading-system/)** — Public monitoring surface for an automated trading system. Cloudflare KV + Astro + SVG charts
-- **[Cat Feed Tracker](https://ykts.net/cat-feed-tracker/)** — Cat feeding log system built around a Pico W. FastAPI · PostgreSQL · LINE Messaging API · NixOS
+柔軟性と実装速度の両立を軸に選定。
 
-→ Full list: [ykts.net/works](https://ykts.net/works/)
+| 領域 | 採用技術 | 選定理由 |
+|---|---|---|
+| フレームワーク | Astro | 静的出力を基本としつつ、後から動的な仕組みを追加できる。設計の方向が変わっても大きく作り直さずに済む |
+| ホスティング | Cloudflare Pages | CDNエッジへの配信・Edge Functions・KVがひとつのエコシステムで完結 |
+| スタイリング | Tailwind CSS | 設計の速度が上がる。ビルド出力も軽い |
+| APIレイヤー | Hono | Edge Functions上で動く軽量ルーター |
+| 検索 | Pagefind | ビルド時に静的インデックスを生成。ランタイム依存ゼロ |
 
-## Architecture (Trading System)
+## インフラ構成
 
-```text
-Hetzner VPS (NixOS · systemd timer)
-  └─ status_metrics_push.py  ─→  Cloudflare KV
-                                       │
-                              Astro (Cloudflare Pages)
-                                  ├─ /api/status  (Hono)
-                                  └─ /live-demo   (SVG charts · client-side DOM)
+```
+Cloudflare Pages
+  ├─ 静的出力 (SSG)
+  └─ /api/*  ─ Edge Functions (Hono)
+                  ├─ /api/contact  ─ Discord Webhook + Turnstile
+                  └─ /api/status   ─ Cloudflare KV
 ```
 
-Sensitive values (instrument names, lot size, P&L) are excluded. A 5-minute delay is applied.
+## セットアップ
 
-## Tech Stack
+### 環境変数
 
-| Layer | Tech |
+| 変数名 | 説明 |
 |---|---|
-| Framework | Astro + Cloudflare Pages adapter (static output + Edge Functions for API routes) |
-| Styling | Tailwind CSS · Fira Code · Poimandres palette |
-| API | Hono (catch-all route) |
-| KV store | Cloudflare KV |
-| Charts | SVG via `document.createElementNS` — zero runtime deps |
-| Search | Pagefind (full-text, static) |
-| Backend | NixOS · systemd timers · Python 3 |
-
-## Setup
-
-### Environment Variables
-
-| Variable | Description |
-|---|---|
-| `CONTACT_DISCORD_WEBHOOK_URL` | Discord webhook for contact form |
-| `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile secret key |
+| `CONTACT_DISCORD_WEBHOOK_URL` | コンタクトフォーム用 Discord Webhook |
+| `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile シークレットキー |
 
 ### Cloudflare
 
-1. Create a project on Cloudflare Pages
-2. Create a KV namespace and bind it as `SESSION`
-3. Add the KV binding to your Wrangler config
-4. Add the environment variables above via the Pages dashboard
+1. Cloudflare Pages でプロジェクトを作成
+2. KV ネームスペースを2つ作成し、`wrangler.jsonc` の `kv_namespaces` にIDを設定
+3. 上記の環境変数を Pages ダッシュボードから追加
 
-## Development
+## 開発
+
 ```bash
 npm install
 npm run dev
 ```
 
-## License & Credits
+## ライセンス
 
-MIT — Initial foundation: [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus) by Chris Williams, heavily reworked.
+MIT — 初期ベース: [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus) by Chris Williams（大幅に改変）
