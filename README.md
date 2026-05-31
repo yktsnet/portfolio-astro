@@ -48,7 +48,14 @@ Cloudflare Pages
 ```bash
 npm install
 npm run dev
+npm test          # APIユニットテスト
+npm run typecheck # 型チェック
 ```
+
+## ドキュメント
+
+- [`context/conventions.md`](context/conventions.md) — 命名規則・コーディング規約
+- [`context/structure.md`](context/structure.md) — ディレクトリ構成・ルーティング
 
 ## ライセンス
 

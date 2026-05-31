@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build && pagefind --site dist",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "typecheck": "astro check",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",
@@ -29,6 +32,7 @@
   "devDependencies": {
     "lucide-static": "^0.577.0",
     "pagefind": "^1.4.0",
+    "vitest": "^3.2.3",
     "wrangler": "^4.68.0"
   }
 }
