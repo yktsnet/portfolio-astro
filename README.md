@@ -1,4 +1,7 @@
 # ykts.net
+
+[![CI](https://github.com/yktsnet/portfolio-astro/actions/workflows/ci.yml/badge.svg)](https://github.com/yktsnet/portfolio-astro/actions/workflows/ci.yml)
+
 > Systems that disappear into the workflow.
 
 個人ポートフォリオ・技術ブログ。Works / Posts / Contact で構成。  
