@@ -1,8 +1,16 @@
 ## {タイトル}
 id: {00}
-skill: pr-workflow
 branch-slug: {slug}
-type: {cleanup|fix|feat}
-対象: {ファイルパス}
-内容: {何をするか}
-確認: `{確認コマンド}` が{期待結果}
+github_issue:
+status: draft
+type: cleanup | fix | feat
+対象: |
+  {変更・新規作成するファイルをすべて列挙。新規は (新規) を付記}
+内容: |
+  {目的と概要}
+確認: |
+  {Claude Code が提出前に行う静的確認}
+
+---
+
+{内容に収まらない仕様を自由に展開}
