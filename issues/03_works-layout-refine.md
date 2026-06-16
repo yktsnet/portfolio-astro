@@ -2,7 +2,7 @@
 id: 03
 branch-slug: works-layout-refine
 github_issue:
-status: open
+status: close
 type: feat
 対象: |
   src/pages/index.astro
