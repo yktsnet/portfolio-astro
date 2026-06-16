@@ -1,4 +1,18 @@
-export type StackItem = { label: string; brand?: string };
+export type BrandKey =
+  | "raspberry-pi"
+  | "cloudflare"
+  | "nixos"
+  | "espressif"
+  | "python"
+  | "astro"
+  | "hono"
+  | "react"
+  | "fastapi"
+  | "postgresql"
+  | "googleappsscript"
+  | "line";
+
+export type StackItem = { label: string; brand?: BrandKey };
 
 export type Work = {
   category: string;
