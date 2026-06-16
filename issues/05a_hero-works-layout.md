@@ -2,7 +2,7 @@
 id: 05a
 branch-slug: hero-works-layout-v2
 github_issue:
-status: open
+status: close
 type: feat
 対象: |
   src/pages/index.astro
