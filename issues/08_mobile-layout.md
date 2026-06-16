@@ -2,7 +2,7 @@
 id: 08
 branch-slug: mobile-layout
 github_issue:
-status: open
+status: close
 type: feat
 対象: |
   src/pages/index.astro
