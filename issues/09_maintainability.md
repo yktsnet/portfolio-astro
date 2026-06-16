@@ -2,7 +2,7 @@
 id: 09
 branch-slug: maintainability
 github_issue:
-status: open
+status: close
 type: cleanup
 対象: |
   src/pages/index.astro
