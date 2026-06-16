@@ -2,7 +2,7 @@
 id: 07
 branch-slug: font-size-adjustment
 github_issue:
-status: open
+status: close
 type: feat
 対象: |
   src/pages/index.astro
