@@ -9,7 +9,8 @@ export default defineConfig({
   output: 'static',
   adapter: cloudflare({
     mode: 'directory',
-    imageService: 'compile'
+    imageService: 'compile',
+    platformProxy: { enabled: false },
   }),
   vite: {
     ssr: {
