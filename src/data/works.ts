@@ -1,8 +1,8 @@
 export type StackItem = { label: string; brand?: string };
 
 export type Work = {
+  category: string;
   title: string;
-  tag: string;
   color: string;
   icon: string;
   postSlug?: string;
@@ -13,8 +13,8 @@ export type Work = {
 
 export const works: Work[] = [
   {
+    category: "Automation",
     title: "NFC Attendance System",
-    tag: "現場自動化 · 業務改善",
     color: "#c792ea",
     icon: "id-card",
     postSlug: "nfc-attendance-system",
@@ -33,8 +33,8 @@ export const works: Work[] = [
     ],
   },
   {
+    category: "Hardware",
     title: "Cat Feed Tracker",
-    tag: "IoT · プロダクト",
     color: "#addb67",
     icon: "cat",
     postSlug: "cat-feed-tracker",
@@ -53,8 +53,8 @@ export const works: Work[] = [
     ],
   },
   {
+    category: "Platform",
     title: "Trading Lab",
-    tag: "運用基盤 · ダッシュボード",
     color: "#89ddff",
     icon: "trending-up",
     postSlug: "trading-lab",
