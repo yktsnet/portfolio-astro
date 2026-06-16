@@ -19,7 +19,7 @@ export const works: Work[] = [
     icon: "id-card",
     postSlug: "nfc-attendance-system",
     description:
-      "Sony RC-S300 と Raspberry Pi 2 で作った勤怠管理。カードをかざすだけで記録が完結し、Google スプレッドシートへ自動同期。マンション管理事業者に導入・運用中。",
+      "Sony RC-S300 と Raspberry Pi 2 で作った NFC 勤怠管理。\nカードをかざすだけで記録が完結し、Google スプレッドシートへ自動同期。",
     links: [
       { label: "Demo →", href: "/nfc-attendance/" },
       { label: "制作記事", href: "/posts/nfc-attendance-system/" },
@@ -39,7 +39,7 @@ export const works: Work[] = [
     icon: "cat",
     postSlug: "cat-feed-tracker",
     description:
-      "Pico W のリードスイッチで給餌棚の開閉を検知し、FastAPI + PostgreSQL で記録。LINE で家族に定時通知・照会・設定変更ができる家庭向け IoT システム。",
+      "Pico W のリードスイッチで給餌棚の開閉を検知し、FastAPI + PostgreSQL で記録。\nLINE で家族に定時通知・照会・設定変更できる家庭向け IoT システム。",
     links: [
       { label: "Demo →", href: "/cat-feed-tracker/" },
       { label: "制作記事", href: "/posts/cat-feed-tracker/" },
@@ -58,7 +58,7 @@ export const works: Work[] = [
     color: "#89ddff",
     icon: "trending-up",
     postSlug: "trading-lab",
-    description: "ターミナルで見ていた運用導線を Web console に置き直し、Live 状態と戦略選定を同じ画面から確認・操作できる内製ツール。",
+    description: "ターミナル中心だった運用導線を Web console に置き直した内製ツール。\nLive 状態と戦略選定を同じ画面から確認・操作できる。",
 
     links: [
       { label: "Demo →", href: "https://trading-lab.pages.dev", external: true },
