@@ -1,0 +1,64 @@
+---
+import { getLucideIcon } from '../lib/lucide';
+---
+
+<aside class="w-52 shrink-0 sticky top-12 self-start hidden sm:block">
+  <img
+    src="/images/profile/me.webp"
+    alt="Katsuhiro Yamakawa"
+    class="h-24 w-24 rounded-full object-cover"
+  />
+  <div class="mt-3">
+    <h1 class="text-xl font-semibold tracking-tight text-zinc-900 dark:text-poi-focus">
+      Katsuhiro Yamakawa
+    </h1>
+    <p class="text-sm text-poi-accent mt-0.5">
+      Builder
+    </p>
+  </div>
+  <p class="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-poi-muted">
+    レガシーをバラして作り直すのが好き。IoT・インフラ自動化・NixOS。AIエージェントを実務に組み込む実験を続けている。
+  </p>
+  <div class="mt-4 space-y-1 text-sm text-zinc-500 dark:text-poi-muted">
+    <span class="flex items-center gap-1.5">
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={getLucideIcon("map-pin")} />
+      Osaka
+    </span>
+    <a
+      href="https://ykts.net"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-1.5 hover:text-poi-accent dark:hover:text-poi-accent transition-colors"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={`<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />`} />
+      ykts.net
+    </a>
+    <a
+      href="https://github.com/yktsnet"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-1.5 hover:text-poi-accent dark:hover:text-poi-accent transition-colors"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={`<path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" />`} />
+      GitHub
+    </a>
+    <span class="flex items-center gap-1.5">
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={`<path d="M8 2v4" /><path d="M16 2v4" /><rect width="18" height="18" x="3" y="4" rx="2" /><path d="M3 10h18" />`} />
+      2025〜
+    </span>
+    <a
+      href="/posts/"
+      class="flex items-center gap-1.5 hover:text-poi-accent dark:hover:text-poi-accent transition-colors"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={getLucideIcon("file-text")} />
+      Posts
+    </a>
+    <a
+      href="/contact/"
+      class="flex items-center gap-1.5 hover:text-poi-accent dark:hover:text-poi-accent transition-colors"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={getLucideIcon("mail")} />
+      Contact
+    </a>
+  </div>
+</aside>
