@@ -2,7 +2,6 @@
 import Search from './Search.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import { siZenn } from 'simple-icons';
-import { getLucideIcon } from '../lib/lucide';
 
 interface Props {
   isPhotos: boolean;
@@ -10,20 +9,6 @@ interface Props {
 const { isPhotos } = Astro.props;
 ---
 <div class="ms-auto flex items-center gap-1">
-  <a
-    href="/posts/"
-    aria-label="Posts"
-    class="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-md text-zinc-700 transition-colors hover:text-poi-accent dark:text-poi-text dark:hover:text-poi-accent"
-  >
-    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={getLucideIcon("file-text")} />
-  </a>
-  <a
-    href="/contact/"
-    aria-label="Contact"
-    class="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-md text-zinc-700 transition-colors hover:text-poi-accent dark:text-poi-text dark:hover:text-poi-accent"
-  >
-    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={getLucideIcon("mail")} />
-  </a>
   <a
     href="https://zenn.dev/yktsnet"
     target="_blank"
