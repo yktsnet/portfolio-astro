@@ -27,7 +27,7 @@ export type Work = {
 
 export const works: Work[] = [
   {
-    category: "Automation",
+    category: "Modernization",
     title: "NFC Attendance System",
     color: "#c792ea",
     icon: "id-card",
