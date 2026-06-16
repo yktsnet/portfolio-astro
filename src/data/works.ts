@@ -29,7 +29,6 @@ export const works: Work[] = [
       { label: "Raspberry Pi", brand: "raspberry-pi" },
       { label: "Python", brand: "python" },
       { label: "GAS", brand: "googleappsscript" },
-      { label: "PostgreSQL", brand: "postgresql" },
     ],
   },
   {
