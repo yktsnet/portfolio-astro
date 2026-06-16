@@ -2,51 +2,6 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import { works } from '../data/works';
 import { getLucideIcon } from '../lib/lucide';
-import { getBrandIcon } from '../lib/brand-icons';
-import { roadmapItems } from '../data/roadmap';
-
-type StackRow = { label: string; icon: string; type: "brand" | "lucide" };
-type StackGroup = { group: string; items: StackRow[] };
-
-const stackGroups: StackGroup[] = [
-  {
-    group: "Edge",
-    items: [
-      { label: "Raspberry Pi", icon: "raspberry-pi", type: "brand" },
-      { label: "Pico W",       icon: "cpu",          type: "lucide" },
-      { label: "ESP32",        icon: "espressif",    type: "brand" },
-      { label: "LoRa",         icon: "cpu",          type: "lucide" },
-    ],
-  },
-  {
-  group: "Runtime",
-  items: [
-    { label: "Python",     icon: "python",     type: "brand" },
-    { label: "NixOS",      icon: "nixos",      type: "brand" },
-    { label: "FastAPI",    icon: "fastapi",    type: "brand" },
-    { label: "PostgreSQL", icon: "postgresql", type: "brand" },
-    { label: "Hono",       icon: "hono",       type: "brand" },
-    { label: "GAS",        icon: "googleappsscript",  type: "brand" },
-  ],
-},
-  {
-    group: "Surface",
-    items: [
-      { label: "Astro",        icon: "astro",        type: "brand" },
-      { label: "React",        icon: "react",        type: "brand" },
-      { label: "Cloudflare",   icon: "cloudflare",   type: "brand" },
-    ],
-  },
-];
-
-const stackGroupsResolved = stackGroups.map(group => ({
-  ...group,
-  items: group.items.map(item => ({
-    ...item,
-    brand: item.type === "brand" ? getBrandIcon(item.icon) : null,
-    lucidePath: item.type === "lucide" ? getLucideIcon(item.icon) : null,
-  })),
-}));
 
 const featuredWorks = works.filter(w => w.featured).map(work => ({
   ...work,
@@ -68,7 +23,6 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
         <h1 class="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-3xl dark:text-poi-focus">
           Katsuhiro Yamakawa
         </h1>
-        <p class="mt-1 font-mono text-sm text-zinc-500 dark:text-poi-muted">Builder / Operator</p>
       </div>
     </div>
   </section>
@@ -76,53 +30,9 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
   <!-- ===== Description + Stack ===== -->
   <section class="mb-12 max-w-3xl">
     <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-      現場で生まれる信号や作業を、役割に応じた場所へ置き分けてつなぐ。ハードウェアからクラウドまで、設計・実装・運用を一貫して担っています。
+      レガシーをバラして作り直すのが好き。IoT・インフラ自動化・NixOS。<br />
+      AIエージェントを実務に組み込む実験を続けている。
     </p>
-
-    <!-- Stack groups -->
-    <div class="mt-5 space-y-1.5">
-      {stackGroupsResolved.map((group) => (
-        <div class="flex items-start gap-3 font-mono text-xs">
-          <span class="w-16 shrink-0 text-light-accent dark:text-poi-accent">{group.group}</span>
-          <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-            {group.items.map((item, i) => (
-              <>
-                {i > 0 && <span class="text-zinc-300 dark:text-poi-border select-none">·</span>}
-                <span class="inline-flex items-center gap-1 text-zinc-600 dark:text-zinc-400">
-                  {item.brand && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12" height="12"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      style={`color:#${item.brand.hex}`}
-                      aria-hidden="true"
-                    >
-                      <path d={item.brand.path} />
-                    </svg>
-                  )}
-                  {item.lucidePath && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12" height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                      set:html={item.lucidePath}
-                    />
-                  )}
-                  {item.label}
-                </span>
-              </>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
   </section>
 
   <!-- ===== Works ===== -->
@@ -160,6 +70,15 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
             <p class="mt-1 font-sans text-xs leading-6 text-zinc-500 dark:text-poi-muted">
               {work.featuredDescription ?? work.description}
             </p>
+            {work.stack && work.stack.length > 0 && (
+              <div class="mt-1.5 flex flex-wrap gap-1">
+                {work.stack.map((s) => (
+                  <span class="inline-flex items-center rounded-full border border-zinc-200 dark:border-poi-border px-2 py-0.5 font-mono text-[10px] text-zinc-500 dark:text-zinc-400">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            )}
             <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs">
               {work.links.map((link) => (
                 <a
@@ -179,38 +98,4 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
     </div>
   </section>
 
-  <!-- ===== Roadmap ===== -->
-  <section class="mb-14">
-    <details class="group">
-      <summary class="flex items-center gap-2 cursor-pointer list-none font-mono text-xs">
-        <span class="font-semibold text-zinc-900 dark:text-poi-focus">Roadmap</span>
-        <span class="text-zinc-400 dark:text-zinc-500">what's next</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="12" height="12"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="text-zinc-400 dark:text-zinc-600 transition-transform duration-200 group-open:rotate-180"
-          aria-hidden="true"
-        >
-          <path d="m6 9 6 6 6-6"/>
-        </svg>
-      </summary>
-      <ul class="mt-3 space-y-2">
-        {roadmapItems.map((item) => (
-          <li class="font-mono text-xs text-zinc-600 dark:text-zinc-400">
-            <span class="text-zinc-300 dark:text-zinc-600 mr-2">○</span>
-            {item.label}
-            {item.detail && (
-              <span class="ml-1.5 text-zinc-400 dark:text-zinc-600">{item.detail}</span>
-            )}
-          </li>
-        ))}
-      </ul>
-    </details>
-  </section>
 </MainLayout>

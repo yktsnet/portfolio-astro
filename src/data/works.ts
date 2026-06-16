@@ -8,6 +8,7 @@ export type Work = {
   links: { label: string; href: string; external?: boolean }[];
   featured: boolean;
   featuredDescription?: string;
+  stack?: string[];
 };
 
 export const works: Work[] = [
@@ -27,6 +28,7 @@ export const works: Work[] = [
       { label: "GitHub", href: "https://github.com/yktsnet/nfc-attendance-kit", external: true },
     ],
     featured: true,
+    stack: ["Raspberry Pi", "Python", "GAS", "PostgreSQL"],
   },
   {
     title: "Cat Feed Tracker",
@@ -44,6 +46,7 @@ export const works: Work[] = [
       { label: "GitHub", href: "https://github.com/yktsnet/cat-feed-tracker", external: true },
     ],
     featured: true,
+    stack: ["Pico W", "FastAPI", "PostgreSQL", "LINE API"],
   },
   {
     title: "Trading Lab",
@@ -60,6 +63,7 @@ export const works: Work[] = [
       { label: "GitHub", href: "https://github.com/yktsnet/trading-lab", external: true },
     ],
     featured: true,
+    stack: ["React", "Hono", "Cloudflare", "Python"],
   },
 ];
 
