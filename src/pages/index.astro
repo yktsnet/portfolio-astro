@@ -2,11 +2,25 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import { works } from '../data/works';
 import { getLucideIcon } from '../lib/lucide';
+import { getBrandIcon } from '../lib/brand-icons';
 
-const featuredWorks = works.filter(w => w.featured).map(work => ({
+const worksResolved = works.map(work => ({
   ...work,
   iconPath: getLucideIcon(work.icon),
+  stackResolved: (work.stack ?? []).map(s => ({
+    ...s,
+    brandIcon: s.brand ? getBrandIcon(s.brand) : null,
+  })),
 }));
+
+const categoryOrder = ["Automation", "Hardware", "Platform"];
+
+const grouped = categoryOrder
+  .map(cat => ({
+    category: cat,
+    items: worksResolved.filter(w => w.category === cat),
+  }))
+  .filter(g => g.items.length > 0);
 ---
 
 <MainLayout title="Home">
@@ -27,7 +41,7 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
     </div>
   </section>
 
-  <!-- ===== Description + Stack ===== -->
+  <!-- ===== Description ===== -->
   <section class="mb-12 max-w-3xl">
     <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
       レガシーをバラして作り直すのが好き。IoT・インフラ自動化・NixOS。<br />
@@ -36,62 +50,76 @@ const featuredWorks = works.filter(w => w.featured).map(work => ({
   </section>
 
   <!-- ===== Works ===== -->
-  <section class="mb-12">
-    <div class="flex items-baseline justify-between mb-1">
-      <div class="flex items-baseline gap-3">
-        <h2 class="font-mono text-xs font-semibold text-zinc-900 dark:text-poi-focus">Works</h2>
-        <span class="font-mono text-xs text-zinc-400 dark:text-zinc-500">{featuredWorks.length} in production</span>
-      </div>
-      <a class="cactus-link font-mono text-xs" href="/works/">すべて見る →</a>
-    </div>
-    <div class="divide-y divide-zinc-100 dark:divide-poi-border/60">
-      {featuredWorks.map((work) => (
-        <div class="py-4 flex gap-4 items-start">
-          <div
-            class="mt-0.5 shrink-0 flex items-center justify-center w-8 h-8 rounded-lg"
-            style={`background:${work.color}18`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="15" height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              style={`color:${work.color}`}
-              set:html={work.iconPath}
-            />
-          </div>
-          <div class="min-w-0 flex-1">
-            <p class="font-mono text-xs" style={`color:${work.color}`}>{work.tag}</p>
-            <h3 class="mt-0.5 font-semibold text-sm text-zinc-900 dark:text-poi-focus">{work.title}</h3>
-            <p class="mt-1 font-sans text-xs leading-6 text-zinc-500 dark:text-poi-muted">
-              {work.featuredDescription ?? work.description}
-            </p>
-            {work.stack && work.stack.length > 0 && (
-              <div class="mt-1.5 flex flex-wrap gap-1">
-                {work.stack.map((s) => (
-                  <span class="inline-flex items-center rounded-full border border-zinc-200 dark:border-poi-border px-2 py-0.5 font-mono text-[10px] text-zinc-500 dark:text-zinc-400">
-                    {s}
-                  </span>
-                ))}
+  <section class="mb-16">
+    <div class="space-y-16">
+      {grouped.map(({ category, items }) => (
+        <div>
+          <h2 class="mb-6 font-mono text-5xl font-bold tracking-tight text-zinc-900/10 dark:text-white/10 select-none">
+            {category}
+          </h2>
+
+          <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+            {items.map((work) => (
+              <div class="flex gap-3">
+                <div class="mt-0.5 shrink-0 flex items-center justify-center w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16" height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-zinc-600 dark:text-zinc-400"
+                    set:html={work.iconPath}
+                  />
+                </div>
+
+                <div class="min-w-0">
+                  <h3 class="font-semibold text-sm text-zinc-900 dark:text-poi-focus">
+                    {work.title}
+                  </h3>
+                  <p class="mt-1 font-sans text-xs leading-6 text-zinc-500 dark:text-poi-muted">
+                    {work.description}
+                  </p>
+
+                  {work.stackResolved.length > 0 && (
+                    <div class="mt-2 flex flex-wrap gap-1.5">
+                      {work.stackResolved.map((s) => (
+                        <span class="inline-flex items-center gap-1 font-mono text-[10px] text-zinc-400 dark:text-zinc-500">
+                          {s.brandIcon && (
+                            <svg
+                              width="10" height="10"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              style={`color:#${s.brandIcon.hex}`}
+                              aria-hidden="true"
+                            >
+                              <path d={s.brandIcon.path} />
+                            </svg>
+                          )}
+                          {s.label}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
+                    {work.links.map((link) => (
+                      <a
+                        class="hover:text-zinc-700 dark:hover:text-zinc-300 hover:underline underline-offset-2 transition-colors"
+                        href={link.href}
+                        target={link.external ? "_blank" : undefined}
+                        rel={link.external ? "noopener noreferrer" : undefined}
+                      >
+                        {link.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
               </div>
-            )}
-            <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs">
-              {work.links.map((link) => (
-                <a
-                  class="hover:underline underline-offset-2 transition-opacity hover:opacity-80"
-                  style={`color:${work.color}`}
-                  href={link.href}
-                  target={link.external ? "_blank" : undefined}
-                  rel={link.external ? "noopener noreferrer" : undefined}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
       ))}
