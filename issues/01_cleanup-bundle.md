@@ -2,7 +2,7 @@
 id: 01
 branch-slug: cleanup-bundle
 github_issue:
-status: open
+status: close
 type: cleanup
 対象: |
   src/pages/index.astro
