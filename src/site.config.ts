@@ -17,6 +17,4 @@ export const siteConfig: SiteConfig = {
   url: "https://ykts.net",
 };
 
-export const menuLinks: { path: string; title: string }[] = [
-  { path: "/works/", title: "Works" },
-];
+export const menuLinks: { path: string; title: string }[] = [];

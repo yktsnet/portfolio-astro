@@ -1,4 +1,4 @@
-import { siRaspberrypi, siCloudflare, siNixos, siEspressif, siPython, siAstro, siHono, siReact, siFastapi, siPostgresql, siGoogleappsscript } from "simple-icons";
+import { siRaspberrypi, siCloudflare, siNixos, siEspressif, siPython, siAstro, siHono, siReact, siFastapi, siPostgresql, siGoogleappsscript, siLine } from "simple-icons";
 
 type BrandIcon = { path: string; hex: string };
 
@@ -14,6 +14,7 @@ const map: Record<string, BrandIcon> = {
   "fastapi":      { path: siFastapi.path,      hex: siFastapi.hex     },
   "postgresql":   { path: siPostgresql.path,   hex: siPostgresql.hex  },
   "googleappsscript": { path: siGoogleappsscript.path, hex: siGoogleappsscript.hex },
+  "line":             { path: siLine.path,             hex: siLine.hex             },
 };
 
 export function getBrandIcon(name: string): BrandIcon | null {
