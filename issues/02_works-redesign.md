@@ -2,7 +2,7 @@
 id: 02
 branch-slug: works-redesign
 github_issue:
-status: open
+status: close
 type: feat
 対象: |
   src/pages/index.astro
