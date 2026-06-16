@@ -26,7 +26,7 @@ const grouped = categoryOrder
 <MainLayout title="Home">
 
   <!-- ===== Hero ===== -->
-  <section class="mb-8">
+  <section class="mb-12">
     <div class="flex flex-col gap-6 sm:flex-row sm:items-center">
       <img
         src="/images/profile/me.webp"
@@ -37,16 +37,12 @@ const grouped = categoryOrder
         <h1 class="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-3xl dark:text-poi-focus">
           Katsuhiro Yamakawa
         </h1>
+        <p class="mt-2 font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+          レガシーをバラして作り直すのが好き。IoT・インフラ自動化・NixOS。<br />
+          AIエージェントを実務に組み込む実験を続けている。
+        </p>
       </div>
     </div>
-  </section>
-
-  <!-- ===== Description ===== -->
-  <section class="mb-12 max-w-3xl">
-    <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-      レガシーをバラして作り直すのが好き。IoT・インフラ自動化・NixOS。<br />
-      AIエージェントを実務に組み込む実験を続けている。
-    </p>
   </section>
 
   <!-- ===== Works ===== -->
@@ -54,13 +50,16 @@ const grouped = categoryOrder
     <div class="space-y-16">
       {grouped.map(({ category, items }) => (
         <div>
-          <h2 class="mb-6 font-mono text-5xl font-bold tracking-tight text-zinc-900/10 dark:text-white/10 select-none">
+          <h2
+            class="mb-8 font-serif text-4xl font-bold tracking-tight opacity-20 select-none"
+            style={`color: ${items[0].color};`}
+          >
             {category}
           </h2>
 
-          <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="space-y-8">
             {items.map((work) => (
-              <div class="flex gap-3">
+              <div class="flex gap-4">
                 <div class="mt-0.5 shrink-0 flex items-center justify-center w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +75,7 @@ const grouped = categoryOrder
                   />
                 </div>
 
-                <div class="min-w-0">
+                <div class="min-w-0 flex-1">
                   <h3 class="font-semibold text-sm text-zinc-900 dark:text-poi-focus">
                     {work.title}
                   </h3>
@@ -85,7 +84,7 @@ const grouped = categoryOrder
                   </p>
 
                   {work.stackResolved.length > 0 && (
-                    <div class="mt-2 flex flex-wrap gap-1.5">
+                    <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1">
                       {work.stackResolved.map((s) => (
                         <span class="inline-flex items-center gap-1 font-mono text-[10px] text-zinc-400 dark:text-zinc-500">
                           {s.brandIcon && (
@@ -105,10 +104,11 @@ const grouped = categoryOrder
                     </div>
                   )}
 
-                  <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
+                  <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs">
                     {work.links.map((link) => (
                       <a
-                        class="hover:text-zinc-700 dark:hover:text-zinc-300 hover:underline underline-offset-2 transition-colors"
+                        class="hover:underline underline-offset-2 transition-opacity hover:opacity-80"
+                        style={`color: ${work.color};`}
                         href={link.href}
                         target={link.external ? "_blank" : undefined}
                         rel={link.external ? "noopener noreferrer" : undefined}
