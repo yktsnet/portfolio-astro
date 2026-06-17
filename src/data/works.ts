@@ -58,7 +58,7 @@ export const works: Work[] = [
     icon: "cat",
     postSlug: "cat-feed-tracker",
     description:
-      "給餌棚に取り付けたリードスイッチで開閉を自動検知し、LINE で家族へ通知する家庭向け IoT。\nPico W → FastAPI → PostgreSQL の構成で、体重管理や設定変更まで LINE から完結。",
+      "給餌棚の開閉を自動検知し、LINE で家族へ定時通知する家庭向け IoT。\nPico W → FastAPI → PostgreSQL 構成で、体重管理や設定変更まで LINE から完結。",
     links: [
       { label: "Demo →", href: "/cat-feed-tracker/" },
       { label: "制作記事", href: "/posts/cat-feed-tracker/" },

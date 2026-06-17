@@ -42,7 +42,7 @@ const grouped = categoryOrder
     <main class="flex-1 min-w-0">
       <div>
         {grouped.map(({ category, items }, i) => (
-          <div class={i > 0 ? "border-t border-zinc-200 dark:border-zinc-800 pt-20" : ""}>
+          <div class={i > 0 ? "mt-16 border-t border-zinc-200 dark:border-poi-border pt-10" : ""}>
             <h2
               class="mb-8 font-mono text-4xl sm:text-5xl font-normal tracking-tight select-none opacity-60"
               style={`-webkit-text-stroke: 1px ${items[0].color}; color: transparent;`}
