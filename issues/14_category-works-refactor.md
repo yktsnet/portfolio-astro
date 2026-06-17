@@ -2,7 +2,7 @@
 id: 14
 branch-slug: category-works-refactor
 github_issue:
-status: open
+status: close
 type: feat
 対象: |
   src/data/works.ts
