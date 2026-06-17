@@ -28,7 +28,7 @@ const grouped = categoryOrder
 <MainLayout title="Home">
 
   <!-- ===== Mobile Hero (縦積み: Hero → Works) ===== -->
-  <div class="sm:hidden mb-12">
+  <div class="sm:hidden mb-16">
     <HeroMobile />
   </div>
 
@@ -44,7 +44,7 @@ const grouped = categoryOrder
         {grouped.map(({ category, items }) => (
           <div>
             <h2
-              class="mb-8 font-mono text-5xl font-normal tracking-tight select-none opacity-60"
+              class="mb-8 font-mono text-4xl sm:text-5xl font-normal tracking-tight select-none opacity-60"
               style={`-webkit-text-stroke: 1px ${items[0].color}; color: transparent;`}
             >
               {category}
