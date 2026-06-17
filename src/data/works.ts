@@ -66,9 +66,9 @@ export const works: Work[] = [
     ],
     stack: [
       { label: "Pico W", brand: "raspberry-pi" },
+      { label: "LINE API", brand: "line" },
       { label: "FastAPI", brand: "fastapi" },
       { label: "PostgreSQL", brand: "postgresql" },
-      { label: "LINE API", brand: "line" },
     ],
   },
   {
@@ -83,8 +83,8 @@ export const works: Work[] = [
       { label: "GitHub", href: "https://github.com/yktsnet/training-scheduler", external: true },
     ],
     stack: [
-      { label: "Vue", brand: "vue" },
       { label: "Go", brand: "go" },
+      { label: "Vue", brand: "vue" },
       { label: "SQLite", brand: "sqlite" },
     ],
   },
@@ -119,6 +119,7 @@ export const works: Work[] = [
     ],
     stack: [
       { label: "C#", brand: "csharp" },
+      { label: "SignalR" },
       { label: "React", brand: "react" },
       { label: "PostgreSQL", brand: "postgresql" },
     ],
@@ -138,9 +139,9 @@ export const works: Work[] = [
     ],
     stack: [
       { label: "React", brand: "react" },
-      { label: "Hono", brand: "hono" },
+      { label: "FastAPI", brand: "fastapi" },
       { label: "Cloudflare", brand: "cloudflare" },
-      { label: "Python", brand: "python" },
+      { label: "NixOS", brand: "nixos" },
     ],
   },
 ];
