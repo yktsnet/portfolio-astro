@@ -39,7 +39,7 @@ export const works: Work[] = [
     icon: "id-card",
     postSlug: "nfc-attendance-system",
     description:
-      "Sony RC-S300 と Raspberry Pi 2 で作った NFC 勤怠管理。\nカードをかざすだけで記録が完結し、Google スプレッドシートへ自動同期。",
+      "NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。\nPython 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
     links: [
       { label: "Demo →", href: "/nfc-attendance/" },
       { label: "制作記事", href: "/posts/nfc-attendance-system/" },
@@ -58,7 +58,7 @@ export const works: Work[] = [
     icon: "cat",
     postSlug: "cat-feed-tracker",
     description:
-      "Pico W のリードスイッチで給餌棚の開閉を検知し、FastAPI + PostgreSQL で記録。\nLINE で家族に定時通知・照会・設定変更できる家庭向け IoT システム。",
+      "給餌棚に取り付けたリードスイッチで開閉を自動検知し、LINE で家族へ通知する家庭向け IoT。\nPico W → FastAPI → PostgreSQL の構成で、体重管理や設定変更まで LINE から完結。",
     links: [
       { label: "Demo →", href: "/cat-feed-tracker/" },
       { label: "制作記事", href: "/posts/cat-feed-tracker/" },
@@ -74,10 +74,10 @@ export const works: Work[] = [
   {
     category: "Others",
     title: "Training Scheduler",
-    color: "#71717a",
+    color: "#a6accd",
     icon: "graduation-cap",
     description:
-      "社内研修のスケジュール管理と参加者調整を一元化した Web アプリ。\nVue + Go で構築。デモ環境では SQLite を使用。",
+      "機械的な進捗率管理ではなく、新人の主観的な手応えをメンターと共有するための研修支援ツール。\nVue + Go を go:embed で単一バイナリに固め、SQLite のみでインフラ依存ゼロ。",
     links: [
       { label: "Demo →", href: "https://training-scheduler.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/training-scheduler", external: true },
@@ -94,7 +94,7 @@ export const works: Work[] = [
     color: "#c792ea",
     icon: "shopping-cart",
     description:
-      "レガシーな WinForms 発注システムを React + .NET 8 Web API に段階的移行。\n自然言語で在庫状況の照会や分析ができる AI エージェント機能を統合。",
+      "WinForms の密結合（UI にロジック全入り）を解体し、.NET 8 Web API + React へ段階的移行。\n責務分離が完了した構造に LangGraph を独立追加し、自然言語で在庫・売上を照会できる AI エージェントを統合。",
     links: [
       { label: "Demo →", href: "https://winforms.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/order-system-migration", external: true },
@@ -112,7 +112,7 @@ export const works: Work[] = [
     color: "#c792ea",
     icon: "clock",
     description:
-      "レガシーな WebForms 勤怠管理アプリを React + .NET 8 Web API に段階的移行。\nSignalR による打刻状況のリアルタイム監視機能を追加。",
+      "AutoPostBack・ViewState という WebForms の構造的問題を解体し、.NET 8 Web API + React に移行。\n分離後の構造に SignalR を追加し、WebForms では実現不可能だったリアルタイム打刻監視を実装。",
     links: [
       { label: "Demo →", href: "https://webforms.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/attendance-system-migration", external: true },
@@ -129,7 +129,7 @@ export const works: Work[] = [
     color: "#89ddff",
     icon: "trending-up",
     postSlug: "trading-lab",
-    description: "ターミナル中心だった運用導線を Web console に置き直した内製ツール。\nLive 状態と戦略選定を同じ画面から確認・操作できる。",
+    description: "ターミナルで分散していたバックテスト・戦略選定・Live 監視を一画面に集約した自動売買用 Web console。\n異常検知から戦略選定まで、運用判断の全入口をひとつに。",
 
     links: [
       { label: "Demo →", href: "https://trading-lab.pages.dev", external: true },
