@@ -72,12 +72,12 @@ export const works: Work[] = [
     ],
   },
   {
-    category: "Modernization",
+    category: "Others",
     title: "Training Scheduler",
-    color: "#c792ea",
+    color: "#71717a",
     icon: "graduation-cap",
     description:
-      "社内研修のスケジュール管理と参加者調整を一元化した Web アプリ。\nVue + Go で構築し、SQLite をバックエンドに採用。",
+      "社内研修のスケジュール管理と参加者調整を一元化した Web アプリ。\nVue + Go で構築し、SQLite（デモ環境）。",
     links: [
       { label: "Demo →", href: "https://training-scheduler.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/training-scheduler", external: true },
@@ -90,7 +90,7 @@ export const works: Work[] = [
   },
   {
     category: "Modernization",
-    title: "Attendance System / WebForms",
+    title: "Attendance System",
     color: "#c792ea",
     icon: "clock",
     description:
@@ -107,7 +107,7 @@ export const works: Work[] = [
   },
   {
     category: "Modernization",
-    title: "Order System / WinForms",
+    title: "Order System",
     color: "#c792ea",
     icon: "shopping-cart",
     description:
@@ -124,7 +124,7 @@ export const works: Work[] = [
     ],
   },
   {
-    category: "Finance",
+    category: "Trading",
     title: "Trading Lab",
     color: "#89ddff",
     icon: "trending-up",
