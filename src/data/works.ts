@@ -10,7 +10,10 @@ export type BrandKey =
   | "fastapi"
   | "postgresql"
   | "googleappsscript"
-  | "line";
+  | "line"
+  | "go"
+  | "vue"
+  | "sqlite";
 
 export type StackItem = { label: string; brand?: BrandKey };
 
@@ -27,9 +30,9 @@ export type Work = {
 
 export const works: Work[] = [
   {
-    category: "Modernization",
+    category: "Hardware",
     title: "NFC Attendance System",
-    color: "#c792ea",
+    color: "#addb67",
     icon: "id-card",
     postSlug: "nfc-attendance-system",
     description:
@@ -66,7 +69,21 @@ export const works: Work[] = [
     ],
   },
   {
-    category: "Platform",
+    category: "Modernization",
+    title: "Training Scheduler",
+    color: "#c792ea",
+    icon: "graduation-cap",
+    description:
+      "社内研修のスケジュール管理と参加者調整を一元化した Web アプリ。\nVue + Go で構築し、SQLite をバックエンドに採用。",
+    links: [],
+    stack: [
+      { label: "Vue", brand: "vue" },
+      { label: "Go", brand: "go" },
+      { label: "SQLite", brand: "sqlite" },
+    ],
+  },
+  {
+    category: "Finance",
     title: "Trading Lab",
     color: "#89ddff",
     icon: "trending-up",
