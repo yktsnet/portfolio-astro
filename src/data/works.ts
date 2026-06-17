@@ -77,7 +77,7 @@ export const works: Work[] = [
     color: "#71717a",
     icon: "graduation-cap",
     description:
-      "社内研修のスケジュール管理と参加者調整を一元化した Web アプリ。\nVue + Go で構築し、SQLite（デモ環境）。",
+      "社内研修のスケジュール管理と参加者調整を一元化した Web アプリ。\nVue + Go で構築。デモ環境では SQLite を使用。",
     links: [
       { label: "Demo →", href: "https://training-scheduler.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/training-scheduler", external: true },
@@ -86,23 +86,6 @@ export const works: Work[] = [
       { label: "Vue", brand: "vue" },
       { label: "Go", brand: "go" },
       { label: "SQLite", brand: "sqlite" },
-    ],
-  },
-  {
-    category: "Modernization",
-    title: "Attendance System",
-    color: "#c792ea",
-    icon: "clock",
-    description:
-      "レガシーな WebForms 勤怠管理アプリを React + .NET 8 Web API に段階的移行。\nSignalR による打刻状況のリアルタイム監視機能を追加。",
-    links: [
-      { label: "Demo →", href: "https://webforms.ykts.net/", external: true },
-      { label: "GitHub", href: "https://github.com/yktsnet/attendance-system-migration", external: true },
-    ],
-    stack: [
-      { label: "C#", brand: "csharp" },
-      { label: "React", brand: "react" },
-      { label: "PostgreSQL", brand: "postgresql" },
     ],
   },
   {
@@ -121,6 +104,23 @@ export const works: Work[] = [
       { label: "Gemini API", brand: "gemini" },
       { label: "C#", brand: "csharp" },
       { label: "React", brand: "react" },
+    ],
+  },
+  {
+    category: "Modernization",
+    title: "Attendance System",
+    color: "#c792ea",
+    icon: "clock",
+    description:
+      "レガシーな WebForms 勤怠管理アプリを React + .NET 8 Web API に段階的移行。\nSignalR による打刻状況のリアルタイム監視機能を追加。",
+    links: [
+      { label: "Demo →", href: "https://webforms.ykts.net/", external: true },
+      { label: "GitHub", href: "https://github.com/yktsnet/attendance-system-migration", external: true },
+    ],
+    stack: [
+      { label: "C#", brand: "csharp" },
+      { label: "React", brand: "react" },
+      { label: "PostgreSQL", brand: "postgresql" },
     ],
   },
   {
