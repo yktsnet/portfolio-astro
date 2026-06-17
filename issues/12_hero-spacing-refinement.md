@@ -2,7 +2,7 @@
 id: 12
 branch-slug: hero-spacing-refinement
 github_issue:
-status: open
+status: close
 type: fix
 対象: |
   src/components/HeroDesktop.astro
