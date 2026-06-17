@@ -2,7 +2,7 @@
 id: 13
 branch-slug: mobile-hero-works-spacing
 github_issue:
-status: open
+status: close
 type: fix
 対象: |
   src/components/HeroMobile.astro
