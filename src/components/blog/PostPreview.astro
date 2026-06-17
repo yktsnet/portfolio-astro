@@ -34,10 +34,7 @@ const iconStyle = `color:${visual.color}`;
 
 {!cardMode && (
   <>
-    <div class="flex min-w-[140px] items-center gap-2">
-      <span class="inline-block h-2 w-2 shrink-0 rounded-full" style={`background-color:${visual.color}`} aria-hidden="true" />
-      <FormattedDate class="font-semibold text-zinc-500 dark:text-poi-muted/70" date={post.data.publishDate} />
-    </div>
+    <FormattedDate class="min-w-[120px] font-semibold text-zinc-500 dark:text-poi-muted/70" date={post.data.publishDate} />
     <Tag>
       {post.data.draft && <span class="text-red-500">(Draft) </span>}
       <a class="cactus-link inline-flex items-center gap-1.5" href={postUrl}>
