@@ -44,13 +44,13 @@ const grouped = categoryOrder
         {grouped.map(({ category, items }) => (
           <div>
             <h2
-              class="mb-6 font-mono text-5xl font-normal tracking-tight select-none opacity-60"
+              class="mb-8 font-mono text-5xl font-normal tracking-tight select-none opacity-60"
               style={`-webkit-text-stroke: 1px ${items[0].color}; color: transparent;`}
             >
               {category}
             </h2>
 
-            <div class="space-y-6">
+            <div class="space-y-10">
               {items.map((work) => (
                 <div>
                   <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
