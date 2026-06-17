@@ -2,7 +2,7 @@
 id: 15
 branch-slug: category-section-grouping
 github_issue:
-status: open
+status: close
 type: fix
 対象: |
   src/pages/index.astro
