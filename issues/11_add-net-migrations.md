@@ -2,7 +2,7 @@
 id: 11
 branch-slug: add-net-migrations
 github_issue:
-status: open
+status: close
 type: feat
 対象: |
   src/data/works.ts
