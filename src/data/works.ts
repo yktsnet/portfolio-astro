@@ -13,7 +13,10 @@ export type BrandKey =
   | "line"
   | "go"
   | "vue"
-  | "sqlite";
+  | "sqlite"
+  | "csharp"
+  | "langgraph"
+  | "gemini";
 
 export type StackItem = { label: string; brand?: BrandKey };
 
@@ -75,11 +78,49 @@ export const works: Work[] = [
     icon: "graduation-cap",
     description:
       "社内研修のスケジュール管理と参加者調整を一元化した Web アプリ。\nVue + Go で構築し、SQLite をバックエンドに採用。",
-    links: [],
+    links: [
+      { label: "Demo →", href: "https://training-scheduler.ykts.net/", external: true },
+      { label: "GitHub", href: "https://github.com/yktsnet/training-scheduler", external: true },
+    ],
     stack: [
       { label: "Vue", brand: "vue" },
       { label: "Go", brand: "go" },
       { label: "SQLite", brand: "sqlite" },
+    ],
+  },
+  {
+    category: "Modernization",
+    title: "Attendance System / WebForms",
+    color: "#c792ea",
+    icon: "clock",
+    description:
+      "レガシーな WebForms 勤怠管理アプリを React + .NET 8 Web API に段階的移行。\nSignalR による打刻状況のリアルタイム監視機能を追加。",
+    links: [
+      { label: "Demo →", href: "https://webforms.ykts.net/", external: true },
+      { label: "GitHub", href: "https://github.com/yktsnet/attendance-system-migration", external: true },
+    ],
+    stack: [
+      { label: "C#", brand: "csharp" },
+      { label: "React", brand: "react" },
+      { label: "PostgreSQL", brand: "postgresql" },
+    ],
+  },
+  {
+    category: "Modernization",
+    title: "Order System / WinForms",
+    color: "#c792ea",
+    icon: "shopping-cart",
+    description:
+      "レガシーな WinForms 発注システムを React + .NET 8 Web API に段階的移行。\n自然言語で在庫状況の照会や分析ができる AI エージェント機能を統合。",
+    links: [
+      { label: "Demo →", href: "https://winforms.ykts.net/", external: true },
+      { label: "GitHub", href: "https://github.com/yktsnet/order-system-migration", external: true },
+    ],
+    stack: [
+      { label: "LangGraph", brand: "langgraph" },
+      { label: "Gemini API", brand: "gemini" },
+      { label: "C#", brand: "csharp" },
+      { label: "React", brand: "react" },
     ],
   },
   {
