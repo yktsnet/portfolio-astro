@@ -4,6 +4,6 @@
 
 @layer components {
   .cactus-link {
-    @apply underline underline-offset-2 decoration-zinc-500 dark:decoration-zinc-400 decoration-2 transition-all hover:decoration-light-accent dark:hover:decoration-poi-accent;
+    @apply underline underline-offset-2 transition-colors hover:decoration-2 hover:decoration-light-accent dark:hover:decoration-poi-accent;
   }
 }
