@@ -2,7 +2,7 @@
 id: 10
 branch-slug: category-and-work-update
 github_issue:
-status: open
+status: close
 type: feat
 対象: |
   src/data/works.ts
