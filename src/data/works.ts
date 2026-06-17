@@ -77,7 +77,7 @@ export const works: Work[] = [
     color: "#a6accd",
     icon: "graduation-cap",
     description:
-      "機械的な進捗率管理ではなく、新人の主観的な手応えをメンターと共有するための研修支援ツール。\nVue + Go を go:embed で単一バイナリに固め、SQLite のみでインフラ依存ゼロ。",
+      "機械的な進捗管理ではなく、新人の手応えをメンターと共有する研修支援ツール。\nVue + Go を go:embed で単一バイナリに固め、SQLite のみでインフラ依存ゼロ。",
     links: [
       { label: "Demo →", href: "https://training-scheduler.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/training-scheduler", external: true },
@@ -94,7 +94,7 @@ export const works: Work[] = [
     color: "#c792ea",
     icon: "shopping-cart",
     description:
-      "WinForms の密結合（UI にロジック全入り）を解体し、.NET 8 Web API + React へ段階的移行。\n責務分離が完了した構造に LangGraph を独立追加し、自然言語で在庫・売上を照会できる AI エージェントを統合。",
+      "WinForms の密結合を解体し、.NET 8 Web API + React へ段階的移行。\nLangGraph を独立追加し、自然言語で在庫・売上を照会できる AI エージェントを統合。",
     links: [
       { label: "Demo →", href: "https://winforms.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/order-system-migration", external: true },
@@ -112,7 +112,7 @@ export const works: Work[] = [
     color: "#c792ea",
     icon: "clock",
     description:
-      "AutoPostBack・ViewState という WebForms の構造的問題を解体し、.NET 8 Web API + React に移行。\n分離後の構造に SignalR を追加し、WebForms では実現不可能だったリアルタイム打刻監視を実装。",
+      "AutoPostBack・ViewState を解体し、.NET 8 Web API + React へ段階的移行。\nSignalR を追加し、WebForms では不可能だったリアルタイム打刻監視を実装。",
     links: [
       { label: "Demo →", href: "https://webforms.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/attendance-system-migration", external: true },
@@ -130,7 +130,7 @@ export const works: Work[] = [
     color: "#89ddff",
     icon: "trending-up",
     postSlug: "trading-lab",
-    description: "ターミナルで分散していたバックテスト・戦略選定・Live 監視を一画面に集約した自動売買用 Web console。\n異常検知から戦略選定まで、運用判断の全入口をひとつに。",
+    description: "ターミナルで分散していた自動売買の運用導線を Web console に集約。\nバックテスト・戦略選定・Live 監視まで、同じ画面から確認・操作できる。",
 
     links: [
       { label: "Demo →", href: "https://trading-lab.pages.dev", external: true },
