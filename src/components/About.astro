@@ -1,6 +1,4 @@
 ---
-import Logo from '../layouts/Logo.astro';
-
 type TimelineEntry = { year: string; label: string };
 type LocationGroup = { location: string; items: TimelineEntry[] };
 
@@ -16,21 +14,18 @@ const timeline: LocationGroup[] = [
   {
     location: "Osaka",
     items: [
-      { year: "2025", label: "学習塾 閉業 / 個人開発" },
-      { year: "2026〜", label: "SES 入社 / 技術支援" },
+      { year: "2025", label: "学習塾 閉業 / 個人開発・技術支援" },
+      { year: "2026〜", label: "SES 入社" },
     ],
   },
 ];
 ---
 
 <section class="relative mb-20 pb-16 border-b border-zinc-200/50 dark:border-poi-border/40">
-  <Logo
-    size={140}
-    class="pointer-events-none absolute bottom-16 right-0 opacity-[0.07] dark:opacity-[0.1] select-none"
-  />
   <div class="space-y-5 text-zinc-600 dark:text-poi-muted">
-    <p class="text-base sm:text-lg leading-8 text-zinc-900 dark:text-poi-focus">
-      曖昧なビジネス課題を、設計・実装・本番運用まで一人で形にする。
+    <p class="font-mono text-xs tracking-widest uppercase text-poi-accent">About</p>
+    <p class="!mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+      曖昧なビジネス課題を、<br class="hidden sm:block" />設計・実装・本番運用まで一人で形にする。
     </p>
 
     <p class="text-sm leading-8">
@@ -50,13 +45,20 @@ const timeline: LocationGroup[] = [
   <div class="mt-12 space-y-6">
     {timeline.map(({ location, items }) => (
       <div>
-        <p class="font-mono text-xs text-poi-accent mb-2">@{location}</p>
-        <div class="border-l border-zinc-600 pl-5 space-y-2.5">
+        <p class="font-mono text-xs text-poi-accent mb-3">@{location}</p>
+        <div>
           {items.map(({ year, label }) => (
-            <div class="relative flex items-baseline gap-5 text-sm">
-              <span class="absolute -left-[1.4rem] top-1.5 w-1.5 h-1.5 rounded-full bg-zinc-500 dark:bg-poi-accent"></span>
-              <span class="font-mono text-xs text-zinc-500 w-10 shrink-0 tabular-nums">{year}</span>
-              <span class="text-zinc-600 dark:text-poi-muted">{label}</span>
+            <div class="flex items-stretch">
+              {/* レール: 縦線とドットを同じセル中央に置き、常に整列させる */}
+              <div class="relative w-4 shrink-0" aria-hidden="true">
+                <span class="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-px bg-zinc-300 dark:bg-zinc-700"></span>
+                <span class="absolute left-1/2 top-[0.5rem] -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-poi-accent ring-2 ring-white dark:ring-poi-base"></span>
+              </div>
+              {/* 内容 */}
+              <div class="flex items-baseline gap-5 text-sm pb-3">
+                <span class="font-mono text-xs text-zinc-500 w-10 shrink-0 tabular-nums">{year}</span>
+                <span class="text-zinc-600 dark:text-poi-muted">{label}</span>
+              </div>
             </div>
           ))}
         </div>
