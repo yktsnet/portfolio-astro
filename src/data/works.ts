@@ -89,7 +89,7 @@ export const works: Work[] = [
     description:
       "機械的な進捗管理ではなく、新人の手応えをメンターと共有する研修支援ツール。\nVue + Go を go:embed で単一バイナリに固め、SQLite のみでインフラ依存ゼロ。",
     rationale:
-      "進捗を数字で管理するより新人の手応えを共有したかったので、go:embed の単一バイナリでインフラ依存をゼロにした。",
+      "進捗を機械的に数値化せず、本人の主観的な手応えを指標に据えた。メモリの限られた環境でも常駐できるよう、Go の単一バイナリに軽くまとめている。",
     status: "live",
     links: [
       { label: "Demo →", href: "https://training-scheduler.ykts.net/", external: true },
