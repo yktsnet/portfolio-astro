@@ -2,7 +2,7 @@
 id: 18b
 branch-slug: works-hierarchy-and-about-polish
 github_issue:
-status: open
+status: close
 type: feat
 対象: |
   src/components/About.astro
