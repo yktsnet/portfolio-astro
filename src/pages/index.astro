@@ -237,19 +237,21 @@ const others = groupOf("Others");
                       ))}
                     </div>
                   )}
-                  <div class="relative z-10 mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs">
-                    {work.links.map((link) => (
-                      <a
-                        class="text-zinc-400 dark:text-zinc-500 underline-offset-2 transition-colors hover:text-[var(--c)] hover:underline"
-                        style={`--c:${work.color}`}
-                        href={link.href}
-                        target={link.external ? "_blank" : undefined}
-                        rel={link.external ? "noopener noreferrer" : undefined}
-                      >
-                        {link.label}
-                      </a>
-                    ))}
-                  </div>
+                  {work.subLinks.length > 0 && (
+                    <div class="relative z-10 mt-4 flex flex-wrap gap-2 font-mono text-xs">
+                      {work.subLinks.map((link) => (
+                        <a
+                          class="inline-flex items-center rounded-md border border-zinc-200 dark:border-poi-border/50 px-2.5 py-1 text-zinc-500 dark:text-zinc-400 transition-colors hover:border-[var(--c)] hover:text-[var(--c)]"
+                          style={`--c:${work.color}`}
+                          href={link.href}
+                          target={link.external ? "_blank" : undefined}
+                          rel={link.external ? "noopener noreferrer" : undefined}
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </article>
               ))}
             </div>
