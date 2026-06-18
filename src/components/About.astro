@@ -1,0 +1,30 @@
+---
+const timeline = [
+  { year: "2013", label: "学習塾 開業", location: "Kyoto" },
+  { year: "2019", label: "合同会社設立", location: "Kyoto" },
+  { year: "2025〜", label: "SES 入社 / 個人開発・技術支援", location: "Osaka" },
+];
+---
+
+<section class="mb-20 pb-16 border-b border-zinc-200 dark:border-poi-border">
+  <div class="space-y-3 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+    <p>
+      大学を出てすぐ塾を開業し、12年間経営した。法人を立て、イベントスペースとプログラミング教育支援も手がけた。
+      経営者として現場に向き合ったことで、技術が導入される側の景色を知った。コスト感覚、現場の抵抗、使われなくなるまでの経緯。
+    </p>
+    <p>
+      2025年に IT へ転身。いまは SES で開発に携わりながら、個人開発と小さな組織への技術支援を並行している。
+      設計から運用まで一人で通すことが多い。AI をワークフローに組み込むことに、今は一番時間を使っている。
+    </p>
+  </div>
+
+  <div class="mt-8 space-y-2.5">
+    {timeline.map(({ year, label, location }) => (
+      <div class="flex items-baseline gap-5 text-sm">
+        <span class="font-mono text-xs text-poi-accent w-12 shrink-0 tabular-nums">{year}</span>
+        <span class="text-zinc-600 dark:text-poi-muted">{label}</span>
+        <span class="font-mono text-xs text-poi-accent opacity-60">at {location}</span>
+      </div>
+    ))}
+  </div>
+</section>
