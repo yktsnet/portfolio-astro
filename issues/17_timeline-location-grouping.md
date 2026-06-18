@@ -2,7 +2,7 @@
 id: 17
 branch-slug: timeline-location-grouping
 github_issue:
-status: open
+status: close
 type: fix
 対象: |
   src/components/About.astro
