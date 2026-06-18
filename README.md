@@ -4,7 +4,7 @@
 
 > Systems that disappear into the workflow.
 
-個人ポートフォリオ・技術ブログ。Works / Posts / Contact で構成。  
+個人ポートフォリオ・技術ブログ。  
 https://ykts.net
 
 ## Tech Stack
@@ -25,8 +25,7 @@ https://ykts.net
 Cloudflare Pages
   ├─ 静的出力 (SSG)
   └─ /api/*  ─ Edge Functions (Hono)
-                  ├─ /api/contact  ─ Discord Webhook + Turnstile
-                  └─ /api/status   ─ Cloudflare KV
+                  └─ /api/contact  ─ Discord Webhook + Turnstile
 ```
 
 ## Setup
@@ -58,6 +57,8 @@ main ブランチへの push で自動ビルド・デプロイされる。以下
 ```bash
 npm install
 npm run dev
+npm run build     # 本番ビルド (astro build + pagefind)
+npm run preview   # ビルド後のローカル確認
 npm test          # APIユニットテスト
 npm run typecheck # 型チェック
 ```
