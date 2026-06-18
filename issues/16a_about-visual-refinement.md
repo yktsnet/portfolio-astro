@@ -2,7 +2,7 @@
 id: 16a
 branch-slug: about-visual-refinement
 github_issue:
-status: open
+status: close
 type: fix
 対象: |
   src/components/About.astro
