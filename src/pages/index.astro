@@ -10,27 +10,32 @@ import { getBrandIcon } from '../lib/brand-icons';
 const worksResolved = works.map(work => ({
   ...work,
   iconPath: getLucideIcon(work.icon),
+  // カード全体の主導線。制作記事があればそれを優先し、なければ最初のリンク（=デモ）へ。
+  primaryHref: work.postSlug ? `/posts/${work.postSlug}/` : work.links[0]?.href,
+  primaryExternal: work.postSlug ? false : work.links[0]?.external ?? false,
   stackResolved: (work.stack ?? []).map(s => ({
     ...s,
     brandIcon: s.brand ? getBrandIcon(s.brand) : null,
   })),
 }));
 
-const categoryOrder = ["Hardware", "Modernization", "Trading", "Others"];
+// フィルタ対象の領域（Others はタブから外し、最下部に畳む）
+const filterOrder = ["Hardware", "Modernization", "Trading"];
 
 const categoryMeta: Record<string, string> = {
-  Hardware: "依存ゼロで動かすエッジ IoT",
-  Modernization: "レガシー解体と .NET 8 + React + AI エージェントへの段階移行",
-  Trading: "自動売買の設計・バックテスト・本番運用",
-  Others: "カテゴリに収まらない単発のプロジェクト",
+  Hardware: "クラウドにも依存にも縛られないエッジ。枯れた標準と Nix の再現性で、旧ハードでも確実に動かす。",
+  Modernization: "密結合したレガシーを止めずに分解し、.NET 8 と AI エージェントへ段階的に作り直す。",
+  Trading: "Web フレームワークに頼れない領域で、自動売買を設計し本番で走らせ続ける。",
+  Others: "その他単発プロジェクト。",
 };
 
-const grouped = categoryOrder
-  .map(cat => ({
-    category: cat,
-    items: worksResolved.filter(w => w.category === cat),
-  }))
+const groupOf = (cat: string) => worksResolved.filter(w => w.category === cat);
+
+const groups = filterOrder
+  .map(cat => ({ category: cat, color: groupOf(cat)[0]?.color ?? "#5de4c7", items: groupOf(cat) }))
   .filter(g => g.items.length > 0);
+
+const others = groupOf("Others");
 ---
 
 <MainLayout title="Home">
@@ -49,66 +54,99 @@ const grouped = categoryOrder
     <!-- Works: スクロール領域 -->
     <main class="flex-1 min-w-0 max-w-xl">
       <About />
-      <div class="mb-14">
-        <h2
-          class="mb-3 font-mono text-3xl sm:text-4xl font-normal tracking-tight select-none opacity-70"
-          style="-webkit-text-stroke: 1px #5de4c7; color: transparent;"
-        >
-          Works
+
+      <div class="mb-8">
+        <p class="mb-2 font-mono text-xs tracking-widest uppercase text-poi-accent">Works</p>
+        <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+          IoTデバイス、レガシー刷新、自動売買。
         </h2>
-        <p class="text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-          レガシーの作り直しから、IoT、LLM エージェント、自動売買まで。設計判断とともに。
+        <p class="mt-2 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+          重なりのない三領域を、それぞれ違う制約の中で、設計から運用まで一人で通してきた。
         </p>
       </div>
-      <div>
-        {grouped.map(({ category, items }, i) => (
-          <div class={i > 0 ? "mt-12" : ""}>
-            <div class="mb-6">
-              <p
-                class="font-mono text-xs font-medium tracking-widest uppercase mb-1"
-                style={`color: ${items[0].color}`}
-              >
+
+      <!-- 領域フィルタ（トグル: もう一度押すと全件に戻る） -->
+      <div
+        id="work-filter"
+        class="mb-8 flex flex-wrap gap-2 font-mono text-xs"
+        role="group"
+        aria-label="領域で絞り込む"
+      >
+        {groups.map(({ category, color, items }) => (
+          <button
+            type="button"
+            class="work-filter-btn inline-flex items-center gap-1.5 rounded-full border px-3 py-1 tracking-widest uppercase transition-colors"
+            data-category={category}
+            aria-pressed="false"
+            style={`--c:${color}; color:${color}; border-color:${color}33;`}
+          >
+            {category}
+            <span class="text-zinc-400 dark:text-zinc-500 normal-case tracking-normal">{items.length}</span>
+          </button>
+        ))}
+      </div>
+
+      <div id="work-groups">
+        {groups.map(({ category, color, items }, i) => (
+          <section class="work-group" data-category={category} class:list={[i > 0 && "mt-12"]}>
+            <div class="mb-5">
+              <p class="font-mono text-xs font-medium tracking-widest uppercase mb-1" style={`color:${color}`}>
                 {category}
               </p>
-              <p class="text-sm text-zinc-500 dark:text-poi-muted">
-                {categoryMeta[category]}
-              </p>
+              <p class="text-sm text-zinc-500 dark:text-poi-muted">{categoryMeta[category]}</p>
             </div>
 
-            <div class="space-y-8">
+            <div class="space-y-4">
               {items.map((work) => (
-                <div>
+                <article
+                  class="work-card group/card relative rounded-xl border border-zinc-200/70 dark:border-poi-border/40 bg-white/40 dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-zinc-300 dark:hover:border-poi-border/80 hover:shadow-sm"
+                >
                   <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="16" height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      width="16" height="16" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round"
                       class="text-zinc-600 dark:text-zinc-400 shrink-0"
                       set:html={work.iconPath}
                     />
-                    {work.title}
+                    <!-- カード全体を覆う主導線（::after でカード面をクリック可能に） -->
+                    <a
+                      class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-[var(--c)] outline-none focus-visible:underline"
+                      style={`--c:${work.color}`}
+                      href={work.primaryHref}
+                      target={work.primaryExternal ? "_blank" : undefined}
+                      rel={work.primaryExternal ? "noopener noreferrer" : undefined}
+                    >
+                      {work.title}
+                    </a>
+                    {work.status === "live" && (
+                      <span class="ml-auto inline-flex items-center gap-1 font-mono text-[10px] font-normal text-emerald-600 dark:text-emerald-400">
+                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        LIVE
+                      </span>
+                    )}
                   </h3>
-                  <p class="mt-1 font-sans text-sm leading-6 text-zinc-500 dark:text-poi-muted whitespace-pre-line">
+
+                  <p class="mt-1.5 font-sans text-sm leading-6 text-zinc-500 dark:text-poi-muted whitespace-pre-line">
                     {work.description}
                   </p>
 
+                  {work.rationale && (
+                    <p
+                      class="mt-3 border-l-2 pl-3 text-xs leading-6 text-zinc-500 dark:text-poi-muted"
+                      style={`border-color:${work.color}55`}
+                    >
+                      {work.rationale}
+                    </p>
+                  )}
+
                   {work.stackResolved.length > 0 && (
-                    <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+                    <div class="mt-3 flex flex-wrap gap-x-3 gap-y-1">
                       {work.stackResolved.map((s) => (
                         <span class="inline-flex items-center gap-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
                           {s.brandIcon && (
-                            <svg
-                              width="12" height="12"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                              style={`color:#${s.brandIcon.hex}`}
-                              aria-hidden="true"
-                            >
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={`color:#${s.brandIcon.hex}`} aria-hidden="true">
                               <path d={s.brandIcon.path} />
                             </svg>
                           )}
@@ -118,11 +156,12 @@ const grouped = categoryOrder
                     </div>
                   )}
 
-                  <div class="mt-3 flex flex-wrap gap-2 font-mono text-sm">
+                  <!-- 副アクション（relative z-10 で主導線の ::after より前面に出してクリックを奪う） -->
+                  <div class="relative z-10 mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs">
                     {work.links.map((link) => (
                       <a
-                        class="rounded-full border px-3 py-0.5 transition-opacity hover:opacity-70"
-                        style={`color: ${work.color}; border-color: ${work.color}33;`}
+                        class="text-zinc-400 dark:text-zinc-500 underline-offset-2 transition-colors hover:text-[var(--c)] hover:underline"
+                        style={`--c:${work.color}`}
                         href={link.href}
                         target={link.external ? "_blank" : undefined}
                         rel={link.external ? "noopener noreferrer" : undefined}
@@ -131,14 +170,137 @@ const grouped = categoryOrder
                       </a>
                     ))}
                   </div>
-                </div>
+                </article>
               ))}
             </div>
-          </div>
+          </section>
         ))}
+
+        {others.length > 0 && (
+          <section id="work-others" class="mt-12 border-t border-zinc-200/50 dark:border-poi-border/40 pt-8">
+            <p class="font-mono text-xs font-medium tracking-widest uppercase mb-1 text-zinc-400 dark:text-zinc-500">
+              Others
+            </p>
+            <p class="mb-4 text-sm text-zinc-500 dark:text-poi-muted">
+              3 カテゴリに入らない単発プロジェクト。
+            </p>
+            <div class="space-y-4">
+              {others.map((work) => (
+                <article class="work-card group/card relative rounded-xl border border-zinc-200/70 dark:border-poi-border/40 bg-white/40 dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-zinc-300 dark:hover:border-poi-border/80 hover:shadow-sm">
+                  <h3 class="flex items-center gap-2 font-semibold text-base text-zinc-900 dark:text-poi-focus">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15" height="15" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round"
+                      class="text-zinc-600 dark:text-zinc-400 shrink-0"
+                      set:html={work.iconPath}
+                    />
+                    <a
+                      class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-[var(--c)] outline-none focus-visible:underline"
+                      style={`--c:${work.color}`}
+                      href={work.primaryHref}
+                      target={work.primaryExternal ? "_blank" : undefined}
+                      rel={work.primaryExternal ? "noopener noreferrer" : undefined}
+                    >
+                      {work.title}
+                    </a>
+                    {work.status === "live" && (
+                      <span class="ml-auto inline-flex items-center gap-1 font-mono text-[10px] font-normal text-emerald-600 dark:text-emerald-400">
+                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        LIVE
+                      </span>
+                    )}
+                  </h3>
+                  <p class="mt-1.5 font-sans text-sm leading-6 text-zinc-500 dark:text-poi-muted whitespace-pre-line">
+                    {work.description}
+                  </p>
+                  {work.rationale && (
+                    <p class="mt-3 border-l-2 pl-3 text-xs leading-6 text-zinc-500 dark:text-poi-muted" style={`border-color:${work.color}55`}>
+                      {work.rationale}
+                    </p>
+                  )}
+                  {work.stackResolved.length > 0 && (
+                    <div class="mt-3 flex flex-wrap gap-x-3 gap-y-1">
+                      {work.stackResolved.map((s) => (
+                        <span class="inline-flex items-center gap-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
+                          {s.brandIcon && (
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={`color:#${s.brandIcon.hex}`} aria-hidden="true">
+                              <path d={s.brandIcon.path} />
+                            </svg>
+                          )}
+                          {s.label}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <div class="relative z-10 mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs">
+                    {work.links.map((link) => (
+                      <a
+                        class="text-zinc-400 dark:text-zinc-500 underline-offset-2 transition-colors hover:text-[var(--c)] hover:underline"
+                        style={`--c:${work.color}`}
+                        href={link.href}
+                        target={link.external ? "_blank" : undefined}
+                        rel={link.external ? "noopener noreferrer" : undefined}
+                      >
+                        {link.label}
+                      </a>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </main>
 
   </div>
 
 </MainLayout>
+
+<script>
+  // 領域フィルタ: タブを押すとその領域だけ表示。押されたタブを再度押すと全件に戻る。
+  const filter = document.getElementById('work-filter');
+  const groups = Array.from(document.querySelectorAll<HTMLElement>('.work-group'));
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.work-filter-btn'));
+  const othersSection = document.getElementById('work-others');
+  let active: string | null = null;
+
+  function apply() {
+    // Others は領域フィルタ対象外。いずれかの領域を選択中は罫線ごと隠す。
+    if (othersSection) othersSection.style.display = active === null ? '' : 'none';
+    for (const g of groups) {
+      const show = active === null || g.dataset.category === active;
+      g.style.display = show ? '' : 'none';
+      if (show) {
+        // リフロー時の軽いフェードで「触った手応え」を出す
+        g.style.animation = 'none';
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        g.offsetHeight; // reflow
+        g.style.animation = 'work-fade .28s ease-out';
+      }
+    }
+    for (const b of buttons) {
+      const on = b.dataset.category === active;
+      b.setAttribute('aria-pressed', String(on));
+      b.style.backgroundColor = on ? `color-mix(in srgb, var(--c) 14%, transparent)` : '';
+      b.style.borderColor = on ? `var(--c)` : `color-mix(in srgb, var(--c) 20%, transparent)`;
+    }
+  }
+
+  filter?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.work-filter-btn');
+    if (!btn) return;
+    const cat = btn.dataset.category!;
+    active = active === cat ? null : cat; // トグル
+    apply();
+  });
+</script>
+
+<style>
+  @keyframes work-fade {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
