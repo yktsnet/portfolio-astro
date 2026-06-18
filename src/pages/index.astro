@@ -18,6 +18,13 @@ const worksResolved = works.map(work => ({
 
 const categoryOrder = ["Hardware", "Modernization", "Trading", "Others"];
 
+const categoryMeta: Record<string, string> = {
+  Hardware: "依存ゼロで動かすエッジ IoT",
+  Modernization: "レガシー解体と .NET 8 + React + AI エージェントへの段階移行",
+  Trading: "自動売買の設計・バックテスト・本番運用",
+  Others: "カテゴリに収まらない単発のプロジェクト",
+};
+
 const grouped = categoryOrder
   .map(cat => ({
     category: cat,
@@ -42,15 +49,24 @@ const grouped = categoryOrder
     <!-- Works: スクロール領域 -->
     <main class="flex-1 min-w-0 max-w-xl">
       <About />
+      <div class="mb-12">
+        <p class="font-mono text-xs text-poi-accent tracking-widest mb-3">Works</p>
+        <p class="text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+          レガシーの作り直しから、IoT、LLM エージェント、自動売買まで。設計判断とともに。
+        </p>
+      </div>
       <div>
         {grouped.map(({ category, items }, i) => (
           <div class={i > 0 ? "mt-16 border-t border-zinc-200 dark:border-poi-border pt-10" : ""}>
             <h2
-              class="mb-6 font-mono text-2xl sm:text-3xl font-normal tracking-tight select-none opacity-60"
+              class="mb-2 font-mono text-2xl sm:text-3xl font-normal tracking-tight select-none opacity-60"
               style={`-webkit-text-stroke: 1px ${items[0].color}; color: transparent;`}
             >
               {category}
             </h2>
+            <p class="mb-6 text-sm text-zinc-500 dark:text-poi-muted">
+              {categoryMeta[category]}
+            </p>
 
             <div class="space-y-8">
               {items.map((work) => (
