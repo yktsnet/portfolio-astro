@@ -10,9 +10,10 @@ import { getBrandIcon } from '../lib/brand-icons';
 const worksResolved = works.map(work => ({
   ...work,
   iconPath: getLucideIcon(work.icon),
-  // カード全体の主導線。制作記事があればそれを優先し、なければ最初のリンク（=デモ）へ。
-  primaryHref: work.postSlug ? `/posts/${work.postSlug}/` : work.links[0]?.href,
-  primaryExternal: work.postSlug ? false : work.links[0]?.external ?? false,
+  // カード全体の主導線＝デモ（links の先頭）。残りは副アクション（制作記事・GitHub）。
+  primaryHref: work.links[0]?.href,
+  primaryExternal: work.links[0]?.external ?? false,
+  subLinks: work.links.slice(1),
   stackResolved: (work.stack ?? []).map(s => ({
     ...s,
     brandIcon: s.brand ? getBrandIcon(s.brand) : null,
@@ -156,20 +157,22 @@ const others = groupOf("Others");
                     </div>
                   )}
 
-                  <!-- 副アクション（relative z-10 で主導線の ::after より前面に出してクリックを奪う） -->
-                  <div class="relative z-10 mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs">
-                    {work.links.map((link) => (
-                      <a
-                        class="text-zinc-400 dark:text-zinc-500 underline-offset-2 transition-colors hover:text-[var(--c)] hover:underline"
-                        style={`--c:${work.color}`}
-                        href={link.href}
-                        target={link.external ? "_blank" : undefined}
-                        rel={link.external ? "noopener noreferrer" : undefined}
-                      >
-                        {link.label}
-                      </a>
-                    ))}
-                  </div>
+                  {work.subLinks.length > 0 && (
+                    <!-- 副アクション（relative z-10 で主導線の ::after より前面に出してクリックを奪う） -->
+                    <div class="relative z-10 mt-4 flex flex-wrap gap-2 font-mono text-xs">
+                      {work.subLinks.map((link) => (
+                        <a
+                          class="inline-flex items-center rounded-md border border-zinc-200 dark:border-poi-border/50 px-2.5 py-1 text-zinc-500 dark:text-zinc-400 transition-colors hover:border-[var(--c)] hover:text-[var(--c)]"
+                          style={`--c:${work.color}`}
+                          href={link.href}
+                          target={link.external ? "_blank" : undefined}
+                          rel={link.external ? "noopener noreferrer" : undefined}
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </article>
               ))}
             </div>

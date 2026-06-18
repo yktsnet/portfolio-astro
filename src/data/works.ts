@@ -46,6 +46,7 @@ export const works: Work[] = [
       "NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。\nPython 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
     rationale:
       "現場の非力な Raspberry Pi 2 でそのまま動かすため、pip 依存ゼロ・標準ライブラリだけで打刻から給与計算まで組んだ。",
+    status: "live",
     links: [
       { label: "Demo →", href: "/nfc-attendance/" },
       { label: "制作記事", href: "/posts/nfc-attendance-system/" },
@@ -67,6 +68,7 @@ export const works: Work[] = [
       "給餌棚の開閉を自動検知し、LINE で家族へ定時通知する家庭向け IoT。\nPico W → FastAPI → PostgreSQL 構成で、体重管理や設定変更まで LINE から完結。",
     rationale:
       "家族が使うものなので新しいアプリは増やさず、通知も操作も既に使っている LINE 側に寄せた。",
+    status: "live",
     links: [
       { label: "Demo →", href: "/cat-feed-tracker/" },
       { label: "制作記事", href: "/posts/cat-feed-tracker/" },
