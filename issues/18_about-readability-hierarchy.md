@@ -2,7 +2,7 @@
 id: 18
 branch-slug: about-readability-hierarchy
 github_issue:
-status: open
+status: close
 type: fix
 対象: |
   src/components/About.astro
