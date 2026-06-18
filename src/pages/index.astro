@@ -3,6 +3,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 import HeroMobile from '../components/HeroMobile.astro';
 import HeroDesktop from '../components/HeroDesktop.astro';
 import { works } from '../data/works';
+import About from '../components/About.astro';
 import { getLucideIcon } from '../lib/lucide';
 import { getBrandIcon } from '../lib/brand-icons';
 
@@ -40,11 +41,12 @@ const grouped = categoryOrder
 
     <!-- Works: スクロール領域 -->
     <main class="flex-1 min-w-0">
+      <About />
       <div>
         {grouped.map(({ category, items }, i) => (
           <div class={i > 0 ? "mt-16 border-t border-zinc-200 dark:border-poi-border pt-10" : ""}>
             <h2
-              class="mb-8 font-mono text-4xl sm:text-5xl font-normal tracking-tight select-none opacity-60"
+              class="mb-6 font-mono text-2xl sm:text-3xl font-normal tracking-tight select-none opacity-60"
               style={`-webkit-text-stroke: 1px ${items[0].color}; color: transparent;`}
             >
               {category}
