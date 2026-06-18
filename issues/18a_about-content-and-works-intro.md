@@ -2,7 +2,7 @@
 id: 18a
 branch-slug: about-content-and-works-intro
 github_issue:
-status: open
+status: close
 type: feat
 対象: |
   src/components/About.astro
