@@ -20,8 +20,7 @@ const worksResolved = works.map(work => ({
   })),
 }));
 
-// フィルタ対象の領域（Others はタブから外し、最下部に畳む）
-const filterOrder = ["Hardware", "Modernization", "Trading"];
+const filterOrder = ["Hardware", "Modernization", "Trading", "Others"];
 
 const categoryMeta: Record<string, string> = {
   Hardware: "クラウドにも依存にも縛られないエッジ。枯れた標準と Nix の再現性で、旧ハードでも確実に動かす。",
@@ -36,7 +35,6 @@ const groups = filterOrder
   .map(cat => ({ category: cat, color: groupOf(cat)[0]?.color ?? "#5de4c7", items: groupOf(cat) }))
   .filter(g => g.items.length > 0);
 
-const others = groupOf("Others");
 ---
 
 <MainLayout title="Home">
@@ -179,84 +177,6 @@ const others = groupOf("Others");
           </section>
         ))}
 
-        {others.length > 0 && (
-          <section id="work-others" class="mt-12 border-t border-zinc-200/50 dark:border-poi-border/40 pt-8">
-            <p class="font-mono text-xs font-medium tracking-widest uppercase mb-1 text-zinc-400 dark:text-zinc-500">
-              Others
-            </p>
-            <p class="mb-4 text-sm text-zinc-500 dark:text-poi-muted">
-              3 カテゴリに入らない単発プロジェクト。
-            </p>
-            <div class="space-y-4">
-              {others.map((work) => (
-                <article class="work-card group/card relative rounded-xl border border-zinc-200/70 dark:border-poi-border/40 bg-white/40 dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-zinc-300 dark:hover:border-poi-border/80 hover:shadow-sm">
-                  <h3 class="flex items-center gap-2 font-semibold text-base text-zinc-900 dark:text-poi-focus">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15" height="15" viewBox="0 0 24 24"
-                      fill="none" stroke="currentColor" stroke-width="1.5"
-                      stroke-linecap="round" stroke-linejoin="round"
-                      class="text-zinc-600 dark:text-zinc-400 shrink-0"
-                      set:html={work.iconPath}
-                    />
-                    <a
-                      class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-[var(--c)] outline-none focus-visible:underline"
-                      style={`--c:${work.color}`}
-                      href={work.primaryHref}
-                      target={work.primaryExternal ? "_blank" : undefined}
-                      rel={work.primaryExternal ? "noopener noreferrer" : undefined}
-                    >
-                      {work.title}
-                    </a>
-                    {work.status === "live" && (
-                      <span class="ml-auto inline-flex items-center gap-1 font-mono text-[10px] font-normal text-emerald-600 dark:text-emerald-400">
-                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        LIVE
-                      </span>
-                    )}
-                  </h3>
-                  <p class="mt-1.5 font-sans text-sm leading-6 text-zinc-500 dark:text-poi-muted whitespace-pre-line">
-                    {work.description}
-                  </p>
-                  {work.rationale && (
-                    <p class="mt-3 border-l-2 pl-3 text-xs leading-6 text-zinc-500 dark:text-poi-muted" style={`border-color:${work.color}55`}>
-                      {work.rationale}
-                    </p>
-                  )}
-                  {work.stackResolved.length > 0 && (
-                    <div class="mt-3 flex flex-wrap gap-x-3 gap-y-1">
-                      {work.stackResolved.map((s) => (
-                        <span class="inline-flex items-center gap-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
-                          {s.brandIcon && (
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={`color:#${s.brandIcon.hex}`} aria-hidden="true">
-                              <path d={s.brandIcon.path} />
-                            </svg>
-                          )}
-                          {s.label}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  {work.subLinks.length > 0 && (
-                    <div class="relative z-10 mt-4 flex flex-wrap gap-2 font-mono text-xs">
-                      {work.subLinks.map((link) => (
-                        <a
-                          class="inline-flex items-center rounded-md border border-zinc-200 dark:border-poi-border/50 px-2.5 py-1 text-zinc-500 dark:text-zinc-400 transition-colors hover:border-[var(--c)] hover:text-[var(--c)]"
-                          style={`--c:${work.color}`}
-                          href={link.href}
-                          target={link.external ? "_blank" : undefined}
-                          rel={link.external ? "noopener noreferrer" : undefined}
-                        >
-                          {link.label}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
       </div>
     </main>
 
@@ -269,12 +189,9 @@ const others = groupOf("Others");
   const filter = document.getElementById('work-filter');
   const groups = Array.from(document.querySelectorAll<HTMLElement>('.work-group'));
   const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.work-filter-btn'));
-  const othersSection = document.getElementById('work-others');
   let active: string | null = null;
 
   function apply() {
-    // Others は領域フィルタ対象外。いずれかの領域を選択中は罫線ごと隠す。
-    if (othersSection) othersSection.style.display = active === null ? '' : 'none';
     for (const g of groups) {
       const show = active === null || g.dataset.category === active;
       g.style.display = show ? '' : 'none';
