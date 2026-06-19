@@ -2,7 +2,7 @@
 id: 19
 branch-slug: others-category-pill
 github_issue:
-status: open
+status: close
 type: fix
 対象: |
   src/pages/index.astro
