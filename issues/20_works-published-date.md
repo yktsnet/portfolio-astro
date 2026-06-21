@@ -2,7 +2,7 @@
 id: 20
 branch-slug: works-published-date
 github_issue: 26
-status: open
+status: close
 type: feat
 対象: |
   src/data/works.ts
