@@ -43,14 +43,10 @@ Cloudflare Pages
 2. KV ネームスペースを2つ作成し、`wrangler.jsonc` の `kv_namespaces` にIDを設定
 3. 上記の環境変数を Pages ダッシュボードから追加
 
-### GitHub Secrets (CI/CD)
+## Deploy
 
-main ブランチへの push で自動ビルド・デプロイされる。以下を GitHub リポジトリの Settings → Secrets → Actions に登録する。
-
-| Secret | 取得元 |
-|---|---|
-| `CLOUDFLARE_API_TOKEN` | Cloudflare Dashboard → My Profile → API Tokens |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare Dashboard の Account ID |
+main ブランチへの push で GitHub Actions が自動ビルド・デプロイ（Cloudflare Pages）。
+必要な GitHub Secrets はリポジトリ運用ドキュメントで管理する（README には記載しない）。
 
 ## Development
 
