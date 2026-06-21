@@ -20,11 +20,6 @@ export type BrandKey =
 
 export type StackItem = { label: string; brand?: BrandKey };
 
-/** 実態: 誰がどう使っているか */
-export type WorkReality = "production" | "self" | "demo";
-/** デモ性質: 訪問者がそのデモで何をできるか */
-export type WorkDemoType = "interactive" | "simulated";
-
 export type Work = {
   category: string;
   title: string;
@@ -34,10 +29,8 @@ export type Work = {
   description: string;
   /** 設計判断の一行。なぜその構成にしたかを description と重複させずに語る。 */
   rationale?: string;
-  /** 実態: 誰がどう使っているか */
-  reality: WorkReality;
-  /** デモ性質: 訪問者がそのデモで何をできるか */
-  demoType: WorkDemoType;
+  /** 現場に導入・稼働中なら true */
+  inUse?: boolean;
   /** 公開年月。表記は "2024.08" のようなドット区切り。 */
   publishedAt?: string;
   links: { label: string; href: string; external?: boolean }[];
@@ -56,8 +49,7 @@ export const works: Work[] = [
       "NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。\nPython 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
     rationale:
       "現場の非力な Raspberry Pi 2 でそのまま動かすため、pip 依存ゼロ・標準ライブラリだけで打刻から給与計算まで組んだ。",
-    reality: "production",
-    demoType: "simulated",
+    inUse: true,
     links: [
       { label: "Demo →", href: "/nfc-attendance/" },
       { label: "制作記事", href: "/posts/nfc-attendance-system/" },
@@ -80,8 +72,7 @@ export const works: Work[] = [
       "給餌棚の開閉を自動検知し、LINE で家族へ定時通知する家庭向け IoT。\nPico W → FastAPI → PostgreSQL 構成で、体重管理や設定変更まで LINE から完結。",
     rationale:
       "家族が使うものなので新しいアプリは増やさず、通知も操作も既に使っている LINE 側に寄せた。",
-    reality: "production",
-    demoType: "simulated",
+    inUse: true,
     links: [
       { label: "Demo →", href: "/cat-feed-tracker/" },
       { label: "制作記事", href: "/posts/cat-feed-tracker/" },
@@ -104,8 +95,7 @@ export const works: Work[] = [
       "機械的な進捗管理ではなく、新人の手応えをメンターと共有する研修支援ツール。\nVue + Go を go:embed で単一バイナリに固め、SQLite のみでインフラ依存ゼロ。",
     rationale:
       "進捗を機械的に数値化せず、本人の主観的な手応えを指標に据えた。メモリの限られた環境でも常駐できるよう、Go の単一バイナリに軽くまとめている。",
-    reality: "production",
-    demoType: "interactive",
+    inUse: true,
     links: [
       { label: "Demo →", href: "https://training-scheduler.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/training-scheduler", external: true },
@@ -126,8 +116,6 @@ export const works: Work[] = [
       "WinForms の密結合を解体し、.NET 8 Web API + React へ段階的移行。\nLangGraph を独立追加し、自然言語で在庫・売上を照会できる AI エージェントを統合。",
     rationale:
       "責務分離を終えた構造の上にエージェントを後付けし、担当者の Excel 手作業だった集計を、非エンジニアが自然言語で直接引けるようにした。",
-    reality: "demo",
-    demoType: "interactive",
     links: [
       { label: "Demo →", href: "https://winforms.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/order-system-migration", external: true },
@@ -149,8 +137,6 @@ export const works: Work[] = [
       "AutoPostBack・ViewState を解体し、.NET 8 Web API + React へ段階的移行。\nSignalR を追加し、WebForms では不可能だったリアルタイム打刻監視を実装。",
     rationale:
       "AutoPostBack を消すだけでなく、WebForms では原理的に無理だったリアルタイム監視を SignalR で成立させ、移行を作り直す理由に変えた。",
-    reality: "demo",
-    demoType: "interactive",
     links: [
       { label: "Demo →", href: "https://webforms.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/attendance-system-migration", external: true },
@@ -172,8 +158,6 @@ export const works: Work[] = [
     description: "ターミナルで分散していた自動売買の運用導線を Web console に集約。\nバックテスト・戦略選定・Live 監視まで、同じ画面から確認・操作できる。",
     rationale:
       "Web フレームワークに頼れない自動売買の運用を 1 画面へ集約し、NixOS で本番の再現性を担保して止めずに走らせ続ける。",
-    reality: "self",
-    demoType: "interactive",
     links: [
       { label: "Demo →", href: "https://trading-lab.pages.dev", external: true },
       { label: "制作記事", href: "/posts/trading-lab/" },
