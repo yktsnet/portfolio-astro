@@ -2,7 +2,7 @@
 id: 22
 branch-slug: works-status-simplify
 github_issue: 30
-status: open
+status: close
 type: feat
 対象: |
   src/data/works.ts
