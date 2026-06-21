@@ -1,7 +1,7 @@
 ## Works カードの状態表記を「現場稼働マーカー1つ」に簡素化
 id: 22
 branch-slug: works-status-simplify
-github_issue:
+github_issue: 30
 status: open
 type: feat
 対象: |
