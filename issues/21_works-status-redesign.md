@@ -1,7 +1,7 @@
 ## Works カードの状態表記を「2節の日本語」に再設計
 id: 21
 branch-slug: works-status-redesign
-github_issue:
+github_issue: 28
 status: open
 type: feat
 対象: |
