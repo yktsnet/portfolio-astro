@@ -2,10 +2,40 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import HeroMobile from '../components/HeroMobile.astro';
 import HeroDesktop from '../components/HeroDesktop.astro';
-import { works } from '../data/works';
+import { works, type WorkReality, type WorkDemoType } from '../data/works';
 import About from '../components/About.astro';
 import { getLucideIcon } from '../lib/lucide';
 import { getBrandIcon } from '../lib/brand-icons';
+
+/* ── 状態行マッピング ── */
+const realityMeta: Record<WorkReality, { label: string; textClass: string; dotClass: string }> = {
+  production: {
+    label: "現場で運用中",
+    textClass: "text-emerald-600 dark:text-emerald-400",
+    dotClass: "bg-emerald-500",
+  },
+  self: {
+    label: "自己運用で常時稼働",
+    textClass: "text-emerald-600/60 dark:text-emerald-400/50",
+    dotClass: "bg-emerald-500/50",
+  },
+  demo: {
+    label: "技術デモ",
+    textClass: "text-zinc-500 dark:text-zinc-400",
+    dotClass: "bg-zinc-400 dark:bg-zinc-500",
+  },
+};
+
+const interactiveLabelByReality: Record<WorkReality, string> = {
+  production: "同じものを操作できる",
+  demo: "そのまま操作できる",
+  self: "状態を公開",
+};
+
+function getDemoLabel(reality: WorkReality, demoType: WorkDemoType): string {
+  if (demoType === "simulated") return "デモは動作を再現";
+  return interactiveLabelByReality[reality];
+}
 
 const worksResolved = works.map(work => ({
   ...work,
@@ -18,6 +48,8 @@ const worksResolved = works.map(work => ({
     ...s,
     brandIcon: s.brand ? getBrandIcon(s.brand) : null,
   })),
+  realityInfo: realityMeta[work.reality],
+  demoLabel: getDemoLabel(work.reality, work.demoType),
 }));
 
 const filterOrder = ["Hardware", "Modernization", "Trading", "Others"];
@@ -119,19 +151,19 @@ const groups = filterOrder
                     >
                       {work.title}
                     </a>
-                    {work.status === "live" && (
-                      <span class="ml-auto inline-flex items-center gap-1 font-mono text-[10px] font-normal text-emerald-600 dark:text-emerald-400">
-                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        LIVE
+                    {work.publishedAt && (
+                      <span class="ml-auto font-mono text-[11px] font-normal text-zinc-400 dark:text-zinc-500">
+                        {work.publishedAt}
                       </span>
                     )}
                   </h3>
 
-                  {work.publishedAt && (
-                    <p class="mt-1 font-mono text-[11px] text-zinc-400 dark:text-zinc-500">
-                      {work.publishedAt}
-                    </p>
-                  )}
+                  <p class="mt-1 flex items-center gap-1.5 text-xs">
+                    <span class:list={["inline-block h-1.5 w-1.5 rounded-full shrink-0", work.realityInfo.dotClass]}></span>
+                    <span class:list={[work.realityInfo.textClass]}>{work.realityInfo.label}</span>
+                    <span class="text-zinc-300 dark:text-zinc-600">·</span>
+                    <span class="text-zinc-400 dark:text-zinc-500">{work.demoLabel}</span>
+                  </p>
 
                   <p class="mt-1.5 font-sans text-sm leading-6 text-zinc-500 dark:text-poi-muted whitespace-pre-line">
                     {work.description}
