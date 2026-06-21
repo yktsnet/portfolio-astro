@@ -31,6 +31,8 @@ export type Work = {
   rationale?: string;
   /** 本番ドメインで常時稼働しているものに付与（カードの「稼働中」バッジ用）。 */
   status?: "live";
+  /** 公開年月。表記は "2024.08" のようなドット区切り。 */
+  publishedAt?: string;
   links: { label: string; href: string; external?: boolean }[];
   stack?: StackItem[];
 };
@@ -42,6 +44,7 @@ export const works: Work[] = [
     color: "#addb67",
     icon: "id-card",
     postSlug: "nfc-attendance-system",
+    publishedAt: "2026.01",
     description:
       "NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。\nPython 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
     rationale:
@@ -64,6 +67,7 @@ export const works: Work[] = [
     color: "#addb67",
     icon: "cat",
     postSlug: "cat-feed-tracker",
+    publishedAt: "2026.03",
     description:
       "給餌棚の開閉を自動検知し、LINE で家族へ定時通知する家庭向け IoT。\nPico W → FastAPI → PostgreSQL 構成で、体重管理や設定変更まで LINE から完結。",
     rationale:
@@ -86,6 +90,7 @@ export const works: Work[] = [
     title: "Training Scheduler",
     color: "#a6accd",
     icon: "graduation-cap",
+    publishedAt: "2026.05",
     description:
       "機械的な進捗管理ではなく、新人の手応えをメンターと共有する研修支援ツール。\nVue + Go を go:embed で単一バイナリに固め、SQLite のみでインフラ依存ゼロ。",
     rationale:
@@ -106,6 +111,7 @@ export const works: Work[] = [
     title: "Order System",
     color: "#c792ea",
     icon: "shopping-cart",
+    publishedAt: "2026.05",
     description:
       "WinForms の密結合を解体し、.NET 8 Web API + React へ段階的移行。\nLangGraph を独立追加し、自然言語で在庫・売上を照会できる AI エージェントを統合。",
     rationale:
@@ -127,6 +133,7 @@ export const works: Work[] = [
     title: "Attendance System",
     color: "#c792ea",
     icon: "clock",
+    publishedAt: "2026.05",
     description:
       "AutoPostBack・ViewState を解体し、.NET 8 Web API + React へ段階的移行。\nSignalR を追加し、WebForms では不可能だったリアルタイム打刻監視を実装。",
     rationale:
@@ -149,6 +156,7 @@ export const works: Work[] = [
     color: "#89ddff",
     icon: "trending-up",
     postSlug: "trading-lab",
+    publishedAt: "2026.04",
     description: "ターミナルで分散していた自動売買の運用導線を Web console に集約。\nバックテスト・戦略選定・Live 監視まで、同じ画面から確認・操作できる。",
     rationale:
       "Web フレームワークに頼れない自動売買の運用を 1 画面へ集約し、NixOS で本番の再現性を担保して止めずに走らせ続ける。",
