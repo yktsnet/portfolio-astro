@@ -2,7 +2,7 @@
 id: 21
 branch-slug: works-status-redesign
 github_issue: 28
-status: open
+status: close
 type: feat
 対象: |
   src/data/works.ts
