@@ -26,15 +26,11 @@ const realityMeta: Record<WorkReality, { label: string; textClass: string; dotCl
   },
 };
 
-const interactiveLabelByReality: Record<WorkReality, string> = {
-  production: "同じものを操作できる",
-  demo: "そのまま操作できる",
-  self: "状態を公開",
-};
-
 function getDemoLabel(reality: WorkReality, demoType: WorkDemoType): string {
   if (demoType === "simulated") return "デモは動作を再現";
-  return interactiveLabelByReality[reality];
+  // self（Trading Lab）は閲覧公開なので別文言。他の interactive は一本化。
+  if (reality === "self") return "状態を公開";
+  return "そのまま操作できる";
 }
 
 const worksResolved = works.map(work => ({
