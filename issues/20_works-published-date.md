@@ -1,7 +1,7 @@
 ## Works カードに公開年月を表示
 id: 20
 branch-slug: works-published-date
-github_issue:
+github_issue: 26
 status: open
 type: feat
 対象: |
