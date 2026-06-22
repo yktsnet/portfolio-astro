@@ -1,3 +1,5 @@
+[🇯🇵 日本語](README.md) | [🇬🇧 English](README.en.md)
+
 # ykts.net
 
 [![CI](https://github.com/yktsnet/portfolio-astro/actions/workflows/ci.yml/badge.svg)](https://github.com/yktsnet/portfolio-astro/actions/workflows/ci.yml)
