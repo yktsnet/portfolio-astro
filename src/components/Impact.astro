@@ -1,10 +1,11 @@
 ---
-type Stream = { title: string; status: string; live?: boolean; metric?: string; body: string };
+type Stream = { title: string; status: string; live?: boolean; metric?: string; body: string; repo?: string };
 const streams: Stream[] = [
   {
     title: '勤怠 DX', status: '稼働中', live: true,
     metric: '月 −5h ／ 差異 −3〜4万',
     body: 'NFC 打刻 → スプレッドシート自動同期 → 給与計算自動化。「カードをタッチするだけ」の UX で IT 未経験の現場に定着。',
+    repo: 'https://github.com/yktsnet/nfc-attendance-kit',
   },
   {
     title: '書類作成の自動化', status: '進行中',
@@ -47,6 +48,17 @@ const streams: Stream[] = [
           )}
         </div>
         <p class="mt-1.5 text-[13.5px] leading-relaxed text-zinc-600 dark:text-poi-muted">{s.body}</p>
+        {s.repo && (
+          <a
+            href={s.repo}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-2 inline-flex items-center gap-1 font-mono text-xs text-zinc-500 dark:text-poi-muted transition-colors hover:text-poi-accent dark:hover:text-poi-accent"
+          >
+            GitHub
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </a>
+        )}
       </div>
     ))}
   </div>
