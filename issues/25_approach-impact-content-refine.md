@@ -1,7 +1,7 @@
 ## APPROACH／IMPACT のコンテンツ刷新・About 余白・モバイル text ラベル
 id: 25
 branch-slug: approach-impact-content-refine
-github_issue:
+github_issue: 38
 status: open
 type: feat
 対象: |
