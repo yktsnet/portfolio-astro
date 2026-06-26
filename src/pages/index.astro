@@ -52,142 +52,174 @@ const groups = filterOrder
     <!-- Hero: sticky サイドバー (desktop only) -->
     <HeroDesktop />
 
-    <!-- Works: スクロール領域 -->
-    <main class="flex-1 min-w-0 max-w-xl">
-      <About />
-      <Approach />
-      <Impact />
+    <!-- 右カラム: スライド・ビューポート（≥sm で横スライド / <sm は縦積み） -->
+    <main class="flex-1 min-w-0">
+      <div class="sm:h-[calc(100vh-8rem)] sm:overflow-hidden">
+        <div
+          id="slides-track"
+          class="flex flex-col sm:flex-row sm:h-full sm:transition-transform sm:duration-300 sm:ease-out motion-reduce:sm:transition-none"
+        >
+          <!-- About -->
+          <div class="slide w-full sm:shrink-0 sm:h-full sm:overflow-y-auto sm:pr-2" data-slide="about">
+            <div class="max-w-xl"><About /></div>
+          </div>
+          <!-- Approach -->
+          <div class="slide w-full sm:shrink-0 sm:h-full sm:overflow-y-auto sm:pr-2" data-slide="approach">
+            <div class="max-w-xl"><Approach /></div>
+          </div>
+          <!-- Impact -->
+          <div class="slide w-full sm:shrink-0 sm:h-full sm:overflow-y-auto sm:pr-2" data-slide="impact">
+            <div class="max-w-xl"><Impact /></div>
+          </div>
+          <!-- Works -->
+          <div class="slide w-full sm:shrink-0 sm:h-full sm:overflow-y-auto sm:pr-2" data-slide="works">
+            <div class="max-w-xl">
+              <div id="works" class="mb-8">
+                <p class="mb-2 font-mono text-xs tracking-widest uppercase text-poi-accent">Works</p>
+                <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+                  IoTデバイス、レガシー刷新、自動売買。
+                </h2>
+                <p class="mt-2 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+                  重なりのない三領域を、それぞれ違う制約の中で、設計から運用まで一人で通してきた。
+                </p>
+              </div>
 
-      <div id="works" class="mb-8">
-        <p class="mb-2 font-mono text-xs tracking-widest uppercase text-poi-accent">Works</p>
-        <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-          IoTデバイス、レガシー刷新、自動売買。
-        </h2>
-        <p class="mt-2 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-          重なりのない三領域を、それぞれ違う制約の中で、設計から運用まで一人で通してきた。
-        </p>
-      </div>
+              <!-- 領域フィルタ（トグル: もう一度押すと全件に戻る） -->
+              <div
+                id="work-filter"
+                class="mb-8 flex flex-wrap gap-2 font-mono text-xs"
+                role="group"
+                aria-label="領域で絞り込む"
+              >
+                {groups.map(({ category, color, items }) => (
+                  <button
+                    type="button"
+                    class="work-filter-btn inline-flex items-center gap-1.5 rounded-full border px-3 py-1 tracking-widest uppercase transition-colors"
+                    data-category={category}
+                    aria-pressed="false"
+                    style={`--c:${color}; color:${color}; border-color:${color}33;`}
+                  >
+                    {category}
+                    <span class="text-zinc-400 dark:text-zinc-500 normal-case tracking-normal">{items.length}</span>
+                  </button>
+                ))}
+              </div>
 
-      <!-- 領域フィルタ（トグル: もう一度押すと全件に戻る） -->
-      <div
-        id="work-filter"
-        class="mb-8 flex flex-wrap gap-2 font-mono text-xs"
-        role="group"
-        aria-label="領域で絞り込む"
-      >
-        {groups.map(({ category, color, items }) => (
-          <button
-            type="button"
-            class="work-filter-btn inline-flex items-center gap-1.5 rounded-full border px-3 py-1 tracking-widest uppercase transition-colors"
-            data-category={category}
-            aria-pressed="false"
-            style={`--c:${color}; color:${color}; border-color:${color}33;`}
-          >
-            {category}
-            <span class="text-zinc-400 dark:text-zinc-500 normal-case tracking-normal">{items.length}</span>
-          </button>
-        ))}
-      </div>
-
-      <div id="work-groups">
-        {groups.map(({ category, color, items }, i) => (
-          <section class="work-group" data-category={category} class:list={[i > 0 && "mt-12"]}>
-            <div class="mb-5">
-              <p class="font-mono text-xs font-medium tracking-widest uppercase mb-1" style={`color:${color}`}>
-                {category}
-              </p>
-              <p class="text-sm text-zinc-500 dark:text-poi-muted">{categoryMeta[category]}</p>
-            </div>
-
-            <div class="space-y-4">
-              {items.map((work) => (
-                <article
-                  class="work-card group/card relative rounded-xl border border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-zinc-300 dark:hover:border-poi-border/80 hover:shadow-sm"
-                >
-                  <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16" height="16" viewBox="0 0 24 24"
-                      fill="none" stroke="currentColor" stroke-width="1.5"
-                      stroke-linecap="round" stroke-linejoin="round"
-                      class="text-zinc-600 dark:text-zinc-400 shrink-0"
-                      set:html={work.iconPath}
-                    />
-                    <!-- カード全体を覆う主導線（::after でカード面をクリック可能に） -->
-                    <a
-                      class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-[var(--c)] outline-none focus-visible:underline"
-                      style={`--c:${work.color}`}
-                      href={work.primaryHref}
-                      target={work.primaryExternal ? "_blank" : undefined}
-                      rel={work.primaryExternal ? "noopener noreferrer" : undefined}
-                    >
-                      {work.title}
-                    </a>
-                    {work.publishedAt && (
-                      <span class="ml-auto font-mono text-[11px] font-normal text-zinc-400 dark:text-zinc-500">
-                        {work.publishedAt}
-                      </span>
-                    )}
-                  </h3>
-
-                  {work.inUse && (
-                    <p class="mt-1 flex items-center gap-1.5 text-xs">
-                      <span class="inline-block h-1.5 w-1.5 rounded-full shrink-0 bg-emerald-500"></span>
-                      <span class="text-emerald-600 dark:text-emerald-400">現場に導入・稼働中</span>
-                    </p>
-                  )}
-
-                  <p class="mt-1.5 font-sans text-sm leading-6 text-zinc-500 dark:text-poi-muted whitespace-pre-line">
-                    {work.description}
-                  </p>
-
-                  {work.rationale && (
-                    <p
-                      class="mt-3 border-l-2 pl-3 text-xs leading-6 text-zinc-500 dark:text-poi-muted"
-                      style={`border-color:${work.color}55`}
-                    >
-                      {work.rationale}
-                    </p>
-                  )}
-
-                  {work.stackResolved.length > 0 && (
-                    <div class="mt-3 flex flex-wrap gap-x-3 gap-y-1">
-                      {work.stackResolved.map((s) => (
-                        <span class="inline-flex items-center gap-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
-                          {s.brandIcon && (
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={`color:#${s.brandIcon.hex}`} aria-hidden="true">
-                              <path d={s.brandIcon.path} />
-                            </svg>
-                          )}
-                          {s.label}
-                        </span>
-                      ))}
+              <div id="work-groups">
+                {groups.map(({ category, color, items }, i) => (
+                  <section class="work-group" data-category={category} class:list={[i > 0 && "mt-12"]}>
+                    <div class="mb-5">
+                      <p class="font-mono text-xs font-medium tracking-widest uppercase mb-1" style={`color:${color}`}>
+                        {category}
+                      </p>
+                      <p class="text-sm text-zinc-500 dark:text-poi-muted">{categoryMeta[category]}</p>
                     </div>
-                  )}
 
-                  {work.subLinks.length > 0 && (
-                    <!-- 副アクション（relative z-10 で主導線の ::after より前面に出してクリックを奪う） -->
-                    <div class="relative z-10 mt-4 flex flex-wrap gap-2 font-mono text-xs">
-                      {work.subLinks.map((link) => (
-                        <a
-                          class="inline-flex items-center rounded-md border px-2.5 py-1 text-zinc-500 dark:text-zinc-400 transition-colors hover:border-[var(--c)] hover:text-[var(--c)]"
-                          style={`--c:${work.color}; border-color:${work.color}55`}
-                          href={link.href}
-                          target={link.external ? "_blank" : undefined}
-                          rel={link.external ? "noopener noreferrer" : undefined}
+                    <div class="space-y-4">
+                      {items.map((work) => (
+                        <article
+                          class="work-card group/card relative rounded-xl border border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-zinc-300 dark:hover:border-poi-border/80 hover:shadow-sm"
                         >
-                          {link.label}
-                        </a>
+                          <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16" height="16" viewBox="0 0 24 24"
+                              fill="none" stroke="currentColor" stroke-width="1.5"
+                              stroke-linecap="round" stroke-linejoin="round"
+                              class="text-zinc-600 dark:text-zinc-400 shrink-0"
+                              set:html={work.iconPath}
+                            />
+                            <!-- カード全体を覆う主導線（::after でカード面をクリック可能に） -->
+                            <a
+                              class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-[var(--c)] outline-none focus-visible:underline"
+                              style={`--c:${work.color}`}
+                              href={work.primaryHref}
+                              target={work.primaryExternal ? "_blank" : undefined}
+                              rel={work.primaryExternal ? "noopener noreferrer" : undefined}
+                            >
+                              {work.title}
+                            </a>
+                            {work.publishedAt && (
+                              <span class="ml-auto font-mono text-[11px] font-normal text-zinc-400 dark:text-zinc-500">
+                                {work.publishedAt}
+                              </span>
+                            )}
+                          </h3>
+
+                          {work.inUse && (
+                            <p class="mt-1 flex items-center gap-1.5 text-xs">
+                              <span class="inline-block h-1.5 w-1.5 rounded-full shrink-0 bg-emerald-500"></span>
+                              <span class="text-emerald-600 dark:text-emerald-400">現場に導入・稼働中</span>
+                            </p>
+                          )}
+
+                          <p class="mt-1.5 font-sans text-sm leading-6 text-zinc-500 dark:text-poi-muted whitespace-pre-line">
+                            {work.description}
+                          </p>
+
+                          {work.rationale && (
+                            <p
+                              class="mt-3 border-l-2 pl-3 text-xs leading-6 text-zinc-500 dark:text-poi-muted"
+                              style={`border-color:${work.color}55`}
+                            >
+                              {work.rationale}
+                            </p>
+                          )}
+
+                          {work.stackResolved.length > 0 && (
+                            <div class="mt-3 flex flex-wrap gap-x-3 gap-y-1">
+                              {work.stackResolved.map((s) => (
+                                <span class="inline-flex items-center gap-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
+                                  {s.brandIcon && (
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={`color:#${s.brandIcon.hex}`} aria-hidden="true">
+                                      <path d={s.brandIcon.path} />
+                                    </svg>
+                                  )}
+                                  {s.label}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+
+                          {work.subLinks.length > 0 && (
+                            <!-- 副アクション（relative z-10 で主導線の ::after より前面に出してクリックを奪う） -->
+                            <div class="relative z-10 mt-4 flex flex-wrap gap-2 font-mono text-xs">
+                              {work.subLinks.map((link) => (
+                                <a
+                                  class="inline-flex items-center rounded-md border px-2.5 py-1 text-zinc-500 dark:text-zinc-400 transition-colors hover:border-[var(--c)] hover:text-[var(--c)]"
+                                  style={`--c:${work.color}; border-color:${work.color}55`}
+                                  href={link.href}
+                                  target={link.external ? "_blank" : undefined}
+                                  rel={link.external ? "noopener noreferrer" : undefined}
+                                >
+                                  {link.label}
+                                </a>
+                              ))}
+                            </div>
+                          )}
+                        </article>
                       ))}
                     </div>
-                  )}
-                </article>
-              ))}
+                  </section>
+                ))}
+              </div>
             </div>
-          </section>
-        ))}
-
+          </div>
+        </div>
       </div>
+
+      <!-- 順送りコントロール（デスクトップのみ） -->
+      <nav class="mt-6 hidden sm:flex items-center gap-5 max-w-xl font-mono text-xs text-zinc-500 dark:text-poi-muted" aria-label="セクション送り">
+        <button id="slide-prev" type="button" aria-label="前のセクション"
+          class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-zinc-300 dark:border-poi-border transition-colors hover:border-poi-accent hover:text-poi-accent disabled:opacity-30 disabled:hover:border-zinc-300 dark:disabled:hover:border-poi-border disabled:hover:text-inherit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={getLucideIcon('arrow-right')} style="transform:scaleX(-1)" />
+        </button>
+        <span id="slide-progress" class="tabular-nums">1 / 4</span>
+        <button id="slide-next" type="button" aria-label="次のセクション"
+          class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-zinc-300 dark:border-poi-border transition-colors hover:border-poi-accent hover:text-poi-accent disabled:opacity-30 disabled:hover:border-zinc-300 dark:disabled:hover:border-poi-border disabled:hover:text-inherit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={getLucideIcon('arrow-right')} />
+        </button>
+      </nav>
     </main>
 
   </div>
@@ -231,38 +263,57 @@ const groups = filterOrder
 </script>
 
 <script>
-  // 左ペインナビのスクロール連動アクティブ表示
+  const mq = window.matchMedia('(min-width: 640px)');
+  const track = document.getElementById('slides-track');
+  const slides = ['about', 'approach', 'impact', 'works'];
   const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]'));
-  if (navLinks.length > 0) {
-    const sectionIds = navLinks.map(l => l.dataset.section!);
-    const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+  const prevBtn = document.getElementById('slide-prev');
+  const nextBtn = document.getElementById('slide-next');
+  const progress = document.getElementById('slide-progress');
+  let index = 0;
 
-    let activeId: string | null = null;
+  const clamp = (i: number) => Math.max(0, Math.min(slides.length - 1, i));
 
-    function setActive(id: string | null) {
-      if (id === activeId) return;
-      activeId = id;
-      for (const link of navLinks) {
-        const isActive = link.dataset.section === id;
-        link.style.color = isActive ? '#5de4c7' : '';
-      }
+  function render() {
+    if (track) {
+      track.style.transform = mq.matches ? `translateX(-${index * 100}%)` : '';
     }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActive(entry.target.id);
-          }
-        }
-      },
-      { rootMargin: '-10% 0px -65% 0px', threshold: 0 },
-    );
-
-    for (const section of sections) {
-      observer.observe(section);
+    for (const link of navLinks) {
+      const on = mq.matches && link.dataset.section === slides[index];
+      link.style.color = on ? '#5de4c7' : '';
     }
+    if (progress) progress.textContent = `${index + 1} / ${slides.length}`;
+    if (prevBtn) (prevBtn as HTMLButtonElement).disabled = index === 0;
+    if (nextBtn) (nextBtn as HTMLButtonElement).disabled = index === slides.length - 1;
+    history.replaceState(null, '', `#${slides[index]}`);
   }
+
+  function go(i: number) {
+    index = clamp(i);
+    render();
+  }
+
+  for (const link of navLinks) {
+    link.addEventListener('click', (e) => {
+      if (!mq.matches) return; // モバイルはアンカーで通常スクロール
+      const target = slides.indexOf(link.dataset.section!);
+      if (target < 0) return;
+      e.preventDefault();
+      go(target);
+    });
+  }
+  prevBtn?.addEventListener('click', () => go(index - 1));
+  nextBtn?.addEventListener('click', () => go(index + 1));
+  window.addEventListener('keydown', (e) => {
+    if (!mq.matches) return;
+    if (e.key === 'ArrowLeft') go(index - 1);
+    if (e.key === 'ArrowRight') go(index + 1);
+  });
+  mq.addEventListener('change', render);
+
+  const hash = location.hash.replace('#', '');
+  if (slides.includes(hash)) index = slides.indexOf(hash);
+  render();
 </script>
 
 <style>
