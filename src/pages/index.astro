@@ -230,6 +230,41 @@ const groups = filterOrder
   });
 </script>
 
+<script>
+  // 左ペインナビのスクロール連動アクティブ表示
+  const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]'));
+  if (navLinks.length > 0) {
+    const sectionIds = navLinks.map(l => l.dataset.section!);
+    const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+
+    let activeId: string | null = null;
+
+    function setActive(id: string | null) {
+      if (id === activeId) return;
+      activeId = id;
+      for (const link of navLinks) {
+        const isActive = link.dataset.section === id;
+        link.style.color = isActive ? '#5de4c7' : '';
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+          }
+        }
+      },
+      { rootMargin: '-10% 0px -65% 0px', threshold: 0 },
+    );
+
+    for (const section of sections) {
+      observer.observe(section);
+    }
+  }
+</script>
+
 <style>
   @keyframes work-fade {
     from { opacity: 0; transform: translateY(6px); }
