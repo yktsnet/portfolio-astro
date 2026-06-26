@@ -60,20 +60,20 @@ const groups = filterOrder
           class="flex flex-col sm:flex-row sm:h-full sm:transition-transform sm:duration-300 sm:ease-out motion-reduce:sm:transition-none"
         >
           <!-- About -->
-          <div class="slide w-full sm:shrink-0 sm:h-full sm:overflow-y-auto sm:pr-2" data-slide="about">
-            <div class="max-w-xl"><About /></div>
+          <div class="slide w-full sm:shrink-0 sm:h-full" data-slide="about">
+            <div class="max-w-3xl sm:h-full sm:overflow-y-auto"><About /></div>
           </div>
           <!-- Approach -->
-          <div class="slide w-full sm:shrink-0 sm:h-full sm:overflow-y-auto sm:pr-2" data-slide="approach">
-            <div class="max-w-xl"><Approach /></div>
+          <div class="slide w-full sm:shrink-0 sm:h-full" data-slide="approach">
+            <div class="max-w-3xl sm:h-full sm:overflow-y-auto"><Approach /></div>
           </div>
           <!-- Impact -->
-          <div class="slide w-full sm:shrink-0 sm:h-full sm:overflow-y-auto sm:pr-2" data-slide="impact">
-            <div class="max-w-xl"><Impact /></div>
+          <div class="slide w-full sm:shrink-0 sm:h-full" data-slide="impact">
+            <div class="max-w-3xl sm:h-full sm:overflow-y-auto"><Impact /></div>
           </div>
           <!-- Works -->
-          <div class="slide w-full sm:shrink-0 sm:h-full sm:overflow-y-auto sm:pr-2" data-slide="works">
-            <div class="max-w-xl">
+          <div class="slide w-full sm:shrink-0 sm:h-full" data-slide="works">
+            <div class="max-w-3xl sm:h-full sm:overflow-y-auto">
               <div id="works" class="mb-8">
                 <p class="mb-2 font-mono text-xs tracking-widest uppercase text-poi-accent">Works</p>
                 <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
@@ -207,19 +207,6 @@ const groups = filterOrder
           </div>
         </div>
       </div>
-
-      <!-- 順送りコントロール（デスクトップのみ） -->
-      <nav class="mt-6 hidden sm:flex items-center gap-5 max-w-xl font-mono text-xs text-zinc-500 dark:text-poi-muted" aria-label="セクション送り">
-        <button id="slide-prev" type="button" aria-label="前のセクション"
-          class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-zinc-300 dark:border-poi-border transition-colors hover:border-poi-accent hover:text-poi-accent disabled:opacity-30 disabled:hover:border-zinc-300 dark:disabled:hover:border-poi-border disabled:hover:text-inherit">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={getLucideIcon('arrow-right')} style="transform:scaleX(-1)" />
-        </button>
-        <span id="slide-progress" class="tabular-nums">1 / 4</span>
-        <button id="slide-next" type="button" aria-label="次のセクション"
-          class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-zinc-300 dark:border-poi-border transition-colors hover:border-poi-accent hover:text-poi-accent disabled:opacity-30 disabled:hover:border-zinc-300 dark:disabled:hover:border-poi-border disabled:hover:text-inherit">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={getLucideIcon('arrow-right')} />
-        </button>
-      </nav>
     </main>
 
   </div>
@@ -267,12 +254,10 @@ const groups = filterOrder
   const track = document.getElementById('slides-track');
   const slides = ['about', 'approach', 'impact', 'works'];
   const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]'));
-  const prevBtn = document.getElementById('slide-prev');
-  const nextBtn = document.getElementById('slide-next');
-  const progress = document.getElementById('slide-progress');
   let index = 0;
 
-  const clamp = (i: number) => Math.max(0, Math.min(slides.length - 1, i));
+  // 4 → 1 / 1 → 4 へループする
+  const wrap = (i: number) => (i % slides.length + slides.length) % slides.length;
 
   function render() {
     if (track) {
@@ -282,14 +267,11 @@ const groups = filterOrder
       const on = mq.matches && link.dataset.section === slides[index];
       link.style.color = on ? '#5de4c7' : '';
     }
-    if (progress) progress.textContent = `${index + 1} / ${slides.length}`;
-    if (prevBtn) (prevBtn as HTMLButtonElement).disabled = index === 0;
-    if (nextBtn) (nextBtn as HTMLButtonElement).disabled = index === slides.length - 1;
     history.replaceState(null, '', `#${slides[index]}`);
   }
 
   function go(i: number) {
-    index = clamp(i);
+    index = wrap(i);
     render();
   }
 
@@ -302,8 +284,6 @@ const groups = filterOrder
       go(target);
     });
   }
-  prevBtn?.addEventListener('click', () => go(index - 1));
-  nextBtn?.addEventListener('click', () => go(index + 1));
   window.addEventListener('keydown', (e) => {
     if (!mq.matches) return;
     if (e.key === 'ArrowLeft') go(index - 1);
