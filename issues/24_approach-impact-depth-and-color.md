@@ -1,7 +1,7 @@
 ## APPROACH 拡充・IMPACT ナラティブ化・配色規律と本文 typography
 id: 24
 branch-slug: approach-impact-depth-and-color
-github_issue:
+github_issue: 36
 status: open
 type: feat
 対象: |
