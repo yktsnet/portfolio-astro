@@ -2,7 +2,7 @@
 id: 25
 branch-slug: approach-impact-content-refine
 github_issue: 38
-status: open
+status: close
 type: feat
 対象: |
   src/components/Approach.astro（全面差し替え）
