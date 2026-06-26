@@ -2,7 +2,7 @@
 id: 26
 branch-slug: horizontal-slide-shell
 github_issue: 40
-status: open
+status: close
 type: feat
 対象: |
   src/pages/index.astro（右カラムをスライド・ビューポート化、ナビ script 差し替え）
