@@ -4,6 +4,8 @@ import HeroMobile from '../components/HeroMobile.astro';
 import HeroDesktop from '../components/HeroDesktop.astro';
 import { works } from '../data/works';
 import About from '../components/About.astro';
+import Approach from '../components/Approach.astro';
+import Impact from '../components/Impact.astro';
 import { getLucideIcon } from '../lib/lucide';
 import { getBrandIcon } from '../lib/brand-icons';
 
@@ -53,8 +55,10 @@ const groups = filterOrder
     <!-- Works: スクロール領域 -->
     <main class="flex-1 min-w-0 max-w-xl">
       <About />
+      <Approach />
+      <Impact />
 
-      <div class="mb-8">
+      <div id="works" class="mb-8">
         <p class="mb-2 font-mono text-xs tracking-widest uppercase text-poi-accent">Works</p>
         <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
           IoTデバイス、レガシー刷新、自動売買。
