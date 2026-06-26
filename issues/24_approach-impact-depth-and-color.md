@@ -2,7 +2,7 @@
 id: 24
 branch-slug: approach-impact-depth-and-color
 github_issue: 36
-status: open
+status: close
 type: feat
 対象: |
   src/components/Approach.astro（全面差し替え）
