@@ -1,7 +1,7 @@
 ## 左ペインナビ強化・セクション分離感の改善
 id: 23a
 branch-slug: left-pane-section-separation
-github_issue:
+github_issue: 34
 status: open
 type: feat
 対象: |
