@@ -1,93 +1,72 @@
 ---
 import { getLucideIcon } from '../lib/lucide';
 
-type Role = { icon: string; title: string; sub: string };
+type Role = { title: string; sub: string; accent?: boolean };
 const roles: Role[] = [
-  { icon: 'message-circle', title: '設計', sub: '対話型 AI が仕様策定' },
-  { icon: 'bot', title: '実装', sub: '自律型 AI がコード編集' },
-  { icon: 'user-check', title: '検証', sub: '人間が確認・マージ' },
+  { title: '設計', sub: '対話型 AI' },
+  { title: '実装', sub: '自律型 AI' },
+  { title: '検証', sub: '人間がマージ', accent: true },
 ];
-const flow: string[] = [
-  'Nix Flakes で環境統一',
-  'CI（nix flake check）で継続検証',
-  'Claude Code / Jules 対応',
+type Pillar = { term: string; body: string };
+const pillars: Pillar[] = [
+  { term: '環境の同一化', body: 'ツールチェーンを Nix Flakes でコード化し、環境差を消す。同一性は CI（nix flake check）で継続検証。' },
+  { term: 'ロールの分離', body: '担当を分け、破壊的コマンドや機密アクセスは settings.json の deny で構造的に遮断。' },
+  { term: '機密の隔離', body: '本番の接続情報は公開リポに出さず secrets-agents/ に分離して参照させる。' },
 ];
 ---
 
 <section id="approach" class="relative mb-28 pb-20 border-b border-zinc-200/50 dark:border-poi-border/60">
-  <div class="space-y-4 text-zinc-600 dark:text-poi-muted">
-    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">Approach</p>
-    <p class="!mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-      AIエージェントを、開発プロセスに組み込む基盤。
-    </p>
-    <p class="text-sm leading-7">
-      AIを補助ツールではなく開発プロセスそのものに組み込んでいる。環境差はエージェントの自律実行を妨げるため Nix Flakes でツールチェーンを同一化し、破壊的操作や機密漏洩は人間の確認を経ず通りかねないため、ロールの分離と機密の隔離で構造的に抑える。
-    </p>
-  </div>
+  <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">Approach</p>
+  <p class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+    AIエージェントを、開発プロセスに組み込む。
+  </p>
+  <p class="mt-5 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
+    AIを補助ツールではなく開発プロセスそのものに組み込んでいる。自律実行するエージェントを、人間の確認を経ないまま本番に届かせない——その一点を、環境・ロール・機密の三層で構造的に担保している。
+  </p>
 
-  <!-- 柱① ロールの分離 -->
-  <div class="mt-10">
-    <p class="font-mono text-xs text-poi-muted mb-2">01 / ロールの分離</p>
-    <p class="text-sm leading-7 text-zinc-600 dark:text-poi-muted mb-4">
-      自律実行を本番・メインブランチへ直接及ばせないよう、設計・実装・検証の担当を分ける。
-    </p>
-    <div class="grid grid-cols-3 gap-3">
-      {roles.map((r) => (
-        <div class="rounded-xl border border-zinc-200 dark:border-poi-border/60 bg-zinc-50 dark:bg-white/[0.03] p-4 transition-colors hover:border-zinc-300 dark:hover:border-poi-border">
+  <!-- signature visual: 設計 → 実装 → 検証 -->
+  <div class="mt-8 flex items-center gap-2.5">
+    {roles.map((r, i) => (
+      <>
+        <div class:list={[
+          "flex-1 rounded-[10px] border p-3.5 text-center",
+          r.accent
+            ? "border-poi-accent/30 bg-poi-accent/[0.04]"
+            : "border-zinc-200 dark:border-poi-border",
+        ]}>
+          <p class:list={[
+            "text-sm font-semibold",
+            r.accent ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus",
+          ]}>{r.title}</p>
+          <p class="mt-0.5 text-xs text-zinc-500 dark:text-poi-muted">{r.sub}</p>
+        </div>
+        {i < roles.length - 1 && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="16" height="16" viewBox="0 0 24 24"
+            width="14" height="14" viewBox="0 0 24 24"
             fill="none" stroke="currentColor" stroke-width="1.5"
             stroke-linecap="round" stroke-linejoin="round"
-            class="text-poi-accent mb-2"
+            class="shrink-0 text-poi-accent"
             aria-hidden="true"
-            set:html={getLucideIcon(r.icon)}
+            set:html={getLucideIcon('arrow-right')}
           />
-          <p class="text-sm font-semibold text-zinc-900 dark:text-poi-focus">{r.title}</p>
-          <p class="mt-1 text-xs text-zinc-500 dark:text-poi-muted leading-relaxed">{r.sub}</p>
-        </div>
-      ))}
-    </div>
+        )}
+      </>
+    ))}
   </div>
 
-  <!-- 柱② 環境の同一化 -->
-  <div class="mt-10">
-    <p class="font-mono text-xs text-poi-muted mb-2">02 / 環境の同一化</p>
-    <p class="text-sm leading-7 text-zinc-600 dark:text-poi-muted mb-4">
-      環境差による「コマンド未検出」「実行時エラー」を防ぐため、ツールチェーンを Nix Flakes でコード化し、同一性を CI で継続検証する。
-    </p>
-    <div class="flex items-center gap-2">
-      {flow.map((step, i) => (
-        <>
-          <div class="flex-1 rounded-lg border border-zinc-100 dark:border-white/[0.06] bg-zinc-50/50 dark:bg-white/[0.02] p-3 text-center">
-            <p class="text-xs text-zinc-500 dark:text-poi-muted leading-relaxed">{step}</p>
-          </div>
-          {i < flow.length - 1 && (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14" height="14" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"
-              class="shrink-0 text-zinc-400 dark:text-zinc-600"
-              aria-hidden="true"
-              set:html={getLucideIcon('arrow-right')}
-            />
-          )}
-        </>
-      ))}
-    </div>
-  </div>
+  <!-- 3本柱: 定義リスト -->
+  <dl class="mt-8">
+    {pillars.map((p) => (
+      <div class="flex gap-4 border-t border-zinc-200/70 dark:border-poi-border/50 py-4 first:border-t-0 first:pt-0">
+        <dt class="w-24 shrink-0 font-mono text-xs text-poi-accent">{p.term}</dt>
+        <dd class="text-[13.5px] leading-relaxed text-zinc-600 dark:text-poi-muted">{p.body}</dd>
+      </div>
+    ))}
+  </dl>
 
-  <!-- 柱③ 機密の分離 -->
-  <div class="mt-10">
-    <p class="font-mono text-xs text-poi-muted mb-2">03 / 機密の分離</p>
-    <p class="text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-      本番の IP・ポート・実ホスト名などは公開リポや Issue に直書きせず、ローカルの <code class="font-mono text-xs text-zinc-600 dark:text-poi-focus">secrets-agents/</code> に隔離してエージェントに参照させる。
-    </p>
-  </div>
-
-  <!-- OSS リンク（緑は CTA の点として残す） -->
-  <div class="mt-8">
+  <!-- OSS リンク + 両対応 -->
+  <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
     <a
       href="https://github.com/yktsnet/dotfiles-public"
       target="_blank"
@@ -112,10 +91,11 @@ const flow: string[] = [
         set:html={getLucideIcon('external-link')}
       />
     </a>
+    <span class="font-mono text-xs text-zinc-500 dark:text-poi-muted">Claude Code / Jules 両対応</span>
   </div>
 
-  <!-- チーム適性（紫を撤去し無彩色 border に） -->
-  <p class="mt-6 border-l-2 border-zinc-300 dark:border-poi-border pl-3 text-xs leading-7 text-zinc-500 dark:text-poi-muted">
-    SES 先のチームにもこの基盤を持ち込み、GitHub 統合・CI/CD 構築・AIエージェント運用ルールの整備を推進中。
+  <!-- チーム適性 -->
+  <p class="mt-5 border-l-2 border-zinc-300 dark:border-poi-border pl-3 text-xs leading-7 text-zinc-500 dark:text-poi-muted">
+    SES 先のチームにも持ち込み、GitHub 統合・CI/CD・運用ルールの整備を推進中。
   </p>
 </section>
