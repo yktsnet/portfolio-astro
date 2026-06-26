@@ -1,4 +1,4 @@
-import { siRaspberrypi, siCloudflare, siNixos, siEspressif, siPython, siAstro, siHono, siReact, siFastapi, siPostgresql, siGoogleappsscript, siLine, siGo, siVuedotjs, siSqlite, siDotnet, siLanggraph, siGooglegemini } from "simple-icons";
+import { siRaspberrypi, siCloudflare, siNixos, siEspressif, siPython, siAstro, siHono, siReact, siFastapi, siPostgresql, siGoogleappsscript, siLine, siGo, siVuedotjs, siSqlite, siDotnet, siLanggraph, siGooglegemini, siZenn } from "simple-icons";
 
 type BrandIcon = { path: string; hex: string };
 
@@ -21,6 +21,7 @@ const map: Record<string, BrandIcon> = {
   "csharp":           { path: siDotnet.path,            hex: siDotnet.hex           },
   "langgraph":        { path: siLanggraph.path,         hex: siLanggraph.hex        },
   "gemini":           { path: siGooglegemini.path,      hex: siGooglegemini.hex     },
+  "zenn":             { path: siZenn.path,              hex: siZenn.hex             },
 };
 
 export function getBrandIcon(name: string): BrandIcon | null {
