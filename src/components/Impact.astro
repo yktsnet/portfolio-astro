@@ -1,90 +1,71 @@
 ---
 import { getLucideIcon } from '../lib/lucide';
+
+type Metric = { value: string; label: string };
+const metrics: Metric[] = [
+  { value: '~5h', label: '月あたりの集計工数削減' },
+  { value: '3〜4万', label: '月あたりの申告差異抑制' },
+];
+type Step = { icon: string; label: string };
+const steps: Step[] = [
+  { icon: 'id-card', label: 'NFC 打刻' },
+  { icon: 'table', label: 'スプレッドシート同期' },
+  { icon: 'calculator', label: '給与計算自動化' },
+];
 ---
 
 <section id="impact" class="relative mb-28 pb-20 border-b border-zinc-200/50 dark:border-poi-border/60">
-  <div class="space-y-5 text-zinc-600 dark:text-poi-muted">
-    <p class="font-mono text-xs tracking-widest uppercase text-poi-blue">Impact</p>
+  <div class="space-y-4 text-zinc-600 dark:text-poi-muted">
+    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">Impact</p>
     <p class="!mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
       マンション管理会社の外部CTOとして、現場のDXを推進。
     </p>
-    <p class="text-sm leading-8">
-      現場を長年担ってきたオーナーが経営側に移行したいという課題に対し、勤怠改善を起点に信頼関係を築き、法人化に向けた全面的な DX 支援を担当。
+    <p class="text-sm leading-7">
+      学習塾や法人の経営を通じて、技術が導入される側の現場を担ってきた。マンション管理の現場を長年支えてきたオーナーが、現場を離れ経営側へ移行したいという課題に対し、勤怠改善を起点に信頼関係を築き、法人化に向けた全面的な DX 支援を担当している。
+    </p>
+    <p class="text-sm leading-7">
+      機能を増やすのではなく、使われ続ける仕組みをつくることを重視する。既存の Excel・スプレッドシート運用を無理に変えず、自動化を後付けする設計方針で、IT 未経験の現場に「カードをタッチするだけ」の UX を定着させた。
     </p>
   </div>
 
-  <!-- 数値メトリクスカード -->
+  <!-- 論拠: 数値メトリクス -->
   <div class="mt-8 grid grid-cols-2 gap-3">
-    <div class="rounded-xl border border-zinc-200 dark:border-poi-blue/20 bg-zinc-50 dark:bg-white/[0.03] p-5 transition-colors hover:border-zinc-300 dark:hover:border-poi-blue/40">
-      <p class="font-mono text-2xl font-semibold text-zinc-900 dark:text-poi-blue tabular-nums">~5h</p>
-      <p class="mt-1 text-xs text-zinc-500 dark:text-poi-muted leading-relaxed">月あたりの集計工数削減</p>
-    </div>
-    <div class="rounded-xl border border-zinc-200 dark:border-poi-blue/20 bg-zinc-50 dark:bg-white/[0.03] p-5 transition-colors hover:border-zinc-300 dark:hover:border-poi-blue/40">
-      <p class="font-mono text-2xl font-semibold text-zinc-900 dark:text-poi-blue tabular-nums">3〜4万</p>
-      <p class="mt-1 text-xs text-zinc-500 dark:text-poi-muted leading-relaxed">月あたりの申告差異抑制</p>
-    </div>
+    {metrics.map((m) => (
+      <div class="rounded-xl border border-zinc-200 dark:border-poi-border/60 bg-zinc-50 dark:bg-white/[0.03] p-5 transition-colors hover:border-zinc-300 dark:hover:border-poi-border">
+        <p class="font-mono text-2xl font-semibold text-zinc-900 dark:text-poi-focus tabular-nums">{m.value}</p>
+        <p class="mt-1 text-xs text-zinc-500 dark:text-poi-muted leading-relaxed">{m.label}</p>
+      </div>
+    ))}
   </div>
 
-  <!-- 補足テキスト -->
-  <p class="mt-6 text-sm leading-8 text-zinc-600 dark:text-poi-muted">
-    NFC 打刻 → スプレッドシート自動同期 → 給与計算自動化。「カードをタッチするだけ」の UX で IT 未経験の現場に定着。既存の Excel・スプレッドシート運用を無理に変えず、自動化を後付けする設計方針。
-  </p>
-
-  <!-- 勤怠DX フロー図解 -->
+  <!-- 論拠: 勤怠DX フロー -->
   <div class="mt-6 flex items-center gap-2">
-    <div class="flex-1 rounded-xl border border-zinc-200 dark:border-poi-blue/20 bg-zinc-50 dark:bg-white/[0.03] p-4 text-center">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18" height="18" viewBox="0 0 24 24"
-        fill="none" stroke="currentColor" stroke-width="1.5"
-        stroke-linecap="round" stroke-linejoin="round"
-        class="mx-auto text-poi-blue mb-2"
-        aria-hidden="true"
-        set:html={getLucideIcon("id-card")}
-      />
-      <p class="text-xs text-zinc-500 dark:text-poi-muted">NFC 打刻</p>
-    </div>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="14" height="14" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor" stroke-width="1.5"
-      stroke-linecap="round" stroke-linejoin="round"
-      class="shrink-0 text-zinc-400 dark:text-zinc-600"
-      aria-hidden="true"
-      set:html={getLucideIcon("arrow-right")}
-    />
-    <div class="flex-1 rounded-xl border border-zinc-200 dark:border-poi-blue/20 bg-zinc-50 dark:bg-white/[0.03] p-4 text-center">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18" height="18" viewBox="0 0 24 24"
-        fill="none" stroke="currentColor" stroke-width="1.5"
-        stroke-linecap="round" stroke-linejoin="round"
-        class="mx-auto text-poi-blue mb-2"
-        aria-hidden="true"
-        set:html={getLucideIcon("table")}
-      />
-      <p class="text-xs text-zinc-500 dark:text-poi-muted">スプレッドシート同期</p>
-    </div>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="14" height="14" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor" stroke-width="1.5"
-      stroke-linecap="round" stroke-linejoin="round"
-      class="shrink-0 text-zinc-400 dark:text-zinc-600"
-      aria-hidden="true"
-      set:html={getLucideIcon("arrow-right")}
-    />
-    <div class="flex-1 rounded-xl border border-zinc-200 dark:border-poi-blue/20 bg-zinc-50 dark:bg-white/[0.03] p-4 text-center">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18" height="18" viewBox="0 0 24 24"
-        fill="none" stroke="currentColor" stroke-width="1.5"
-        stroke-linecap="round" stroke-linejoin="round"
-        class="mx-auto text-poi-blue mb-2"
-        aria-hidden="true"
-        set:html={getLucideIcon("calculator")}
-      />
-      <p class="text-xs text-zinc-500 dark:text-poi-muted">給与計算自動化</p>
-    </div>
+    {steps.map((s, i) => (
+      <>
+        <div class="flex-1 rounded-xl border border-zinc-200 dark:border-poi-border/60 bg-zinc-50 dark:bg-white/[0.03] p-4 text-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="mx-auto text-poi-accent mb-2"
+            aria-hidden="true"
+            set:html={getLucideIcon(s.icon)}
+          />
+          <p class="text-xs text-zinc-500 dark:text-poi-muted">{s.label}</p>
+        </div>
+        {i < steps.length - 1 && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14" height="14" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="shrink-0 text-zinc-400 dark:text-zinc-600"
+            aria-hidden="true"
+            set:html={getLucideIcon('arrow-right')}
+          />
+        )}
+      </>
+    ))}
   </div>
 </section>
