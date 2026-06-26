@@ -2,7 +2,7 @@
 id: 23a
 branch-slug: left-pane-section-separation
 github_issue: 34
-status: open
+status: close
 type: feat
 対象: |
   src/components/HeroDesktop.astro
