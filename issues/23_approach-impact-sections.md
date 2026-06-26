@@ -2,7 +2,7 @@
 id: 23
 branch-slug: approach-impact-sections
 github_issue: 32
-status: open
+status: close
 type: feat
 対象: |
   src/components/Approach.astro (新規)
