@@ -1,0 +1,29 @@
+---
+import MainLayout from './MainLayout.astro';
+import HeroMobile from '../components/HeroMobile.astro';
+import HeroDesktop from '../components/HeroDesktop.astro';
+
+interface Props {
+  current: 'about' | 'approach' | 'impact' | 'works';
+  title?: string;
+}
+
+const { current, title } = Astro.props;
+---
+
+<MainLayout title={title}>
+  <!-- ===== Mobile: Hero + ナビ + セクション ===== -->
+  <div class="sm:hidden mb-12">
+    <HeroMobile current={current} />
+  </div>
+
+  <!-- ===== Desktop: 2カラム (Hero sticky left / content right) ===== -->
+  <div class="flex gap-12">
+    <HeroDesktop current={current} />
+    <main class="flex-1 min-w-0">
+      <div class="max-w-2xl">
+        <slot />
+      </div>
+    </main>
+  </div>
+</MainLayout>
