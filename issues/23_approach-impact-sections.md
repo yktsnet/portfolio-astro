@@ -1,7 +1,7 @@
 ## APPROACH・IMPACT セクション新設
 id: 23
 branch-slug: approach-impact-sections
-github_issue:
+github_issue: 32
 status: open
 type: feat
 対象: |
