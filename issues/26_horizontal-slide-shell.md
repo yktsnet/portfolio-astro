@@ -1,7 +1,7 @@
 ## トップを横スライドUIに（デスクトップ）／モバイルは縦積み維持
 id: 26
 branch-slug: horizontal-slide-shell
-github_issue:
+github_issue: 40
 status: open
 type: feat
 対象: |
