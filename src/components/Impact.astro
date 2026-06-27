@@ -1,4 +1,26 @@
 ---
+import { getLucideIcon } from '../lib/lucide';
+
+// 経歴の弧（時系列）。現在地ノードだけ current で強調する
+type Milestone = { title: string; body: string; current?: boolean; link?: { label: string; href: string } };
+const milestones: Milestone[] = [
+  {
+    title: 'NFC勤怠キットを納品',
+    body: '「カードをタッチするだけ」で IT 未経験の現場に定着。実装力と現場感覚を示した入口。',
+    link: { label: 'Works — NFC勤怠', href: '/works/' },
+  },
+  {
+    title: 'オーナーが現場を離れたい',
+    body: '長年現場を支えたオーナーが高齢で経営側へ。築いた信頼を土台に、相談が勤怠の外へ広がる。',
+  },
+  {
+    title: '外部CTOとして法人化を伴走',
+    body: '経営経験と実装の両輪で、制度設計から日々の自動化までを一手に引き受ける。',
+    current: true,
+  },
+];
+
+// いま動いている戦線（現在の仕事）。metric / repo は勤怠 DX のみ
 type Stream = { title: string; status: string; live?: boolean; metric?: string; body: string; repo?: string };
 const streams: Stream[] = [
   {
@@ -24,14 +46,58 @@ const streams: Stream[] = [
     マンション管理会社の外部CTOとして、<br class="hidden sm:block" />現場のDXを推進。
   </p>
   <p class="mt-5 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
-    学習塾や法人の経営を通じて、技術が導入される側の現場を担ってきた。現場を長年支えたオーナーが経営側へ移りたいという課題に、勤怠改善を起点に信頼を築き、法人化までを伴走している。
-  </p>
-  <p class="mt-3 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-    機能を増やすより、使われ続ける仕組みをつくる。既存の Excel 運用を変えず、自動化を後付けする設計方針。
+    経営の現場を自分で回してきた人間が、実装もする。だから現場の困りごとから法人化までを一気通貫で引き受けられる。
   </p>
 
-  <!-- 3戦線 -->
-  <div class="mt-8">
+  <!-- 経歴の弧: 縦タイムライン -->
+  <div class="mt-8 relative">
+    <div class="absolute left-[5px] top-1.5 bottom-1.5 w-px bg-zinc-200 dark:bg-poi-border/60" aria-hidden="true"></div>
+    {milestones.map((m) => (
+      <div class="relative pl-7 pb-5 last:pb-0">
+        <span
+          class:list={[
+            "absolute left-0 top-1 h-3 w-3 rounded-full border-2",
+            m.current
+              ? "border-poi-accent bg-poi-accent"
+              : "border-zinc-300 bg-white dark:border-poi-border dark:bg-poi-back",
+          ]}
+          aria-hidden="true"
+        ></span>
+        <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+          <span class:list={[
+            "text-[15px] font-semibold",
+            m.current ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus",
+          ]}>{m.title}</span>
+          {m.current && (
+            <span class="inline-flex items-center gap-1.5 text-xs text-poi-accent">
+              <span class="inline-block h-1.5 w-1.5 rounded-full bg-poi-accent"></span>現在
+            </span>
+          )}
+        </div>
+        <p class="mt-1 text-[13.5px] leading-relaxed text-zinc-600 dark:text-poi-muted">{m.body}</p>
+        {m.link && (
+          <a
+            href={m.link.href}
+            class="mt-1.5 inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted transition-colors hover:text-poi-accent dark:hover:text-poi-accent"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12" height="12" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={getLucideIcon('arrow-right')}
+            />
+            {m.link.label}
+          </a>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <!-- いま動いている戦線 -->
+  <p class="mt-9 font-mono text-[11px] tracking-widest uppercase text-poi-muted">いま動いている戦線</p>
+  <div class="mt-3">
     {streams.map((s) => (
       <div class="border-t border-zinc-200/70 dark:border-poi-border/50 py-4 last:border-b last:border-zinc-200/70 dark:last:border-poi-border/50">
         <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
