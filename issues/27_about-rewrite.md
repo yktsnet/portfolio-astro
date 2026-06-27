@@ -1,7 +1,7 @@
 ## About 文面リライト（固有性・現職・役割軸年表）
 id: 27
 branch-slug: about-rewrite
-github_issue:
+github_issue: 42
 status: open
 type: feat
 対象: |
