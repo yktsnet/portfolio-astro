@@ -46,7 +46,9 @@ npx vitest run src/lib/api.test.ts
 
 ### ページ描画とデータの流れ
 
-`src/data/works.ts` がトップページの唯一のデータソース。Works の追加・変更はここだけを触れば反映される。
+`src/data/works.ts` がトップページ Works セクションのデータソース。Works の追加・変更はここだけを触れば反映される。
+
+About・Approach・Impact の各セクションは `src/data/` を経由せず、`src/components/{About,Approach,Impact}.astro` 内にデータを直書きしている。これらの内容変更は各コンポーネントを編集する。
 
 ### アイコンシステム
 

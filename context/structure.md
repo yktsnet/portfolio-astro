@@ -24,18 +24,27 @@ src/
 | パス | ファイル | 出力 |
 |---|---|---|
 | `/` | `pages/index.astro` | 静的 |
-| `/works/` | `pages/works/index.astro` | 静的 |
+| `/about/` | `pages/about.astro` | 静的 |
+| `/approach/` | `pages/approach.astro` | 静的 |
+| `/impact/` | `pages/impact.astro` | 静的 |
+| `/works/` | `pages/works.astro` | 静的 |
+| `/nfc-attendance/` | `pages/nfc-attendance/index.astro` | 静的 |
+| `/cat-feed-tracker/` | `pages/cat-feed-tracker/index.astro` | 静的 |
+| `/trading-system/` | `pages/trading-system.astro` | 静的 |
 | `/posts/` | `pages/posts/[...page].astro` | 静的（ページネーション） |
 | `/posts/[slug]` | `pages/posts/[slug].astro` | 静的 |
 | `/tags/` | `pages/tags/index.astro` | 静的 |
+| `/tags/[tag]` | `pages/tags/[tag]/[...page].astro` | 静的（ページネーション） |
 | `/photos/` | `pages/photos/index.astro` | 静的 |
 | `/contact/` | `pages/contact.astro` | 静的 |
+| `/rss.xml` | `pages/rss.xml.ts` | 静的（RSS） |
 | `/api/*` | `pages/api/[...route].ts` | Edge Functions (`prerender = false`) |
 
 ## データフロー
 
 ```
-src/data/*.ts          # 静的データ（Works・写真リスト・ロードマップ）
+src/data/*.ts          # 静的データ（works.ts: Works一覧 / photos.ts: 写真リスト / post.ts）
+src/components/*.astro  # About・Approach・Impact はコンポーネント内にデータを直書き
 src/content/post/      # ブログ記事（Content Collections API経由）
 Cloudflare KV          # 動的データ（/api/status 経由で配信）
 ```
