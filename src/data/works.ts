@@ -41,7 +41,7 @@ export type Work = {
 
 export const works: Work[] = [
   {
-    categoryTags: ["iot"],
+    categoryTags: ["iot", "office"],
     isOSS: true,
     priority: 1,
     title: "NFC Attendance System",
@@ -92,7 +92,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["webui", "utility"],
+    categoryTags: ["webui", "office"],
     isOSS: true,
     priority: 2,
     title: "Training Scheduler",
@@ -115,7 +115,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["modernization", "ai"],
+    categoryTags: ["modernization", "ai", "office"],
     isOSS: false,
     priority: 1,
     title: "Order System",
@@ -138,7 +138,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["modernization", "webui"],
+    categoryTags: ["modernization", "webui", "office"],
     isOSS: false,
     priority: 1,
     title: "Attendance System",
