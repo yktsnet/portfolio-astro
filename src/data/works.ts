@@ -20,6 +20,46 @@ export type BrandKey =
 
 export type StackItem = { label: string; brand?: BrandKey };
 
+/**
+ * カテゴリ定義の一元管理。
+ * - icon: 表示に使う Lucide アイコン名
+ * - weight: 並びの強弱（小さいほど強い）。ai/iot/modernization=1、webui=3、未定義は DEFAULT_CATEGORY_WEIGHT
+ * Work.categoryTags は内部用の全カテゴリ（4つ以上可）。表示は displayCategoryTags で重み順・最大3つに絞る。
+ */
+const DEFAULT_CATEGORY_WEIGHT = 2;
+
+export const CATEGORIES: Record<string, { icon: string; weight: number }> = {
+  ai: { icon: "sparkles", weight: 1 },
+  iot: { icon: "wifi", weight: 1 },
+  modernization: { icon: "refresh-cw", weight: 1 },
+  webui: { icon: "globe", weight: 3 },
+  office: { icon: "briefcase", weight: DEFAULT_CATEGORY_WEIGHT },
+  lineapp: { icon: "message-circle", weight: DEFAULT_CATEGORY_WEIGHT },
+  trading: { icon: "trending-up", weight: DEFAULT_CATEGORY_WEIGHT },
+  automation: { icon: "zap", weight: DEFAULT_CATEGORY_WEIGHT },
+};
+
+/** カテゴリのアイコン名を返す（未定義は汎用 "tag"）。 */
+export function getCategoryIcon(tag: string): string {
+  return CATEGORIES[tag]?.icon ?? "tag";
+}
+
+/** カテゴリの重みを返す（未定義は DEFAULT_CATEGORY_WEIGHT）。 */
+function getCategoryWeight(tag: string): number {
+  return CATEGORIES[tag]?.weight ?? DEFAULT_CATEGORY_WEIGHT;
+}
+
+/**
+ * 表示用カテゴリを最大3つに絞る。
+ * 重み昇順（強い順）→ 同点はアルファベット順 → 先頭3つ。
+ * カードは内部に4つ以上のカテゴリを持てるが、表示は強い3つに限定される。
+ */
+export function displayCategoryTags(tags: string[]): string[] {
+  return [...tags]
+    .sort((a, b) => getCategoryWeight(a) - getCategoryWeight(b) || a.localeCompare(b))
+    .slice(0, 3);
+}
+
 export type Work = {
   categoryTags: string[];
   isOSS: boolean;
@@ -115,7 +155,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["modernization", "ai", "office"],
+    categoryTags: ["modernization", "ai", "office", "webui"],
     isOSS: false,
     priority: 1,
     title: "Order System",
@@ -161,7 +201,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["trading", "automation"],
+    categoryTags: ["trading", "automation", "webui"],
     isOSS: false,
     priority: 3,
     title: "Trading Lab",
