@@ -1,7 +1,7 @@
 ## Impact セクションを「上部テキスト＋縦タイムライン（派生付き）」に再設計
 id: 30
 branch-slug: impact-timeline-redesign
-github_issue:
+github_issue: 50
 status: open
 type: feat
 対象: |
