@@ -1,130 +1,120 @@
 ---
-import { getLucideIcon } from '../lib/lucide';
+// Impact: 上部テキスト ＋ 下部の縦タイムライン。各フェーズから実績が branch する。
+type Metric = { value: string; unit: string; label: string };
+type Work = { title: string; status: string; live?: boolean; body: string; repo?: string; metrics?: Metric[] };
+type Phase = { kicker: string; title: string; body: string; current?: boolean; works?: Work[] };
 
-// 経歴の弧（時系列）。現在地ノードだけ current で強調する
-type Milestone = { title: string; body: string; current?: boolean; link?: { label: string; href: string } };
-const milestones: Milestone[] = [
+const phases: Phase[] = [
   {
-    title: 'NFC勤怠キットを納品',
-    body: '「カードをタッチするだけ」で IT 未経験の現場に定着。実装力と現場感覚を示した入口。',
-    link: { label: 'Works — NFC勤怠', href: '/works/' },
+    kicker: 'きっかけ', title: 'NFC勤怠キットを納品',
+    body: '「カードをタッチするだけ」で IT 未経験の現場に定着した、最初の1台。',
+    works: [
+      {
+        title: '勤怠 DX', status: '稼働中', live: true,
+        body: 'NFC 打刻 → スプレッドシート自動同期 → 給与計算自動化。',
+        repo: 'https://github.com/yktsnet/nfc-attendance-kit',
+        metrics: [
+          { value: '−5', unit: 'h', label: '月次の勤怠工数' },
+          { value: '−3〜4', unit: '万', label: '給与計算の月次差異' },
+        ],
+      },
+    ],
   },
   {
-    title: 'オーナーが現場を離れたい',
+    kicker: '転機', title: 'オーナーが現場を離れたい',
     body: '長年現場を支えたオーナーが高齢で経営側へ。築いた信頼を土台に、相談が勤怠の外へ広がる。',
   },
   {
-    title: '外部CTOとして法人化を伴走',
-    body: '経営経験と実装の両輪で、制度設計から日々の自動化までを一手に引き受ける。',
-    current: true,
-  },
-];
-
-// いま動いている戦線（現在の仕事）。metric / repo は勤怠 DX のみ
-type Stream = { title: string; status: string; live?: boolean; metric?: string; body: string; repo?: string };
-const streams: Stream[] = [
-  {
-    title: '勤怠 DX', status: '稼働中', live: true,
-    metric: '月 −5h ／ 差異 −3〜4万',
-    body: 'NFC 打刻 → スプレッドシート自動同期 → 給与計算自動化。「カードをタッチするだけ」の UX で IT 未経験の現場に定着。',
-    repo: 'https://github.com/yktsnet/nfc-attendance-kit',
-  },
-  {
-    title: '書類作成の自動化', status: '進行中',
-    body: 'Samba 共有 Excel の保存を行単位 diff で監視し、契約書テンプレへ自動転記。生成物は SQLite FTS5 で自然言語検索。',
-  },
-  {
-    title: '空室情報の配信', status: '設計中',
-    body: '事業者向け Web アプリ。松竹梅のロールで開示粒度を制御し、正午区切りの鮮度明示で電話対応とすみ分け。',
+    kicker: '現在', title: '外部CTOとして法人化を伴走', current: true,
+    body: '経営経験と実装の両輪で、制度設計から日々の自動化までを引き受ける。広げている戦線:',
+    works: [
+      {
+        title: '書類作成の自動化', status: '進行中',
+        body: 'Samba 共有 Excel を行単位 diff で監視し契約書テンプレへ自動転記。生成物は SQLite FTS5 で自然言語検索。',
+      },
+      {
+        title: '空室情報の配信', status: '設計中',
+        body: '事業者向け Web アプリ。松竹梅のロールで開示粒度を制御し、正午区切りで電話対応とすみ分け。',
+      },
+    ],
   },
 ];
 ---
 
 <section id="impact" class="relative">
+  <!-- 上部: テキスト -->
   <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">Impact</p>
   <p class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
     マンション管理会社の外部CTOとして、<br class="hidden sm:block" />現場のDXを推進。
   </p>
-  <p class="mt-5 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
-    経営の現場を自分で回してきた人間が、実装もする。だから現場の困りごとから法人化までを一気通貫で引き受けられる。
+  <p class="mt-5 text-[15px] leading-loose text-zinc-700 dark:text-zinc-300">
+    きっかけは勤怠の困りごとを片付ける小さな道具を1つ納品したこと。そこで生まれた信頼が相談の幅を広げ、いまは制度設計から日々の自動化、法人化までを一手に引き受けている。経営も実装も自分でやってきた立場だからこそ、現場の手触りのまま回る形に落とせる。
   </p>
 
-  <!-- 経歴の弧: 縦タイムライン -->
-  <div class="mt-8 relative">
-    <div class="absolute left-[5px] top-1.5 bottom-1.5 w-px bg-zinc-200 dark:bg-poi-border/60" aria-hidden="true"></div>
-    {milestones.map((m) => (
-      <div class="relative pl-7 pb-5 last:pb-0">
+  <!-- 下部: 縦タイムライン -->
+  <div class="mt-9 relative">
+    <div class="absolute left-[5px] top-1.5 bottom-2 w-px bg-zinc-200 dark:bg-poi-border/70" aria-hidden="true"></div>
+    {phases.map((p) => (
+      <div class="relative pl-7 pb-6 last:pb-0">
         <span
           class:list={[
             "absolute left-0 top-1 h-3 w-3 rounded-full border-2",
-            m.current
+            p.current
               ? "border-poi-accent bg-poi-accent"
               : "border-zinc-300 bg-white dark:border-poi-border dark:bg-poi-back",
           ]}
           aria-hidden="true"
         ></span>
-        <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1">
-          <span class:list={[
-            "text-[15px] font-semibold",
-            m.current ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus",
-          ]}>{m.title}</span>
-          {m.current && (
-            <span class="inline-flex items-center gap-1.5 text-xs text-poi-accent">
-              <span class="inline-block h-1.5 w-1.5 rounded-full bg-poi-accent"></span>現在
-            </span>
-          )}
-        </div>
-        <p class="mt-1 text-[13.5px] leading-relaxed text-zinc-600 dark:text-poi-muted">{m.body}</p>
-        {m.link && (
-          <a
-            href={m.link.href}
-            class="mt-1.5 inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted transition-colors hover:text-poi-accent dark:hover:text-poi-accent"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="12" height="12" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"
-              aria-hidden="true"
-              set:html={getLucideIcon('arrow-right')}
-            />
-            {m.link.label}
-          </a>
-        )}
-      </div>
-    ))}
-  </div>
 
-  <!-- いま動いている戦線 -->
-  <p class="mt-9 font-mono text-[11px] tracking-widest uppercase text-poi-muted">いま動いている戦線</p>
-  <div class="mt-3">
-    {streams.map((s) => (
-      <div class="border-t border-zinc-200/70 dark:border-poi-border/50 py-4 last:border-b last:border-zinc-200/70 dark:last:border-poi-border/50">
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span class="text-[15px] font-semibold text-zinc-900 dark:text-poi-focus">{s.title}</span>
-          {s.live ? (
-            <span class="inline-flex items-center gap-1.5 text-xs text-poi-accent">
-              <span class="inline-block h-1.5 w-1.5 rounded-full bg-poi-accent"></span>{s.status}
-            </span>
-          ) : (
-            <span class="text-xs text-zinc-500 dark:text-poi-muted">{s.status}</span>
-          )}
-          {s.metric && (
-            <span class="ml-auto font-mono text-xs text-zinc-600 dark:text-zinc-300">{s.metric}</span>
-          )}
-        </div>
-        <p class="mt-1.5 text-[13.5px] leading-relaxed text-zinc-600 dark:text-poi-muted">{s.body}</p>
-        {s.repo && (
-          <a
-            href={s.repo}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="mt-2 inline-flex items-center gap-1 font-mono text-xs text-zinc-500 dark:text-poi-muted transition-colors hover:text-poi-accent dark:hover:text-poi-accent"
-          >
-            GitHub
-            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-          </a>
-        )}
+        <p class:list={[
+          "text-[15px] font-semibold",
+          p.current ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus",
+        ]}>
+          <span class="font-mono text-xs tracking-wide text-poi-muted mr-1.5">{p.kicker}</span>— {p.title}
+        </p>
+        <p class="mt-1.5 text-[13px] leading-relaxed text-zinc-600 dark:text-poi-muted">{p.body}</p>
+
+        {p.works && p.works.map((w) => (
+          <div class:list={[
+            "mt-3 border-l-2 pl-3.5",
+            w.live ? "border-poi-accent" : "border-zinc-200 dark:border-poi-border",
+          ]}>
+            <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+              <span class="text-[13.5px] font-semibold text-zinc-900 dark:text-poi-focus">{w.title}</span>
+              {w.live ? (
+                <span class="inline-flex items-center gap-1.5 text-xs text-poi-accent">
+                  <span class="inline-block h-1.5 w-1.5 rounded-full bg-poi-accent"></span>{w.status}
+                </span>
+              ) : (
+                <span class="text-xs text-zinc-500 dark:text-poi-muted">{w.status}</span>
+              )}
+              {w.repo && (
+                <a
+                  href={w.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="ml-auto inline-flex items-center gap-1 font-mono text-xs text-zinc-500 dark:text-poi-muted transition-colors hover:text-poi-accent dark:hover:text-poi-accent"
+                >
+                  GitHub
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                </a>
+              )}
+            </div>
+            <p class="mt-1 text-[12.5px] leading-relaxed text-zinc-600 dark:text-poi-muted">{w.body}</p>
+            {w.metrics && (
+              <div class="mt-2.5 flex flex-wrap gap-x-8 gap-y-3">
+                {w.metrics.map((mt) => (
+                  <div>
+                    <div class="font-mono text-[26px] font-medium leading-none text-zinc-900 dark:text-poi-focus">
+                      {mt.value}<span class="text-[15px] text-zinc-500 dark:text-poi-muted">{mt.unit}</span>
+                    </div>
+                    <div class="mt-1.5 text-[11px] text-zinc-500 dark:text-poi-muted">{mt.label}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     ))}
   </div>
