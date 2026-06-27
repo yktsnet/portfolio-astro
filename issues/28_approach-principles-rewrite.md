@@ -1,7 +1,7 @@
 ## APPROACH を「3つの判断基準（How）」へ再構成
 id: 28
 branch-slug: approach-principles-rewrite
-github_issue:
+github_issue: 44
 status: open
 type: feat
 対象: |
