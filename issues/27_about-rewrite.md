@@ -2,7 +2,7 @@
 id: 27
 branch-slug: about-rewrite
 github_issue: 42
-status: open
+status: close
 type: feat
 対象: |
   src/components/About.astro
