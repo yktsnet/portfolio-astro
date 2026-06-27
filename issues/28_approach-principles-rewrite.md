@@ -2,7 +2,7 @@
 id: 28
 branch-slug: approach-principles-rewrite
 github_issue: 44
-status: open
+status: close
 type: feat
 対象: |
   src/components/Approach.astro（全面差し替え）
