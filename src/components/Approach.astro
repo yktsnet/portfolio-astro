@@ -85,20 +85,20 @@ const principles: Principle[] = [
 
         <!-- 各原則のインラインフロー図（flow が定義されている原則すべてに表示） -->
         {p.flow && (
-          <div class="mt-4 flex items-center gap-2.5">
+          <div class="mt-5 flex items-center gap-2.5">
             {p.flow.map((step, j) => (
               <>
                 <div class:list={[
-                  "flex-1 rounded-[10px] border p-3 text-center",
+                  "flex-1 rounded-[10px] border py-3 px-2 text-center",
                   step.accent
-                    ? "border-poi-accent/30 bg-poi-accent/[0.04]"
-                    : "border-zinc-200 dark:border-poi-border",
+                    ? "border-poi-accent/30 bg-poi-accent/[0.06] dark:bg-poi-accent/[0.04]"
+                    : "border-zinc-200/80 dark:border-poi-border/50 bg-zinc-50/50 dark:bg-poi-panel/30",
                 ]}>
                   <p class:list={[
                     "text-sm font-semibold",
                     step.accent ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus",
                   ]}>{step.title}</p>
-                  <p class="mt-0.5 text-xs text-zinc-500 dark:text-poi-muted">{step.sub}</p>
+                  <p class="mt-1 text-xs text-zinc-500 dark:text-poi-muted">{step.sub}</p>
                 </div>
                 {j < p.flow!.length - 1 && (
                   <svg
@@ -117,42 +117,44 @@ const principles: Principle[] = [
         )}
 
         <!-- 証跡リンク: 語らず現物へ送る -->
-        <a
-          href={p.proof.href}
-          {...(p.proof.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-          class="mt-4 inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted transition-colors hover:text-poi-accent dark:hover:text-poi-accent"
-        >
-          {p.proof.external ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="12" height="12" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"
-              aria-hidden="true"
-              set:html={getLucideIcon('github')}
-            />
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="12" height="12" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"
-              aria-hidden="true"
-              set:html={getLucideIcon('arrow-right')}
-            />
-          )}
-          {p.proof.label}
-          {p.proof.external && (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="10" height="10" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"
-              aria-hidden="true"
-              set:html={getLucideIcon('external-link')}
-            />
-          )}
-        </a>
+        <div class="mt-5">
+          <a
+            href={p.proof.href}
+            {...(p.proof.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            class="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted transition-colors hover:text-poi-accent dark:hover:text-poi-accent hover:underline"
+          >
+            {p.proof.external ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12" height="12" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true"
+                set:html={getLucideIcon('github')}
+              />
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12" height="12" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true"
+                set:html={getLucideIcon('arrow-right')}
+              />
+            )}
+            {p.proof.label}
+            {p.proof.external && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10" height="10" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true"
+                set:html={getLucideIcon('external-link')}
+              />
+            )}
+          </a>
+        </div>
       </div>
     ))}
   </div>
