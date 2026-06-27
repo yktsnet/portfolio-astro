@@ -45,10 +45,14 @@ const tagIconMap: Record<string, string> = {
   office: "briefcase",
 };
 
-const resolvedTags = allUniqueCategoryTags.map(tag => ({
-  name: tag,
-  iconPath: getLucideIcon(tagIconMap[tag] ?? "tag"),
-}));
+const resolvedTags = allUniqueCategoryTags.map(tag => {
+  const count = works.filter(w => w.categoryTags.includes(tag)).length;
+  return {
+    name: tag,
+    count,
+    iconPath: getLucideIcon(tagIconMap[tag] ?? "tag"),
+  };
+});
 ---
 
 <ProfileLayout current="works" title="Works">
@@ -85,7 +89,7 @@ const resolvedTags = allUniqueCategoryTags.map(tag => ({
     role="group"
     aria-label="タグで絞り込む"
   >
-    {resolvedTags.map(({ name, iconPath }) => (
+    {resolvedTags.map(({ name, count, iconPath }) => (
       <button
         type="button"
         class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/50 bg-white/40 dark:bg-white/[0.01] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/[0.06] dark:aria-pressed:text-poi-focus"
@@ -101,6 +105,9 @@ const resolvedTags = allUniqueCategoryTags.map(tag => ({
           set:html={iconPath}
         />
         <span>{name}</span>
+        <span class="font-mono text-[9px] text-zinc-400 dark:text-zinc-500 group-aria-pressed/btn:text-poi-focus transition-colors duration-200 select-none">
+          {count}
+        </span>
       </button>
     ))}
   </div>
