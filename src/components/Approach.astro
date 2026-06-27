@@ -9,34 +9,35 @@ const roles: Role[] = [
   { title: '検証', sub: '人間がマージ', accent: true },
 ];
 
-// 3つの判断基準（How）。tradeoff の reject/choose で「Xより、Yを選ぶ」を表現。
+// 3つの判断基準（How）。見出し（term）が「Xより、Y」の対比を担い、本文は理由と中身だけを語る。
 type Principle = {
   term: string;
-  reject: string;   // 捨てる側 X（muted）
-  choose: string;   // 選ぶ側 Y（focus）
-  body?: string;    // 補足1文（任意）
+  body: string[];   // 段落。対比は見出しに任せ、ここでは繰り返さない
   proof: { label: string; href: string; external?: boolean };
 };
 const principles: Principle[] = [
   {
-    term: '使われ続ける仕組みを選ぶ',
-    reject: '機能を増やすより、',
-    choose: '現場の運用を変えず、後付けで自動化を定着させる。',
-    body: '技術が導入される側を経営者として12年見てきた。使われなくなる経緯を知っているから、現場の手順を壊さないことを最優先に置く。',
+    term: '機能より、定着',
+    body: [
+      '技術が導入される側を、学習塾・法人の経営者として12年見てきた。導入時に歓迎された機能が、半年後には誰にも使われなくなる、その経緯を当事者として知っている。',
+      'だから新しい画面や操作を覚えさせる設計を避ける。既存の Excel・スプレッドシート・紙の運用はそのまま残し、自動化はその裏側に後付けで差し込む。現場の手順が一切変わらないことを最優先に置き、「覚え直し」が発生しない形にして初めて定着する。',
+    ],
     proof: { label: 'Impact — 現場のDX', href: '/impact/' },
   },
   {
-    term: 'AIを開発プロセスに組み込む',
-    reject: 'AIを補助ツールとして使うより、',
-    choose: '設計・実装・検証を分け、危険な操作を構造で遮断する。',
-    body: '自律実行するエージェントを、人間の確認を経ないまま本番に届かせない。環境差・破壊的操作・機密漏洩を、運用ルールではなく設定で止める。',
+    term: '放任より、制御',
+    body: [
+    'AIエージェントは自律実行するぶん、放っておけば破壊的な操作や機密漏洩をそのまま本番へ通しかねない。便利さと引き換えに制御を手放すのではなく、危険を仕組みで止める前提で開発フロー自体を組み直した。',
+      '「設計＝対話型AI／実装＝自律型AI／検証＝人間」と役割を分け、人間のマージを最後の関門に固定する。環境差は Nix Flakes で macOS〜ヘッドレス VPS のツールチェーンを同一化して消し、破壊的コマンドや機密アクセスは settings.json の deny で構造的に遮断、本番の接続情報は secrets-agents に隔離する。運用ルールではなく設定で止めるのが要点で、これを dotfiles として公開し Claude Code / Jules の両方で回している。',
+    ],
     proof: { label: 'dotfiles-public', href: 'https://github.com/yktsnet/dotfiles-public', external: true },
   },
   {
-    term: '確実性を選ぶ',
-    reject: '機能の多さより、',
-    choose: '壊れず回り続ける宣言的構成を選ぶ。',
-    body: '金銭リスクのある自動売買を個人で本番運用する必要から、Web UI を備えた版を、状態を JSONL と systemd で扱う構成へ意図的に作り直した。',
+    term: '多機能より、安定性',
+    body: [
+      '機能の多さより、止まらず回り続けることを上に置く。動くデモと、本番で壊れない運用は別物で、後者のためなら機能を削る判断をする。',
+      '金銭リスクのある自動売買を個人で本番運用する必要から、かつて React の操作 UI を備えていた版を、状態を JSONL と systemd だけで扱う構成へ意図的に作り直した。NixOS による宣言的構成で環境差起因のトラブルを抑え、異常検知・損失限定・定期実行を自前で自動化して、止めずに走らせ続けている。',
+    ],
     proof: { label: 'Works — Trading Lab', href: '/works/' },
   },
 ];
@@ -45,10 +46,8 @@ const principles: Principle[] = [
 <section id="approach" class="relative">
   <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">Approach</p>
   <p class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-    実装の前に、何を選び何を捨てるかを決めている。
-  </p>
-  <p class="mt-5 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
-    設計が分岐するたびに立ち戻る判断基準が3つある。どれも「機能を足す」側ではなく「壊さず使われ続ける」側を選ぶための基準で、個々の実装はその結果にすぎない。
+    <span class="block">つくって終わりにしない。</span>
+    <span class="block mt-2">現場で壊れず回り続けることを基準に選ぶ。</span>
   </p>
 
   <!-- 3つの判断基準 -->
@@ -60,15 +59,10 @@ const principles: Principle[] = [
           <h3 class="text-[15px] font-semibold text-zinc-900 dark:text-poi-focus">{p.term}</h3>
         </div>
 
-        <!-- トレードオフ1文: 捨てる側=muted / 選ぶ側=focus -->
-        <p class="mt-2.5 text-[15px] leading-relaxed">
-          <span class="text-zinc-500 dark:text-poi-muted">{p.reject}</span>
-          <span class="text-zinc-800 dark:text-poi-focus">{p.choose}</span>
-        </p>
-
-        {p.body && (
-          <p class="mt-2 text-[13.5px] leading-relaxed text-zinc-600 dark:text-poi-muted">{p.body}</p>
-        )}
+        <!-- 本文: 対比は見出しが担うので、ここでは理由と中身だけ -->
+        <div class="mt-3 space-y-3 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+          {p.body.map((para) => <p>{para}</p>)}
+        </div>
 
         <!-- 基準②だけ、証跡として設計→実装→検証フローをインライン表示 -->
         {i === 1 && (
@@ -143,9 +137,4 @@ const principles: Principle[] = [
       </div>
     ))}
   </div>
-
-  <!-- チーム適性（基準を個人の趣味で終わらせない一文。維持） -->
-  <p class="mt-9 border-l-2 border-zinc-300 dark:border-poi-border pl-3 text-xs leading-7 text-zinc-500 dark:text-poi-muted">
-    これらの基準と AI 協調開発の仕組みは SES 先のチームにも持ち込み、GitHub 統合・CI/CD・運用ルールの整備として展開中。
-  </p>
 </section>
