@@ -1,7 +1,7 @@
 ## Approach 01・03 にインライン図を追加
 id: 29
 branch-slug: approach-inline-diagrams
-github_issue:
+github_issue: 46
 status: open
 type: feat
 対象: |
