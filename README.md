@@ -30,21 +30,6 @@ Cloudflare Pages
                   └─ /api/contact  ─ Discord Webhook + Turnstile
 ```
 
-## Setup
-
-### Environment Variables
-
-| Variable | Description |
-|---|---|
-| `CONTACT_DISCORD_WEBHOOK_URL` | コンタクトフォーム用 Discord Webhook |
-| `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile シークレットキー |
-
-### Cloudflare
-
-1. Cloudflare Pages でプロジェクトを作成
-2. KV ネームスペースを2つ作成し、`wrangler.jsonc` の `kv_namespaces` にIDを設定
-3. 上記の環境変数を Pages ダッシュボードから追加
-
 ## Deploy
 
 main ブランチへの push で GitHub Actions が自動ビルド・デプロイ（Cloudflare Pages）。
@@ -68,4 +53,4 @@ npm run typecheck # 型チェック
 
 ## License
 
-MIT — 初期ベース: [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus) by Chris Williams（大幅に改変）
+MIT
