@@ -4,18 +4,19 @@ type LocationGroup = { location: string; items: TimelineEntry[] };
 
 const timeline: LocationGroup[] = [
   {
-    location: "Kyoto",
+    location: "Management",
     items: [
       { year: "2013", label: "学習塾 開業" },
-      { year: "2019", label: "合同会社設立" },
-      { year: "2024", label: "合同会社 解散" },
+      { year: "2019", label: "合同会社 設立" },
+      { year: "2024", label: "合同会社 清算" },
+      { year: "2025", label: "学習塾 閉業" },
     ],
   },
   {
-    location: "Osaka",
+    location: "Engineering",
     items: [
-      { year: "2025", label: "学習塾 閉業 / 個人開発・技術支援" },
-      { year: "2026〜", label: "SES 入社" },
+      { year: "2025", label: "エンジニア転身 / 個人開発・外部CTO" },
+      { year: "2026〜", label: "SES テックリード" },
     ],
   },
 ];
@@ -25,14 +26,14 @@ const timeline: LocationGroup[] = [
   <div class="text-zinc-600 dark:text-poi-muted">
     <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">About</p>
     <p class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-      曖昧なビジネス課題を、<br class="hidden sm:block" />設計・実装・本番運用まで一人で形にする。
+      学習塾を12年経営し、2025年にエンジニアへ転身した。<br class="hidden sm:block" />技術が「導入される側」を知っているエンジニア。
     </p>
     <div class="mt-6 space-y-4">
       <p class="text-sm leading-7">
-        学習塾を12年経営し、合同会社でイベントスペース運営やプログラミング教育支援も手がけた。技術が導入される側の景色——コスト感覚、現場の抵抗、使われなくなるまでの経緯——を経営者として知っている。
+        いまは SES 企業でテックリードとして受託開発とインフラの IaC 化を担い、並行してマンション管理会社の外部 CTO として現場の DX を推進している。要件が曖昧な段階からビジネス課題を技術へ翻訳し、現場で使われ続ける形まで単独で落とし込む。
       </p>
       <p class="text-sm leading-7">
-        2025年にエンジニアへ転身。いまは SES で開発に携わりながら、個人開発と小さな組織への技術支援を並行している。ハードウェアから業務システム、自動売買まで、設計から運用まで一人で通すことが多い。
+        強みの土台は経営経験にある。学習塾を12年単独で運営し、合同会社の設立から清算までを担った。技術が導入される側の景色——コスト感覚、現場の抵抗、使われなくなるまでの経緯——を経営者として知っている。だから機能を増やすより、使われ続ける仕組みをつくることを優先する。
       </p>
     </div>
   </div>
