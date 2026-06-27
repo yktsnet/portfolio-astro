@@ -1,7 +1,7 @@
 ## Impact セクションを縦タイムライン構成に再設計
 id: next
 branch-slug: impact-timeline-redesign
-github_issue:
+github_issue: 48
 status: open
 type: feat
 対象: |
