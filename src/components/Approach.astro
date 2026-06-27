@@ -1,101 +1,151 @@
 ---
 import { getLucideIcon } from '../lib/lucide';
 
+// 基準②の証跡として残す「設計→実装→検証」フロー
 type Role = { title: string; sub: string; accent?: boolean };
 const roles: Role[] = [
   { title: '設計', sub: '対話型 AI' },
   { title: '実装', sub: '自律型 AI' },
   { title: '検証', sub: '人間がマージ', accent: true },
 ];
-type Pillar = { term: string; body: string };
-const pillars: Pillar[] = [
-  { term: '環境の同一化', body: 'ツールチェーンを Nix Flakes でコード化し、環境差を消す。同一性は CI（nix flake check）で継続検証。' },
-  { term: 'ロールの分離', body: '担当を分け、破壊的コマンドや機密アクセスは settings.json の deny で構造的に遮断。' },
-  { term: '機密の隔離', body: '本番の接続情報は公開リポに出さず secrets-agents/ に分離して参照させる。' },
+
+// 3つの判断基準（How）。tradeoff の reject/choose で「Xより、Yを選ぶ」を表現。
+type Principle = {
+  term: string;
+  reject: string;   // 捨てる側 X（muted）
+  choose: string;   // 選ぶ側 Y（focus）
+  body?: string;    // 補足1文（任意）
+  proof: { label: string; href: string; external?: boolean };
+};
+const principles: Principle[] = [
+  {
+    term: '使われ続ける仕組みを選ぶ',
+    reject: '機能を増やすより、',
+    choose: '現場の運用を変えず、後付けで自動化を定着させる。',
+    body: '技術が導入される側を経営者として12年見てきた。使われなくなる経緯を知っているから、現場の手順を壊さないことを最優先に置く。',
+    proof: { label: 'Impact — 現場のDX', href: '/impact/' },
+  },
+  {
+    term: 'AIを開発プロセスに組み込む',
+    reject: 'AIを補助ツールとして使うより、',
+    choose: '設計・実装・検証を分け、危険な操作を構造で遮断する。',
+    body: '自律実行するエージェントを、人間の確認を経ないまま本番に届かせない。環境差・破壊的操作・機密漏洩を、運用ルールではなく設定で止める。',
+    proof: { label: 'dotfiles-public', href: 'https://github.com/yktsnet/dotfiles-public', external: true },
+  },
+  {
+    term: '確実性を選ぶ',
+    reject: '機能の多さより、',
+    choose: '壊れず回り続ける宣言的構成を選ぶ。',
+    body: '金銭リスクのある自動売買を個人で本番運用する必要から、Web UI を備えた版を、状態を JSONL と systemd で扱う構成へ意図的に作り直した。',
+    proof: { label: 'Works — Trading Lab', href: '/works/' },
+  },
 ];
 ---
 
 <section id="approach" class="relative">
   <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">Approach</p>
   <p class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-    AIエージェントを、開発プロセスに組み込む。
+    実装の前に、何を選び何を捨てるかを決めている。
   </p>
   <p class="mt-5 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
-    AIを補助ツールではなく開発プロセスそのものに組み込んでいる。自律実行するエージェントを、人間の確認を経ないまま本番に届かせない——その一点を、環境・ロール・機密の三層で構造的に担保している。
+    設計が分岐するたびに立ち戻る判断基準が3つある。どれも「機能を足す」側ではなく「壊さず使われ続ける」側を選ぶための基準で、個々の実装はその結果にすぎない。
   </p>
 
-  <!-- signature visual: 設計 → 実装 → 検証 -->
-  <div class="mt-8 flex items-center gap-2.5">
-    {roles.map((r, i) => (
-      <>
-        <div class:list={[
-          "flex-1 rounded-[10px] border p-3.5 text-center",
-          r.accent
-            ? "border-poi-accent/30 bg-poi-accent/[0.04]"
-            : "border-zinc-200 dark:border-poi-border",
-        ]}>
-          <p class:list={[
-            "text-sm font-semibold",
-            r.accent ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus",
-          ]}>{r.title}</p>
-          <p class="mt-0.5 text-xs text-zinc-500 dark:text-poi-muted">{r.sub}</p>
+  <!-- 3つの判断基準 -->
+  <div class="mt-9 space-y-9">
+    {principles.map((p, i) => (
+      <div class="border-t border-zinc-200/70 dark:border-poi-border/50 pt-6 first:border-t-0 first:pt-0">
+        <div class="flex items-baseline gap-2.5">
+          <span class="font-mono text-xs text-poi-accent">0{i + 1}</span>
+          <h3 class="text-[15px] font-semibold text-zinc-900 dark:text-poi-focus">{p.term}</h3>
         </div>
-        {i < roles.length - 1 && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round"
-            class="shrink-0 text-poi-accent"
-            aria-hidden="true"
-            set:html={getLucideIcon('arrow-right')}
-          />
-        )}
-      </>
-    ))}
-  </div>
 
-  <!-- 3本柱: 定義リスト -->
-  <dl class="mt-8">
-    {pillars.map((p) => (
-      <div class="flex gap-4 border-t border-zinc-200/70 dark:border-poi-border/50 py-4 first:border-t-0 first:pt-0">
-        <dt class="w-24 shrink-0 font-mono text-xs text-poi-accent">{p.term}</dt>
-        <dd class="text-[13.5px] leading-relaxed text-zinc-600 dark:text-poi-muted">{p.body}</dd>
+        <!-- トレードオフ1文: 捨てる側=muted / 選ぶ側=focus -->
+        <p class="mt-2.5 text-[15px] leading-relaxed">
+          <span class="text-zinc-500 dark:text-poi-muted">{p.reject}</span>
+          <span class="text-zinc-800 dark:text-poi-focus">{p.choose}</span>
+        </p>
+
+        {p.body && (
+          <p class="mt-2 text-[13.5px] leading-relaxed text-zinc-600 dark:text-poi-muted">{p.body}</p>
+        )}
+
+        <!-- 基準②だけ、証跡として設計→実装→検証フローをインライン表示 -->
+        {i === 1 && (
+          <div class="mt-4 flex items-center gap-2.5">
+            {roles.map((r, j) => (
+              <>
+                <div class:list={[
+                  "flex-1 rounded-[10px] border p-3 text-center",
+                  r.accent
+                    ? "border-poi-accent/30 bg-poi-accent/[0.04]"
+                    : "border-zinc-200 dark:border-poi-border",
+                ]}>
+                  <p class:list={[
+                    "text-sm font-semibold",
+                    r.accent ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus",
+                  ]}>{r.title}</p>
+                  <p class="mt-0.5 text-xs text-zinc-500 dark:text-poi-muted">{r.sub}</p>
+                </div>
+                {j < roles.length - 1 && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14" height="14" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round"
+                    class="shrink-0 text-poi-accent"
+                    aria-hidden="true"
+                    set:html={getLucideIcon('arrow-right')}
+                  />
+                )}
+              </>
+            ))}
+          </div>
+        )}
+
+        <!-- 証跡リンク: 語らず現物へ送る -->
+        <a
+          href={p.proof.href}
+          {...(p.proof.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          class="mt-4 inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted transition-colors hover:text-poi-accent dark:hover:text-poi-accent"
+        >
+          {p.proof.external ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12" height="12" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={getLucideIcon('github')}
+            />
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12" height="12" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={getLucideIcon('arrow-right')}
+            />
+          )}
+          {p.proof.label}
+          {p.proof.external && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="10" height="10" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={getLucideIcon('external-link')}
+            />
+          )}
+        </a>
       </div>
     ))}
-  </dl>
-
-  <!-- OSS リンク + 両対応 -->
-  <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
-    <a
-      href="https://github.com/yktsnet/dotfiles-public"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="inline-flex items-center gap-2 rounded-full border border-poi-accent/40 px-4 py-1.5 font-mono text-xs text-poi-accent transition-colors hover:border-poi-accent hover:bg-poi-accent/5"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="12" height="12" viewBox="0 0 24 24"
-        fill="none" stroke="currentColor" stroke-width="1.5"
-        stroke-linecap="round" stroke-linejoin="round"
-        aria-hidden="true"
-        set:html={getLucideIcon('github')}
-      />
-      dotfiles-public
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="10" height="10" viewBox="0 0 24 24"
-        fill="none" stroke="currentColor" stroke-width="1.5"
-        stroke-linecap="round" stroke-linejoin="round"
-        aria-hidden="true"
-        set:html={getLucideIcon('external-link')}
-      />
-    </a>
-    <span class="font-mono text-xs text-zinc-500 dark:text-poi-muted">Claude Code / Jules 両対応</span>
   </div>
 
-  <!-- チーム適性 -->
-  <p class="mt-5 border-l-2 border-zinc-300 dark:border-poi-border pl-3 text-xs leading-7 text-zinc-500 dark:text-poi-muted">
-    SES 先のチームにも持ち込み、GitHub 統合・CI/CD・運用ルールの整備を推進中。
+  <!-- チーム適性（基準を個人の趣味で終わらせない一文。維持） -->
+  <p class="mt-9 border-l-2 border-zinc-300 dark:border-poi-border pl-3 text-xs leading-7 text-zinc-500 dark:text-poi-muted">
+    これらの基準と AI 協調開発の仕組みは SES 先のチームにも持ち込み、GitHub 統合・CI/CD・運用ルールの整備として展開中。
   </p>
 </section>
