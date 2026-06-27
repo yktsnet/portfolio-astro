@@ -30,21 +30,6 @@ Cloudflare Pages
                   └─ /api/contact  ─ Discord Webhook + Turnstile
 ```
 
-## Setup
-
-### Environment Variables
-
-| Variable | Description |
-|---|---|
-| `CONTACT_DISCORD_WEBHOOK_URL` | Discord Webhook for contact form |
-| `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile secret key |
-
-### Cloudflare
-
-1. Create a project in Cloudflare Pages
-2. Create 2 KV namespaces and set their IDs in `wrangler.jsonc` under `kv_namespaces`
-3. Add the environment variables above from the Pages dashboard
-
 ## Deploy
 
 Pushing to the main branch triggers automatic build and deployment via GitHub Actions (Cloudflare Pages).  
@@ -68,4 +53,4 @@ npm run typecheck # Type checking
 
 ## License
 
-MIT — Initial base: [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus) by Chris Williams (heavily modified)
+MIT
