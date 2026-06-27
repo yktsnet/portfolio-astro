@@ -17,185 +17,246 @@ const worksResolved = works.map(work => ({
   })),
 }));
 
-const filterOrder = ["Hardware", "Modernization", "Trading", "Others"];
+// 現場導入（inUse trueが上）を第一キー、優先度（priority 昇順）を第二キー、時系列（publishedAt 降順）を第三キーとしてソート
+const sortedWorks = [...worksResolved].sort((a, b) => {
+  if (!!a.inUse !== !!b.inUse) {
+    return a.inUse ? -1 : 1;
+  }
+  if (a.priority !== b.priority) {
+    return a.priority - b.priority;
+  }
+  const dateA = a.publishedAt || "0000.00";
+  const dateB = b.publishedAt || "0000.00";
+  return dateB.localeCompare(dateA);
+});
 
-const categoryMeta: Record<string, string> = {
-  Hardware: "クラウドにも依存にも縛られないエッジ。枯れた標準と Nix の再現性で、旧ハードでも確実に動かす。",
-  Modernization: "密結合したレガシーを止めずに分解し、.NET 8 と AI エージェントへ段階的に作り直す。",
-  Trading: "Web フレームワークに頼れない領域で、自動売買を設計し本番で走らせ続ける。",
-  Others: "その他単発プロジェクト。",
+// ユニークなカテゴリタグの抽出（小文字、アルファベット順にソート）
+const allUniqueCategoryTags = Array.from(
+  new Set(works.flatMap(w => w.categoryTags))
+).sort();
+
+const tagIconMap: Record<string, string> = {
+  iot: "wifi",
+  automation: "zap",
+  modernization: "refresh-cw",
+  webui: "globe",
+  ai: "sparkles",
+  trading: "trending-up",
+  utility: "wrench",
 };
 
-const groupOf = (cat: string) => worksResolved.filter(w => w.category === cat);
-
-const groups = filterOrder
-  .map(cat => ({ category: cat, color: groupOf(cat)[0]?.color ?? "#5de4c7", items: groupOf(cat) }))
-  .filter(g => g.items.length > 0);
+const resolvedTags = allUniqueCategoryTags.map(tag => ({
+  name: tag,
+  iconPath: getLucideIcon(tagIconMap[tag] ?? "tag"),
+}));
 ---
 
 <ProfileLayout current="works" title="Works">
-  <div id="works" class="mb-8">
-    <p class="mb-2 font-mono text-xs tracking-widest uppercase text-poi-accent">Works</p>
-    <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-      IoTデバイス、レガシー刷新、自動売買。
+  <section id="works" class="relative">
+    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">Works</p>
+    <h2 class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+      現場や生活の中で動く、実用のプロダクト。
     </h2>
-    <p class="mt-2 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-      重なりのない三領域を、それぞれ違う制約の中で、設計から運用まで一人で通してきた。
-    </p>
-  </div>
+    <div class="mt-6 space-y-4">
+      <p class="text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+        IoTデバイスから自動取引まで、異なる制約のなかで実際に本番運用へ通してきたプロダクト群。すべて「動くデモ」で終わらせず、現場や日常の生活で壊れずに回り続ける品質で実装している。
+      </p>
+      <div class="flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-zinc-500 dark:text-poi-muted border-l border-zinc-200 dark:border-poi-border/40 pl-3 select-none">
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-zinc-50/50 dark:bg-poi-panel/30">
+            OSS
+          </span>
+          <span>クローンして即座に再利用できる公開コード</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-zinc-50/50 dark:bg-poi-panel/30">
+            Demo
+          </span>
+          <span>OSSとしての再利用に適さず、実証や本番運用の参考に留めるもの</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- 領域フィルタ（トグル: もう一度押すと全件に戻る） -->
+  <!-- 領域フィルタ（複数選択可能・AND条件） -->
   <div
     id="work-filter"
-    class="mb-8 flex flex-wrap gap-2 font-mono text-xs"
+    class="mb-8 mt-8 flex flex-wrap gap-2 font-mono text-xs"
     role="group"
-    aria-label="領域で絞り込む"
+    aria-label="タグで絞り込む"
   >
-    {groups.map(({ category, color, items }) => (
+    {resolvedTags.map(({ name, iconPath }) => (
       <button
         type="button"
-        class="work-filter-btn inline-flex items-center gap-1.5 rounded-full border px-3 py-1 tracking-widest uppercase transition-colors"
-        data-category={category}
+        class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/50 bg-white/40 dark:bg-white/[0.01] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/[0.06] dark:aria-pressed:text-poi-focus"
+        data-tag={name}
         aria-pressed="false"
-        style={`--c:${color}; color:${color}; border-color:${color}33;`}
       >
-        {category}
-        <span class="text-zinc-400 dark:text-zinc-500 normal-case tracking-normal">{items.length}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="12" height="12" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"
+          class="text-zinc-400 dark:text-zinc-500 shrink-0 transition-colors duration-200 group-aria-pressed/btn:text-poi-accent"
+          set:html={iconPath}
+        />
+        <span>{name}</span>
       </button>
     ))}
   </div>
 
-  <div id="work-groups">
-    {groups.map(({ category, color, items }, i) => (
-      <section class="work-group" data-category={category} class:list={[i > 0 && "mt-12"]}>
-        <div class="mb-5">
-          <p class="font-mono text-xs font-medium tracking-widest uppercase mb-1" style={`color:${color}`}>
-            {category}
-          </p>
-          <p class="text-sm text-zinc-500 dark:text-poi-muted">{categoryMeta[category]}</p>
-        </div>
+  <div id="work-list" class="space-y-4">
+    {sortedWorks.map((work) => (
+      <article
+        class="work-card group/card relative rounded-xl border border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-zinc-300 dark:hover:border-poi-border/80 hover:shadow-sm"
+        data-tags={work.categoryTags.join(',')}
+      >
+        <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="text-zinc-600 dark:text-zinc-400 shrink-0"
+            set:html={work.iconPath}
+          />
+          <!-- カード全体を覆う主導線（::after でカード面をクリック可能に） -->
+          <a
+            class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-poi-accent outline-none focus-visible:underline"
+            href={work.primaryHref}
+            target={work.primaryExternal ? "_blank" : undefined}
+            rel={work.primaryExternal ? "noopener noreferrer" : undefined}
+          >
+            {work.title}
+          </a>
+          
+          <!-- OSS / Demo の明示ラベル -->
+          <span class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-zinc-50/50 dark:bg-poi-panel/30 animate-pulse-once">
+            {work.isOSS ? "OSS" : "Demo"}
+          </span>
+          
+          {work.publishedAt && (
+            <span class="ml-3 font-mono text-[11px] font-normal text-zinc-400 dark:text-zinc-500">
+              {work.publishedAt}
+            </span>
+          )}
+        </h3>
 
-        <div class="space-y-4">
-          {items.map((work) => (
-            <article
-              class="work-card group/card relative rounded-xl border border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-zinc-300 dark:hover:border-poi-border/80 hover:shadow-sm"
-            >
-              <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
+        {work.inUse && (
+          <p class="mt-1 flex items-center gap-1.5 text-xs">
+            <span class="inline-block h-1.5 w-1.5 rounded-full shrink-0 bg-emerald-500"></span>
+            <span class="text-emerald-600 dark:text-emerald-400">現場に導入・稼働中</span>
+          </p>
+        )}
+
+        <p class="mt-1.5 font-sans text-sm leading-6 text-zinc-500 dark:text-poi-muted whitespace-pre-line">
+          {work.description}
+        </p>
+
+        {work.rationale && (
+          <p
+            class="mt-3 border-l-2 border-zinc-200 dark:border-zinc-800 pl-3 text-xs leading-6 text-zinc-500 dark:text-poi-muted"
+          >
+            {work.rationale}
+          </p>
+        )}
+
+        {work.stackResolved.length > 0 && (
+          <div class="mt-3 flex flex-wrap gap-x-3 gap-y-1">
+            {work.stackResolved.map((s) => (
+              <span class="inline-flex items-center gap-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
+                {s.brandIcon && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={`color:#${s.brandIcon.hex}`} aria-hidden="true">
+                    <path d={s.brandIcon.path} />
+                  </svg>
+                )}
+                {s.label}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* カテゴリタグの表示（技術スタックとは別に表示） */}
+        <div class="mt-3.5 flex flex-wrap gap-2">
+          {[...work.categoryTags].sort().map(tag => {
+            const iconPath = getLucideIcon(tagIconMap[tag] ?? "tag");
+            return (
+              <span class="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-poi-panel/30 px-2.5 py-0.5 font-mono text-[10px] text-zinc-500 dark:text-poi-muted border border-zinc-200/50 dark:border-poi-border/30">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="16" height="16" viewBox="0 0 24 24"
+                  width="10" height="10" viewBox="0 0 24 24"
                   fill="none" stroke="currentColor" stroke-width="1.5"
                   stroke-linecap="round" stroke-linejoin="round"
-                  class="text-zinc-600 dark:text-zinc-400 shrink-0"
-                  set:html={work.iconPath}
+                  class="text-zinc-400 dark:text-zinc-500 shrink-0"
+                  set:html={iconPath}
                 />
-                <!-- カード全体を覆う主導線（::after でカード面をクリック可能に） -->
-                <a
-                  class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-[var(--c)] outline-none focus-visible:underline"
-                  style={`--c:${work.color}`}
-                  href={work.primaryHref}
-                  target={work.primaryExternal ? "_blank" : undefined}
-                  rel={work.primaryExternal ? "noopener noreferrer" : undefined}
-                >
-                  {work.title}
-                </a>
-                {work.publishedAt && (
-                  <span class="ml-auto font-mono text-[11px] font-normal text-zinc-400 dark:text-zinc-500">
-                    {work.publishedAt}
-                  </span>
-                )}
-              </h3>
-
-              {work.inUse && (
-                <p class="mt-1 flex items-center gap-1.5 text-xs">
-                  <span class="inline-block h-1.5 w-1.5 rounded-full shrink-0 bg-emerald-500"></span>
-                  <span class="text-emerald-600 dark:text-emerald-400">現場に導入・稼働中</span>
-                </p>
-              )}
-
-              <p class="mt-1.5 font-sans text-sm leading-6 text-zinc-500 dark:text-poi-muted whitespace-pre-line">
-                {work.description}
-              </p>
-
-              {work.rationale && (
-                <p
-                  class="mt-3 border-l-2 pl-3 text-xs leading-6 text-zinc-500 dark:text-poi-muted"
-                  style={`border-color:${work.color}55`}
-                >
-                  {work.rationale}
-                </p>
-              )}
-
-              {work.stackResolved.length > 0 && (
-                <div class="mt-3 flex flex-wrap gap-x-3 gap-y-1">
-                  {work.stackResolved.map((s) => (
-                    <span class="inline-flex items-center gap-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
-                      {s.brandIcon && (
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={`color:#${s.brandIcon.hex}`} aria-hidden="true">
-                          <path d={s.brandIcon.path} />
-                        </svg>
-                      )}
-                      {s.label}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {work.subLinks.length > 0 && (
-                <!-- 副アクション（relative z-10 で主導線の ::after より前面に出してクリックを奪う） -->
-                <div class="relative z-10 mt-4 flex flex-wrap gap-2 font-mono text-xs">
-                  {work.subLinks.map((link) => (
-                    <a
-                      class="inline-flex items-center rounded-md border px-2.5 py-1 text-zinc-500 dark:text-zinc-400 transition-colors hover:border-[var(--c)] hover:text-[var(--c)]"
-                      style={`--c:${work.color}; border-color:${work.color}55`}
-                      href={link.href}
-                      target={link.external ? "_blank" : undefined}
-                      rel={link.external ? "noopener noreferrer" : undefined}
-                    >
-                      {link.label}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </article>
-          ))}
+                {tag}
+              </span>
+            );
+          })}
         </div>
-      </section>
+
+        {work.subLinks.length > 0 && (
+          <!-- 副アクション（relative z-10 で主導線の ::after より前面に出してクリックを奪う） -->
+          <div class="relative z-10 mt-4 flex flex-wrap gap-2 font-mono text-xs">
+            {work.subLinks.map((link) => (
+              <a
+                class="inline-flex items-center rounded-md border border-zinc-300/60 dark:border-poi-border/50 px-2.5 py-1 text-zinc-500 dark:text-zinc-400 transition-colors hover:border-poi-accent hover:text-poi-accent"
+                href={link.href}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </article>
     ))}
   </div>
 </ProfileLayout>
 
 <script>
-  // 領域フィルタ: タブを押すとその領域だけ表示。押されたタブを再度押すと全件に戻る。
   const filter = document.getElementById('work-filter');
-  const groups = Array.from(document.querySelectorAll<HTMLElement>('.work-group'));
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('.work-card'));
   const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.work-filter-btn'));
-  let active: string | null = null;
+  
+  const activeTags = new Set<string>();
 
   function apply() {
-    for (const g of groups) {
-      const show = active === null || g.dataset.category === active;
-      g.style.display = show ? '' : 'none';
-      if (show) {
-        g.style.animation = 'none';
+    cards.forEach(card => {
+      const cardTags = card.dataset.tags?.split(',') || [];
+      
+      // AND 検索: 選択されているすべてのアクティブタグがカードのタグに含まれているか
+      const isMatch = Array.from(activeTags).every(tag => cardTags.includes(tag));
+
+      card.style.display = isMatch ? '' : 'none';
+      if (isMatch) {
+        card.style.animation = 'none';
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        g.offsetHeight; // reflow
-        g.style.animation = 'work-fade .28s ease-out';
+        card.offsetHeight; // reflow
+        card.style.animation = 'work-fade .28s ease-out';
       }
-    }
-    for (const b of buttons) {
-      const on = b.dataset.category === active;
+    });
+
+    // クラス操作を一切せず、aria-pressed 属性を書き換えるだけ（Tailwind側でスタイルを完全定義）
+    buttons.forEach(b => {
+      const tag = b.dataset.tag!;
+      const on = activeTags.has(tag);
       b.setAttribute('aria-pressed', String(on));
-      b.style.backgroundColor = on ? `color-mix(in srgb, var(--c) 14%, transparent)` : '';
-      b.style.borderColor = on ? `var(--c)` : `color-mix(in srgb, var(--c) 20%, transparent)`;
-    }
+    });
   }
 
   filter?.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.work-filter-btn');
     if (!btn) return;
-    const cat = btn.dataset.category!;
-    active = active === cat ? null : cat; // トグル
+    
+    const tag = btn.dataset.tag!;
+    if (activeTags.has(tag)) {
+      activeTags.delete(tag);
+    } else {
+      activeTags.add(tag);
+    }
     apply();
   });
 </script>

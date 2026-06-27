@@ -21,7 +21,9 @@ export type BrandKey =
 export type StackItem = { label: string; brand?: BrandKey };
 
 export type Work = {
-  category: string;
+  categoryTags: string[];
+  isOSS: boolean;
+  priority: number;
   title: string;
   color: string;
   icon: string;
@@ -39,7 +41,9 @@ export type Work = {
 
 export const works: Work[] = [
   {
-    category: "Hardware",
+    categoryTags: ["iot"],
+    isOSS: true,
+    priority: 1,
     title: "NFC Attendance System",
     color: "#addb67",
     icon: "id-card",
@@ -62,7 +66,9 @@ export const works: Work[] = [
     ],
   },
   {
-    category: "Hardware",
+    categoryTags: ["iot"],
+    isOSS: true,
+    priority: 2,
     title: "Cat Feed Tracker",
     color: "#addb67",
     icon: "cat",
@@ -86,13 +92,15 @@ export const works: Work[] = [
     ],
   },
   {
-    category: "Others",
+    categoryTags: ["webui", "utility"],
+    isOSS: true,
+    priority: 2,
     title: "Training Scheduler",
     color: "#a6accd",
     icon: "graduation-cap",
     publishedAt: "2026.05",
     description:
-      "機械的な進捗管理ではなく、新人の手応えをメンターと共有する研修支援ツール。\nVue + Go を go:embed で単一バイナリに固め、SQLite のみでインフラ依存ゼロ。",
+      "機械的な進捗管理ではなく、新人の手応えをメンターと共有する研修支援ツール。\nVue + Go を go:embed で単一バイナリに固め、SQLite のみでインフレ依存ゼロ。",
     rationale:
       "進捗を機械的に数値化せず、本人の主観的な手応えを指標に据えた。メモリの限られた環境でも常駐できるよう、Go の単一バイナリに軽くまとめている。",
     inUse: true,
@@ -107,7 +115,9 @@ export const works: Work[] = [
     ],
   },
   {
-    category: "Modernization",
+    categoryTags: ["modernization", "ai"],
+    isOSS: false,
+    priority: 1,
     title: "Order System",
     color: "#c792ea",
     icon: "shopping-cart",
@@ -128,7 +138,9 @@ export const works: Work[] = [
     ],
   },
   {
-    category: "Modernization",
+    categoryTags: ["modernization", "webui"],
+    isOSS: false,
+    priority: 1,
     title: "Attendance System",
     color: "#c792ea",
     icon: "clock",
@@ -149,7 +161,9 @@ export const works: Work[] = [
     ],
   },
   {
-    category: "Trading",
+    categoryTags: ["trading", "automation"],
+    isOSS: false,
+    priority: 3,
     title: "Trading Lab",
     color: "#89ddff",
     icon: "trending-up",
