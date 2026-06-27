@@ -56,7 +56,7 @@ export const works: Work[] = [
     inUse: true,
     links: [
       { label: "Demo →", href: "/nfc-attendance/" },
-      { label: "制作記事", href: "/posts/nfc-attendance-system/" },
+      { label: "Zenn", href: "https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/nfc-attendance-kit", external: true },
     ],
     stack: [
@@ -66,7 +66,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["iot"],
+    categoryTags: ["iot", "lineapp"],
     isOSS: true,
     priority: 2,
     title: "Cat Feed Tracker",
@@ -81,7 +81,7 @@ export const works: Work[] = [
     inUse: true,
     links: [
       { label: "Demo →", href: "/cat-feed-tracker/" },
-      { label: "制作記事", href: "/posts/cat-feed-tracker/" },
+      { label: "Zenn", href: "https://zenn.dev/yktsnet/articles/202604-cat-feed-tracker", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/cat-feed-tracker", external: true },
     ],
     stack: [
@@ -174,7 +174,7 @@ export const works: Work[] = [
       "Web フレームワークに頼れない自動売買の運用を 1 画面へ集約し、NixOS で本番の再現性を担保して止めずに走らせ続ける。",
     links: [
       { label: "Demo →", href: "https://trading-lab.pages.dev", external: true },
-      { label: "制作記事", href: "/posts/trading-lab/" },
+      { label: "Zenn", href: "/posts/trading-lab/" },
       { label: "GitHub", href: "https://github.com/yktsnet/trading-lab", external: true },
     ],
     stack: [
