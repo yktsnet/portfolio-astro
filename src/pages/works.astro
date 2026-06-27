@@ -114,13 +114,16 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
   </div>
 
   <div id="work-list" class="space-y-4">
-    {sortedWorks.map((work) => (
+    {sortedWorks.map((work, idx) => (
       <article
         class="work-card group/card relative rounded-xl border border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-zinc-300 dark:hover:border-poi-border/80 hover:shadow-sm"
         data-tags={work.categoryTags.join(',')}
         data-is-oss={work.isOSS ? "true" : "false"}
       >
         <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
+          <span class="work-index font-mono text-sm font-semibold tabular-nums text-poi-accent/70 select-none shrink-0">
+            {String(idx + 1).padStart(2, '0')}
+          </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16" height="16" viewBox="0 0 24 24"
@@ -276,6 +279,7 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
   let activeType: string | null = null; // null | 'oss' | 'demo'
 
   function apply() {
+    let visibleIndex = 0;
     cards.forEach(card => {
       const cardTags = card.dataset.tags?.split(',') || [];
       const cardIsOss = card.dataset.isOss === 'true';
@@ -295,6 +299,10 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
 
       card.style.display = isMatch ? '' : 'none';
       if (isMatch) {
+        // 表示中カードだけを上から採番し直す（フィルタで数が変わるのに連動）
+        visibleIndex += 1;
+        const indexEl = card.querySelector<HTMLElement>('.work-index');
+        if (indexEl) indexEl.textContent = String(visibleIndex).padStart(2, '0');
         card.style.animation = 'none';
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         card.offsetHeight; // reflow
