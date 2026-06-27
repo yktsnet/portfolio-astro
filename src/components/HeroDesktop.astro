@@ -31,14 +31,14 @@ const items = [
       Breaking down legacy systems and rebuilding them. IoT, infra automation, NixOS. Wiring AI agents into real work.
     </p>
   </div>
-  <nav class="mt-6 flex flex-col items-start gap-3 text-base" aria-label="ページナビゲーション">
+  <nav class="mt-6 flex flex-col items-start gap-3 text-base border-l border-zinc-200 dark:border-poi-border/40" aria-label="ページナビゲーション">
     {items.map((item) => (
       <a
         href={item.href}
         aria-current={current === item.key ? 'page' : false}
         class:list={[
-          "group inline-flex items-center gap-2.5 transition-colors hover:text-poi-accent dark:hover:text-poi-accent",
-          current === item.key ? "text-poi-accent" : "text-zinc-500 dark:text-poi-muted",
+          "group -ml-px inline-flex items-center gap-2.5 pl-4 border-l transition-colors hover:text-poi-accent dark:hover:text-poi-accent",
+          current === item.key ? "text-poi-accent border-poi-accent" : "text-zinc-500 dark:text-poi-muted border-transparent",
         ]}
       >
         <svg
