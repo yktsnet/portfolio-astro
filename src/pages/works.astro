@@ -65,27 +65,13 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
       <p class="text-sm leading-7 text-zinc-600 dark:text-poi-muted">
         IoTデバイスから自動取引まで、異なる制約のなかで実際に本番運用へ通してきたプロダクト群。すべて「動くデモ」で終わらせず、現場や日常の生活で壊れずに回り続ける品質で実装している。
       </p>
-      <div class="flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-zinc-500 dark:text-poi-muted border-l border-zinc-200 dark:border-poi-border/40 pl-3 select-none">
-        <div class="flex items-center gap-2">
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-zinc-50/50 dark:bg-poi-panel/30">
-            OSS
-          </span>
-          <span>クローンして即座に再利用できる公開コード</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-zinc-50/50 dark:bg-poi-panel/30">
-            Demo
-          </span>
-          <span>OSSとしての再利用に適さず、実証や本番運用の参考に留めるもの</span>
-        </div>
-      </div>
     </div>
   </section>
 
   <!-- 領域フィルタ（複数選択可能・AND条件） -->
   <div
     id="work-filter"
-    class="mb-8 mt-8 flex flex-wrap gap-2 font-mono text-xs"
+    class="mb-6 mt-8 flex flex-wrap gap-2 font-mono text-xs"
     role="group"
     aria-label="タグで絞り込む"
   >
@@ -112,11 +98,37 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
     ))}
   </div>
 
+  <div class="mb-8 py-3 border-y border-zinc-200/60 dark:border-poi-border/20 flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-zinc-500 dark:text-poi-muted">
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.01] hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+        data-type="oss"
+        aria-checked="false"
+      >
+        OSS
+      </button>
+      <span class="select-none">クローンして即座に再利用できる公開コード</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.01] hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+        data-type="demo"
+        aria-checked="false"
+      >
+        Demo
+      </button>
+      <span class="select-none">OSSとしての再利用に適さず、実証や本番運用の参考に留めるもの</span>
+    </div>
+  </div>
+
   <div id="work-list" class="space-y-4">
     {sortedWorks.map((work) => (
       <article
         class="work-card group/card relative rounded-xl border border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-zinc-300 dark:hover:border-poi-border/80 hover:shadow-sm"
         data-tags={work.categoryTags.join(',')}
+        data-is-oss={work.isOSS ? "true" : "false"}
       >
         <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
           <svg
@@ -229,13 +241,25 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
   const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.work-filter-btn'));
   
   const activeTags = new Set<string>();
+  let activeType: string | null = null; // null | 'oss' | 'demo'
 
   function apply() {
     cards.forEach(card => {
       const cardTags = card.dataset.tags?.split(',') || [];
+      const cardIsOss = card.dataset.isOss === 'true';
       
       // AND 検索: 選択されているすべてのアクティブタグがカードのタグに含まれているか
-      const isMatch = Array.from(activeTags).every(tag => cardTags.includes(tag));
+      const matchesTags = Array.from(activeTags).every(tag => cardTags.includes(tag));
+
+      // 公開タイプの排他判定
+      let matchesType = true;
+      if (activeType === 'oss') {
+        matchesType = cardIsOss;
+      } else if (activeType === 'demo') {
+        matchesType = !cardIsOss;
+      }
+
+      const isMatch = matchesTags && matchesType;
 
       card.style.display = isMatch ? '' : 'none';
       if (isMatch) {
@@ -246,11 +270,19 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
       }
     });
 
-    // クラス操作を一切せず、aria-pressed 属性を書き換えるだけ（Tailwind側でスタイルを完全定義）
+    // カテゴリタグの aria-pressed 属性を書き換える
     buttons.forEach(b => {
       const tag = b.dataset.tag!;
       const on = activeTags.has(tag);
       b.setAttribute('aria-pressed', String(on));
+    });
+
+    // 公開タイプの aria-checked 属性を書き換える
+    const typeButtons = document.querySelectorAll('.type-filter-btn');
+    typeButtons.forEach(b => {
+      const type = b.getAttribute('data-type');
+      const on = activeType === type;
+      b.setAttribute('aria-checked', String(on));
     });
   }
 
@@ -265,6 +297,21 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
       activeTags.add(tag);
     }
     apply();
+  });
+
+  // 公開タイプボタンのイベントリスナー（排他選択）
+  document.querySelectorAll('.type-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.getAttribute('data-type')!;
+      const isChecked = btn.getAttribute('aria-checked') === 'true';
+
+      if (isChecked) {
+        activeType = null;
+      } else {
+        activeType = type;
+      }
+      apply();
+    });
   });
 </script>
 
