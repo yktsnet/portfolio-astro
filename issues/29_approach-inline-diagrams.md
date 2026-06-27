@@ -2,7 +2,7 @@
 id: 29
 branch-slug: approach-inline-diagrams
 github_issue: 46
-status: open
+status: close
 type: feat
 対象: |
   src/components/Approach.astro
