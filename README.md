@@ -19,7 +19,6 @@ https://ykts.net
 | Hosting | Cloudflare Pages | CDNエッジへの配信・Edge Functions・KVがひとつのエコシステムで完結 |
 | Styling | Tailwind CSS | 設計の速度が上がる。ビルド出力も軽い |
 | API Layer | Hono | Edge Functions上で動く軽量ルーター |
-| Search | Pagefind | ビルド時に静的インデックスを生成。ランタイム依存ゼロ |
 
 ## Infrastructure
 

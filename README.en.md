@@ -19,7 +19,6 @@ Selected with a focus on balancing flexibility and implementation speed.
 | Hosting | Cloudflare Pages | CDN edge delivery, Edge Functions, and KV all in one ecosystem |
 | Styling | Tailwind CSS | Speeds up design. Build output is also lightweight |
 | API Layer | Hono | Lightweight router running on Edge Functions |
-| Search | Pagefind | Generates a static index at build time. Zero runtime dependencies |
 
 ## Infrastructure
 
