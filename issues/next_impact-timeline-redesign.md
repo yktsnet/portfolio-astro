@@ -2,7 +2,7 @@
 id: next
 branch-slug: impact-timeline-redesign
 github_issue: 48
-status: open
+status: close
 type: feat
 対象: |
   src/components/Impact.astro（全面書き換え。下記「実装コード」で丸ごと置換）
