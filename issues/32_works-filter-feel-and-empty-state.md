@@ -2,7 +2,7 @@
 id: 32
 branch-slug: works-filter-feel-and-empty-state
 github_issue: 54
-status: open
+status: close
 type: feat
 対象: |
   src/pages/works.astro
