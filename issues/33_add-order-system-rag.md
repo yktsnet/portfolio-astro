@@ -1,7 +1,7 @@
 ## Works に order-system-rag カードを追加
 id: 33
 branch-slug: add-order-system-rag
-github_issue:
+github_issue: 56
 status: open
 type: feat
 対象: |
