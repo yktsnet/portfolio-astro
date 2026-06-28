@@ -1,7 +1,7 @@
 ## Works フィルタ：選択タグを左上へ昇格させる
 id: 31
 branch-slug: works-filter-left-promote
-github_issue:
+github_issue: 52
 status: open
 type: feat
 対象: |
