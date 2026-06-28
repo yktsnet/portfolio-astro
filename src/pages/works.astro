@@ -61,7 +61,7 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
   <!-- 領域フィルタ（複数選択可能・AND条件） -->
   <div
     id="work-filter"
-    class="mb-6 mt-8 flex flex-wrap gap-2 font-mono text-xs"
+    class="mb-6 mt-8 flex flex-wrap gap-2 font-mono text-xs min-h-[5.5rem] content-start"
     role="group"
     aria-label="タグで絞り込む"
   >
@@ -84,6 +84,16 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
         <span class="font-mono text-[9px] text-zinc-400 dark:text-zinc-500 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-focus transition-colors duration-200 select-none">
           {count}
         </span>
+        {/* 選択時のみ表示する解除アイコン。未選択時は hidden */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="11" height="11" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"
+          class="hidden group-aria-pressed/btn:inline-block text-poi-accent shrink-0 -mr-0.5"
+          aria-hidden="true"
+          set:html={getLucideIcon('x')}
+        />
       </button>
     ))}
   </div>
@@ -276,6 +286,7 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
   const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.work-filter-btn'));
   
   const activeTags = new Set<string>();
+  const selectionOrder: string[] = []; // 選択された順序を保持（左上昇格の並び）
   let activeType: string | null = null; // null | 'oss' | 'demo'
 
   function apply() {
@@ -317,6 +328,9 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
       b.setAttribute('aria-pressed', String(on));
     });
 
+    // 選択済みを左上へ昇格（order で並べ替え、DOM は据え置き）
+    applyOrder();
+
     // 公開タイプの aria-checked 属性を書き換える
     const typeButtons = document.querySelectorAll('.type-filter-btn');
     typeButtons.forEach(b => {
@@ -326,15 +340,35 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
     });
   }
 
+  function applyOrder() {
+    buttons.forEach(b => {
+      const tag = b.dataset.tag!;
+      const sel = selectionOrder.indexOf(tag);
+      // 選択済み: 選択順 0,1,2… / 未選択: 100 以上で必ず後ろ。未選択どうしは DOM 順維持
+      b.style.order = sel >= 0 ? String(sel) : '100';
+    });
+  }
+
+  function bounce(el: HTMLElement) {
+    el.style.animation = 'none';
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    el.offsetHeight; // reflow
+    el.style.animation = 'filter-pop .18s ease-out';
+  }
+
   filter?.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.work-filter-btn');
     if (!btn) return;
-    
+
     const tag = btn.dataset.tag!;
     if (activeTags.has(tag)) {
       activeTags.delete(tag);
+      const i = selectionOrder.indexOf(tag);
+      if (i >= 0) selectionOrder.splice(i, 1);
     } else {
       activeTags.add(tag);
+      selectionOrder.push(tag);
+      bounce(btn); // 選択確定時だけ弾ませる
     }
     apply();
   });
@@ -359,5 +393,11 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
   @keyframes work-fade {
     from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes filter-pop {
+    0%   { transform: scale(0.95); }
+    60%  { transform: scale(1.03); }
+    100% { transform: scale(1); }
   }
 </style>

@@ -33,6 +33,7 @@ const icons: Record<string, string> = {
   "tag": `<path d="M12.586 3a2 2 0 0 0-1.414.586l-6.172 6.172a2 2 0 0 0 0 2.828l5.656 5.656a2 2 0 0 0 2.828 0l6.172-6.172A2 2 0 0 0 21 12.586V5a2 2 0 0 0-2-2Z" /><circle cx="15" cy="9" r="1" />`,
   "wrench": `<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />`,
   "briefcase": `<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /><rect width="20" height="14" x="2" y="6" rx="2" />`,
+  "x": `<path d="M18 6 6 18" /><path d="m6 6 12 12" />`,
 };
 
 export function getLucideIcon(name: string): string {
