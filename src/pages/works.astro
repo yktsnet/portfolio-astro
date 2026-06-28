@@ -278,6 +278,36 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
       </article>
     ))}
   </div>
+
+  <!-- 結果 0 件のときだけ表示する 404 風ブロック。既定は hidden -->
+  <div
+    id="work-empty"
+    class="hidden mt-2 rounded-xl border border-dashed border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] px-6 py-10 text-center"
+    role="status"
+    aria-live="polite"
+  >
+    <p class="font-mono text-5xl font-semibold tracking-tight text-poi-accent/80 select-none">404</p>
+    <p class="mt-3 font-mono text-sm text-zinc-700 dark:text-poi-focus">No works matched this filter.</p>
+    <p class="mt-1.5 font-mono text-xs text-zinc-400 dark:text-poi-muted select-none">
+      <span class="text-poi-accent">$</span> works --filter &rarr; 0 results
+    </p>
+    <button
+      type="button"
+      id="work-empty-reset"
+      class="mt-6 inline-flex items-center gap-1.5 rounded border border-zinc-200 dark:border-poi-border/50 bg-white/40 dark:bg-white/[0.01] px-3.5 py-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border active:scale-95 transition-all duration-200 shadow-sm outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12" height="12" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="1.5"
+        stroke-linecap="round" stroke-linejoin="round"
+        class="shrink-0"
+        aria-hidden="true"
+        set:html={getLucideIcon('refresh-cw')}
+      />
+      Clear filters
+    </button>
+  </div>
 </ProfileLayout>
 
 <script>
@@ -320,6 +350,10 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
         card.style.animation = 'work-fade .28s ease-out';
       }
     });
+
+    // 0 件なら 404 風ブロックを出す
+    const empty = document.getElementById('work-empty');
+    if (empty) empty.classList.toggle('hidden', visibleIndex > 0);
 
     // カテゴリタグの aria-pressed 属性を書き換える
     buttons.forEach(b => {
@@ -374,7 +408,7 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
   });
 
   // 公開タイプボタンのイベントリスナー（排他選択）
-  document.querySelectorAll('.type-filter-btn').forEach(btn => {
+  document.querySelectorAll<HTMLButtonElement>('.type-filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const type = btn.getAttribute('data-type')!;
       const isChecked = btn.getAttribute('aria-checked') === 'true';
@@ -383,10 +417,20 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
         activeType = null;
       } else {
         activeType = type;
+        bounce(btn); // 選択確定時のみ弾ませる
       }
       apply();
     });
   });
+
+  function resetAll() {
+    activeTags.clear();
+    selectionOrder.length = 0;
+    activeType = null;
+    apply();
+  }
+
+  document.getElementById('work-empty-reset')?.addEventListener('click', resetAll);
 </script>
 
 <style>
