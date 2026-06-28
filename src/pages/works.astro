@@ -70,7 +70,7 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
       {resolvedTags.map(({ name, count, iconPath }) => (
         <button
           type="button"
-          class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/50 bg-white/40 dark:bg-white/[0.01] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/[0.06] dark:aria-pressed:text-poi-focus"
+          class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/[0.06] dark:aria-pressed:text-poi-focus"
           data-tag={name}
           aria-pressed="false"
         >
@@ -79,11 +79,11 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
             width="12" height="12" viewBox="0 0 24 24"
             fill="none" stroke="currentColor" stroke-width="1.5"
             stroke-linecap="round" stroke-linejoin="round"
-            class="text-zinc-400 dark:text-zinc-500 shrink-0 transition-colors duration-200 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-accent"
+            class="text-zinc-400 dark:text-poi-muted/50 shrink-0 transition-colors duration-200 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-accent"
             set:html={iconPath}
           />
           <span>{name}</span>
-          <span class="font-mono text-[9px] text-zinc-400 dark:text-zinc-500 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-focus transition-colors duration-200 select-none">
+          <span class="font-mono text-[9px] text-zinc-400 dark:text-poi-muted/50 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-focus transition-colors duration-200 select-none">
             {count}
           </span>
           {/* 選択時のみ表示する解除アイコン。未選択時は hidden */}
@@ -101,11 +101,11 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
     </div>
 
     <!-- サブ: 公開タイプ（OSS / Demo） -->
-    <div class="pl-4 border-l border-poi-accent/50 flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-zinc-400 dark:text-poi-muted/50">
+    <div class="pl-4 border-l border-poi-accent/50 flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-zinc-400 dark:text-poi-muted/85">
       <div class="flex items-center gap-2">
         <button
           type="button"
-          class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.01] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+          class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/80 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.03] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
           data-type="oss"
           aria-checked="false"
         >
@@ -116,7 +116,7 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
       <div class="flex items-center gap-2">
         <button
           type="button"
-          class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.01] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+          class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/80 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.03] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
           data-type="demo"
           aria-checked="false"
         >
@@ -157,7 +157,7 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
           </a>
           
           <!-- OSS / Demo の明示ラベル -->
-          <span class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-zinc-50/50 dark:bg-poi-panel/30 animate-pulse-once">
+          <span class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-700 dark:text-poi-focus bg-zinc-50/50 dark:bg-poi-panel/30 animate-pulse-once">
             {work.isOSS ? "OSS" : "Demo"}
           </span>
           
@@ -180,13 +180,13 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
           {displayCategoryTags(work.categoryTags).map(tag => {
             const iconPath = getLucideIcon(getCategoryIcon(tag));
             return (
-              <span class="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-poi-panel/30 px-2.5 py-0.5 font-mono text-[10px] text-zinc-500 dark:text-poi-muted border border-zinc-200/50 dark:border-poi-border/30">
+              <span class="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-poi-panel/30 px-2.5 py-0.5 font-mono text-[10px] text-zinc-700 dark:text-poi-focus border border-zinc-200/50 dark:border-poi-border/30">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="10" height="10" viewBox="0 0 24 24"
                   fill="none" stroke="currentColor" stroke-width="1.5"
                   stroke-linecap="round" stroke-linejoin="round"
-                  class="text-zinc-400 dark:text-zinc-500 shrink-0"
+                  class="text-zinc-600 dark:text-poi-focus/80 shrink-0"
                   set:html={iconPath}
                 />
                 {tag}
@@ -195,7 +195,7 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
           })}
         </div>
 
-        <p class="mt-2.5 font-sans text-sm leading-6 text-zinc-500 dark:text-poi-muted whitespace-pre-line">
+        <p class="mt-2.5 font-sans text-sm leading-6 text-zinc-600 dark:text-poi-focus/90 whitespace-pre-line">
           {work.description}
         </p>
 
