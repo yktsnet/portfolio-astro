@@ -63,7 +63,7 @@ const principles: Principle[] = [
 ---
 
 <section id="approach" class="relative">
-  <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">Approach</p>
+  <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">APPROACH</p>
   <p class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
     <span class="block">つくって終わりにしない。</span>
     <span class="block mt-2">現場で壊れず回り続けることを基準に選ぶ。</span>
@@ -74,22 +74,22 @@ const principles: Principle[] = [
     {principles.map((p, i) => (
       <div class="border-t border-zinc-200/70 dark:border-poi-border/50 pt-6 first:border-t-0 first:pt-0">
         <div class="flex items-baseline gap-2.5">
-          <span class="font-mono text-xs text-poi-accent">0{i + 1}</span>
-          <h3 class="text-[15px] font-semibold text-zinc-900 dark:text-poi-focus">{p.term}</h3>
+          <span class="font-mono text-sm text-poi-accent">0{i + 1}</span>
+          <h3 class="text-[17px] font-semibold text-zinc-900 dark:text-poi-focus">{p.term}</h3>
         </div>
 
         <!-- 本文: 対比は見出しが担うので、ここでは理由と中身だけ -->
-        <div class="mt-3 space-y-3 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+        <div class="mt-3 space-y-3 text-sm leading-[1.85] text-zinc-600 dark:text-poi-muted">
           {p.body.map((para) => <p>{para}</p>)}
         </div>
 
         <!-- 各原則のインラインフロー図（flow が定義されている原則すべてに表示） -->
         {p.flow && (
-          <div class="mt-5 flex items-center gap-2.5">
+          <div class="mt-7 flex items-center gap-2.5">
             {p.flow.map((step, j) => (
               <>
                 <div class:list={[
-                  "flex-1 rounded-[10px] border py-3 px-2 text-center",
+                  "flex-1 rounded-[10px] border py-3.5 px-2 text-center",
                   step.accent
                     ? "border-poi-accent/30 bg-poi-accent/[0.06] dark:bg-poi-accent/[0.04]"
                     : "border-zinc-200/80 dark:border-poi-border/50 bg-zinc-50/50 dark:bg-poi-panel/30",
@@ -117,7 +117,7 @@ const principles: Principle[] = [
         )}
 
         <!-- 証跡リンク: 語らず現物へ送る -->
-        <div class="mt-5">
+        <div class="mt-6">
           <a
             href={p.proof.href}
             {...(p.proof.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
