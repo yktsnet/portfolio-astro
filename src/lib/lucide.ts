@@ -26,6 +26,7 @@ const icons: Record<string, string> = {
   "graduation-cap": `<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />`,
   "clock": `<circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />`,
   "shopping-cart": `<circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" /><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />`,
+  "book-search": `<path d="M11 22H5.5a1 1 0 0 1 0-5h4.501" /><path d="m21 22-1.879-1.878" /><path d="M3 19.5v-15A2.5 2.5 0 0 1 5.5 2H18a1 1 0 0 1 1 1v8" /><circle cx="17" cy="18" r="3" />`,
   "zap": `<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />`,
   "refresh-cw": `<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" /><path d="M16 16h5v5" />`,
   "globe": `<circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" />`,
