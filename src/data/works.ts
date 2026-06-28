@@ -178,6 +178,29 @@ export const works: Work[] = [
     ],
   },
   {
+    categoryTags: ["ai", "office"],
+    isOSS: true,
+    priority: 1,
+    title: "Order System RAG",
+    color: "#c792ea",
+    icon: "book-search",
+    publishedAt: "2026.06",
+    description:
+      "取引先帳票 PDF を Azure Document Intelligence で構造化し、AI Search + LangGraph で RAG 化。\n姉妹リポの Text-to-SQL と並べて「質問の性質でツールを選ぶ設計判断」を実証する。",
+    rationale:
+      "同じ発注ドメイン・同じ質問に対して Text-to-SQL と RAG が出す答えの違いを並べ、手法選択の根拠を見せる構成にした。",
+    links: [
+      { label: "Demo →", href: "https://order-rag.ykts.net/", external: true },
+      { label: "GitHub", href: "https://github.com/yktsnet/order-system-rag", external: true },
+    ],
+    stack: [
+      { label: "LangGraph", brand: "langgraph" },
+      { label: "Gemini API", brand: "gemini" },
+      { label: "Azure AI Search" },
+      { label: "Azure Doc Intelligence" },
+    ],
+  },
+  {
     categoryTags: ["modernization", "webui", "office"],
     isOSS: false,
     priority: 1,
