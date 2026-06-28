@@ -58,68 +58,72 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
     </div>
   </section>
 
-  <!-- 領域フィルタ（複数選択可能・AND条件） -->
-  <div
-    id="work-filter"
-    class="mb-6 mt-8 flex flex-wrap gap-2 font-mono text-xs min-h-[5.5rem] content-start"
-    role="group"
-    aria-label="タグで絞り込む"
-  >
-    {resolvedTags.map(({ name, count, iconPath }) => (
-      <button
-        type="button"
-        class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/50 bg-white/40 dark:bg-white/[0.01] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/[0.06] dark:aria-pressed:text-poi-focus"
-        data-tag={name}
-        aria-pressed="false"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="12" height="12" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" stroke-width="1.5"
-          stroke-linecap="round" stroke-linejoin="round"
-          class="text-zinc-400 dark:text-zinc-500 shrink-0 transition-colors duration-200 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-accent"
-          set:html={iconPath}
-        />
-        <span>{name}</span>
-        <span class="font-mono text-[9px] text-zinc-400 dark:text-zinc-500 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-focus transition-colors duration-200 select-none">
-          {count}
-        </span>
-        {/* 選択時のみ表示する解除アイコン。未選択時は hidden */}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="11" height="11" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" stroke-width="1.5"
-          stroke-linecap="round" stroke-linejoin="round"
-          class="hidden group-aria-pressed/btn:inline-block text-poi-accent shrink-0 -mr-0.5"
-          aria-hidden="true"
-          set:html={getLucideIcon('x')}
-        />
-      </button>
-    ))}
-  </div>
-
-  <div class="mb-8 py-3 border-y border-zinc-200/60 dark:border-poi-border/20 flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-zinc-500 dark:text-poi-muted">
-    <div class="flex items-center gap-2">
-      <button
-        type="button"
-        class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.01] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
-        data-type="oss"
-        aria-checked="false"
-      >
-        OSS
-      </button>
-      <span class="select-none">クローンして即座に再利用できる公開コード</span>
+  <!-- 領域フィルタと公開タイプフィルタの一体型パネル（親コンテナは余白のみ） -->
+  <div class="mt-8 mb-12 space-y-6">
+    <!-- メイン: カテゴリタグ -->
+    <div
+      id="work-filter"
+      class="pl-4 border-l border-poi-accent/50 flex flex-wrap gap-2 font-mono text-xs content-start"
+      role="group"
+      aria-label="タグで絞り込む"
+    >
+      {resolvedTags.map(({ name, count, iconPath }) => (
+        <button
+          type="button"
+          class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/50 bg-white/40 dark:bg-white/[0.01] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/[0.06] dark:aria-pressed:text-poi-focus"
+          data-tag={name}
+          aria-pressed="false"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12" height="12" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="text-zinc-400 dark:text-zinc-500 shrink-0 transition-colors duration-200 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-accent"
+            set:html={iconPath}
+          />
+          <span>{name}</span>
+          <span class="font-mono text-[9px] text-zinc-400 dark:text-zinc-500 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-focus transition-colors duration-200 select-none">
+            {count}
+          </span>
+          {/* 選択時のみ表示する解除アイコン。未選択時は hidden */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="11" height="11" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="hidden group-aria-pressed/btn:inline-block text-poi-accent shrink-0 -mr-0.5"
+            aria-hidden="true"
+            set:html={getLucideIcon('x')}
+          />
+        </button>
+      ))}
     </div>
-    <div class="flex items-center gap-2">
-      <button
-        type="button"
-        class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.01] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
-        data-type="demo"
-        aria-checked="false"
-      >
-        Demo
-      </button>
-      <span class="select-none">OSSとしての再利用に適さず、実証や本番運用の参考に留めるもの</span>
+
+    <!-- サブ: 公開タイプ（OSS / Demo） -->
+    <div class="pl-4 border-l border-poi-accent/50 flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-zinc-400 dark:text-poi-muted/50">
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.01] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+          data-type="oss"
+          aria-checked="false"
+        >
+          OSS
+        </button>
+        <span class="select-none">クローンして即座に再利用できる公開コード</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.01] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+          data-type="demo"
+          aria-checked="false"
+        >
+          Demo
+        </button>
+        <span class="select-none">OSSとしての再利用に適さず、実証や本番運用の参考に留めるもの</span>
+      </div>
     </div>
   </div>
 
