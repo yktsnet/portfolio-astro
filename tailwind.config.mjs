@@ -2,6 +2,11 @@
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
   darkMode: 'class',
+  // タッチ端末で hover 状態が残留する（タップ後にボタンが浮いたまま固定される）のを防ぐ。
+  // hover: バリアントを @media (hover: hover) 限定にする。
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       colors: {
