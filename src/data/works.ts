@@ -29,14 +29,13 @@ export type StackItem = { label: string; brand?: BrandKey };
 const DEFAULT_CATEGORY_WEIGHT = 2;
 
 export const CATEGORIES: Record<string, { icon: string; weight: number }> = {
-  ai: { icon: "sparkles", weight: 1 },
   iot: { icon: "wifi", weight: 1 },
   modernization: { icon: "refresh-cw", weight: 1 },
   webui: { icon: "globe", weight: 3 },
   office: { icon: "briefcase", weight: DEFAULT_CATEGORY_WEIGHT },
-  lineapp: { icon: "message-circle", weight: DEFAULT_CATEGORY_WEIGHT },
+  chatbot: { icon: "message-circle", weight: DEFAULT_CATEGORY_WEIGHT },
   trading: { icon: "trending-up", weight: DEFAULT_CATEGORY_WEIGHT },
-  automation: { icon: "zap", weight: DEFAULT_CATEGORY_WEIGHT },
+  rag: { icon: "loader", weight: 1 },
 };
 
 /** カテゴリのアイコン名を返す（未定義は汎用 "tag"）。 */
@@ -106,7 +105,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["iot", "lineapp"],
+    categoryTags: ["iot", "chatbot"],
     isOSS: true,
     priority: 2,
     title: "Cat Feed Tracker",
@@ -155,7 +154,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["modernization", "ai", "office", "webui"],
+    categoryTags: ["modernization", "chatbot", "office"],
     isOSS: false,
     priority: 1,
     title: "Order System",
@@ -178,17 +177,17 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["ai", "office"],
-    isOSS: true,
+    categoryTags: ["rag", "chatbot", "office"],
+    isOSS: false,
     priority: 1,
     title: "Order System RAG",
     color: "#c792ea",
     icon: "book-search",
     publishedAt: "2026.06",
     description:
-      "取引先帳票 PDF を Azure Document Intelligence で構造化し、AI Search + LangGraph で RAG 化。\n姉妹リポの Text-to-SQL と並べて「質問の性質でツールを選ぶ設計判断」を実証する。",
+      "取引先帳票 PDF を Azure API で構造化し、ベクトル検索 + LangGraph で根拠付き検索を実装。\n同じ質問を Text-to-SQL と並べ、手法ごとの得意・不得意を可視化する比較 Demo。",
     rationale:
-      "同じ発注ドメイン・同じ質問に対して Text-to-SQL と RAG が出す答えの違いを並べ、手法選択の根拠を見せる構成にした。",
+      "DB に持たない帳票固有の情報を RAG で問い合わせ可能にするため、PDF → 構造化 → ベクトル検索の経路を SQL とは別に用意した。",
     links: [
       { label: "Demo →", href: "https://order-rag.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/order-system-rag", external: true },
@@ -196,8 +195,8 @@ export const works: Work[] = [
     stack: [
       { label: "LangGraph", brand: "langgraph" },
       { label: "Gemini API", brand: "gemini" },
-      { label: "Azure AI Search" },
-      { label: "Azure Doc Intelligence" },
+      { label: "Azure" },
+      { label: "FastAPI", brand: "fastapi" },
     ],
   },
   {
@@ -224,7 +223,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["trading", "automation", "webui"],
+    categoryTags: ["trading", "webui"],
     isOSS: false,
     priority: 3,
     title: "Trading Lab",
