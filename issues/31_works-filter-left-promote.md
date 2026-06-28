@@ -2,7 +2,7 @@
 id: 31
 branch-slug: works-filter-left-promote
 github_issue: 52
-status: open
+status: close
 type: feat
 対象: |
   src/pages/works.astro
