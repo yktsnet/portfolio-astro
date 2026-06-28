@@ -2,7 +2,7 @@
 id: 33
 branch-slug: add-order-system-rag
 github_issue: 56
-status: open
+status: close
 type: feat
 対象: |
   src/data/works.ts
