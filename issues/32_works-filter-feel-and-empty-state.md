@@ -1,7 +1,7 @@
 ## Works フィルタ：OSS/Demo の手触り統一と 404 風 空状態
 id: 32
 branch-slug: works-filter-feel-and-empty-state
-github_issue:
+github_issue: 54
 status: open
 type: feat
 対象: |
