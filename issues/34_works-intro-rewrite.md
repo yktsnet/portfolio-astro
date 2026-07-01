@@ -2,7 +2,7 @@
 id: 34
 branch-slug: works-intro-rewrite
 github_issue: 58
-status: open
+status: close
 type: feat
 対象: |
   src/pages/works.astro（冒頭文 L48-59付近を書き換え、タグフィルタ手前に運用基盤図を新規追加）
