@@ -1,6 +1,9 @@
 ---
 import ProfileLayout from '../layouts/ProfileLayout.astro';
-import { works, getCategoryIcon, displayCategoryTags } from '../data/works';
+import HostingArchitecture from '../components/HostingArchitecture.astro';
+import WorkCard from '../components/WorkCard.astro';
+import WorkFilter from '../components/WorkFilter.astro';
+import { works, getCategoryIcon } from '../data/works';
 import { getLucideIcon } from '../lib/lucide';
 import { getBrandIcon } from '../lib/brand-icons';
 
@@ -46,450 +49,48 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
 ---
 
 <ProfileLayout current="works" title="Works">
-  <section id="works" class="relative">
-    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">WORKS</p>
-    <h2 class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-      現場や生活の中で動く、実用のプロダクト。
-    </h2>
-    <div class="mt-6 space-y-4">
-      <p class="text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-        IoTデバイスから自動取引まで、異なる制約のなかで実際に動かしてきたプロダクト群。
-      </p>
-    </div>
+  {/* 上部: 共同ホスト基盤「NixOS + Docker」の解説と構成図モニター */}
+  <HostingArchitecture />
 
-    <!-- 運用基盤の図解: 複数プロダクトが同一の自己ホスト基盤上で常時稼働 -->
-    <div class="mt-8 flex flex-col items-center gap-3">
-      <!-- 上段: 代表チップ（個数は明示しない） -->
-      <div class="flex flex-wrap items-center justify-center gap-2">
-        {resolvedTags.slice(0, 4).map(({ name, iconPath }) => (
-          <span class="inline-flex items-center gap-1.5 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3 py-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="12" height="12" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"
-              aria-hidden="true"
-              set:html={iconPath}
-            />
-            {name}
-          </span>
-        ))}
-        <span class="inline-flex items-center rounded-full border border-dashed border-zinc-300 dark:border-poi-border/60 px-3 py-1.5 font-mono text-xs text-zinc-400 dark:text-poi-muted/70">
-          +増え続ける
-        </span>
-      </div>
+  {/* フィルターパネル（コレクション説明・絞り込みトグル・404メッセージ） */}
+  <WorkFilter resolvedTags={resolvedTags} />
 
-      <!-- 中段: 経路のラベル -->
-      <div class="flex items-center gap-1.5 font-mono text-[11px] text-zinc-400 dark:text-poi-muted/70">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="12" height="12" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" stroke-width="1.5"
-          stroke-linecap="round" stroke-linejoin="round"
-          aria-hidden="true"
-          set:html={getLucideIcon('arrow-down')}
-        />
-        push → CI/CD自動デプロイ
-      </div>
-
-      <!-- 下段: 単一の基盤ボックス（Impact.astroのliveドットパターンを踏襲） -->
-      <div class="inline-flex items-center gap-2.5 rounded-[10px] border border-poi-accent/30 bg-poi-accent/[0.06] dark:bg-poi-accent/[0.04] px-4 py-2.5">
-        <span class="text-sm font-semibold text-poi-accent">単一の自己ホストサーバー</span>
-        <span class="inline-flex items-center gap-1.5 text-xs text-poi-accent">
-          <span class="inline-block h-1.5 w-1.5 rounded-full bg-poi-accent"></span>常時稼働
-        </span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 領域フィルタと公開タイプフィルタの一体型パネル（親コンテナは余白のみ） -->
-  <div class="mt-8 mb-12 space-y-6">
-    <!-- メイン: カテゴリタグ -->
-    <div
-      id="work-filter"
-      class="pl-4 border-l border-poi-accent/50 flex flex-wrap gap-2 font-mono text-xs content-start"
-      role="group"
-      aria-label="タグで絞り込む"
-    >
-      {resolvedTags.map(({ name, count, iconPath }) => (
-        <button
-          type="button"
-          class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/[0.06] dark:aria-pressed:text-poi-focus"
-          data-tag={name}
-          aria-pressed="false"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="12" height="12" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round"
-            class="text-zinc-400 dark:text-poi-muted/50 shrink-0 transition-colors duration-200 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-accent"
-            set:html={iconPath}
-          />
-          <span>{name}</span>
-          <span class="font-mono text-[9px] text-zinc-400 dark:text-poi-muted/50 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-focus transition-colors duration-200 select-none">
-            {count}
-          </span>
-          {/* 選択時のみ表示する解除アイコン。未選択時は hidden */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="11" height="11" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round"
-            class="hidden group-aria-pressed/btn:inline-block text-poi-accent shrink-0 -mr-0.5"
-            aria-hidden="true"
-            set:html={getLucideIcon('x')}
-          />
-        </button>
-      ))}
-    </div>
-
-    <!-- サブ: 公開タイプ（OSS / Demo） -->
-    <div class="pl-4 border-l border-poi-accent/50 flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-zinc-400 dark:text-poi-muted/85">
-      <div class="flex items-center gap-2">
-        <button
-          type="button"
-          class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/80 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.03] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
-          data-type="oss"
-          aria-checked="false"
-        >
-          OSS
-        </button>
-        <span class="select-none">クローンして即座に再利用できる公開コード</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <button
-          type="button"
-          class="type-filter-btn font-mono text-[10px] w-[50px] justify-center inline-flex items-center px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/80 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.03] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus select-none outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
-          data-type="demo"
-          aria-checked="false"
-        >
-          Demo
-        </button>
-        <span class="select-none">OSSとしての再利用に適さず、実証や本番運用の参考に留めるもの</span>
-      </div>
-    </div>
-  </div>
-
-  <div id="work-list" class="space-y-4">
+  {/* 作品一覧 */}
+  <div id="work-list" class="space-y-6">
     {sortedWorks.map((work, idx) => (
-      <article
-        class="work-card group/card relative rounded-xl border border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-zinc-300 dark:hover:border-poi-border/80 hover:shadow-sm"
-        data-tags={work.categoryTags.join(',')}
-        data-is-oss={work.isOSS ? "true" : "false"}
-      >
-        <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
-          <span class="work-index font-mono text-sm font-semibold tabular-nums text-poi-accent/70 select-none shrink-0">
-            {String(idx + 1).padStart(2, '0')}
-          </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16" height="16" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round"
-            class="text-zinc-600 dark:text-zinc-400 shrink-0"
-            set:html={work.iconPath}
-          />
-          <!-- カード全体を覆う主導線（::after でカード面をクリック可能に） -->
-          <a
-            class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-poi-accent outline-none focus-visible:underline"
-            href={work.primaryHref}
-            target={work.primaryExternal ? "_blank" : undefined}
-            rel={work.primaryExternal ? "noopener noreferrer" : undefined}
-          >
-            {work.title}
-          </a>
-          
-          <!-- OSS / Demo の明示ラベル -->
-          <span class="ml-auto text-[10px] font-mono px-2 py-0.5 rounded border border-zinc-200 dark:border-poi-border/50 text-zinc-700 dark:text-poi-focus bg-zinc-50/50 dark:bg-poi-panel/30 animate-pulse-once">
-            {work.isOSS ? "OSS" : "Demo"}
-          </span>
-          
-          {work.publishedAt && (
-            <span class="hidden sm:inline ml-3 font-mono text-[11px] font-normal text-zinc-400 dark:text-zinc-500">
-              {work.publishedAt}
-            </span>
-          )}
-        </h3>
-
-        {work.inUse && (
-          <p class="mt-1 flex items-center gap-1.5 text-xs">
-            <span class="inline-block h-1.5 w-1.5 rounded-full shrink-0 bg-light-accent dark:bg-poi-accent"></span>
-            <span class="text-light-accent dark:text-poi-accent">現場に導入・稼働中</span>
-          </p>
-        )}
-
-        {/* カテゴリタグの表示（説明テキストの直上） */}
-        <div class="mt-2.5 flex flex-wrap gap-2">
-          {displayCategoryTags(work.categoryTags).map(tag => {
-            const iconPath = getLucideIcon(getCategoryIcon(tag));
-            return (
-              <span class="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-poi-panel/30 px-2.5 py-0.5 font-mono text-[10px] text-zinc-700 dark:text-poi-focus border border-zinc-200/50 dark:border-poi-border/30">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="10" height="10" viewBox="0 0 24 24"
-                  fill="none" stroke="currentColor" stroke-width="1.5"
-                  stroke-linecap="round" stroke-linejoin="round"
-                  class="text-zinc-600 dark:text-poi-focus/80 shrink-0"
-                  set:html={iconPath}
-                />
-                {tag}
-              </span>
-            );
-          })}
-        </div>
-
-        <p class="mt-2.5 font-sans text-sm leading-6 text-zinc-600 dark:text-poi-focus/90 whitespace-pre-line">
-          {work.description}
-        </p>
-
-        {work.rationale && (
-          <p
-            class="mt-3 border-l-2 border-zinc-200 dark:border-zinc-800 pl-3 text-xs leading-6 text-zinc-500 dark:text-poi-muted"
-          >
-            {work.rationale}
-          </p>
-        )}
-
-        {work.stackResolved.length > 0 && (
-          <div class="mt-3 flex flex-wrap gap-x-3 gap-y-1">
-            {work.stackResolved.map((s) => (
-              <span class="inline-flex items-center gap-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
-                {s.brandIcon && (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={`color:#${s.brandIcon.hex}`} aria-hidden="true">
-                    <path d={s.brandIcon.path} />
-                  </svg>
-                )}
-                {s.label}
-              </span>
-            ))}
-          </div>
-        )}
-
-
-
-        {work.subLinks.length > 0 && (
-          <!-- 副アクション（relative z-10 で主導線の ::after より前面に出してクリックを奪う） -->
-          <div class="relative z-10 mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs font-mono">
-            {work.subLinks.map((link) => {
-              const isGithub = link.label.toLowerCase().includes('github');
-              const isZenn = link.label.toLowerCase().includes('zenn');
-              
-              return (
-                <a
-                  class="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted transition-colors hover:text-poi-accent dark:hover:text-poi-accent hover:underline outline-none focus-visible:underline"
-                  href={link.href}
-                  target={link.external ? "_blank" : undefined}
-                  rel={link.external ? "noopener noreferrer" : undefined}
-                >
-                  {isGithub && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12" height="12" viewBox="0 0 24 24"
-                      fill="none" stroke="currentColor" stroke-width="1.5"
-                      stroke-linecap="round" stroke-linejoin="round"
-                      class="shrink-0"
-                      aria-hidden="true"
-                      set:html={getLucideIcon('github')}
-                    />
-                  )}
-                  {isZenn && (() => {
-                    const brandIcon = getBrandIcon('zenn');
-                    return brandIcon ? (
-                      <svg
-                        width="12" height="12" viewBox="0 0 24 24"
-                        fill="currentColor"
-                        class="shrink-0"
-                        aria-hidden="true"
-                      >
-                        <path d={brandIcon.path} />
-                      </svg>
-                    ) : null;
-                  })()}
-                  {link.label}
-                  {link.external && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="10" height="10" viewBox="0 0 24 24"
-                      fill="none" stroke="currentColor" stroke-width="1.5"
-                      stroke-linecap="round" stroke-linejoin="round"
-                      class="shrink-0"
-                      aria-hidden="true"
-                      set:html={getLucideIcon('external-link')}
-                    />
-                  )}
-                </a>
-              );
-            })}
-          </div>
-        )}
-      </article>
+      <WorkCard work={work} idx={idx} />
     ))}
-  </div>
-
-  <!-- 結果 0 件のときだけ表示する 404 風ブロック。既定は hidden -->
-  <div
-    id="work-empty"
-    class="hidden mt-2 rounded-xl border border-dashed border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] px-6 py-10 text-center"
-    role="status"
-    aria-live="polite"
-  >
-    <p class="font-mono text-5xl font-semibold tracking-tight text-poi-accent/80 select-none">404</p>
-    <p class="mt-3 font-mono text-sm text-zinc-700 dark:text-poi-focus">No works matched this filter.</p>
-    <p class="mt-1.5 font-mono text-xs text-zinc-400 dark:text-poi-muted select-none">
-      <span class="text-poi-accent">$</span> works --filter &rarr; 0 results
-    </p>
-    <button
-      type="button"
-      id="work-empty-reset"
-      class="mt-6 inline-flex items-center gap-1.5 rounded border border-zinc-200 dark:border-poi-border/50 bg-white/40 dark:bg-white/[0.01] px-3.5 py-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border active:scale-95 transition-all duration-200 shadow-sm outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="12" height="12" viewBox="0 0 24 24"
-        fill="none" stroke="currentColor" stroke-width="1.5"
-        stroke-linecap="round" stroke-linejoin="round"
-        class="shrink-0"
-        aria-hidden="true"
-        set:html={getLucideIcon('refresh-cw')}
-      />
-      Clear filters
-    </button>
   </div>
 </ProfileLayout>
 
-<script>
-  const filter = document.getElementById('work-filter');
-  const cards = Array.from(document.querySelectorAll<HTMLElement>('.work-card'));
-  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.work-filter-btn'));
-  
-  const activeTags = new Set<string>();
-  const selectionOrder: string[] = []; // 選択された順序を保持（左上昇格の並び）
-  let activeType: string | null = null; // null | 'oss' | 'demo'
-
-  function apply() {
-    let visibleIndex = 0;
-    cards.forEach(card => {
-      const cardTags = card.dataset.tags?.split(',') || [];
-      const cardIsOss = card.dataset.isOss === 'true';
-      
-      // AND 検索: 選択されているすべてのアクティブタグがカードのタグに含まれているか
-      const matchesTags = Array.from(activeTags).every(tag => cardTags.includes(tag));
-
-      // 公開タイプの排他判定
-      let matchesType = true;
-      if (activeType === 'oss') {
-        matchesType = cardIsOss;
-      } else if (activeType === 'demo') {
-        matchesType = !cardIsOss;
-      }
-
-      const isMatch = matchesTags && matchesType;
-
-      card.style.display = isMatch ? '' : 'none';
-      if (isMatch) {
-        // 表示中カードだけを上から採番し直す（フィルタで数が変わるのに連動）
-        visibleIndex += 1;
-        const indexEl = card.querySelector<HTMLElement>('.work-index');
-        if (indexEl) indexEl.textContent = String(visibleIndex).padStart(2, '0');
-        card.style.animation = 'none';
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        card.offsetHeight; // reflow
-        card.style.animation = 'work-fade .28s ease-out';
-      }
-    });
-
-    // 0 件なら 404 風ブロックを出す
-    const empty = document.getElementById('work-empty');
-    if (empty) empty.classList.toggle('hidden', visibleIndex > 0);
-
-    // カテゴリタグの aria-pressed 属性を書き換える
-    buttons.forEach(b => {
-      const tag = b.dataset.tag!;
-      const on = activeTags.has(tag);
-      b.setAttribute('aria-pressed', String(on));
-    });
-
-    // 選択済みを左上へ昇格（order で並べ替え、DOM は据え置き）
-    applyOrder();
-
-    // 公開タイプの aria-checked 属性を書き換える
-    const typeButtons = document.querySelectorAll('.type-filter-btn');
-    typeButtons.forEach(b => {
-      const type = b.getAttribute('data-type');
-      const on = activeType === type;
-      b.setAttribute('aria-checked', String(on));
-    });
-  }
-
-  function applyOrder() {
-    buttons.forEach(b => {
-      const tag = b.dataset.tag!;
-      const sel = selectionOrder.indexOf(tag);
-      // 選択済み: 選択順 0,1,2… / 未選択: 100 以上で必ず後ろ。未選択どうしは DOM 順維持
-      b.style.order = sel >= 0 ? String(sel) : '100';
-    });
-  }
-
-  function bounce(el: HTMLElement) {
-    el.style.animation = 'none';
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    el.offsetHeight; // reflow
-    el.style.animation = 'filter-pop .18s ease-out';
-  }
-
-  filter?.addEventListener('click', (e) => {
-    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.work-filter-btn');
-    if (!btn) return;
-
-    const tag = btn.dataset.tag!;
-    if (activeTags.has(tag)) {
-      activeTags.delete(tag);
-      const i = selectionOrder.indexOf(tag);
-      if (i >= 0) selectionOrder.splice(i, 1);
-    } else {
-      activeTags.add(tag);
-      selectionOrder.push(tag);
-      bounce(btn); // 選択確定時だけ弾ませる
-    }
-    apply();
-  });
-
-  // 公開タイプボタンのイベントリスナー（排他選択）
-  document.querySelectorAll<HTMLButtonElement>('.type-filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const type = btn.getAttribute('data-type')!;
-      const isChecked = btn.getAttribute('aria-checked') === 'true';
-
-      if (isChecked) {
-        activeType = null;
-      } else {
-        activeType = type;
-        bounce(btn); // 選択確定時のみ弾ませる
-      }
-      apply();
-    });
-  });
-
-  function resetAll() {
-    activeTags.clear();
-    selectionOrder.length = 0;
-    activeType = null;
-    apply();
-  }
-
-  document.getElementById('work-empty-reset')?.addEventListener('click', resetAll);
-</script>
-
 <style>
-  @keyframes work-fade {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .work-card.glow-active {
+    animation: card-glow-light 1.5s ease-out;
+  }
+  
+  :global(.dark) .work-card.glow-active {
+    animation: card-glow-dark 1.5s ease-out;
   }
 
-  @keyframes filter-pop {
-    0%   { transform: scale(0.95); }
-    60%  { transform: scale(1.03); }
-    100% { transform: scale(1); }
+  @keyframes card-glow-light {
+    0%, 100% {
+      border-color: rgba(212, 212, 216, 0.8);
+      box-shadow: none;
+    }
+    15% {
+      border-color: #d0679d; /* light.accent */
+      box-shadow: 0 0 16px rgba(208, 103, 157, 0.25);
+    }
+  }
+
+  @keyframes card-glow-dark {
+    0%, 100% {
+      border-color: rgba(48, 52, 70, 0.6);
+      box-shadow: none;
+    }
+    15% {
+      border-color: #5de4c7; /* poi.accent */
+      box-shadow: 0 0 16px rgba(93, 228, 199, 0.25);
+    }
   }
 </style>
