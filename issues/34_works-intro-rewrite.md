@@ -1,7 +1,7 @@
 ## Works冒頭の書き換え＋運用基盤の図解追加
 id: 34
 branch-slug: works-intro-rewrite
-github_issue:
+github_issue: 58
 status: open
 type: feat
 対象: |
