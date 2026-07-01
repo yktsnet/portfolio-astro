@@ -185,7 +185,7 @@ export const works: Work[] = [
     icon: "book-search",
     publishedAt: "2026.06",
     description:
-      "取引先帳票 PDF を Azure API で構造化し、ベクトル検索 + LangGraph で根拠付き検索を実装。\n同じ質問を Text-to-SQL と並べ、手法ごとの得意・不得意を可視化する比較 Demo。",
+      "SQL は集計に強いが自由記述に答えられず、RAG はその逆で文面の根拠は示せても集計はできない。\n帳票 PDF を Azure AI Document Intelligence で構造化し、LangGraph が質問を判定して SQL / RAG へ自動で振り分ける。",
     rationale:
       "帳票 PDF から抽出した同一データを RAG と Text-to-SQL の両方に登録し、質問の性質でどちらの手法が適切かを実測ベースで比較できるようにした。",
     links: [
