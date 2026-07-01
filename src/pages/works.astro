@@ -53,8 +53,52 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
     </h2>
     <div class="mt-6 space-y-4">
       <p class="text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-        IoTデバイスから自動取引まで、異なる制約のなかで実際に本番運用へ通してきたプロダクト群。すべて「動くデモ」で終わらせず、現場や日常の生活で壊れずに回り続ける品質で実装している。
+        IoTデバイスから自動取引まで、異なる制約のなかで実際に動かしてきたプロダクト群。
       </p>
+    </div>
+
+    <!-- 運用基盤の図解: 複数プロダクトが同一の自己ホスト基盤上で常時稼働 -->
+    <div class="mt-8 flex flex-col items-center gap-3">
+      <!-- 上段: 代表チップ（個数は明示しない） -->
+      <div class="flex flex-wrap items-center justify-center gap-2">
+        {resolvedTags.slice(0, 4).map(({ name, iconPath }) => (
+          <span class="inline-flex items-center gap-1.5 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3 py-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12" height="12" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={iconPath}
+            />
+            {name}
+          </span>
+        ))}
+        <span class="inline-flex items-center rounded-full border border-dashed border-zinc-300 dark:border-poi-border/60 px-3 py-1.5 font-mono text-xs text-zinc-400 dark:text-poi-muted/70">
+          +増え続ける
+        </span>
+      </div>
+
+      <!-- 中段: 経路のラベル -->
+      <div class="flex items-center gap-1.5 font-mono text-[11px] text-zinc-400 dark:text-poi-muted/70">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="12" height="12" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"
+          aria-hidden="true"
+          set:html={getLucideIcon('arrow-down')}
+        />
+        push → CI/CD自動デプロイ
+      </div>
+
+      <!-- 下段: 単一の基盤ボックス（Impact.astroのliveドットパターンを踏襲） -->
+      <div class="inline-flex items-center gap-2.5 rounded-[10px] border border-poi-accent/30 bg-poi-accent/[0.06] dark:bg-poi-accent/[0.04] px-4 py-2.5">
+        <span class="text-sm font-semibold text-poi-accent">単一の自己ホストサーバー</span>
+        <span class="inline-flex items-center gap-1.5 text-xs text-poi-accent">
+          <span class="inline-block h-1.5 w-1.5 rounded-full bg-poi-accent"></span>常時稼働
+        </span>
+      </div>
     </div>
   </section>
 
