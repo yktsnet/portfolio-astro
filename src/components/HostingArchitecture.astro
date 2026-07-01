@@ -1,0 +1,94 @@
+---
+---
+
+<section id="works" class="relative">
+  <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">WORKS</p>
+  <h2 class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+    <span class="block">現場や日常で動くプロダクト群と、</span>
+    <span class="block mt-2">その同居を支えるインフラ設計。</span>
+  </h2>
+  <div class="mt-6 space-y-4">
+    <p class="text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+      IoTデバイスからWebシステム、AI統合まで、実際の現場や日常のなかで動く実用プロダクトを開発しています。これらはすべて、1台の共有サーバーにコンテナとして同居し、運用負荷とインフラコストを最小限に抑えて常時稼働しています。
+    </p>
+  </div>
+
+  <!-- 共同ホスト基盤のスペックシート (ボーダレスな仕様表型レイアウト) -->
+  <div class="mt-8 rounded-xl border border-zinc-200 dark:border-poi-border/60 bg-zinc-50/40 dark:bg-poi-panel/10 p-6 relative overflow-hidden">
+    <!-- ドット背景 -->
+    <div class="absolute inset-0 bg-[radial-gradient(#5de4c7_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.03] dark:opacity-[0.05] pointer-events-none"></div>
+
+    <div class="relative z-10 space-y-4">
+      <!-- ヘッダー (スペックメタデータ) -->
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-200/80 dark:border-poi-border/60 pb-4 mb-2">
+        <div>
+          <h3 class="font-mono text-xs sm:text-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+            <span class="h-2 w-2 rounded-full bg-poi-accent"></span>
+            SHARED INFRASTRUCTURE BLUEPRINT
+          </h3>
+          <p class="text-xs sm:text-[13px] text-zinc-500 dark:text-poi-muted/70 mt-1">複数の常時稼働デモを同居させる共有ホストの設計仕様</p>
+        </div>
+
+        <div class="flex flex-wrap gap-x-4 gap-y-1.5 font-mono text-[11px] sm:text-xs text-zinc-500 dark:text-poi-muted/60 select-none">
+          <div><span class="text-poi-accent">OS:</span> NixOS</div>
+          <div><span class="text-poi-accent">ENGINE:</span> Docker Compose</div>
+          <div><span class="text-poi-accent">TUNNEL:</span> Cloudflare</div>
+          <div><span class="text-poi-accent">VPN:</span> Tailscale</div>
+        </div>
+      </div>
+
+      <!-- ボーダレスな仕様表型レイアウト (divide-yで区切る) -->
+      <div class="divide-y divide-zinc-200/60 dark:divide-poi-border/30 pt-2">
+        
+        <!-- レイヤー 1: デプロイ -->
+        <div class="py-5 flex flex-col sm:flex-row gap-4 items-start">
+          <!-- 左側: レイヤー情報 (固定幅) -->
+          <div class="w-full sm:w-48 shrink-0 space-y-1">
+            <span class="font-mono text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-poi-muted/60"><span class="text-poi-accent mr-1.5">01</span>DEPLOY LAYER</span>
+            <div class="font-mono text-[10px] sm:text-[11px] text-zinc-400 dark:text-poi-muted/60 leading-none">github actions ➔ tailscale</div>
+          </div>
+          <!-- 右側: タイトルと解説文 -->
+          <div class="flex-1 space-y-2">
+            <h4 class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-poi-focus leading-tight">Tailscale経由の自動デプロイ</h4>
+            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted">
+              GitHub ActionsからTailscale VPNを経由し、ホストのSSHポートを公開せずに自動デプロイします。
+            </p>
+          </div>
+        </div>
+
+        <!-- レイヤー 2: 同居ホスト基盤 -->
+        <div class="py-5 flex flex-col sm:flex-row gap-4 items-start">
+          <!-- 左側: レイヤー情報 (固定幅) -->
+          <div class="w-full sm:w-48 shrink-0 space-y-1">
+            <span class="font-mono text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-poi-muted/60"><span class="text-poi-accent mr-1.5">02</span>HOST LAYER (FOUNDATION)</span>
+            <div class="font-mono text-[10px] sm:text-[11px] text-zinc-400 dark:text-poi-muted/60 leading-none">nixos &amp; docker-compose</div>
+          </div>
+          <!-- 右側: タイトルと解説文 -->
+          <div class="flex-1 space-y-2">
+            <h4 class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-poi-focus leading-tight">同居のための極小化設計 &amp; 宣言的環境管理</h4>
+            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted">
+              SQLiteの積極採用やファイルキャッシュの利用により、各アプリのメモリ消費を極限まで抑制。OSやコンテナの構成は NixOS でコード管理し、非力なVPSであっても高い再現性と長期の安定稼働を確保します。
+            </p>
+          </div>
+        </div>
+
+        <!-- レイヤー 3: 外部公開 -->
+        <div class="py-5 flex flex-col sm:flex-row gap-4 items-start">
+          <!-- 左側: レイヤー情報 (固定幅) -->
+          <div class="w-full sm:w-48 shrink-0 space-y-1">
+            <span class="font-mono text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-poi-muted/60"><span class="text-poi-accent mr-1.5">03</span>ROUTING LAYER</span>
+            <div class="font-mono text-[10px] sm:text-[11px] text-zinc-400 dark:text-poi-muted/60 leading-none">cloudflare tunnel ➔ ssl</div>
+          </div>
+          <!-- 右側: タイトルと解説文 -->
+          <div class="flex-1 space-y-2">
+            <h4 class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-poi-focus leading-tight">ポート露出ゼロの公開</h4>
+            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted">
+              公開ポートを開けず、Cloudflare Tunnel の外向き暗号化経路のみを通じて安全にHTTPS公開します。
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

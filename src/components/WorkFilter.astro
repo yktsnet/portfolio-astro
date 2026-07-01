@@ -1,0 +1,278 @@
+---
+import { getLucideIcon } from '../lib/lucide';
+
+interface Props {
+  resolvedTags: Array<{
+    name: string;
+    count: number;
+    iconPath: string;
+  }>;
+}
+
+const { resolvedTags } = Astro.props;
+---
+
+{/* セクションヘッダー (説明パートと閲覧パートを分ける) */}
+<div class="mt-14 sm:mt-16 space-y-2">
+  <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">COLLECTION</p>
+  <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+    プロダクトの閲覧・絞り込み
+  </h2>
+  <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted">
+    各プロダクトの制作理由、アーキテクチャ設計判断、ソースコード、稼働デモを一覧できます。
+  </p>
+</div>
+
+{/* 領域フィルタと公開タイプフィルタの一体型カードパネル */}
+<div class="mt-6 mb-10 rounded-xl border border-zinc-200 dark:border-poi-border/60 bg-zinc-50/40 dark:bg-poi-panel/10 p-5 space-y-5">
+  
+  <!-- メイン: カテゴリタグ -->
+  <div class="space-y-2">
+    <span class="font-mono text-[10px] text-zinc-400 dark:text-poi-muted/65 font-bold uppercase tracking-wider block">Filter by Genre</span>
+    <div
+      id="work-filter"
+      class="flex flex-wrap gap-2 font-mono text-xs content-start"
+      role="group"
+      aria-label="タグで絞り込む"
+    >
+      {resolvedTags.map(({ name, count, iconPath }) => (
+        <button
+          type="button"
+          class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/[0.06] dark:aria-pressed:text-poi-focus"
+          data-tag={name}
+          aria-pressed="false"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12" height="12" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="text-zinc-400 dark:text-poi-muted/50 shrink-0 transition-colors duration-200 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-accent"
+            set:html={iconPath}
+          />
+          <span>{name}</span>
+          <span class="font-mono text-[9px] text-zinc-400 dark:text-poi-muted/50 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-focus transition-colors duration-200 select-none">
+            {count}
+          </span>
+          {/* 選択時のみ表示する解除アイコン */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="11" height="11" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="hidden group-aria-pressed/btn:inline-block text-poi-accent shrink-0 -mr-0.5"
+            aria-hidden="true"
+            set:html={getLucideIcon('x')}
+          />
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- 区切り線 -->
+  <div class="border-t border-zinc-200/60 dark:border-poi-border/30 my-1"></div>
+
+  <!-- サブ: 公開タイプ（OSS / Demo） -->
+  <div class="space-y-2">
+    <span class="font-mono text-[10px] text-zinc-400 dark:text-poi-muted/65 font-bold uppercase tracking-wider block">Filter by Status</span>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-zinc-500 dark:text-poi-muted/80">
+      
+      <button
+        type="button"
+        class="type-filter-btn group/type-btn font-mono text-[11px] flex items-center justify-between px-3 py-2 rounded-lg border border-zinc-200 dark:border-poi-border/80 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.03] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-300 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-poi-accent/80 aria-checked:bg-poi-accent/[0.08] aria-checked:text-poi-focus dark:aria-checked:text-poi-focus select-none text-left outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+        data-type="oss"
+        aria-checked="false"
+      >
+        <div class="flex items-center gap-2 shrink-0">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12" height="12" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="text-zinc-300 dark:text-poi-muted/30 group-aria-checked/type-btn:text-poi-accent transition-colors duration-200 shrink-0"
+            set:html={getLucideIcon('check')}
+          />
+          <span class="font-bold group-aria-checked/type-btn:text-poi-accent transition-colors">OSS</span>
+        </div>
+        <span class="text-[10px] text-zinc-400 dark:text-poi-muted/50 font-normal truncate ml-3">クローンして再利用できる公開コード</span>
+      </button>
+
+      <button
+        type="button"
+        class="type-filter-btn group/type-btn font-mono text-[11px] flex items-center justify-between px-3 py-2 rounded-lg border border-zinc-200 dark:border-poi-border/80 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.03] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-300 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-poi-accent/80 aria-checked:bg-poi-accent/[0.08] aria-checked:text-poi-focus dark:aria-checked:text-poi-focus select-none text-left outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+        data-type="demo"
+        aria-checked="false"
+      >
+        <div class="flex items-center gap-2 shrink-0">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12" height="12" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="text-zinc-300 dark:text-poi-muted/30 group-aria-checked/type-btn:text-poi-accent transition-colors duration-200 shrink-0"
+            set:html={getLucideIcon('check')}
+          />
+          <span class="font-bold group-aria-checked/type-btn:text-poi-accent transition-colors">Demo</span>
+        </div>
+        <span class="text-[10px] text-zinc-400 dark:text-poi-muted/50 font-normal truncate ml-3">実証・本番運用の参考デモ</span>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+{/* 結果 0 件のときだけ表示する 404 風ブロック */}
+<div
+  id="work-empty"
+  class="hidden mt-2 rounded-xl border border-dashed border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] px-6 py-10 text-center"
+  role="status"
+  aria-live="polite"
+>
+  <p class="font-mono text-5xl font-semibold tracking-tight text-poi-accent/80 select-none">404</p>
+  <p class="mt-3 font-mono text-sm text-zinc-700 dark:text-poi-focus">No works matched this filter.</p>
+  <p class="mt-1.5 font-mono text-xs text-zinc-400 dark:text-poi-muted select-none">
+    <span class="text-poi-accent">$</span> works --filter &rarr; 0 results
+  </p>
+  <button
+    type="button"
+    id="work-empty-reset"
+    class="mt-6 inline-flex items-center gap-1.5 rounded border border-zinc-200 dark:border-poi-border/50 bg-white/40 dark:bg-white/[0.01] px-3.5 py-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border active:scale-95 transition-all duration-200 shadow-sm outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="12" height="12" viewBox="0 0 24 24"
+      fill="none" stroke="currentColor" stroke-width="1.5"
+      stroke-linecap="round" stroke-linejoin="round"
+      class="shrink-0"
+      aria-hidden="true"
+      set:html={getLucideIcon('refresh-cw')}
+    />
+    Clear filters
+  </button>
+</div>
+
+<script>
+  const filter = document.getElementById('work-filter');
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('.work-card'));
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.work-filter-btn'));
+  
+  const activeTags = new Set<string>();
+  const selectionOrder: string[] = []; // 選択された順序を保持
+  let activeType: string | null = null; // null | 'oss' | 'demo'
+
+  function apply() {
+    let visibleIndex = 0;
+    cards.forEach(card => {
+      const cardTags = card.dataset.tags?.split(',') || [];
+      const cardIsOss = card.dataset.isOss === 'true';
+      
+      const matchesTags = Array.from(activeTags).every(tag => cardTags.includes(tag));
+
+      let matchesType = true;
+      if (activeType === 'oss') {
+        matchesType = cardIsOss;
+      } else if (activeType === 'demo') {
+        matchesType = !cardIsOss;
+      }
+
+      const isMatch = matchesTags && matchesType;
+
+      card.style.display = isMatch ? '' : 'none';
+      if (isMatch) {
+        visibleIndex += 1;
+        const indexEl = card.querySelector<HTMLElement>('.work-index');
+        if (indexEl) indexEl.textContent = String(visibleIndex).padStart(2, '0');
+        card.style.animation = 'none';
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        card.offsetHeight; // reflow
+        card.style.animation = 'work-fade .28s ease-out';
+      }
+    });
+
+    const empty = document.getElementById('work-empty');
+    if (empty) empty.classList.toggle('hidden', visibleIndex > 0);
+
+    buttons.forEach(b => {
+      const tag = b.dataset.tag!;
+      const on = activeTags.has(tag);
+      b.setAttribute('aria-pressed', String(on));
+    });
+
+    applyOrder();
+
+    const typeButtons = document.querySelectorAll('.type-filter-btn');
+    typeButtons.forEach(b => {
+      const type = b.getAttribute('data-type');
+      const on = activeType === type;
+      b.setAttribute('aria-checked', String(on));
+    });
+  }
+
+  function applyOrder() {
+    buttons.forEach(b => {
+      const tag = b.dataset.tag!;
+      const sel = selectionOrder.indexOf(tag);
+      b.style.order = sel >= 0 ? String(sel) : '100';
+    });
+  }
+
+  function bounce(el: HTMLElement) {
+    el.style.animation = 'none';
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    el.offsetHeight; // reflow
+    el.style.animation = 'filter-pop .18s ease-out';
+  }
+
+  filter?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.work-filter-btn');
+    if (!btn) return;
+
+    const tag = btn.dataset.tag!;
+    if (activeTags.has(tag)) {
+      activeTags.delete(tag);
+      const i = selectionOrder.indexOf(tag);
+      if (i >= 0) selectionOrder.splice(i, 1);
+    } else {
+      activeTags.add(tag);
+      selectionOrder.push(tag);
+      bounce(btn);
+    }
+    apply();
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.type-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.getAttribute('data-type')!;
+      const isChecked = btn.getAttribute('aria-checked') === 'true';
+
+      if (isChecked) {
+        activeType = null;
+      } else {
+        activeType = type;
+      }
+      apply();
+    });
+  });
+
+  function resetAll() {
+    activeTags.clear();
+    selectionOrder.length = 0;
+    activeType = null;
+    apply();
+  }
+
+  document.getElementById('work-empty-reset')?.addEventListener('click', resetAll);
+</script>
+
+<style>
+  @keyframes work-fade {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes filter-pop {
+    0%   { transform: scale(0.95); }
+    60%  { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+</style>
