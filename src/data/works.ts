@@ -187,7 +187,7 @@ export const works: Work[] = [
     description:
       "取引先帳票 PDF を Azure API で構造化し、ベクトル検索 + LangGraph で根拠付き検索を実装。\n同じ質問を Text-to-SQL と並べ、手法ごとの得意・不得意を可視化する比較 Demo。",
     rationale:
-      "DB に持たない帳票固有の情報を RAG で問い合わせ可能にするため、PDF → 構造化 → ベクトル検索の経路を SQL とは別に用意した。",
+      "帳票 PDF から抽出した同一データを RAG と Text-to-SQL の両方に登録し、質問の性質でどちらの手法が適切かを実測ベースで比較できるようにした。",
     links: [
       { label: "Demo →", href: "https://order-rag.ykts.net/", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/order-system-rag", external: true },
