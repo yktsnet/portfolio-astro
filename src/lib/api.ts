@@ -15,6 +15,7 @@ type Bindings = {
 export const app = new Hono<{ Bindings: Bindings }>();
 
 app.use('/api/status', cors());
+app.use('/api/sv6-status', cors());
 
 app.get('/api/hello', (c) => {
   return c.json({
@@ -29,6 +30,19 @@ app.get('/api/status', async (c) => {
     return c.json({ error: 'kv_not_bound' }, 500);
   }
   const raw = await kv.get('status:latest');
+  if (!raw) {
+    return c.json({ error: 'no_data' }, 404);
+  }
+  const data = JSON.parse(raw);
+  return c.json(data);
+});
+
+app.get('/api/sv6-status', async (c) => {
+  const kv = c.env?.ykts_status_metrics;
+  if (!kv) {
+    return c.json({ error: 'kv_not_bound' }, 500);
+  }
+  const raw = await kv.get('status:sv6');
   if (!raw) {
     return c.json({ error: 'no_data' }, 404);
   }
