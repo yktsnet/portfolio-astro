@@ -2,7 +2,7 @@
 
 id: 35a
 branch-slug: sv6-live-status
-github_issue:
+github_issue: 60
 status: open
 type: feat
 対象: |
