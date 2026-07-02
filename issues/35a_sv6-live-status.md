@@ -3,7 +3,7 @@
 id: 35a
 branch-slug: sv6-live-status
 github_issue: 60
-status: open
+status: close
 type: feat
 対象: |
   - src/components/HostingArchitecture.astro（末尾に「ライブメトリクスを見る」トグルを追加）
