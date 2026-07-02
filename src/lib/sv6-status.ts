@@ -60,10 +60,3 @@ export function uptimeDays(p: SV6StatusPayload): number {
   return Math.floor((p.uptime_seconds ?? 0) / 86400);
 }
 
-export function formatGb(kb: number): string {
-  return `${(kb / 1024 / 1024).toFixed(1)}GB`;
-}
-
-export function formatSlab(kb: number): string {
-  return kb >= 1024 * 1024 ? `${(kb / 1024 / 1024).toFixed(1)}GB` : `${Math.round(kb / 1024)}MB`;
-}
