@@ -1,4 +1,5 @@
 ---
+import SV6StatusChart from './status/SV6StatusChart.astro';
 ---
 
 <section id="works" class="relative">
@@ -89,6 +90,43 @@
         </div>
 
       </div>
+
+      <!-- SV6ライブメトリクス トグル -->
+      <div class="mt-2">
+        <button
+          id="sv6-status-toggle"
+          type="button"
+          aria-expanded="false"
+          class="inline-flex items-center gap-1.5 font-mono text-xs text-light-accent dark:text-poi-accent hover:underline underline-offset-2"
+        >
+          <span>ライブメトリクスを見る</span>
+          <span id="sv6-status-toggle-icon" class="transition-transform duration-200">▾</span>
+        </button>
+        <div id="sv6-status-panel" class="hidden mt-4">
+          <SV6StatusChart />
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  function initSv6Toggle() {
+    const btn = document.getElementById('sv6-status-toggle');
+    const panel = document.getElementById('sv6-status-panel');
+    const icon = document.getElementById('sv6-status-toggle-icon');
+    if (!btn || !panel) return;
+
+    btn.addEventListener('click', () => {
+      const willOpen = panel.classList.contains('hidden');
+      panel.classList.toggle('hidden', !willOpen);
+      btn.setAttribute('aria-expanded', String(willOpen));
+      if (icon) icon.textContent = willOpen ? '▴' : '▾';
+      if (willOpen) {
+        panel.dispatchEvent(new CustomEvent('sv6-status:open'));
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initSv6Toggle);
+</script>
