@@ -22,16 +22,8 @@
     Intel Core i5-8365U (4C/8T) ・ 8コア ・ 8GB RAM
   </p>
 
-  <!-- 詳細トグル（デフォルト非表示） -->
-  <button
-    id="sv6-advanced-toggle"
-    type="button"
-    aria-expanded="false"
-    class="mt-3 font-mono text-[11px] text-zinc-400 dark:text-poi-muted/60 hover:underline underline-offset-2"
-  >
-    詳細を見る（Swap・コンテナ数・コア別使用率）
-  </button>
-  <div id="sv6-advanced-panel" class="hidden mt-3 font-mono text-[11px] text-zinc-500 dark:text-poi-muted/70 space-y-1.5"></div>
+  <!-- 補足（Swap・コンテナ数を1行に統合、常時表示） -->
+  <p id="sv6-extra-line" class="mt-1 font-mono text-[11px] text-zinc-400 dark:text-poi-muted/60"></p>
 </div>
 
 <script>
@@ -40,7 +32,6 @@
     loadPercentSeries,
     availablePercentSeries,
     uptimeDays,
-    formatSlab,
   } from "../../lib/sv6-status";
   import { formatUpdatedAt } from "../../lib/status";
 
@@ -167,21 +158,12 @@
       .join("");
   }
 
-  function renderAdvanced(data: SV6StatusPayload) {
-    const panel = document.getElementById("sv6-advanced-panel");
-    if (!panel) return;
-
-    const cores = data.cpu_cores ?? [];
-    const coreRows = cores
-      .map((v, i) => `Core${i}: ${Math.round(v)}%`)
-      .join(" ・ ");
-
-    panel.innerHTML = `
-      <div>Swap使用率: ${(data.swap_used_percent ?? 0).toFixed(1)}%</div>
-      <div>稼働コンテナ数: ${data.containers_running ?? "—"}</div>
-      <div>コア別使用率: ${coreRows || "—"}</div>
-      <div>Slabサイズ: ${formatSlab(data.slab_kb ?? 0)}</div>
-    `;
+  function renderExtraLine(data: SV6StatusPayload) {
+    const line = document.getElementById("sv6-extra-line");
+    if (!line) return;
+    const swap = (data.swap_used_percent ?? 0).toFixed(1);
+    const containers = data.containers_running ?? "—";
+    line.textContent = `Swap ${swap}% ・ コンテナ${containers}個稼働中`;
   }
 
   function renderUpdatedAt(data: SV6StatusPayload) {
@@ -201,7 +183,7 @@
     }
     renderNotes(data);
     renderUpdatedAt(data);
-    renderAdvanced(data);
+    renderExtraLine(data);
   }
 
   function renderFallback() {
@@ -214,8 +196,6 @@
     }
     const notesEl = document.getElementById("sv6-chart-notes");
     if (notesEl) notesEl.innerHTML = "";
-    const advToggle = document.getElementById("sv6-advanced-toggle");
-    if (advToggle instanceof HTMLElement) advToggle.style.display = "none";
   }
 
   let loaded = false;
@@ -243,15 +223,6 @@
     if (panel) {
       panel.addEventListener("sv6-status:open", loadAndRender, { once: true });
     }
-
-    const advToggle = document.getElementById("sv6-advanced-toggle");
-    const advPanel = document.getElementById("sv6-advanced-panel");
-    advToggle?.addEventListener("click", () => {
-      if (!advPanel) return;
-      const willShow = advPanel.classList.contains("hidden");
-      advPanel.classList.toggle("hidden");
-      advToggle.setAttribute("aria-expanded", String(willShow));
-    });
   }
 
   document.addEventListener("DOMContentLoaded", init);
