@@ -17,10 +17,11 @@
     </div>
   </div>
 
-  <!-- フッター1行（スペック静的表示 → データ到着で動的情報を付加） -->
+  <!-- フッター（スペック + 更新日時） -->
   <p id="sv6-footer-line" class="mt-3 font-mono text-[11px] text-zinc-400 dark:text-poi-muted/60">
     Intel Core i5-8365U (4C/8T) ・ 8コア ・ 8GB RAM
   </p>
+  <p id="sv6-footer-updated" class="mt-1 font-mono text-[10px] text-zinc-400 dark:text-poi-muted/40"></p>
 </div>
 
 <script>
@@ -30,7 +31,6 @@
     availablePercentSeries,
     uptimeDays,
   } from "../../lib/sv6-status";
-  import { formatUpdatedAt } from "../../lib/status";
 
   const NS = "http://www.w3.org/2000/svg";
   const isDark = () => document.documentElement.classList.contains("dark");
@@ -80,11 +80,12 @@
     const minAvail = availSeries.length ? Math.min(...availSeries) : 0;
     const loadCeil = Math.max(5, Math.ceil(maxLoad / 5) * 5);
     const availFloor = Math.min(90, Math.floor(minAvail / 10) * 10);
+    const usageCeil = 100 - availFloor;
 
     const cards = [
       { value: `${days}日`, label: "連続稼働" },
       { value: `<${loadCeil}%`, label: "CPU負荷上限" },
-      { value: `>${availFloor}%`, label: "メモリ余裕" },
+      { value: `<${usageCeil}%`, label: "メモリ使用上限" },
     ];
 
     cardsEl.className = "grid grid-cols-3 divide-x divide-zinc-200/60 dark:divide-poi-border/40 mb-4";
@@ -169,17 +170,24 @@
     return svg;
   }
 
-  /* ── フッター1行（スペック + 動的情報 + 更新日時を統合） ── */
+  /* ── フッター（スペック行 + 更新日時行） ── */
   function renderFooter(data: SV6StatusPayload) {
     const line = document.getElementById("sv6-footer-line");
-    if (!line) return;
-    const swap = (data.swap_used_percent ?? 0).toFixed(1);
-    const containers = data.containers_running ?? "—";
-    let text = `i5-8365U (4C/8T) ・ 8コア ・ 8GB RAM ・ Swap ${swap}% ・ コンテナ${containers}個稼働中`;
-    if (data.updated_at) {
-      text += ` ・ 更新 ${formatUpdatedAt(data.updated_at)}`;
+    if (line) {
+      const swap = (data.swap_used_percent ?? 0).toFixed(1);
+      const containers = data.containers_running ?? "—";
+      line.textContent = `i5-8365U (4C/8T) ・ 8コア ・ 8GB RAM ・ Swap ${swap}% ・ コンテナ${containers}個稼働中`;
     }
-    line.textContent = text;
+    const updated = document.getElementById("sv6-footer-updated");
+    if (updated && data.updated_at) {
+      const d = new Date(data.updated_at);
+      const jst = d.toLocaleString("ja-JP", {
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", hour12: false,
+        timeZone: "Asia/Tokyo",
+      });
+      updated.textContent = `最終更新: ${jst} JST`;
+    }
   }
 
   /* ── 描画エントリ ── */
