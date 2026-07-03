@@ -1,8 +1,8 @@
 ## Works トップにライブメトリクス帯を新設し、ブループリント詳説をカード群の下へ移す
 id: 37
 branch-slug: works-live-strip
-github_issue:
-status: open
+github_issue: 65
+status: close
 type: feat
 対象: src/pages/index.astro, src/components/HostingArchitecture.astro, src/components/InfrastructureBlueprint.astro (新規), src/components/status/LiveStatusStrip.astro (新規)
 内容: `/`（Works）の1画面目にプロダクトカードが入るよう、SHARED INFRASTRUCTURE BLUEPRINT の詳説カードをカード群の下へ移動する。代わりに先頭へ1行のライブメトリクス帯（稼働日数・CPU・メモリ + 詳細へのアンカー）を置き、「動いている証拠」は先頭に残す。
