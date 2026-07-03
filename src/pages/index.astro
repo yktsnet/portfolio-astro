@@ -1,6 +1,7 @@
 ---
 import ProfileLayout from '../layouts/ProfileLayout.astro';
 import HostingArchitecture from '../components/HostingArchitecture.astro';
+import InfrastructureBlueprint from '../components/InfrastructureBlueprint.astro';
 import WorkCard from '../components/WorkCard.astro';
 import WorkFilter from '../components/WorkFilter.astro';
 import { works, getCategoryIcon } from '../data/works';
@@ -61,6 +62,9 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
       <WorkCard work={work} idx={idx} />
     ))}
   </div>
+
+  {/* 共同ホスト基盤の詳説（仕様表 + ライブメトリクス トグル） */}
+  <InfrastructureBlueprint />
 </ProfileLayout>
 
 <style>
