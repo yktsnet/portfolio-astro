@@ -1,8 +1,8 @@
 ## トップページを Works にし、ナビ順を証拠先行に並び替える
 id: 36
 branch-slug: works-first-landing
-github_issue:
-status: open
+github_issue: 63
+status: close
 type: feat
 対象: src/pages/index.astro, src/pages/works.astro, src/pages/about.astro, src/components/HeroDesktop.astro, src/components/HeroMobile.astro, astro.config.mjs, context/structure.md
 内容: `/` で最初に見せるものを About（思想）から Works（成果物）に変える。ナビ順も WORKS → IMPACT → ABOUT → APPROACH の証拠先行に並び替える。ページの中身自体は一切変更しない。
