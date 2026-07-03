@@ -1,3 +1,8 @@
 ---
-return Astro.redirect('/contact/', 301);
+import ProfileLayout from '../layouts/ProfileLayout.astro';
+import AboutSection from '../components/About.astro';
 ---
+
+<ProfileLayout current="about" title="About">
+  <AboutSection />
+</ProfileLayout>
