@@ -17,5 +17,8 @@ export default defineConfig({
        external: ["node:fs", "node:path"],
     },
   },
-  integrations: [tailwind(), react(), sitemap()]
+  integrations: [tailwind(), react(), sitemap()],
+  redirects: {
+    '/works': '/',
+  }
 });
