@@ -1,0 +1,63 @@
+---
+// トップ（Works）1画面目に置く1行のライブメトリクス帯。
+// 「動いている証拠」を先頭に薄く出しつつ、詳説（InfrastructureBlueprint）へ誘導する。
+// 数値は SV6StatusChart.astro と同じ /api/sv6-status をクライアント側 fetch で取得する。
+---
+
+<div
+  id="live-status-strip"
+  class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-zinc-200 dark:border-poi-border/60 bg-zinc-50/40 dark:bg-poi-panel/10 px-4 py-2.5 font-mono text-xs"
+>
+  <span class="flex items-center gap-1.5 text-zinc-700 dark:text-poi-focus">
+    <span class="h-2 w-2 rounded-full bg-poi-accent animate-pulse"></span>
+    全デモ同居ホスト 稼働中
+  </span>
+
+  <span id="live-status-metrics" class="hidden items-center gap-4 text-zinc-500 dark:text-poi-muted">
+    <span>稼働 <span id="live-status-uptime" class="text-zinc-900 dark:text-poi-focus font-semibold">—</span></span>
+    <span>CPU <span id="live-status-cpu" class="text-zinc-900 dark:text-poi-focus font-semibold">—</span></span>
+    <span>メモリ <span id="live-status-mem" class="text-zinc-900 dark:text-poi-focus font-semibold">—</span></span>
+  </span>
+
+  <a
+    href="#infrastructure"
+    class="ml-auto inline-flex items-center gap-1 text-light-accent dark:text-poi-accent hover:underline underline-offset-2"
+  >
+    設計の詳細 ↓
+  </a>
+</div>
+
+<script>
+  import type { SV6StatusPayload } from "../../lib/sv6-status";
+  import { latestLoadPercent, latestAvailablePercent, uptimeDays } from "../../lib/sv6-status";
+
+  async function loadAndRender() {
+    try {
+      const res = await fetch("/api/sv6-status");
+      if (!res.ok) throw new Error(`api ${res.status}`);
+      const data = (await res.json()) as SV6StatusPayload;
+
+      const days = uptimeDays(data);
+      const cpu = Math.round(latestLoadPercent(data));
+      const mem = Math.round(100 - latestAvailablePercent(data));
+
+      const uptimeEl = document.getElementById("live-status-uptime");
+      const cpuEl = document.getElementById("live-status-cpu");
+      const memEl = document.getElementById("live-status-mem");
+      const metrics = document.getElementById("live-status-metrics");
+
+      if (uptimeEl) uptimeEl.textContent = `${days}日`;
+      if (cpuEl) cpuEl.textContent = `${cpu}%`;
+      if (memEl) memEl.textContent = `${mem}%`;
+      if (metrics) {
+        metrics.classList.remove("hidden");
+        metrics.classList.add("flex");
+      }
+    } catch {
+      // 取得失敗・開発サーバー時（KV未接続）は数値を出さず、帯は #infrastructure への
+      // アンカーとしてのみ機能させる。ビルド・表示は壊さない。
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadAndRender);
+</script>
