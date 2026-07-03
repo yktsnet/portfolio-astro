@@ -23,11 +23,11 @@ src/
 
 | パス | ファイル | 出力 |
 |---|---|---|
-| `/` | `pages/index.astro` | 静的 |
-| `/about/` | `pages/about.astro` | 静的 |
+| `/` | `pages/index.astro` | 静的（Works。旧 `works.astro` の内容） |
+| `/about/` | `pages/about.astro` | 静的（旧 `index.astro` の内容） |
 | `/approach/` | `pages/approach.astro` | 静的 |
 | `/impact/` | `pages/impact.astro` | 静的 |
-| `/works/` | `pages/works.astro` | 静的 |
+| `/works/` | `astro.config.mjs` の `redirects` | `/` へリダイレクト（meta refresh） |
 | `/nfc-attendance/` | `pages/nfc-attendance/index.astro` | 静的 |
 | `/cat-feed-tracker/` | `pages/cat-feed-tracker/index.astro` | 静的 |
 | `/trading-system/` | `pages/trading-system.astro` | 静的 |
