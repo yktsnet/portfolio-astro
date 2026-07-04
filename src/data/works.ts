@@ -83,7 +83,7 @@ export const works: Work[] = [
     categoryTags: ["iot", "office"],
     isOSS: true,
     priority: 1,
-    title: "NFC Attendance System",
+    title: "NFC Attendance Kit",
     color: "#addb67",
     icon: "id-card",
     postSlug: "nfc-attendance-system",
