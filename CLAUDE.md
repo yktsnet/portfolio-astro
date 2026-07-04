@@ -1,21 +1,16 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 @context/conventions.md
 @context/structure.md
 
-## 担当分離
+Claude Code は本ファイルを最優先の指示として実行すること。
 
-| 担当 | 作業 |
-|---|---|
-| WebChat | Issue 設計・仕様議論・ドキュメント作成 |
-| Claude Code | コード編集・静的確認・git・PR 作成 |
-| user | デプロイ確認・動作確認・マージ |
-
-- WebChat の責務：`issues/` への Issue ファイル書き出しまで。検証手順は記述しない。
-- Claude Code の責務：Issue を読んで実装し PR を出すまで。本番環境でのコマンド実行は行わない。
-- 検証手順：Claude Code が PR の `## 検証手順` に記載。user が実施。
+## 動作フロー
+- 起動時に `issues/` 内の対象 Issue（`status: open`）を確認する。
+- 実装開始前に `context/conventions.md` と `context/structure.md` を読み、規約と構造を把握する。
+- ローカル環境にて `claude/{id}-{branch-slug}` ブランチ上で作業していることを認識する。
+- 実装・検証・PR 作成はグローバルの `pr-workflow` スキル（`~/.claude/skills/pr-workflow/SKILL.md`）の手順に従う。
+- 実行者は Issue を読んで実装し PR を出すまでが担当。デプロイ確認・動作確認・マージは user が実施し、検証手順は PR の `## 検証手順` に記載する。
 
 ## コマンド
 
@@ -33,7 +28,7 @@ npm run test:watch # Vitest ウォッチモード
 npx vitest run src/lib/api.test.ts
 ```
 
-## 静的チェック（Claude Code が使える手段）
+## 検証手段
 
 | 対象 | コマンド |
 |---|---|
