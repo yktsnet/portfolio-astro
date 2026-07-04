@@ -1,8 +1,8 @@
 ## About にカバレッジマップ（Business層＋5領域）を追加する
 id: 39
 branch-slug: about-coverage-map
-github_issue:
-status: open
+github_issue: 69
+status: close
 type: feat
 対象: |
   src/components/About.astro
