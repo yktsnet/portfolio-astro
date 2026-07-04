@@ -1,8 +1,8 @@
 ## ライトモードのアクセント色をピンクに統一する
 id: 40
 branch-slug: light-mode-accent-unification
-github_issue:
-status: open
+github_issue: 71
+status: close
 type: fix
 対象: |
   tailwind.config.mjs
