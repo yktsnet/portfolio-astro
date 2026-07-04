@@ -46,10 +46,10 @@ const phases: Phase[] = [
 <section id="impact" class="relative">
   <!-- 上部: テキスト -->
   <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">IMPACT</p>
-  <p class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+  <h2 class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
     <span class="block">マンション管理会社の外部CTOとして、</span>
     <span class="block mt-2">現場のDXを推進。</span>
-  </p>
+  </h2>
   <p class="mt-6 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
     きっかけは勤怠の困りごとを片付ける小さな道具を1つ納品したこと。そこで生まれた信頼が相談の幅を広げ、いまは制度設計から日々の自動化、法人化までを一手に引き受けている。経営も実装も自分でやってきた立場だからこそ、現場の手触りのまま回る形に落とせる。
   </p>
@@ -81,7 +81,7 @@ const phases: Phase[] = [
           <span class="align-middle">{p.title}</span>
         </p>
 
-        <p class="mt-2.5 text-[13px] leading-6 text-zinc-600 dark:text-poi-muted">{p.body}</p>
+        <p class="mt-2.5 text-sm leading-7 text-zinc-600 dark:text-poi-muted">{p.body}</p>
 
         {p.works && (
           <div class="mt-4 space-y-6">
@@ -95,12 +95,12 @@ const phases: Phase[] = [
                     <!-- コンテンツ (relative z-10) -->
                     <div class="relative z-10">
                       <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1">
-                        <span class="text-[13.5px] font-semibold text-zinc-900 dark:text-poi-focus">{w.title}</span>
+                        <span class="text-sm font-semibold text-zinc-900 dark:text-poi-focus">{w.title}</span>
                         <span class="inline-flex items-center gap-1.5 text-xs text-poi-accent">
                           <span class="inline-block h-1.5 w-1.5 rounded-full bg-poi-accent"></span>{w.status}
                         </span>
                       </div>
-                      <p class="mt-1.5 text-[12.5px] leading-relaxed text-zinc-600 dark:text-poi-muted">{w.body}</p>
+                      <p class="mt-1.5 text-xs leading-relaxed text-zinc-600 dark:text-poi-muted">{w.body}</p>
 
                       {w.metrics && (
                         <div class="mt-3.5 pt-3.5 border-t border-zinc-200/60 dark:border-poi-border/40 flex flex-wrap gap-x-8 gap-y-3">
@@ -154,7 +154,7 @@ const phases: Phase[] = [
                       <span class="text-[13.5px] font-semibold text-zinc-900 dark:text-poi-focus">{w.title}</span>
                       <span class="text-xs text-zinc-500 dark:text-poi-muted">{w.status}</span>
                     </div>
-                    <p class="mt-1.5 text-[12.5px] leading-relaxed text-zinc-600 dark:text-poi-muted">{w.body}</p>
+                    <p class="mt-1.5 text-xs leading-relaxed text-zinc-600 dark:text-poi-muted">{w.body}</p>
                   </div>
                 );
               }
