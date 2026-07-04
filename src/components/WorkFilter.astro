@@ -12,113 +12,88 @@ interface Props {
 const { resolvedTags } = Astro.props;
 ---
 
-{/* セクションヘッダー (説明パートと閲覧パートを分ける) */}
-<div class="mt-14 sm:mt-16 space-y-2">
+{/* セクションヘッダー（ラベルのみ。見出し・説明文はヒーローと重複するため撤去） */}
+<div class="mt-10 sm:mt-12">
   <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">COLLECTION</p>
-  <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-    プロダクトの閲覧・絞り込み
-  </h2>
-  <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted">
-    各プロダクトの制作理由、アーキテクチャ設計判断、ソースコード、稼働デモを一覧できます。
-  </p>
 </div>
 
-{/* 領域フィルタと公開タイプフィルタの一体型カードパネル */}
-<div class="mt-6 mb-10 rounded-xl border border-zinc-200 dark:border-poi-border/60 bg-zinc-50/40 dark:bg-poi-panel/10 p-5 space-y-5">
-  
-  <!-- メイン: カテゴリタグ -->
-  <div class="space-y-2">
-    <span class="font-mono text-[10px] text-zinc-400 dark:text-poi-muted/65 font-bold uppercase tracking-wider block">Filter by Genre</span>
-    <div
-      id="work-filter"
-      class="flex flex-wrap gap-2 font-mono text-xs content-start"
-      role="group"
-      aria-label="タグで絞り込む"
+{/* 領域フィルタと公開タイプフィルタを1段のピル群に統合 */}
+<div
+  id="work-filter"
+  class="mt-3 mb-8 flex flex-wrap gap-2 font-mono text-xs content-start"
+  role="group"
+  aria-label="タグ・公開タイプで絞り込む"
+>
+  {resolvedTags.map(({ name, count, iconPath }) => (
+    <button
+      type="button"
+      class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/[0.06] dark:aria-pressed:text-poi-focus"
+      data-tag={name}
+      aria-pressed="false"
     >
-      {resolvedTags.map(({ name, count, iconPath }) => (
-        <button
-          type="button"
-          class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/[0.06] dark:aria-pressed:text-poi-focus"
-          data-tag={name}
-          aria-pressed="false"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="12" height="12" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round"
-            class="text-zinc-400 dark:text-poi-muted/50 shrink-0 transition-colors duration-200 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-accent"
-            set:html={iconPath}
-          />
-          <span>{name}</span>
-          <span class="font-mono text-[9px] text-zinc-400 dark:text-poi-muted/50 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-focus transition-colors duration-200 select-none">
-            {count}
-          </span>
-          {/* 選択時のみ表示する解除アイコン */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="11" height="11" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round"
-            class="hidden group-aria-pressed/btn:inline-block text-poi-accent shrink-0 -mr-0.5"
-            aria-hidden="true"
-            set:html={getLucideIcon('x')}
-          />
-        </button>
-      ))}
-    </div>
-  </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12" height="12" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="1.5"
+        stroke-linecap="round" stroke-linejoin="round"
+        class="text-zinc-400 dark:text-poi-muted/50 shrink-0 transition-colors duration-200 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-accent"
+        set:html={iconPath}
+      />
+      <span>{name}</span>
+      <span class="font-mono text-[9px] text-zinc-400 dark:text-poi-muted/50 group-hover/btn:text-poi-accent group-aria-pressed/btn:text-poi-focus transition-colors duration-200 select-none">
+        {count}
+      </span>
+      {/* 選択時のみ表示する解除アイコン */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="11" height="11" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="1.5"
+        stroke-linecap="round" stroke-linejoin="round"
+        class="hidden group-aria-pressed/btn:inline-block text-poi-accent shrink-0 -mr-0.5"
+        aria-hidden="true"
+        set:html={getLucideIcon('x')}
+      />
+    </button>
+  ))}
 
-  <!-- 区切り線 -->
-  <div class="border-t border-zinc-200/60 dark:border-poi-border/30 my-1"></div>
+  {/* 区切り（視覚上のみ。DOM構造・script対象は変更しない） */}
+  <span class="order-[150] w-px self-stretch bg-zinc-200/60 dark:bg-poi-border/30 mx-0.5" aria-hidden="true" />
 
-  <!-- サブ: 公開タイプ（OSS / Demo） -->
-  <div class="space-y-2">
-    <span class="font-mono text-[10px] text-zinc-400 dark:text-poi-muted/65 font-bold uppercase tracking-wider block">Filter by Status</span>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-zinc-500 dark:text-poi-muted/80">
-      
-      <button
-        type="button"
-        class="type-filter-btn group/type-btn font-mono text-[11px] flex items-center justify-between px-3 py-2 rounded-lg border border-zinc-200 dark:border-poi-border/80 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.03] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-300 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-poi-accent/80 aria-checked:bg-poi-accent/[0.08] aria-checked:text-poi-focus dark:aria-checked:text-poi-focus select-none text-left outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
-        data-type="oss"
-        aria-checked="false"
-      >
-        <div class="flex items-center gap-2 shrink-0">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="12" height="12" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round"
-            class="text-zinc-300 dark:text-poi-muted/30 group-aria-checked/type-btn:text-poi-accent transition-colors duration-200 shrink-0"
-            set:html={getLucideIcon('check')}
-          />
-          <span class="font-bold group-aria-checked/type-btn:text-poi-accent transition-colors">OSS</span>
-        </div>
-        <span class="text-[10px] text-zinc-400 dark:text-poi-muted/50 font-normal truncate ml-3">クローンして再利用できる公開コード</span>
-      </button>
+  <button
+    type="button"
+    class="type-filter-btn group/type-btn order-[200] inline-flex items-center gap-1.5 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+    data-type="oss"
+    aria-checked="false"
+    title="クローンして再利用できる公開コード"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="12" height="12" viewBox="0 0 24 24"
+      fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round"
+      class="text-zinc-300 dark:text-poi-muted/30 group-aria-checked/type-btn:text-poi-accent transition-colors duration-200 shrink-0"
+      set:html={getLucideIcon('check')}
+    />
+    <span class="font-bold group-aria-checked/type-btn:text-poi-accent transition-colors">OSS</span>
+  </button>
 
-      <button
-        type="button"
-        class="type-filter-btn group/type-btn font-mono text-[11px] flex items-center justify-between px-3 py-2 rounded-lg border border-zinc-200 dark:border-poi-border/80 text-zinc-500 dark:text-poi-muted bg-white/40 dark:bg-white/[0.03] hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-300 dark:hover:border-poi-border transition-all duration-200 shadow-sm aria-checked:border-poi-accent/80 aria-checked:bg-poi-accent/[0.08] aria-checked:text-poi-focus dark:aria-checked:text-poi-focus select-none text-left outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
-        data-type="demo"
-        aria-checked="false"
-      >
-        <div class="flex items-center gap-2 shrink-0">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="12" height="12" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round"
-            class="text-zinc-300 dark:text-poi-muted/30 group-aria-checked/type-btn:text-poi-accent transition-colors duration-200 shrink-0"
-            set:html={getLucideIcon('check')}
-          />
-          <span class="font-bold group-aria-checked/type-btn:text-poi-accent transition-colors">Demo</span>
-        </div>
-        <span class="text-[10px] text-zinc-400 dark:text-poi-muted/50 font-normal truncate ml-3">実証・本番運用の参考デモ</span>
-      </button>
-
-    </div>
-  </div>
+  <button
+    type="button"
+    class="type-filter-btn group/type-btn order-[200] inline-flex items-center gap-1.5 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+    data-type="demo"
+    aria-checked="false"
+    title="実証・本番運用の参考デモ"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="12" height="12" viewBox="0 0 24 24"
+      fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round"
+      class="text-zinc-300 dark:text-poi-muted/30 group-aria-checked/type-btn:text-poi-accent transition-colors duration-200 shrink-0"
+      set:html={getLucideIcon('check')}
+    />
+    <span class="font-bold group-aria-checked/type-btn:text-poi-accent transition-colors">Demo</span>
+  </button>
 </div>
 
 {/* 結果 0 件のときだけ表示する 404 風ブロック */}
