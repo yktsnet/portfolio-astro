@@ -20,7 +20,7 @@ export default {
           green: "#addb67",
           pink: "#bae67e",
           border: "#303446",
-          accent: "#5de4c7",
+          accent: "rgb(var(--color-accent) / <alpha-value>)",
           "accent-hover": "#4ebca5",
           muted: "#a6accd",
         },
