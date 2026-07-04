@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* poi-accent の実体色。ライト=ピンク(#d0679d) / ダーク=ティール(#5de4c7) */
+  --color-accent: 208 103 157;
+}
+
+.dark {
+  --color-accent: 93 228 199;
+}
+
 @layer components {
   .cactus-link {
     @apply underline underline-offset-2 transition-colors hover:decoration-2 hover:decoration-light-accent dark:hover:decoration-poi-accent;
