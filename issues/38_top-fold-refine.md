@@ -1,8 +1,8 @@
 ## トップ上段の配分を最適化する（ヒーロー主語の一本化とフィルタ軽量化）
 id: 38
 branch-slug: top-fold-refine
-github_issue:
-status: open
+github_issue: 67
+status: close
 type: feat
 対象: |
   src/components/HostingArchitecture.astro
