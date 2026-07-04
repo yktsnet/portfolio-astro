@@ -26,6 +26,7 @@ Selected with a focus on balancing flexibility and implementation speed.
 Cloudflare Pages
   ├─ Static output (SSG)
   └─ /api/*  ─ Edge Functions (Hono)
+                  ├─ /api/status   ─ Cloudflare KV (live status feed)
                   └─ /api/contact  ─ Discord Webhook + Turnstile
 ```
 
