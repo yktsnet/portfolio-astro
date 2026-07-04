@@ -114,13 +114,13 @@ const timeline: LocationGroup[] = [
                   {items.map(item => {
                     const icon = item.brand ? getBrandIcon(item.brand) : null;
                     return (
-                      <span class="group inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-zinc-100/40 dark:bg-white/[0.01] text-xs font-mono text-zinc-600 dark:text-poi-muted/80 transition-all duration-200 hover:bg-zinc-100/70 dark:hover:bg-white/[0.03] hover:text-zinc-900 dark:hover:text-poi-focus select-none">
+                      <span class="group inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-zinc-100/70 dark:bg-poi-panel/15 border border-zinc-200/50 dark:border-poi-border/20 text-xs font-mono text-zinc-600 dark:text-poi-muted transition-all duration-200 hover:bg-zinc-100 dark:hover:bg-poi-panel/30 hover:text-zinc-900 dark:hover:text-poi-focus select-none">
                         {icon && (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="11" height="11" viewBox="0 0 24 24"
                             fill="currentColor"
-                            class="text-zinc-400/80 dark:text-poi-muted/30 transition-colors duration-200 group-hover:[color:var(--brand-hex)]"
+                            class="text-zinc-400 dark:text-poi-muted/50 transition-colors duration-200 group-hover:[color:var(--brand-hex)]"
                             style={`--brand-hex: #${icon.hex}`}
                             set:html={`<path d="${icon.path}" />`}
                           />
