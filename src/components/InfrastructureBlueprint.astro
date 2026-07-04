@@ -3,6 +3,17 @@ import SV6StatusChart from './status/SV6StatusChart.astro';
 ---
 
 <section id="infrastructure" class="relative mt-14 sm:mt-16">
+  {/* セクション見出し（COLLECTION と統一スタイル） */}
+  <div class="space-y-2 mb-8">
+    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">INFRASTRUCTURE</p>
+    <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+      共有ホストの設計仕様
+    </h2>
+    <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted">
+      複数の常時稼働デモを同居させるインフラ構成と、その稼働実態を確認できます。
+    </p>
+  </div>
+
   <!-- 共同ホスト基盤のスペックシート (ボーダレスな仕様表型レイアウト) -->
   <div class="rounded-xl border border-zinc-200 dark:border-poi-border/60 bg-zinc-50/40 dark:bg-poi-panel/10 p-6 relative overflow-hidden">
     <!-- ドット背景 -->
@@ -10,21 +21,11 @@ import SV6StatusChart from './status/SV6StatusChart.astro';
 
     <div class="relative z-10 space-y-4">
       <!-- ヘッダー (スペックメタデータ) -->
-      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-200/80 dark:border-poi-border/60 pb-4 mb-2">
-        <div>
-          <h3 class="font-mono text-xs sm:text-sm font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-            <span class="h-2 w-2 rounded-full bg-poi-accent"></span>
-            SHARED INFRASTRUCTURE BLUEPRINT
-          </h3>
-          <p class="text-xs sm:text-[13px] text-zinc-500 dark:text-poi-muted/70 mt-1">複数の常時稼働デモを同居させる共有ホストの設計仕様</p>
-        </div>
-
-        <div class="flex flex-wrap gap-x-4 gap-y-1.5 font-mono text-[11px] sm:text-xs text-zinc-500 dark:text-poi-muted/60 select-none">
-          <div><span class="text-poi-accent">OS:</span> NixOS</div>
-          <div><span class="text-poi-accent">ENGINE:</span> Docker Compose</div>
-          <div><span class="text-poi-accent">TUNNEL:</span> Cloudflare</div>
-          <div><span class="text-poi-accent">VPN:</span> Tailscale</div>
-        </div>
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 font-mono text-[11px] sm:text-xs text-zinc-500 dark:text-poi-muted/60 select-none pb-4 border-b border-zinc-200/80 dark:border-poi-border/60">
+        <div><span class="text-poi-accent">OS:</span> NixOS</div>
+        <div><span class="text-poi-accent">ENGINE:</span> Docker Compose</div>
+        <div><span class="text-poi-accent">TUNNEL:</span> Cloudflare</div>
+        <div><span class="text-poi-accent">VPN:</span> Tailscale</div>
       </div>
 
       <!-- ボーダレスな仕様表型レイアウト (divide-yで区切る) -->
@@ -80,42 +81,10 @@ import SV6StatusChart from './status/SV6StatusChart.astro';
 
       </div>
 
-      <!-- SV6ライブメトリクス トグル -->
+      <!-- SV6ライブメトリクス（常時展開） -->
       <div class="mt-2">
-        <button
-          id="sv6-status-toggle"
-          type="button"
-          aria-expanded="false"
-          class="inline-flex items-center gap-1.5 font-mono text-xs text-light-accent dark:text-poi-accent hover:underline underline-offset-2"
-        >
-          <span>ライブメトリクスを見る</span>
-          <span id="sv6-status-toggle-icon" class="transition-transform duration-200">▾</span>
-        </button>
-        <div id="sv6-status-panel" class="hidden mt-4">
-          <SV6StatusChart />
-        </div>
+        <SV6StatusChart />
       </div>
     </div>
   </div>
 </section>
-
-<script>
-  function initSv6Toggle() {
-    const btn = document.getElementById('sv6-status-toggle');
-    const panel = document.getElementById('sv6-status-panel');
-    const icon = document.getElementById('sv6-status-toggle-icon');
-    if (!btn || !panel) return;
-
-    btn.addEventListener('click', () => {
-      const willOpen = panel.classList.contains('hidden');
-      panel.classList.toggle('hidden', !willOpen);
-      btn.setAttribute('aria-expanded', String(willOpen));
-      if (icon) icon.textContent = willOpen ? '▴' : '▾';
-      if (willOpen) {
-        panel.dispatchEvent(new CustomEvent('sv6-status:open'));
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', initSv6Toggle);
-</script>

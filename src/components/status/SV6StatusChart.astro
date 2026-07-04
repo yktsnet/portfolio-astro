@@ -230,13 +230,6 @@
     }
   }
 
-  function init() {
-    // HostingArchitecture.astro 側のトグルが初めて開かれたタイミングでフェッチする
-    const panel = document.getElementById("sv6-status-panel");
-    if (panel) {
-      panel.addEventListener("sv6-status:open", loadAndRender, { once: true });
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", init);
+  // ページ読み込み時に自動でフェッチ・描画
+  document.addEventListener("DOMContentLoaded", loadAndRender);
 </script>
