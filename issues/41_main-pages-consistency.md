@@ -1,8 +1,8 @@
 ## メイン4ページの見出し構造・本文タイポグラフィ・リンク様式を統一する
 id: 41
 branch-slug: main-pages-consistency
-github_issue:
-status: open
+github_issue: 73
+status: close
 type: cleanup
 対象: |
   src/components/About.astro
