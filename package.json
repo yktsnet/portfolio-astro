@@ -32,7 +32,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "lucide-static": "^0.577.0",
+    "lucide-static": "^1.23.0",
     "pagefind": "^1.4.0",
     "vitest": "^3.2.3",
     "wrangler": "^4.68.0"
