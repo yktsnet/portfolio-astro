@@ -34,7 +34,7 @@
   "devDependencies": {
     "lucide-static": "^0.577.0",
     "pagefind": "^1.4.0",
-    "vitest": "^3.2.3",
+    "vitest": "^4.1.9",
     "wrangler": "^4.68.0"
   }
 }
