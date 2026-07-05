@@ -1,8 +1,18 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { createChatHandler, createGeminiGenerator } from '@folio-agent/handler';
+import type { KnowledgeDocument } from '@folio-agent/handler';
 
 type KVNamespace = {
   get(key: string): Promise<string | null>;
+};
+
+// Cloudflare バインディングの境界。D1Database の型は @folio-agent/handler から導出し、
+// このリポには存在しない @cloudflare/workers-types を追加しない。
+type ChatDb = Parameters<typeof createChatHandler>[0]['db'];
+
+type Fetcher = {
+  fetch(input: string): Promise<Response>;
 };
 
 type Bindings = {
@@ -10,9 +20,36 @@ type Bindings = {
   CONTACT_DISCORD_WEBHOOK_URL?: string;
   TURNSTILE_SECRET_KEY?: string;
   SESSION?: KVNamespace;
+  DB?: ChatDb;
+  GEMINI_API_KEY?: string;
+  ASSETS?: Fetcher;
 };
 
 export const app = new Hono<{ Bindings: Bindings }>();
+
+const CONTACT_URL = 'https://ykts.net/contact/';
+
+// knowledge.json は astro build 後に dist へ静的アセットとして配置される（package.json の build スクリプト参照）。
+// Worker バンドル時点ではまだ存在しないため import できず、初回リクエストで ASSETS 経由で読み、
+// Worker インスタンスの生存中（モジュールスコープ）だけキャッシュする。
+let knowledgePromise: Promise<string> | null = null;
+
+async function loadKnowledge(assets: Fetcher, origin: string): Promise<string> {
+  if (!knowledgePromise) {
+    knowledgePromise = (async () => {
+      const res = await assets.fetch(`${origin}/knowledge.json`);
+      if (!res.ok) {
+        throw new Error(`failed to fetch knowledge.json: ${res.status}`);
+      }
+      const doc = (await res.json()) as KnowledgeDocument;
+      return doc.pages.map((p) => `# ${p.url}\n\n${p.text}`).join('\n\n');
+    })().catch((err) => {
+      knowledgePromise = null;
+      throw err;
+    });
+  }
+  return knowledgePromise;
+}
 
 app.use('/api/status', cors());
 app.use('/api/sv6-status', cors());
@@ -113,4 +150,31 @@ app.post('/api/contact', async (c) => {
   }
 
   return c.json({ ok: true });
+});
+
+app.post('/api/chat', async (c) => {
+  const db = c.env?.DB;
+  const apiKey = c.env?.GEMINI_API_KEY;
+  const assets = c.env?.ASSETS;
+
+  if (!db || !apiKey || !assets) {
+    console.error('folio-agent chat: DB, GEMINI_API_KEY or ASSETS not bound');
+    return c.json({ error: 'server_config_error' }, 500);
+  }
+
+  let knowledge: string;
+  try {
+    const origin = new URL(c.req.url).origin;
+    knowledge = await loadKnowledge(assets, origin);
+  } catch (err) {
+    console.error('folio-agent chat: failed to load knowledge.json:', err);
+    return c.json({ error: 'knowledge_unavailable' }, 500);
+  }
+
+  const handler = createChatHandler({
+    db,
+    generateAnswer: createGeminiGenerator({ apiKey, knowledge, contactUrl: CONTACT_URL }),
+  });
+
+  return handler(c.req.raw);
 });

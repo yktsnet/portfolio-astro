@@ -5,10 +5,24 @@
 :root {
   /* poi-accent の実体色。ライト=ピンク(#d0679d) / ダーク=ティール(#5de4c7) */
   --color-accent: 208 103 157;
+
+  /* folio-agent ウィジェットのテーマトークン（本サイトのパレットへマップ） */
+  --folio-agent-surface: theme("colors.white");
+  --folio-agent-text: theme("colors.zinc.900");
+  --folio-agent-muted: theme("colors.zinc.500");
+  --folio-agent-accent: theme("colors.light.accent");
+  --folio-agent-accent-contrast: theme("colors.white");
+  --folio-agent-font: theme("fontFamily.mono");
 }
 
 .dark {
   --color-accent: 93 228 199;
+
+  --folio-agent-surface: theme("colors.poi.panel");
+  --folio-agent-text: theme("colors.poi.focus");
+  --folio-agent-muted: theme("colors.poi.muted");
+  --folio-agent-accent: theme("colors.poi.accent");
+  --folio-agent-accent-contrast: theme("colors.poi.base");
 }
 
 @layer components {
