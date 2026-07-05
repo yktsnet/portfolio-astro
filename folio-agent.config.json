@@ -1,0 +1,11 @@
+{
+  "distDir": "dist",
+  "include": [
+    "/",
+    "/about",
+    "/approach",
+    "/impact",
+    "/nfc-attendance",
+    "/cat-feed-tracker"
+  ]
+}
