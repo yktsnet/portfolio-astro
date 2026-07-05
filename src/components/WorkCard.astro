@@ -120,6 +120,7 @@ const { work, idx } = Astro.props;
       {work.subLinks.map((link: any) => {
         const isGithub = link.label.toLowerCase().includes('github');
         const isZenn = link.label.toLowerCase().includes('zenn');
+        const isNpm = link.label.toLowerCase().includes('npm');
         
         return (
           <a
@@ -141,6 +142,19 @@ const { work, idx } = Astro.props;
             )}
             {isZenn && (() => {
               const brandIcon = getBrandIcon('zenn');
+              return brandIcon ? (
+                <svg
+                  width="12" height="12" viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="shrink-0"
+                  aria-hidden="true"
+                >
+                  <path d={brandIcon.path} />
+                </svg>
+              ) : null;
+            })()}
+            {isNpm && (() => {
+              const brandIcon = getBrandIcon('npm');
               return brandIcon ? (
                 <svg
                   width="12" height="12" viewBox="0 0 24 24"

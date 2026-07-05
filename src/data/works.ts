@@ -36,6 +36,7 @@ export const CATEGORIES: Record<string, { icon: string; weight: number }> = {
   chatbot: { icon: "message-circle", weight: DEFAULT_CATEGORY_WEIGHT },
   trading: { icon: "trending-up", weight: DEFAULT_CATEGORY_WEIGHT },
   rag: { icon: "loader", weight: 1 },
+  npm: { icon: "wrench", weight: DEFAULT_CATEGORY_WEIGHT },
 };
 
 /** カテゴリのアイコン名を返す（未定義は汎用 "tag"）。 */
@@ -244,6 +245,29 @@ export const works: Work[] = [
       { label: "FastAPI", brand: "fastapi" },
       { label: "Cloudflare", brand: "cloudflare" },
       { label: "NixOS", brand: "nixos" },
+    ],
+  },
+  {
+    categoryTags: ["chatbot", "npm"],
+    isOSS: true,
+    priority: 1,
+    title: "Folio Agent",
+    color: "#89ddff",
+    icon: "bot",
+    publishedAt: "2026.07",
+    description:
+      "経歴や Zenn 記事を回答し、相談時は Contact へ誘導する受付チャットボット。\nビルド時の自動同期で知識更新を不要にし、D1 レート制限付きで npm から導入できる。",
+    rationale:
+      "単一サイトの使い捨て実装で終わらせず、他でも再利用できる汎用 OSS として切り出し、自らドッグフーディングして検証する形をとった。個人運用でのコストとメンテの手間をゼロにするため、D1 でログと制限を完結させ、知識同期もビルド時に閉じた。",
+    links: [
+      { label: "GitHub →", href: "https://github.com/yktsnet/folio-agent", external: true },
+      { label: "GitHub", href: "https://github.com/yktsnet/folio-agent", external: true },
+      { label: "npm", href: "https://www.npmjs.com/package/@folio-agent/widget", external: true },
+    ],
+    stack: [
+      { label: "LangGraph", brand: "langgraph" },
+      { label: "Gemini API", brand: "gemini" },
+      { label: "Cloudflare", brand: "cloudflare" },
     ],
   },
 ];
