@@ -85,5 +85,10 @@ const year = new Date().getFullYear();
       <slot />
     </main>
     <SiteFooter year={year} />
+    <folio-agent-widget endpoint="/api/chat" policy-href="/data-policy/"></folio-agent-widget>
+    <script>
+      import { defineFolioAgentWidget } from '@folio-agent/widget';
+      defineFolioAgentWidget();
+    </script>
   </body>
 </html>

@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist",
+    "build": "astro build && pagefind --site dist && folio-agent-ingest folio-agent.config.json dist/knowledge.json",
     "preview": "astro preview",
     "typecheck": "astro check",
     "test": "vitest run",
@@ -17,6 +17,8 @@
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/tailwind": "^6.0.2",
+    "@folio-agent/handler": "^0.1.0",
+    "@folio-agent/widget": "^0.1.0",
     "@fontsource/fira-code": "^5.2.7",
     "@pagefind/default-ui": "^1.4.0",
     "@tailwindcss/typography": "^0.5.19",
