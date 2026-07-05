@@ -1,8 +1,8 @@
 ## folio-agent（受付チャットボット）の組み込みと利用データの扱いページ
 id: 42
 branch-slug: folio-agent-integration
-github_issue:
-status: open
+github_issue: 75
+status: close
 type: feat
 対象: |
   package.json（依存追加・build スクリプトへの ingest 組み込み）
