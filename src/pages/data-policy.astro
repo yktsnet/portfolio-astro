@@ -1,0 +1,41 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+<MainLayout title="利用データの扱い" description="受付チャットボットが扱う入力・応答データの取り扱いについて">
+  <h1 class="mb-6 text-xl font-semibold text-zinc-900 dark:text-poi-focus">利用データの扱い</h1>
+
+  <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+    このサイトの受付チャットボットの利用にあたり、入力内容の扱いについて以下の3点を明記します。
+  </p>
+
+  <section class="mt-10">
+    <h2 class="mb-4 text-base font-semibold text-zinc-900 dark:text-poi-focus">レート制限</h2>
+    <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+      IP アドレス単位で、10分あたり3問・1日あたり10回までのレート制限を行っています。
+      上限に達した場合はその旨を伝え、お急ぎのご相談は Contact ページへの問い合わせをご案内します。
+    </p>
+  </section>
+
+  <section class="mt-10">
+    <h2 class="mb-4 text-base font-semibold text-zinc-900 dark:text-poi-focus">ログの記録</h2>
+    <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+      入力内容と生成した応答は、質問傾向の把握や応答品質の改善を目的としてログに記録します。
+      IP アドレスと入力内容は個人に関連しうる情報として扱います。
+    </p>
+  </section>
+
+  <section class="mt-10">
+    <h2 class="mb-4 text-base font-semibold text-zinc-900 dark:text-poi-focus">回答生成について</h2>
+    <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+      回答の生成には Gemini API の無料枠を利用しています。無料枠の性質上、入力いただいた内容が
+      モデルの学習に利用される可能性があります。回答は本サイトに公開されている情報の範囲内で生成しており、
+      公開情報以外の回答は行いません。
+    </p>
+  </section>
+
+  <p class="mt-10 font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+    ご不明な点や個別のご相談は
+    <a href="/contact/" class="cactus-link text-light-accent dark:text-poi-accent">Contact ページ</a>
+    からご連絡ください。
+  </p>
+</MainLayout>

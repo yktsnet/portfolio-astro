@@ -20,5 +20,13 @@
                         "id": "c04d76639e37483ea33ea380ec1bc3e6",
                         "remote": true
                 }
+        ],
+        // database_id は `wrangler d1 create` 実施後に実IDへ差し替える（検証手順を参照）。
+        "d1_databases": [
+                {
+                        "binding": "DB",
+                        "database_name": "ykts-folio-agent",
+                        "database_id": "REPLACE_WITH_D1_DATABASE_ID"
+                }
         ]
 }
