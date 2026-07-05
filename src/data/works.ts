@@ -258,7 +258,7 @@ export const works: Work[] = [
     description:
       "開発者ポートフォリオ向けに、ビルド時自動同期で知識更新を不要にした受付チャットボット。\nZenn 記事の取り込みや Contact への誘導は、設定のオンオフだけで手軽に切り替えられる。",
     rationale:
-      "単一サイトの使い捨て実装で終わらせず、他でも再利用できる汎用 OSS として切り出し、自らドッグフーディングして検証する形をとった。個人運用でのコストとメンテの手間をゼロにするため、D1 でログと制限を完結させ、知識同期もビルド時に閉じた。",
+      "ベクトル検索を排してビルド時同期（CAG方式）に割り切り、追加インフラや運用コストを一切不要にした。",
     links: [
       { label: "GitHub →", href: "https://github.com/yktsnet/folio-agent", external: true },
       { label: "GitHub", href: "https://github.com/yktsnet/folio-agent", external: true },
