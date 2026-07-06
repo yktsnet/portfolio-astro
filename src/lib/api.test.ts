@@ -54,7 +54,8 @@ const validBody = {
 };
 
 const envWithWebhook = {
-  CONTACT_DISCORD_WEBHOOK_URL: 'https://discord.com/api/webhooks/test',
+  TELEGRAM_BOT_TOKEN: '123456:abcdef',
+  TELEGRAM_CHAT_ID: '987654',
 };
 
 describe('POST /api/contact', () => {
@@ -76,7 +77,7 @@ describe('POST /api/contact', () => {
     expect(res.status).toBe(400);
   });
 
-  it('500 when webhook URL not configured', async () => {
+  it('500 when Telegram config not configured', async () => {
     const res = await app.fetch(jsonReq('/api/contact', validBody), {});
     expect(res.status).toBe(500);
     expect(await res.json()).toMatchObject({ error: 'server_config_error' });
@@ -85,14 +86,14 @@ describe('POST /api/contact', () => {
   it('200 on success', async () => {
     vi.stubGlobal(
       'fetch',
-      vi.fn().mockResolvedValue(new Response(null, { status: 204 }))
+      vi.fn().mockResolvedValue(new Response(null, { status: 200 }))
     );
     const res = await app.fetch(jsonReq('/api/contact', validBody), envWithWebhook);
     expect(res.status).toBe(200);
     expect(await res.json()).toMatchObject({ ok: true });
   });
 
-  it('502 when Discord webhook fails', async () => {
+  it('502 when Telegram API fails', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue(new Response(null, { status: 500 }))
