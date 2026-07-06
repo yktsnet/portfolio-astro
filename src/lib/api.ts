@@ -17,7 +17,8 @@ type Fetcher = {
 
 type Bindings = {
   ykts_status_metrics?: KVNamespace;
-  CONTACT_DISCORD_WEBHOOK_URL?: string;
+  TELEGRAM_BOT_TOKEN?: string;
+  TELEGRAM_CHAT_ID?: string;
   TURNSTILE_SECRET_KEY?: string;
   SESSION?: KVNamespace;
   DB?: ChatDb;
@@ -87,6 +88,15 @@ app.get('/api/sv6-status', async (c) => {
   return c.json(data);
 });
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 app.post('/api/contact', async (c) => {
   const body = await c.req.json().catch(() => null);
   if (!body) return c.json({ error: 'invalid_json' }, 400);
@@ -115,37 +125,35 @@ app.post('/api/contact', async (c) => {
     }
   }
 
-  const webhookUrl = c.env?.CONTACT_DISCORD_WEBHOOK_URL;
-  if (!webhookUrl) {
-    console.error('CONTACT_DISCORD_WEBHOOK_URL not set');
+  const botToken = c.env?.TELEGRAM_BOT_TOKEN;
+  const chatId = c.env?.TELEGRAM_CHAT_ID;
+  if (!botToken || !chatId) {
+    console.error('TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set');
     return c.json({ error: 'server_config_error' }, 500);
   }
 
-  const embed = {
-    embeds: [
-      {
-        title: '📩 Contact Form',
-        color: 0x5de4c7,
-        fields: [
-          { name: 'Name', value: name, inline: true },
-          { name: 'Email', value: email, inline: true },
-          { name: 'Phone', value: phone, inline: true },
-          { name: 'Category', value: category, inline: true },
-          ...(message ? [{ name: 'Message', value: message.slice(0, 1024) }] : []),
-        ],
-        timestamp: new Date().toISOString(),
-      },
-    ],
-  };
+  const text = [
+    `📩 <b>Contact Form</b>`,
+    `<b>Name:</b> ${escapeHtml(name)}`,
+    `<b>Email:</b> ${escapeHtml(email)}`,
+    `<b>Phone:</b> ${escapeHtml(phone)}`,
+    `<b>Category:</b> ${escapeHtml(category)}`,
+    message ? `\n<b>Message:</b>\n${escapeHtml(message)}` : '',
+  ].filter(Boolean).join('\n');
 
-  const discordRes = await fetch(webhookUrl, {
+  const telegramRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(embed),
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: text,
+      parse_mode: 'HTML',
+      disable_web_page_preview: true,
+    }),
   });
 
-  if (!discordRes.ok) {
-    console.error('Discord webhook failed:', discordRes.status);
+  if (!telegramRes.ok) {
+    console.error('Telegram API failed:', telegramRes.status);
     return c.json({ error: 'notification_failed' }, 502);
   }
 
