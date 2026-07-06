@@ -7,5 +7,15 @@
     "/impact",
     "/nfc-attendance",
     "/cat-feed-tracker"
-  ]
+  ],
+  "language": "ja",
+  "theme": {
+    "accent": "#2563eb",
+    "surface": "#ffffff",
+    "text": "#111827"
+  },
+  "zenn": {
+    "articlesDir": "/Users/ykts/github-private/zenn/articles",
+    "baseUrl": "yktsnet"
+  }
 }
