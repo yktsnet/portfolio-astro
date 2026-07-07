@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "typecheck": "astro check",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "sync-zenn": "node node_modules/@folio-agent/handler/dist/sync/cli.js folio-agent.config.json zenn-snapshot.json"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",
@@ -17,8 +18,8 @@
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/tailwind": "^6.0.2",
-    "@folio-agent/handler": "^0.3.0",
-    "@folio-agent/widget": "^0.3.0",
+    "@folio-agent/handler": "^0.4.0",
+    "@folio-agent/widget": "^0.4.0",
     "@fontsource/fira-code": "^5.2.7",
     "@pagefind/default-ui": "^1.4.0",
     "@tailwindcss/typography": "^0.5.19",
