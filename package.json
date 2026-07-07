@@ -17,13 +17,13 @@
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/tailwind": "^6.0.2",
-    "@folio-agent/handler": "^0.3.0",
-    "@folio-agent/widget": "^0.3.0",
+    "@folio-agent/handler": "^0.3.1",
+    "@folio-agent/widget": "^0.3.1",
     "@fontsource/fira-code": "^5.2.7",
     "@pagefind/default-ui": "^1.4.0",
     "@tailwindcss/typography": "^0.5.19",
     "astro": "^5.17.3",
-    "hono": "^4.12.2",
+    "hono": "^4.12.28",
     "lucide-react": "^0.575.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "lucide-static": "^1.23.0",
     "pagefind": "^1.4.0",
-    "vitest": "^4.1.9",
+    "vitest": "^4.1.10",
     "wrangler": "^4.68.0"
   }
 }
