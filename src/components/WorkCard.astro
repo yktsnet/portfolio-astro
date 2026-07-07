@@ -9,11 +9,16 @@ interface Props {
 }
 
 const { work, idx } = Astro.props;
+const isMini = work.isMini ?? false;
+
+const cardClass = isMini
+  ? "border-zinc-300 dark:border-poi-border bg-transparent hover:border-zinc-400 dark:hover:border-poi-border/80"
+  : "border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] hover:border-zinc-300 dark:hover:border-poi-border/80";
 ---
 
 <article
   id={`work-card-${idx}`}
-  class="work-card group/card relative rounded-xl border border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-zinc-300 dark:hover:border-poi-border/80 hover:shadow-sm"
+  class={`work-card group/card relative rounded-xl border ${cardClass} p-5 transition-all hover:-translate-y-0.5 hover:shadow-sm`}
   data-tags={work.categoryTags.join(',')}
   data-is-oss={work.isOSS ? "true" : "false"}
 >
@@ -91,7 +96,7 @@ const { work, idx } = Astro.props;
     {work.description}
   </p>
 
-  {work.rationale && (
+  {!isMini && work.rationale && (
     <p
       class="mt-3 border-l-2 border-zinc-200 dark:border-poi-border/40 pl-3 text-xs leading-6 text-zinc-500 dark:text-poi-muted"
     >

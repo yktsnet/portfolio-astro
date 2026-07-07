@@ -31,12 +31,11 @@ const DEFAULT_CATEGORY_WEIGHT = 2;
 export const CATEGORIES: Record<string, { icon: string; weight: number }> = {
   iot: { icon: "wifi", weight: 1 },
   modernization: { icon: "refresh-cw", weight: 1 },
-  webui: { icon: "globe", weight: 3 },
   office: { icon: "briefcase", weight: DEFAULT_CATEGORY_WEIGHT },
   chatbot: { icon: "message-circle", weight: DEFAULT_CATEGORY_WEIGHT },
   trading: { icon: "trending-up", weight: DEFAULT_CATEGORY_WEIGHT },
-  rag: { icon: "loader", weight: 1 },
   npm: { icon: "wrench", weight: DEFAULT_CATEGORY_WEIGHT },
+  pip: { icon: "wrench", weight: DEFAULT_CATEGORY_WEIGHT },
 };
 
 /** カテゴリのアイコン名を返す（未定義は汎用 "tag"）。 */
@@ -63,6 +62,7 @@ export function displayCategoryTags(tags: string[]): string[] {
 export type Work = {
   categoryTags: string[];
   isOSS: boolean;
+  isMini?: boolean;
   priority: number;
   title: string;
   color: string;
@@ -132,7 +132,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["webui", "office"],
+    categoryTags: ["office"],
     isOSS: true,
     priority: 2,
     title: "Training Scheduler",
@@ -178,7 +178,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["rag", "chatbot", "office"],
+    categoryTags: ["chatbot", "office"],
     isOSS: false,
     priority: 1,
     title: "Order System RAG",
@@ -201,7 +201,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["modernization", "webui", "office"],
+    categoryTags: ["modernization", "office"],
     isOSS: false,
     priority: 1,
     title: "Attendance System",
@@ -224,8 +224,9 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["trading", "webui"],
+    categoryTags: ["trading"],
     isOSS: false,
+    isMini: true,
     priority: 3,
     title: "Trading Lab",
     color: "#89ddff",
@@ -250,6 +251,7 @@ export const works: Work[] = [
   {
     categoryTags: ["chatbot", "npm"],
     isOSS: true,
+    isMini: true,
     priority: 1,
     title: "Folio Agent",
     color: "#89ddff",
