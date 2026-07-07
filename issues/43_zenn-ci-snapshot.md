@@ -2,8 +2,8 @@
 id: 43
 skill: pr-workflow
 branch-slug: zenn-ci-snapshot
-github_issue:
-status: open
+github_issue: 88
+status: close
 type: fix
 対象: |
   package.json（@folio-agent/handler・@folio-agent/widget を ^0.4.0 に更新、sync-zenn スクリプト追加）
