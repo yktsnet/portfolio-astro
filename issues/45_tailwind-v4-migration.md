@@ -2,8 +2,8 @@
 id: 45
 skill: pr-workflow
 branch-slug: tailwind-v4-migration
-github_issue:
-status: open
+github_issue: 94
+status: close
 type: cleanup
 対象: |
   package.json
