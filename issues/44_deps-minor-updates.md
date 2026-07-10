@@ -2,8 +2,8 @@
 id: 44
 skill: pr-workflow
 branch-slug: deps-minor-updates
-github_issue:
-status: open
+github_issue: 92
+status: close
 type: cleanup
 対象: |
   package.json
