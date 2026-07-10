@@ -3,7 +3,7 @@ id: 46
 skill: pr-workflow
 branch-slug: astro-major-upgrade
 github_issue:
-status: open
+status: close
 type: cleanup
 対象: |
   package.json
@@ -43,3 +43,7 @@ type: cleanup
 
 - wrangler でのローカル配信確認（`npx wrangler pages dev dist` 相当）と本番デプロイ確認は user が行う。実行者は PR の `## 検証手順` に、アダプタ更新で出力ディレクトリ構成（`_worker.js` / `_routes.json` の有無）が変わったかどうかを明記すること。
 - 更新が1セッションに収まらない規模の破壊的変更（例: アダプタ14系で `mode: 'directory'` の概念自体が消えている等）が判明した場合は、実装を進めず本Issueを分割提案で差し戻してよい。
+
+### 実施記録（close理由）
+
+実行者セッションで着手した際、@astrojs/cloudflare v13 以降が Cloudflare Pages サポートを廃止し Workers 専用になっていることが判明（アダプタ v12 は astro ^5 固定のため「astro 7 + アダプタ据え置き」も不可能）。ホスティング基盤の切替（Pages → Workers）が不可分となり、user のダッシュボード操作との往復が必要なリアルタイム ops として、相談者セッションの直接編集（`workers-migration` ブランチ）で実施することに user が決定。本Issueは実行者向けとしては close。

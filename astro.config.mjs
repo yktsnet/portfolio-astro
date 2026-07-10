@@ -8,9 +8,7 @@ export default defineConfig({
   site: 'https://ykts.net',
   output: 'static',
   adapter: cloudflare({
-    mode: 'directory',
     imageService: 'compile',
-    platformProxy: { enabled: false },
   }),
   vite: {
     plugins: [tailwindcss()],
