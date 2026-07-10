@@ -1,5 +1,5 @@
 {
-  "distDir": "dist",
+  "distDir": "dist/client",
   "include": [
     "/",
     "/about",

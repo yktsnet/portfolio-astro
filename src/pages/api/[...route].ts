@@ -1,9 +1,9 @@
+import { env } from 'cloudflare:workers';
 import { app } from '../../lib/api';
 import type { APIRoute } from 'astro';
 
-export const ALL: APIRoute = ({ request, locals }) => {
-  const env = (locals as any)?.runtime?.env ?? {};
-  return app.fetch(request, env);
+export const ALL: APIRoute = ({ request }) => {
+  return app.fetch(request, env as any);
 };
 
 export const prerender = false;
