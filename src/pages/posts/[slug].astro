@@ -26,7 +26,7 @@ const { Content } = await render(post);
   publishedTime={post.data.publishDate}
   modifiedTime={post.data.updatedDate}
 >
-  <article class="grow break-words" data-pagefind-body>
+  <article class="grow wrap-break-word" data-pagefind-body>
     <div id="blog-hero" class="mb-12">
       <Masthead content={post} />
     </div>
@@ -48,7 +48,7 @@ const { Content } = await render(post);
     </div>
   </article>
   <button
-    class="fixed end-4 bottom-8 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-light-accent dark:hover:border-poi-accent sm:end-8 sm:h-12 sm:w-12"
+    class="fixed inset-e-4 bottom-8 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-light-accent dark:hover:border-poi-accent sm:inset-e-8 sm:h-12 sm:w-12"
     id="to-top-btn"
   >
     <span class="sr-only">Back to top</span>

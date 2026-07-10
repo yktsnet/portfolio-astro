@@ -1,32 +1,74 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
-  /* poi-accent の実体色。ライト=ピンク(#d0679d) / ダーク=ティール(#5de4c7) */
-  --color-accent: 208 103 157;
+@plugin '@tailwindcss/typography';
 
-  /* folio-agent ウィジェットのテーマトークン（本サイトのパレットへマップ） */
-  --folio-agent-surface: theme("colors.white");
-  --folio-agent-text: theme("colors.zinc.900");
-  --folio-agent-muted: theme("colors.zinc.500");
-  --folio-agent-accent: theme("colors.light.accent");
-  --folio-agent-accent-contrast: theme("colors.white");
-  --folio-agent-font: theme("fontFamily.mono");
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-poi-base: #1b1e28;
+  --color-poi-back: #171922;
+  --color-poi-panel: #232735;
+  --color-poi-text: #a6accd;
+  --color-poi-focus: #e4f0fb;
+  --color-poi-blue: #89ddff;
+  --color-poi-green: #addb67;
+  --color-poi-pink: #bae67e;
+  --color-poi-border: #303446;
+  --color-poi-accent: rgb(var(--color-accent));
+  --color-poi-accent-hover: #4ebca5;
+  --color-poi-muted: #a6accd;
+
+  --color-light-accent: #d0679d;
+
+  --font-sans:
+    'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans',
+    Meiryo, sans-serif;
+  --font-mono: 'Fira Code', monospace;
 }
 
-.dark {
-  --color-accent: 93 228 199;
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
 
-  --folio-agent-surface: theme("colors.poi.panel");
-  --folio-agent-text: theme("colors.poi.focus");
-  --folio-agent-muted: theme("colors.poi.muted");
-  --folio-agent-accent: theme("colors.poi.accent");
-  --folio-agent-accent-contrast: theme("colors.poi.base");
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
 }
 
-@layer components {
-  .cactus-link {
-    @apply underline underline-offset-2 transition-colors hover:decoration-2 hover:decoration-light-accent dark:hover:decoration-poi-accent;
+@utility cactus-link {
+  @apply underline underline-offset-2 transition-colors hover:decoration-2 hover:decoration-light-accent dark:hover:decoration-poi-accent;
+}
+
+@layer utilities {
+  :root {
+    /* poi-accent の実体色。ライト=ピンク(#d0679d) / ダーク=ティール(#5de4c7) */
+    --color-accent: 208 103 157;
+
+    /* folio-agent ウィジェットのテーマトークン（本サイトのパレットへマップ） */
+    --folio-agent-surface: var(--color-white);
+    --folio-agent-text: var(--color-zinc-900);
+    --folio-agent-muted: var(--color-zinc-500);
+    --folio-agent-accent: var(--color-light-accent);
+    --folio-agent-accent-contrast: var(--color-white);
+    --folio-agent-font: var(--font-mono);
+  }
+
+  .dark {
+    --color-accent: 93 228 199;
+
+    --folio-agent-surface: var(--color-poi-panel);
+    --folio-agent-text: var(--color-poi-focus);
+    --folio-agent-muted: var(--color-poi-muted);
+    --folio-agent-accent: var(--color-poi-accent);
+    --folio-agent-accent-contrast: var(--color-poi-base);
   }
 }

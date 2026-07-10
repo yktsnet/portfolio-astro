@@ -27,7 +27,7 @@ const { resolvedTags } = Astro.props;
   {resolvedTags.map(({ name, count, iconPath }) => (
     <button
       type="button"
-      class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/[0.06] dark:aria-pressed:text-poi-focus"
+      class="work-filter-btn group/btn inline-flex items-center gap-2 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/3 px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-xs aria-pressed:border-zinc-400 aria-pressed:bg-zinc-50/80 aria-pressed:text-zinc-900 dark:aria-pressed:border-poi-accent dark:aria-pressed:bg-poi-accent/6 dark:aria-pressed:text-poi-focus"
       data-tag={name}
       aria-pressed="false"
     >
@@ -57,11 +57,11 @@ const { resolvedTags } = Astro.props;
   ))}
 
   {/* 区切り（視覚上のみ。DOM構造・script対象は変更しない） */}
-  <span class="order-[150] w-px self-stretch bg-zinc-200/60 dark:bg-poi-border/30 mx-0.5" aria-hidden="true" />
+  <span class="order-150 w-px self-stretch bg-zinc-200/60 dark:bg-poi-border/30 mx-0.5" aria-hidden="true" />
 
   <button
     type="button"
-    class="type-filter-btn group/type-btn order-[200] inline-flex items-center gap-1.5 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+    class="type-filter-btn group/type-btn order-200 inline-flex items-center gap-1.5 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/3 px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-xs aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/6 dark:aria-checked:text-poi-focus outline-hidden focus-visible:ring-1 focus-visible:ring-poi-accent"
     data-type="oss"
     aria-checked="false"
     title="クローンして再利用できる公開コード"
@@ -79,7 +79,7 @@ const { resolvedTags } = Astro.props;
 
   <button
     type="button"
-    class="type-filter-btn group/type-btn order-[200] inline-flex items-center gap-1.5 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/[0.03] px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-sm aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/[0.06] dark:aria-checked:text-poi-focus outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+    class="type-filter-btn group/type-btn order-200 inline-flex items-center gap-1.5 rounded-full border border-zinc-200/80 dark:border-poi-border/80 bg-white/40 dark:bg-white/3 px-3.5 py-1.5 text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border hover:-translate-y-0.5 active:scale-95 transition-all duration-200 shadow-xs aria-checked:border-zinc-400 aria-checked:bg-zinc-50/80 aria-checked:text-zinc-900 dark:aria-checked:border-poi-accent dark:aria-checked:bg-poi-accent/6 dark:aria-checked:text-poi-focus outline-hidden focus-visible:ring-1 focus-visible:ring-poi-accent"
     data-type="demo"
     aria-checked="false"
     title="実証・本番運用の参考デモ"
@@ -99,7 +99,7 @@ const { resolvedTags } = Astro.props;
 {/* 結果 0 件のときだけ表示する 404 風ブロック */}
 <div
   id="work-empty"
-  class="hidden mt-2 rounded-xl border border-dashed border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/[0.02] px-6 py-10 text-center"
+  class="hidden mt-2 rounded-xl border border-dashed border-zinc-300/80 dark:border-poi-border/60 bg-white/40 dark:bg-white/2 px-6 py-10 text-center"
   role="status"
   aria-live="polite"
 >
@@ -111,7 +111,7 @@ const { resolvedTags } = Astro.props;
   <button
     type="button"
     id="work-empty-reset"
-    class="mt-6 inline-flex items-center gap-1.5 rounded border border-zinc-200 dark:border-poi-border/50 bg-white/40 dark:bg-white/[0.01] px-3.5 py-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border active:scale-95 transition-all duration-200 shadow-sm outline-none focus-visible:ring-1 focus-visible:ring-poi-accent"
+    class="mt-6 inline-flex items-center gap-1.5 rounded-sm border border-zinc-200 dark:border-poi-border/50 bg-white/40 dark:bg-white/1 px-3.5 py-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted hover:text-poi-accent dark:hover:text-poi-accent hover:border-zinc-400 dark:hover:border-poi-border active:scale-95 transition-all duration-200 shadow-xs outline-hidden focus-visible:ring-1 focus-visible:ring-poi-accent"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
