@@ -16,7 +16,7 @@ Claude Code は本ファイルを最優先の指示として実行すること�
 
 ```bash
 npm run dev        # ローカル開発サーバー起動（http://localhost:4321）
-npm run build      # ビルド（astro build + pagefind インデックス生成）
+npm run build      # ビルド（astro build + folio-agent-ingest で knowledge.json 生成）
 npm run typecheck  # Astro / TypeScript 型チェック
 npm run test       # Vitest でテスト一括実行
 npm run test:watch # Vitest ウォッチモード
@@ -60,11 +60,6 @@ About・Approach・Impact の各セクションは `src/data/` を経由せず�
 Hono アプリを `src/lib/api.ts` に定義し、`src/pages/api/[...route].ts` がブリッジする。
 Edge Functions として動作するため `prerender = false` を設定済み。
 Cloudflare バインディング（KV・シークレット）は `c.env` 経由でのみアクセスする。
-
-### 検索（Pagefind）
-
-`npm run build` の中で `pagefind --site dist` を実行してインデックスを生成する。
-開発サーバーでは検索インデックスが存在しないため Search コンポーネントは動作しない。
 
 ## Issue ワークフロー
 

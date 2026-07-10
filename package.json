@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist && folio-agent-ingest folio-agent.config.json dist/knowledge.json",
+    "build": "astro build && folio-agent-ingest folio-agent.config.json dist/knowledge.json",
     "preview": "astro preview",
     "typecheck": "astro check",
     "test": "vitest run",
@@ -20,7 +20,6 @@
     "@folio-agent/handler": "^0.4.0",
     "@folio-agent/widget": "^0.4.0",
     "@fontsource/fira-code": "^5.2.7",
-    "@pagefind/default-ui": "^1.4.0",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.3.2",
     "astro": "^5.17.3",
@@ -34,7 +33,6 @@
   },
   "devDependencies": {
     "lucide-static": "^1.23.0",
-    "pagefind": "^1.4.0",
     "vitest": "^4.1.9",
     "wrangler": "^4.68.0"
   }
