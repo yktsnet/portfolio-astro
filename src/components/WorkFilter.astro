@@ -1,5 +1,6 @@
 ---
 import { getLucideIcon } from '../lib/lucide';
+import { works } from '../data/works';
 
 interface Props {
   resolvedTags: Array<{
@@ -10,6 +11,9 @@ interface Props {
 }
 
 const { resolvedTags } = Astro.props;
+
+const ossCount = works.filter(w => w.isOSS).length;
+const demoCount = works.filter(w => !w.isOSS).length;
 ---
 
 {/* セクションヘッダー（ラベルのみ。見出し・説明文はヒーローと重複するため撤去） */}
@@ -75,6 +79,9 @@ const { resolvedTags } = Astro.props;
       set:html={getLucideIcon('check')}
     />
     <span class="font-bold group-aria-checked/type-btn:text-poi-accent transition-colors">OSS</span>
+    <span class="font-mono text-[9px] text-zinc-400 dark:text-poi-muted/50 group-hover/type-btn:text-poi-accent group-aria-checked/type-btn:text-poi-focus transition-colors duration-200 select-none">
+      {ossCount}
+    </span>
   </button>
 
   <button
@@ -93,6 +100,9 @@ const { resolvedTags } = Astro.props;
       set:html={getLucideIcon('check')}
     />
     <span class="font-bold group-aria-checked/type-btn:text-poi-accent transition-colors">Demo</span>
+    <span class="font-mono text-[9px] text-zinc-400 dark:text-poi-muted/50 group-hover/type-btn:text-poi-accent group-aria-checked/type-btn:text-poi-focus transition-colors duration-200 select-none">
+      {demoCount}
+    </span>
   </button>
 </div>
 
