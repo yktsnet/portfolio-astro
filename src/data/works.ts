@@ -386,8 +386,8 @@ export const works: Work[] = [
     ],
     stack: [
       { label: "Python", brand: "python" },
-      { label: "pandas" },
-      { label: "PyPI" },
+      { label: "pandas", brand: "pandas" },
+      { label: "PyPI", brand: "pypi" },
     ],
   },
 ];
