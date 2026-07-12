@@ -56,7 +56,10 @@ function getCategoryWeight(tag: string): number {
  */
 export function displayCategoryTags(tags: string[]): string[] {
   return [...tags]
-    .sort((a, b) => getCategoryWeight(a) - getCategoryWeight(b) || a.localeCompare(b))
+    .sort(
+      (a, b) =>
+        getCategoryWeight(a) - getCategoryWeight(b) || a.localeCompare(b),
+    )
     .slice(0, 3);
 }
 
@@ -97,8 +100,16 @@ export const works: Work[] = [
     inUse: true,
     links: [
       { label: "Demo →", href: "/nfc-attendance/" },
-      { label: "Zenn", href: "https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2", external: true },
-      { label: "GitHub", href: "https://github.com/yktsnet/nfc-attendance-kit", external: true },
+      {
+        label: "Zenn",
+        href: "https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2",
+        external: true,
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/nfc-attendance-kit",
+        external: true,
+      },
     ],
     stack: [
       { label: "Raspberry Pi", brand: "raspberry-pi" },
@@ -122,8 +133,16 @@ export const works: Work[] = [
     inUse: true,
     links: [
       { label: "Demo →", href: "/cat-feed-tracker/" },
-      { label: "Zenn", href: "https://zenn.dev/yktsnet/articles/202604-cat-feed-tracker", external: true },
-      { label: "GitHub", href: "https://github.com/yktsnet/cat-feed-tracker", external: true },
+      {
+        label: "Zenn",
+        href: "https://zenn.dev/yktsnet/articles/202604-cat-feed-tracker",
+        external: true,
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/cat-feed-tracker",
+        external: true,
+      },
     ],
     stack: [
       { label: "Pico W", brand: "raspberry-pi" },
@@ -135,6 +154,7 @@ export const works: Work[] = [
   {
     categoryTags: ["office"],
     isOSS: true,
+    isMini: true,
     priority: 2,
     title: "Training Scheduler",
     color: "#a6accd",
@@ -146,8 +166,16 @@ export const works: Work[] = [
       "進捗を機械的に数値化せず、本人の主観的な手応えを指標に据えた。メモリの限られた環境でも常駐できるよう、Go の単一バイナリに軽くまとめている。",
     inUse: true,
     links: [
-      { label: "Demo →", href: "https://training-scheduler.ykts.net/", external: true },
-      { label: "GitHub", href: "https://github.com/yktsnet/training-scheduler", external: true },
+      {
+        label: "Demo →",
+        href: "https://training-scheduler.ykts.net/",
+        external: true,
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/training-scheduler",
+        external: true,
+      },
     ],
     stack: [
       { label: "Go", brand: "go" },
@@ -169,7 +197,11 @@ export const works: Work[] = [
       "同じものを作り直すだけの移行ではもったいない。責務分離を終えた構造に Text-to-SQL エージェントを足し、担当者の Excel 手作業だった集計を、非エンジニアが自然言語で直接引けるようにした。",
     links: [
       { label: "Demo →", href: "https://winforms.ykts.net/", external: true },
-      { label: "GitHub", href: "https://github.com/yktsnet/order-system-migration", external: true },
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/order-system-migration",
+        external: true,
+      },
     ],
     stack: [
       { label: "LangGraph", brand: "langgraph" },
@@ -192,7 +224,11 @@ export const works: Work[] = [
       "帳票 PDF から抽出した同一データを RAG と Text-to-SQL の両方に登録し、質問の性質でどちらの手法が適切かを実測ベースで比較できるようにした。",
     links: [
       { label: "Demo →", href: "https://order-rag.ykts.net/", external: true },
-      { label: "GitHub", href: "https://github.com/yktsnet/order-system-rag", external: true },
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/order-system-rag",
+        external: true,
+      },
     ],
     stack: [
       { label: "LangGraph", brand: "langgraph" },
@@ -215,7 +251,11 @@ export const works: Work[] = [
       "AutoPostBack を消すだけでなく、NFC 勤怠の運用で実際に起きていた退勤忘れに管理側が気づける仕組みを SignalR のリアルタイム監視で成立させ、移行を作り直す理由に変えた。",
     links: [
       { label: "Demo →", href: "https://webforms.ykts.net/", external: true },
-      { label: "GitHub", href: "https://github.com/yktsnet/attendance-system-migration", external: true },
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/attendance-system-migration",
+        external: true,
+      },
     ],
     stack: [
       { label: "C#", brand: "csharp" },
@@ -234,13 +274,22 @@ export const works: Work[] = [
     icon: "trending-up",
     postSlug: "trading-lab",
     publishedAt: "2026.04",
-    description: "ターミナルで分散していた自動売買の運用導線を Web console に集約。\nバックテスト・戦略選定・Live 監視まで、同じ画面から確認・操作できる。",
+    description:
+      "ターミナルで分散していた自動売買の運用導線を Web console に集約。\nバックテスト・戦略選定・Live 監視まで、同じ画面から確認・操作できる。",
     rationale:
       "Web フレームワークに頼れない自動売買の運用を 1 画面へ集約し、NixOS で本番の再現性を担保して止めずに走らせ続ける。",
     links: [
-      { label: "Demo →", href: "https://trading-lab.pages.dev", external: true },
+      {
+        label: "Demo →",
+        href: "https://trading-lab.pages.dev",
+        external: true,
+      },
       { label: "Zenn", href: "/posts/trading-lab/" },
-      { label: "GitHub", href: "https://github.com/yktsnet/trading-lab", external: true },
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/trading-lab",
+        external: true,
+      },
     ],
     stack: [
       { label: "React", brand: "react" },
@@ -263,9 +312,21 @@ export const works: Work[] = [
     rationale:
       "ベクトル検索を排してビルド時同期（CAG方式）に割り切り、追加インフラや運用コストを一切不要にした。",
     links: [
-      { label: "GitHub →", href: "https://github.com/yktsnet/folio-agent", external: true },
-      { label: "GitHub", href: "https://github.com/yktsnet/folio-agent", external: true },
-      { label: "npm", href: "https://www.npmjs.com/package/@folio-agent/widget", external: true },
+      {
+        label: "GitHub →",
+        href: "https://github.com/yktsnet/folio-agent",
+        external: true,
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/folio-agent",
+        external: true,
+      },
+      {
+        label: "npm",
+        href: "https://www.npmjs.com/package/@folio-agent/widget",
+        external: true,
+      },
     ],
     stack: [
       { label: "LangGraph", brand: "langgraph" },
@@ -287,8 +348,16 @@ export const works: Work[] = [
       "Webアプリから特定のセルを編集するだけでPDFで自動ドキュメント生成。繰り返し作業は自動化して楽に。Excel を直接編集することも競合しないようにして、Webアプリと直接編集の2ルート対応。",
     inUse: true,
     links: [
-      { label: "Demo →", href: "https://excel-kanri.ykts.net/", external: true },
-      { label: "GitHub", href: "https://github.com/yktsnet/excel-kanri", external: true },
+      {
+        label: "Demo →",
+        href: "https://excel-kanri.ykts.net/",
+        external: true,
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/excel-kanri",
+        external: true,
+      },
     ],
     stack: [
       { label: "Python", brand: "python" },
