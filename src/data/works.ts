@@ -276,16 +276,15 @@ export const works: Work[] = [
   {
     categoryTags: ["office"],
     isOSS: true,
-    isMini: true,
     priority: 2,
     title: "Excel Kanri",
     color: "#89ddff",
     icon: "user-pen",
     publishedAt: "2026.07",
     description:
-      "既存のExcel帳票運用を壊さずに、Webフォーム生成・共有フォルダのPDF自動変換・全文検索を後付け。\nclone して使う汎用モジュール群 + FastAPI/React リファレンス実装。",
+      "既存の Excel 帳票運用を壊さずに、Web フォーム生成・共有フォルダの PDF 自動変換・全文検索を後付け。\nclone して使う汎用モジュール群 + FastAPI/React リファレンス実装。",
     rationale:
-      "帳票運用そのものの置き換えではなく、ドメイン語彙をexamples/にのみ閉じ込めることで、テンプレート差し替えだけで他業種へ転用できる構造にした。",
+      "Webアプリから特定のセルを編集するだけでPDFで自動ドキュメント生成。繰り返し作業は自動化して楽に。Excel を直接編集することも競合しないようにして、Webアプリと直接編集の2ルート対応。",
     inUse: true,
     links: [
       { label: "Demo →", href: "https://excel-kanri.ykts.net/", external: true },
