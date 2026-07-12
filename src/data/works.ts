@@ -93,7 +93,7 @@ export const works: Work[] = [
     postSlug: "nfc-attendance-system",
     publishedAt: "2026.01",
     description:
-      "NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。\nPython 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
+      "NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。Python 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
     inUse: true,
     links: [
       { label: "Demo →", href: "/nfc-attendance/" },
@@ -124,7 +124,7 @@ export const works: Work[] = [
     postSlug: "cat-feed-tracker",
     publishedAt: "2026.03",
     description:
-      "給餌棚の開閉を自動検知し、LINE で家族へ定時通知する家庭向け IoT。\nPico W → FastAPI → PostgreSQL 構成で、体重管理や設定変更まで LINE から完結。",
+      "給餌棚の開閉を自動検知し、LINE で家族へ定時通知する家庭向け IoT。Pico W → FastAPI → PostgreSQL 構成で、体重管理や設定変更まで LINE から完結。",
     inUse: true,
     links: [
       { label: "Demo →", href: "/cat-feed-tracker/" },
@@ -155,7 +155,7 @@ export const works: Work[] = [
     icon: "graduation-cap",
     publishedAt: "2026.05",
     description:
-      "機械的な進捗管理ではなく、新人の手応えをメンターと共有する研修支援ツール。\nVue + Go を go:embed で単一バイナリに固め、SQLite のみでインフラ依存ゼロ。",
+      "機械的な進捗管理ではなく、新人の手応えをメンターと共有する研修支援ツール。Vue + Go を go:embed で単一バイナリに固め、SQLite のみでインフラ依存ゼロ。",
     inUse: true,
     links: [
       {
@@ -184,7 +184,7 @@ export const works: Work[] = [
     icon: "shopping-cart",
     publishedAt: "2026.05",
     description:
-      "WinForms の密結合を解体し、.NET 8 Web API + React へ段階的移行。\nLangGraph を独立追加し、自然言語で在庫・売上を照会できる AI エージェントを統合。",
+      "WinForms の密結合を解体し、.NET 8 Web API + React へ段階的移行。LangGraph を独立追加し、自然言語で在庫・売上を照会できる AI エージェントを統合。",
     links: [
       { label: "Demo →", href: "https://winforms.ykts.net/", external: true },
       {
@@ -209,7 +209,7 @@ export const works: Work[] = [
     icon: "book-search",
     publishedAt: "2026.06",
     description:
-      "SQL は集計に強いが自由記述に答えられず、RAG はその逆で文面の根拠は示せても集計はできない。\n帳票 PDF を Azure AI Document Intelligence で構造化し、LangGraph が質問を判定して SQL / RAG へ自動で振り分ける。",
+      "SQL は集計に強いが自由記述に答えられず、RAG はその逆で文面の根拠は示せても集計はできない。帳票 PDF を Azure AI Document Intelligence で構造化し、LangGraph が質問を判定して SQL / RAG へ自動で振り分ける。",
     links: [
       { label: "Demo →", href: "https://order-rag.ykts.net/", external: true },
       {
@@ -234,7 +234,7 @@ export const works: Work[] = [
     icon: "clock",
     publishedAt: "2026.05",
     description:
-      "AutoPostBack・ViewState を解体し、.NET 8 Web API + React へ段階的移行。\nSignalR を追加し、WebForms では不可能だったリアルタイム打刻監視を実装。",
+      "AutoPostBack・ViewState を解体し、.NET 8 Web API + React へ段階的移行。SignalR を追加し、WebForms では不可能だったリアルタイム打刻監視を実装。",
     links: [
       { label: "Demo →", href: "https://webforms.ykts.net/", external: true },
       {
@@ -260,7 +260,7 @@ export const works: Work[] = [
     postSlug: "trading-lab",
     publishedAt: "2026.04",
     description:
-      "ターミナルで分散していた自動売買の運用導線を Web console に集約。\nバックテスト・戦略選定・Live 監視まで、同じ画面から確認・操作できる。",
+      "ターミナルで分散していた自動売買の運用導線を Web console に集約。バックテスト・戦略選定・Live 監視まで、同じ画面から確認・操作できる。",
     links: [
       {
         label: "Demo →",
@@ -290,7 +290,7 @@ export const works: Work[] = [
     icon: "bot",
     publishedAt: "2026.07",
     description:
-      "開発者ポートフォリオ向けに、ビルド時自動同期で知識更新を不要にした受付チャットボット。\nZenn 記事の取り込みや Contact への誘導は、設定のオンオフだけで手軽に切り替えられる。",
+      "開発者ポートフォリオ向けに、ビルド時自動同期で知識更新を不要にした受付チャットボット。Zenn 記事の取り込みや Contact への誘導は、設定のオンオフだけで手軽に切り替えられる。",
     links: [
       {
         label: "GitHub →",
@@ -323,7 +323,7 @@ export const works: Work[] = [
     icon: "user-pen",
     publishedAt: "2026.07",
     description:
-      "既存の Excel 帳票運用を壊さずに、Web フォーム生成・共有フォルダの PDF 自動変換・全文検索を後付け。\nclone して使う汎用モジュール群 + FastAPI/React リファレンス実装。",
+      "既存の Excel 帳票運用を壊さずに、Web フォーム生成・共有フォルダの PDF 自動変換・全文検索を後付け。clone して使う汎用モジュール群 + FastAPI/React リファレンス実装。",
     inUse: true,
     links: [
       {
