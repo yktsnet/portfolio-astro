@@ -2,8 +2,8 @@
 
 id: 48
 branch-slug: add-bt-dynamic
-github_issue:
-status: open
+github_issue: 99
+status: close
 type: feat
 対象: |
   src/data/works.ts（worksへの追加）
