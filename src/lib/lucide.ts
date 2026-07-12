@@ -38,6 +38,7 @@ const icons: Record<string, string> = {
   "x": `<path d="M18 6 6 18" /><path d="m6 6 12 12" />`,
   "arrow-down": `<path d="M12 5v14" /><path d="m19 12-7 7-7-7" />`,
   "user-pen": `<path d="M11.5 15H7a4 4 0 0 0-4 4v2" /><path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" /><circle cx="10" cy="7" r="4" />`,
+  "trending-up-down": `<path d="M14.828 14.828 21 21" /><path d="M21 16v5h-5" /><path d="m21 3-9 9-4-4-6 6" /><path d="M21 8V3h-5" />`,
 };
 
 export function getLucideIcon(name: string): string {
