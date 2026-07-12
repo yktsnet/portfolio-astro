@@ -2,8 +2,8 @@
 
 id: 47
 branch-slug: add-excel-kanri
-github_issue:
-status: open
+github_issue: 97
+status: close
 type: feat
 対象: |
   src/data/works.ts（worksへの追加）
