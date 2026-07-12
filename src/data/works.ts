@@ -17,6 +17,8 @@ export type BrandKey =
   | "csharp"
   | "langgraph"
   | "gemini"
+  | "pypi"
+  | "pandas"
   | "docker";
 
 export type StackItem = { label: string; brand?: BrandKey };
