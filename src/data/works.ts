@@ -16,7 +16,8 @@ export type BrandKey =
   | "sqlite"
   | "csharp"
   | "langgraph"
-  | "gemini";
+  | "gemini"
+  | "docker";
 
 export type StackItem = { label: string; brand?: BrandKey };
 
@@ -270,6 +271,31 @@ export const works: Work[] = [
       { label: "LangGraph", brand: "langgraph" },
       { label: "Gemini API", brand: "gemini" },
       { label: "Cloudflare", brand: "cloudflare" },
+    ],
+  },
+  {
+    categoryTags: ["office"],
+    isOSS: true,
+    isMini: true,
+    priority: 2,
+    title: "Excel Kanri",
+    color: "#89ddff",
+    icon: "user-pen",
+    publishedAt: "2026.07",
+    description:
+      "既存のExcel帳票運用を壊さずに、Webフォーム生成・共有フォルダのPDF自動変換・全文検索を後付け。\nclone して使う汎用モジュール群 + FastAPI/React リファレンス実装。",
+    rationale:
+      "帳票運用そのものの置き換えではなく、ドメイン語彙をexamples/にのみ閉じ込めることで、テンプレート差し替えだけで他業種へ転用できる構造にした。",
+    inUse: true,
+    links: [
+      { label: "Demo →", href: "https://excel-kanri.ykts.net/", external: true },
+      { label: "GitHub", href: "https://github.com/yktsnet/excel-kanri", external: true },
+    ],
+    stack: [
+      { label: "Python", brand: "python" },
+      { label: "FastAPI", brand: "fastapi" },
+      { label: "SQLite", brand: "sqlite" },
+      { label: "Docker", brand: "docker" },
     ],
   },
 ];
