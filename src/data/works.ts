@@ -366,6 +366,28 @@ export const works: Work[] = [
       { label: "Docker", brand: "docker" },
     ],
   },
+  {
+    categoryTags: ["trading", "pip"],
+    isOSS: true,
+    priority: 2,
+    title: "bt-dynamic",
+    color: "#addb67",
+    icon: "trending-up-down",
+    publishedAt: "2026.07",
+    description:
+      "静的バックテストは相場環境が変われば共倒れする。相場を9セル（トレンド強度×ボラティリティ）に分類し、セルごとに順張り/逆張り/ノーポジを切り替える動的レジーム切替を、分類→判定→検証まで通して実装。",
+    rationale:
+      "セル対応表の本番値・閾値の実数は設定JSONの外部注入とし、パッケージにもリポにも存在しない構造的分離で守秘した。本番側リポ(ops_dynamic)はこのコアをimportするだけの実利用者として別立て。",
+    links: [
+      { label: "GitHub →", href: "https://github.com/yktsnet/bt-dynamic", external: true },
+      { label: "PyPI", href: "https://pypi.org/project/bt-dynamic/", external: true },
+    ],
+    stack: [
+      { label: "Python", brand: "python" },
+      { label: "pandas" },
+      { label: "PyPI" },
+    ],
+  },
 ];
 
 const DEFAULT_POST_COLOR = "#5de4c7";
