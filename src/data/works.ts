@@ -184,7 +184,7 @@ export const works: Work[] = [
     icon: "shopping-cart",
     publishedAt: "2026.05",
     description:
-      "WinForms の密結合を解体し、.NET 8 Web API + React へ段階的移行。LangGraph を独立追加し、自然言語で在庫・売上を照会できる AI エージェントを統合。",
+      "WinForms の密結合を解体し、.NET 10 Web API + React へ段階的移行。LangGraph を独立追加し、自然言語で在庫・売上を照会できる AI エージェントを統合。",
     links: [
       { label: "Demo →", href: "https://winforms.ykts.net/", external: true },
       {
@@ -234,7 +234,7 @@ export const works: Work[] = [
     icon: "clock",
     publishedAt: "2026.05",
     description:
-      "AutoPostBack・ViewState を解体し、.NET 8 Web API + React へ段階的移行。SignalR を追加し、WebForms では不可能だったリアルタイム打刻監視を実装。",
+      "AutoPostBack・ViewState を解体し、.NET 10 Web API + React へ段階的移行。SignalR を追加し、WebForms では不可能だったリアルタイム打刻監視を実装。",
     links: [
       { label: "Demo →", href: "https://webforms.ykts.net/", external: true },
       {
@@ -355,8 +355,16 @@ export const works: Work[] = [
     description:
       "静的バックテストは相場環境が変われば共倒れする。相場を9セル（トレンド強度×ボラティリティ）に分類し、セルごとに順張り/逆張り/ノーポジを切り替える動的レジーム切替を、分類→判定→検証まで通して実装。",
     links: [
-      { label: "GitHub →", href: "https://github.com/yktsnet/bt-dynamic", external: true },
-      { label: "PyPI", href: "https://pypi.org/project/bt-dynamic/", external: true },
+      {
+        label: "GitHub →",
+        href: "https://github.com/yktsnet/bt-dynamic",
+        external: true,
+      },
+      {
+        label: "PyPI",
+        href: "https://pypi.org/project/bt-dynamic/",
+        external: true,
+      },
     ],
     stack: [
       { label: "Python", brand: "python" },
