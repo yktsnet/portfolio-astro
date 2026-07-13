@@ -251,37 +251,6 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["trading"],
-    isOSS: false,
-    priority: 3,
-    title: "Trading Lab",
-    color: "#89ddff",
-    icon: "trending-up",
-    postSlug: "trading-lab",
-    publishedAt: "2026.04",
-    description:
-      "ターミナルで分散していた自動売買の運用導線を Web console に集約。バックテスト・戦略選定・Live 監視まで、同じ画面から確認・操作できる。",
-    links: [
-      {
-        label: "Demo →",
-        href: "https://trading-lab.pages.dev",
-        external: true,
-      },
-      { label: "Zenn", href: "/posts/trading-lab/" },
-      {
-        label: "GitHub",
-        href: "https://github.com/yktsnet/trading-lab",
-        external: true,
-      },
-    ],
-    stack: [
-      { label: "React", brand: "react" },
-      { label: "FastAPI", brand: "fastapi" },
-      { label: "Cloudflare", brand: "cloudflare" },
-      { label: "NixOS", brand: "nixos" },
-    ],
-  },
-  {
     categoryTags: ["chatbot", "npm"],
     isOSS: true,
     priority: 1,
