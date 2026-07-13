@@ -142,7 +142,6 @@ const demoCount = works.filter(w => !w.isOSS).length;
   const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.work-filter-btn'));
   
   const activeTags = new Set<string>();
-  const selectionOrder: string[] = []; // 選択された順序を保持
   let activeType: string | null = null; // null | 'oss' | 'demo'
 
   function apply() {
@@ -183,21 +182,11 @@ const demoCount = works.filter(w => !w.isOSS).length;
       b.setAttribute('aria-pressed', String(on));
     });
 
-    applyOrder();
-
     const typeButtons = document.querySelectorAll('.type-filter-btn');
     typeButtons.forEach(b => {
       const type = b.getAttribute('data-type');
       const on = activeType === type;
       b.setAttribute('aria-checked', String(on));
-    });
-  }
-
-  function applyOrder() {
-    buttons.forEach(b => {
-      const tag = b.dataset.tag!;
-      const sel = selectionOrder.indexOf(tag);
-      b.style.order = sel >= 0 ? String(sel) : '100';
     });
   }
 
@@ -215,11 +204,8 @@ const demoCount = works.filter(w => !w.isOSS).length;
     const tag = btn.dataset.tag!;
     if (activeTags.has(tag)) {
       activeTags.delete(tag);
-      const i = selectionOrder.indexOf(tag);
-      if (i >= 0) selectionOrder.splice(i, 1);
     } else {
       activeTags.add(tag);
-      selectionOrder.push(tag);
       bounce(btn);
     }
     apply();
@@ -241,7 +227,6 @@ const demoCount = works.filter(w => !w.isOSS).length;
 
   function resetAll() {
     activeTags.clear();
-    selectionOrder.length = 0;
     activeType = null;
     apply();
   }
