@@ -372,6 +372,33 @@ export const works: Work[] = [
       { label: "PyPI", brand: "pypi" },
     ],
   },
+  {
+    categoryTags: ["trading"],
+    isOSS: true,
+    priority: 2,
+    title: "live-dynamic",
+    color: "#addb67",
+    icon: "zap",
+    publishedAt: "2026.07",
+    description:
+      "bt-dynamic で検証した戦略を、同一の判定コード・同一の config のまま実弾に接続する実行層。冪等な発注ゲート・照合型 OCO・EOD 決済・キルスイッチの安全設計を、systemd timer による無人運転ごと参照実装として公開。",
+    links: [
+      {
+        label: "GitHub →",
+        href: "https://github.com/yktsnet/live-dynamic",
+        external: true,
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/live-dynamic",
+        external: true,
+      },
+    ],
+    stack: [
+      { label: "Python", brand: "python" },
+      { label: "NixOS", brand: "nixos" },
+    ],
+  },
 ];
 
 const DEFAULT_POST_COLOR = "#5de4c7";
