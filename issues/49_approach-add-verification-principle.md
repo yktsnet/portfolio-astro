@@ -2,7 +2,7 @@
 id: 49
 branch-slug: approach-add-verification-principle
 github_issue:
-status: draft
+status: open
 type: feat
 対象: src/components/Approach.astro
 内容: Approach セクションに判断基準「生成より、検証」を追加する。挿入位置は現02（自動より、制御）の直後で、現03（機能より、安定）は04に繰り下がる。AIとの開発における正しさの担保（保証はuserが承認し、テストの実装はAIに任せ、破られれば機械が検知する）を、非開発者にも読める形で語る。
