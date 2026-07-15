@@ -19,6 +19,8 @@
 - `POST /api/contact` は `TURNSTILE_SECRET_KEY` が設定されていて `cfToken` が渡された場合、Turnstile 検証に失敗すると 403 を返す。
 - `POST /api/contact` は `cfToken` が渡されない場合、`TURNSTILE_SECRET_KEY` が設定されていても Turnstile 検証をスキップして処理を続行する。
 - `POST /api/chat` は `DB`・`GEMINI_API_KEY`・`ASSETS` のいずれかが未設定の場合、500 で `{ error: 'server_config_error' }` を返す。
+- `POST /api/chat` は `knowledge.json` を `ASSETS` 経由（`{origin}/knowledge.json`）で取得できない場合、500 で `{ error: 'knowledge_unavailable' }` を返す。
+- `POST /api/chat` は正常系で `knowledge.json` の各ページを `# {url}\n\n{text}` 形式に整形した knowledge と `contactUrl` を `createGeminiGenerator` に、`DB` を `createChatHandler` に渡し、ハンドラのレスポンスをそのまま返す。
 
 | 保証(要約) | 対応テスト |
 |---|---|
@@ -37,12 +39,8 @@
 | `/api/contact` Turnstile 検証失敗 | `POST /api/contact > 403 when Turnstile verification fails` |
 | `/api/contact` cfToken 省略時のスキップ | `POST /api/contact > Turnstile skipped when no token provided` |
 | `/api/chat` 設定未バインド時 500 | `POST /api/chat > 500 when DB, GEMINI_API_KEY or ASSETS not bound` |
-
-## Gaps
-
-以下は保証すべきと思われるが、対応するテストが無い。
-
-- `POST /api/chat` の正常系（`DB`/`GEMINI_API_KEY`/`ASSETS` が揃っている場合に `knowledge.json` を読み込み、`@folio-agent/handler` のハンドラへ委譲してレスポンスを返す一連の動作）は、外部モジュール（`createChatHandler`/`createGeminiGenerator`）の内部挙動まで模擬する必要があり、今回は追加を見送った。
+| `/api/chat` knowledge 取得失敗時 500 | `POST /api/chat > 500 knowledge_unavailable when knowledge.json cannot be fetched` |
+| `/api/chat` 正常系のハンドラ委譲 | `POST /api/chat > loads knowledge.json via ASSETS and delegates to the folio-agent handler` |
 
 ## About
 
