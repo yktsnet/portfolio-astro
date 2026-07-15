@@ -15,6 +15,19 @@ const jsonReq = (path: string, body: unknown) =>
     body: JSON.stringify(body),
   });
 
+// --- /api/hello ---
+
+describe('GET /api/hello', () => {
+  it('200 with fixed payload', async () => {
+    const res = await app.fetch(req('/api/hello'), {});
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({
+      message: 'Hello from Hono!',
+      status: 'logical_efficiency_verified',
+    });
+  });
+});
+
 // --- /api/status ---
 
 describe('GET /api/status', () => {
@@ -34,6 +47,34 @@ describe('GET /api/status', () => {
   it('200 with parsed KV data', async () => {
     const data = { equity: 100000, status: 'active' };
     const res = await app.fetch(req('/api/status'), {
+      ykts_status_metrics: {
+        get: vi.fn().mockResolvedValue(JSON.stringify(data)),
+      },
+    });
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual(data);
+  });
+});
+
+// --- /api/sv6-status ---
+
+describe('GET /api/sv6-status', () => {
+  it('500 when KV not bound', async () => {
+    const res = await app.fetch(req('/api/sv6-status'), {});
+    expect(res.status).toBe(500);
+    expect(await res.json()).toMatchObject({ error: 'kv_not_bound' });
+  });
+
+  it('404 when no data in KV', async () => {
+    const res = await app.fetch(req('/api/sv6-status'), {
+      ykts_status_metrics: { get: vi.fn().mockResolvedValue(null) },
+    });
+    expect(res.status).toBe(404);
+  });
+
+  it('200 with parsed KV data', async () => {
+    const data = { equity: 200000, status: 'active' };
+    const res = await app.fetch(req('/api/sv6-status'), {
       ykts_status_metrics: {
         get: vi.fn().mockResolvedValue(JSON.stringify(data)),
       },
@@ -126,5 +167,15 @@ describe('POST /api/contact', () => {
       { ...envWithWebhook, TURNSTILE_SECRET_KEY: 'test-secret' }
     );
     expect(res.status).toBe(200);
+  });
+});
+
+// --- /api/chat ---
+
+describe('POST /api/chat', () => {
+  it('500 when DB, GEMINI_API_KEY or ASSETS not bound', async () => {
+    const res = await app.fetch(jsonReq('/api/chat', { message: 'hi' }), {});
+    expect(res.status).toBe(500);
+    expect(await res.json()).toMatchObject({ error: 'server_config_error' });
   });
 });
