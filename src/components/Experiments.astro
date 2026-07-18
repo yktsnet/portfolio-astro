@@ -1,0 +1,32 @@
+---
+import { experiments } from '../data/works';
+---
+
+<section id="experiments" class="mt-10 sm:mt-12">
+  {/* セクション見出し（COLLECTION / INFRASTRUCTURE と統一スタイル） */}
+  <div class="space-y-2 mb-5">
+    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">EXPERIMENTS</p>
+    <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted">
+      検証目的の小規模な取り組み。Works カードのフィルタ対象外。
+    </p>
+  </div>
+
+  {/* カード化せず、Works カードより一段格を下げた1行リスト */}
+  <ul class="divide-y divide-zinc-200/60 dark:divide-poi-border/30 border-t border-b border-zinc-200/60 dark:border-poi-border/30">
+    {experiments.map(({ title, description, href }) => (
+      <li class="py-3 flex flex-col sm:flex-row sm:items-baseline gap-x-3 gap-y-1">
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="shrink-0 font-mono text-sm font-semibold text-zinc-700 dark:text-poi-focus hover:text-poi-accent dark:hover:text-poi-accent transition-colors"
+        >
+          {title} &rarr;
+        </a>
+        <span class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted">
+          {description}
+        </span>
+      </li>
+    ))}
+  </ul>
+</section>
