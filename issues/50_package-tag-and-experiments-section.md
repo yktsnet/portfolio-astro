@@ -1,8 +1,8 @@
 ## npm/pip カテゴリ統合と Experiments 別枠セクション追加
 id: 50
 branch-slug: package-tag-and-experiments-section
-github_issue:
-status: open
+github_issue: 104
+status: close
 type: feat
 対象: src/data/works.ts, src/pages/index.astro, src/components/Experiments.astro (新規)
 内容: 配布チャネル系の 2 タグ npm / pip を単一タグ package に統合する。あわせてトップページ Works セクションの最下部に、Works カードとは別枠の「Experiments」セクションを追加し、wiki-guessur を掲載する。
