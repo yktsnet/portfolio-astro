@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(npm run *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(npm ls *)",
+      "Bash(npm install *)"
     ]
   }
 }
