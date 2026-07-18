@@ -37,8 +37,7 @@ export const CATEGORIES: Record<string, { icon: string; weight: number }> = {
   office: { icon: "briefcase", weight: DEFAULT_CATEGORY_WEIGHT },
   chatbot: { icon: "message-circle", weight: DEFAULT_CATEGORY_WEIGHT },
   trading: { icon: "trending-up", weight: DEFAULT_CATEGORY_WEIGHT },
-  npm: { icon: "wrench", weight: DEFAULT_CATEGORY_WEIGHT },
-  pip: { icon: "wrench", weight: DEFAULT_CATEGORY_WEIGHT },
+  package: { icon: "wrench", weight: DEFAULT_CATEGORY_WEIGHT },
 };
 
 /** カテゴリのアイコン名を返す（未定義は汎用 "tag"）。 */
@@ -251,7 +250,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["chatbot", "npm"],
+    categoryTags: ["chatbot", "package"],
     isOSS: true,
     priority: 1,
     title: "Folio Agent",
@@ -314,7 +313,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["trading", "pip"],
+    categoryTags: ["trading", "package"],
     isOSS: true,
     priority: 2,
     title: "bt-dynamic",
@@ -367,6 +366,26 @@ export const works: Work[] = [
       { label: "Python", brand: "python" },
       { label: "NixOS", brand: "nixos" },
     ],
+  },
+];
+
+/**
+ * Experiments セクション用の軽量な型。
+ * Works カード文法（Demo/inUse/stack 等）を持ち込まず、タイトル・一言説明・GitHub リンクのみを持つ。
+ * カテゴリフィルタの対象外（categoryTags を持たない）。
+ */
+export type Experiment = {
+  title: string;
+  description: string;
+  href: string;
+};
+
+export const experiments: Experiment[] = [
+  {
+    title: "wiki-guessur",
+    description:
+      "冒頭の定義文を消された Wikipedia 記事の同定ベンチマーク。数式 / GBDT / LLM 再判定の 4 手法 × 5 シードで MRR を実測。",
+    href: "https://github.com/yktsnet/wiki-guessur",
   },
 ];
 

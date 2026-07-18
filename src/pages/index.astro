@@ -2,6 +2,7 @@
 import ProfileLayout from '../layouts/ProfileLayout.astro';
 import HostingArchitecture from '../components/HostingArchitecture.astro';
 import InfrastructureBlueprint from '../components/InfrastructureBlueprint.astro';
+import Experiments from '../components/Experiments.astro';
 import WorkCard from '../components/WorkCard.astro';
 import WorkFilter from '../components/WorkFilter.astro';
 import { works, getCategoryIcon } from '../data/works';
@@ -62,6 +63,9 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
       <WorkCard work={work} idx={idx} />
     ))}
   </div>
+
+  {/* Works カードとは別枠の小規模な取り組み一覧。カテゴリフィルタの対象外 */}
+  <Experiments />
 
   {/* 共同ホスト基盤の詳説（INFRASTRUCTURE セクション見出し + 仕様表 + ライブメトリクス） */}
   <InfrastructureBlueprint />
