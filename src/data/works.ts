@@ -370,22 +370,23 @@ export const works: Work[] = [
 ];
 
 /**
- * Experiments セクション用の軽量な型。
- * Works カード文法（Demo/inUse/stack 等）を持ち込まず、タイトル・一言説明・GitHub リンクのみを持つ。
- * カテゴリフィルタの対象外（categoryTags を持たない）。
+ * Research セクション用の型。
+ * Works カードのスタイルを踏襲しつつ、カテゴリタグや技術スタックなどを省いて軽量化したカードを表示する。
  */
-export type Experiment = {
+export type Research = {
   title: string;
   description: string;
   href: string;
+  publishedAt?: string;
 };
 
-export const experiments: Experiment[] = [
+export const researches: Research[] = [
   {
     title: "wiki-guessur",
     description:
       "冒頭の定義文を消された Wikipedia 記事の同定ベンチマーク。数式 / GBDT / LLM 再判定の 4 手法 × 5 シードで MRR を実測。",
     href: "https://github.com/yktsnet/wiki-guessur",
+    publishedAt: "2026.07",
   },
 ];
 

@@ -1,32 +1,58 @@
 ---
-import { experiments } from '../data/works';
+import { researches } from '../data/works';
+import { getLucideIcon } from '../lib/lucide';
 ---
 
-<section id="experiments" class="mt-10 sm:mt-12">
+<section id="research" class="mt-14 sm:mt-16">
   {/* セクション見出し（COLLECTION / INFRASTRUCTURE と統一スタイル） */}
-  <div class="space-y-2 mb-5">
-    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">EXPERIMENTS</p>
+  <div class="space-y-2 mb-10">
+    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">RESEARCH</p>
+    <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+      技術検証と実験
+    </h2>
     <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted">
-      検証目的の小規模な取り組み。Works カードのフィルタ対象外。
+      技術検証と測定器づくり。アルゴリズムや検索の頑健性を定量的に評価・記録したもの。
     </p>
   </div>
 
-  {/* カード化せず、Works カードより一段格を下げた1行リスト */}
-  <ul class="divide-y divide-zinc-200/60 dark:divide-poi-border/30 border-t border-b border-zinc-200/60 dark:border-poi-border/30">
-    {experiments.map(({ title, description, href }) => (
-      <li class="py-3 flex flex-col sm:flex-row sm:items-baseline gap-x-3 gap-y-1">
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="shrink-0 font-mono text-sm font-semibold text-zinc-700 dark:text-poi-focus hover:text-poi-accent dark:hover:text-poi-accent transition-colors"
-        >
-          {title} &rarr;
-        </a>
-        <span class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted">
-          {description}
-        </span>
-      </li>
+  <div class="space-y-4">
+    {researches.map((research, idx) => (
+      <article class="group/card relative rounded-xl border border-zinc-300 dark:border-poi-border bg-transparent hover:border-zinc-400 dark:hover:border-poi-border/80 p-5 transition-all hover:-translate-y-0.5 hover:shadow-xs">
+        <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
+          <span class="font-mono text-sm font-semibold tabular-nums text-poi-accent/70 select-none shrink-0">
+            {String(idx + 1).padStart(2, '0')}
+          </span>
+          {/* カード全体を覆う主導線 */}
+          <a
+            class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-poi-accent outline-hidden focus-visible:underline inline-flex items-center gap-1"
+            href={research.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>{research.title}</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="11" height="11" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"
+              class="inline-block text-zinc-400 dark:text-poi-muted/50 opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all duration-200 shrink-0 ml-0.5"
+              set:html={getLucideIcon('external-link')}
+            />
+          </a>
+          
+          <div class="ml-auto flex items-center gap-2.5 shrink-0 select-none">
+            {research.publishedAt && (
+              <span class="hidden sm:inline font-mono text-[11px] font-normal text-zinc-400 dark:text-poi-muted/50">
+                {research.publishedAt}
+              </span>
+            )}
+          </div>
+        </h3>
+
+        <p class="mt-2.5 font-sans text-sm leading-6 text-zinc-600 dark:text-poi-focus/90 whitespace-pre-line text-justify">
+          {research.description}
+        </p>
+      </article>
     ))}
-  </ul>
+  </div>
 </section>
