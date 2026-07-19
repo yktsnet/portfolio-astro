@@ -29,7 +29,7 @@
     "react-dom": "^19.2.4",
     "simple-icons": "^16.26.0",
     "tailwindcss": "^4.3.2",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "devDependencies": {
     "lucide-static": "^1.23.0",
