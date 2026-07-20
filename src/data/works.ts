@@ -313,6 +313,33 @@ export const works: Work[] = [
     ],
   },
   {
+    categoryTags: ["trading"],
+    isOSS: true,
+    priority: 2,
+    title: "bt-lab",
+    color: "#addb67",
+    icon: "flask-conical",
+    publishedAt: "2026.07",
+    description:
+      "複数戦略候補を横断的に検証し、エントリー率・ドローダウン・Recovery Factorでランキングする8段のバックテスト探索パイプライン。単一戦略の過剰最適化を避け、崩れない戦略候補を継続選抜する。",
+    links: [
+      {
+        label: "GitHub →",
+        href: "https://github.com/yktsnet/bt-lab",
+        external: true,
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/bt-lab",
+        external: true,
+      },
+    ],
+    stack: [
+      { label: "Python", brand: "python" },
+      { label: "pandas", brand: "pandas" },
+    ],
+  },
+  {
     categoryTags: ["trading", "package"],
     isOSS: true,
     priority: 2,
