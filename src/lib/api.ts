@@ -104,11 +104,10 @@ app.post('/api/contact', async (c) => {
   const name = String(body.name || '').trim();
   const email = String(body.email || '').trim();
   const phone = String(body.phone || '').trim();
-  const category = String(body.category || '').trim();
   const message = String(body.message || '').trim();
 
-  if (!name || !email || !phone || !category) {
-    return c.json({ error: 'name, email, phone, category are required' }, 400);
+  if (!name || !email || !phone) {
+    return c.json({ error: 'name, email, phone are required' }, 400);
   }
 
   const token = String(body.cfToken || '');
@@ -137,7 +136,6 @@ app.post('/api/contact', async (c) => {
     `<b>Name:</b> ${escapeHtml(name)}`,
     `<b>Email:</b> ${escapeHtml(email)}`,
     `<b>Phone:</b> ${escapeHtml(phone)}`,
-    `<b>Category:</b> ${escapeHtml(category)}`,
     message ? `\n<b>Message:</b>\n${escapeHtml(message)}` : '',
   ].filter(Boolean).join('\n');
 

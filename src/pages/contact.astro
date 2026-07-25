@@ -54,23 +54,6 @@ import MainLayout from '../layouts/MainLayout.astro';
       </div>
 
       <div>
-        <label for="cf-category" class="block text-sm font-semibold text-zinc-700 dark:text-poi-focus/90 mb-1">
-          ご相談の種類 <span class="text-red-400">*</span>
-        </label>
-        <select
-          id="cf-category"
-          name="category"
-          required
-          class="w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-800/50 px-3 py-2 text-sm text-zinc-900 dark:text-poi-focus focus:border-light-accent dark:focus:border-poi-accent focus:outline-hidden transition-colors"
-        >
-          <option value="" disabled selected>選択してください</option>
-          <option value="現場システム開発">現場システム開発</option>
-          <option value="Web 制作">Web 制作</option>
-          <option value="その他">その他</option>
-        </select>
-      </div>
-
-      <div>
         <label for="cf-message" class="block text-sm font-semibold text-zinc-700 dark:text-poi-focus/90 mb-1">
           メッセージ
         </label>
@@ -118,7 +101,6 @@ import MainLayout from '../layouts/MainLayout.astro';
       name: form.name.value,
       email: form.email.value,
       phone: form.phone.value,
-      category: form.category.value,
       message: form.message.value,
       cfToken: form.querySelector('[name="cf-turnstile-response"]')?.value || '',
     };

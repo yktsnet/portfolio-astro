@@ -101,7 +101,6 @@ const validBody = {
   name: 'Test User',
   email: 'test@example.com',
   phone: '09012345678',
-  category: 'general',
   message: 'Hello',
 };
 
