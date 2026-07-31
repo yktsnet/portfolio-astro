@@ -4,14 +4,37 @@ import HeroMobile from '../components/HeroMobile.astro';
 import HeroDesktop from '../components/HeroDesktop.astro';
 
 interface Props {
-  current: 'about' | 'approach' | 'impact' | 'works';
+  current: 'about' | 'approach' | 'impact' | 'works' | 'blog';
   title?: string;
+  description?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: "website" | "article";
+  publishedTime?: Date;
+  modifiedTime?: Date;
 }
 
-const { current, title } = Astro.props;
+const {
+  current,
+  title,
+  description,
+  ogImage,
+  ogImageAlt,
+  ogType,
+  publishedTime,
+  modifiedTime,
+} = Astro.props;
 ---
 
-<MainLayout title={title}>
+<MainLayout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+  ogType={ogType}
+  publishedTime={publishedTime}
+  modifiedTime={modifiedTime}
+>
   <!-- ===== Mobile: Hero + ナビ + セクション ===== -->
   <div class="sm:hidden mb-12">
     <HeroMobile current={current} />
