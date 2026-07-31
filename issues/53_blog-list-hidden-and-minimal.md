@@ -2,7 +2,7 @@
 id: 53
 branch-slug: blog-list-hidden-and-minimal
 github_issue:
-status: draft
+status: open
 type: feat
 対象:
 - src/content.config.ts
