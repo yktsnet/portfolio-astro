@@ -1,8 +1,8 @@
 ## Works・ヘッダーからZennリンクを削除
 id: 52
 branch-slug: remove-zenn-links
-github_issue:
-status: open
+github_issue: 114
+status: close
 type: cleanup
 対象:
 - src/data/works.ts
