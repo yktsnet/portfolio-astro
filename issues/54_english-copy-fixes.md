@@ -2,8 +2,8 @@
 
 id: 54
 branch-slug: english-copy-fixes
-github_issue:
-status: open
+github_issue: 118
+status: close
 type: fix
 対象: src/pages/cat-feed-tracker/index.astro, src/pages/data-policy.astro
 内容: サイト全体の英語表記（`lang-en` ブロック）を日本語版と突き合わせてレビューした結果、2箇所に問題を確認した。1つは文法的に不自然な並列構造、もう1つは日本語版にある情報が英語版で欠落している訳抜け。両方とも文言修正のみでロジックには触れない。
