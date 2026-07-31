@@ -95,12 +95,12 @@ export const works: Work[] = [
       "NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。Python 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
     inUse: true,
     links: [
-      { label: "Demo →", href: "/nfc-attendance/" },
       {
-        label: "GitHub",
+        label: "GitHub →",
         href: "https://github.com/yktsnet/nfc-attendance-kit",
         external: true,
       },
+      { label: "Demo", href: "/nfc-attendance/" },
     ],
     stack: [
       { label: "Raspberry Pi", brand: "raspberry-pi" },
@@ -121,12 +121,12 @@ export const works: Work[] = [
       "給餌棚の開閉を自動検知し、LINE で家族へ定時通知する家庭向け IoT。Pico W → FastAPI → PostgreSQL 構成で、体重管理や設定変更まで LINE から完結。",
     inUse: true,
     links: [
-      { label: "Demo →", href: "/cat-feed-tracker/" },
       {
-        label: "GitHub",
+        label: "GitHub →",
         href: "https://github.com/yktsnet/cat-feed-tracker",
         external: true,
       },
+      { label: "Demo", href: "/cat-feed-tracker/" },
     ],
     stack: [
       { label: "Pico W", brand: "raspberry-pi" },
