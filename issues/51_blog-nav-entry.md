@@ -1,8 +1,8 @@
 ## Blogナビ導線追加
 id: 51
 branch-slug: blog-nav-entry
-github_issue:
-status: open
+github_issue: 112
+status: close
 type: feat
 対象:
 - src/components/HeroDesktop.astro
