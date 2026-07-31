@@ -13,6 +13,7 @@ const post = defineCollection({
     image: z.string().optional(),
     imageAlt: z.string().optional(),
     draft: z.boolean().default(false),
+    hidden: z.boolean().default(false),
     tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
     publishDate: z
       .string()

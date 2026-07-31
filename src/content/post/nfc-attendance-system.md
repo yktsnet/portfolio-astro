@@ -8,6 +8,7 @@ image: "/images/posts/202602/nfc-pic1.webp"
 imageAlt: "NFCシステムの構成図"
 icon: "id-card"
 aiDrafted: true
+hidden: true
 ---
 
 <div class="zoomable-wrap">

@@ -1,8 +1,9 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 
-/** filter out draft posts based on the environment */
+/** filter out draft posts based on the environment, and always exclude hidden posts */
 export async function getAllPosts(): Promise<CollectionEntry<"post">[]> {
   return await getCollection("post", ({ data }) => {
+    if (data.hidden) return false;
     return import.meta.env.PROD ? !data.draft : true;
   });
 }

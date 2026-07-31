@@ -7,6 +7,7 @@ tags: ["raspberry-pi", "python", "line-api"]
 pinned: false
 icon: "cat"
 aiDrafted: true
+hidden: true
 ---
 
 <div class="zoomable-wrap">

@@ -5,6 +5,8 @@ import { collectionDateSort } from "../utils/date";
 import type { APIContext } from "astro";
 
 export async function GET(context: APIContext) {
+  // getAllPosts() already excludes frontmatter `hidden: true` posts, so the
+  // RSS feed reflects that exclusion automatically.
   const posts = await getAllPosts();
   const sortedPosts = posts.sort(collectionDateSort);
 
