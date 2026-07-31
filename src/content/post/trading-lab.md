@@ -8,6 +8,7 @@ imageAlt: "トレードラボの構図"
 pinned: false
 icon: "layout-dashboard"
 aiDrafted: true
+hidden: true
 ---
 
 <div class="zoomable-wrap">

@@ -8,6 +8,7 @@ image: "/images/posts/202603/live-status.webp"
 imageAlt: "ライブ・デモページの構成図"
 icon: "chart-candlestick"
 aiDrafted: true
+hidden: true
 ---
 
 <div class="zoomable-wrap">
