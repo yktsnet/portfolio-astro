@@ -3,7 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import PostPreview from "../../components/blog/PostPreview.astro";
 import Pagination from "../../components/Paginator.astro";
 import { getAllPosts, getUniqueTags, groupPostsByYear } from "../../data/post";
-import MainLayout from "../../layouts/MainLayout.astro";
+import ProfileLayout from "../../layouts/ProfileLayout.astro";
 import { collectionDateSort } from "../../utils/date";
 
 const MAX_POSTS_PER_PAGE = 10;
@@ -54,7 +54,7 @@ const groupedByYear = groupPostsByYear(paginatedPosts);
 const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 ---
 
-<MainLayout title="Posts">
+<ProfileLayout current="blog" title="Posts">
   <div class="mb-12 flex items-center gap-3">
     <h1 class="text-xl font-semibold text-zinc-900 dark:text-poi-focus">Posts</h1>
     <a class="text-light-accent dark:text-poi-accent" href="/rss.xml" target="_blank">
@@ -142,4 +142,4 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
       )
     }
   </div>
-</MainLayout>
+</ProfileLayout>

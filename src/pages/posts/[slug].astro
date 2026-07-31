@@ -2,7 +2,7 @@
 import { render, getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import Masthead from "../../components/blog/Masthead.astro";
-import MainLayout from "../../layouts/MainLayout.astro";
+import ProfileLayout from "../../layouts/ProfileLayout.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("post");
@@ -17,7 +17,8 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<MainLayout
+<ProfileLayout
+  current="blog"
   title={post.data.title}
   description={post.data.description}
   ogImage={post.data.image}
@@ -65,7 +66,7 @@ const { Content } = await render(post);
       <path d="M4.5 15.75l7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
     </svg>
   </button>
-</MainLayout>
+</ProfileLayout>
 
 <script>
   const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
