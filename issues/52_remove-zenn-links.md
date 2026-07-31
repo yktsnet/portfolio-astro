@@ -2,7 +2,7 @@
 id: 52
 branch-slug: remove-zenn-links
 github_issue:
-status: draft
+status: open
 type: cleanup
 対象:
 - src/data/works.ts
