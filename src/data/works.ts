@@ -104,7 +104,6 @@ export const works: Work[] = [
         href: "https://github.com/yktsnet/nfc-attendance-kit",
         external: true,
       },
-      { label: "Demo", href: "/nfc-attendance/" },
     ],
     stack: [
       { label: "Raspberry Pi", brand: "raspberry-pi" },
@@ -132,7 +131,6 @@ export const works: Work[] = [
         href: "https://github.com/yktsnet/cat-feed-tracker",
         external: true,
       },
-      { label: "Demo", href: "/cat-feed-tracker/" },
     ],
     stack: [
       { label: "Pico W", brand: "raspberry-pi" },
