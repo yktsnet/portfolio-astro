@@ -4,7 +4,9 @@
       "Bash(npm run *)",
       "Bash(node *)",
       "Bash(npm ls *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(echo \"---exit:$?\")",
+      "Bash(npx --no-install astro check)"
     ]
   }
 }
