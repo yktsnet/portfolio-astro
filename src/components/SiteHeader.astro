@@ -16,7 +16,7 @@ const navLinks = menuLinks.map((l) => ({
   isCurrent: currentPath === l.path,
 }));
 ---
-<header class="group relative mb-16 flex items-center" id="main-header">
+<header class="group relative mb-16 flex flex-wrap items-center gap-y-2" id="main-header">
   <div class="relative flex sm:flex-col">
     <a
       aria-current={isHome ? "page" : false}
