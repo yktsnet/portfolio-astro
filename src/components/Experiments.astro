@@ -8,10 +8,14 @@ import { getLucideIcon } from '../lib/lucide';
   <div class="space-y-2 mb-10">
     <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">RESEARCH</p>
     <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-      技術検証と実験
+      <span class="lang-ja">技術検証と実験</span>
+      <span class="lang-en">Technical Verification &amp; Experiments</span>
     </h2>
-    <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted">
+    <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted lang-ja">
       技術検証と測定器づくり。アルゴリズムや検索の頑健性を定量的に評価・記録したもの。
+    </p>
+    <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted lang-en">
+      Empirical benchmarks and measurement tooling. Quantitatively evaluating and logging algorithm &amp; search robustness.
     </p>
   </div>
 
@@ -50,7 +54,14 @@ import { getLucideIcon } from '../lib/lucide';
         </h3>
 
         <p class="mt-2.5 font-sans text-sm leading-6 text-zinc-600 dark:text-poi-focus/90 whitespace-pre-line text-justify">
-          {research.description}
+          {typeof research.description === 'string' ? (
+            research.description
+          ) : (
+            <>
+              <span class="lang-ja">{research.description.ja}</span>
+              <span class="lang-en">{research.description.en}</span>
+            </>
+          )}
         </p>
       </article>
     ))}

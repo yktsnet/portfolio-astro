@@ -11,14 +11,18 @@ export const prerender = true;
   <!-- ===== Hero ===== -->
   <section class="mb-16">
     <p class="font-mono text-xs tracking-widest text-light-accent dark:text-poi-accent uppercase mb-3">
-      現場 · 業務自動化
+      <span class="lang-ja">現場 · 業務自動化</span>
+      <span class="lang-en">Field Work & Automation</span>
     </p>
     <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900 dark:text-poi-focus mb-4">
       NFC Attendance System
     </h1>
-    <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted max-w-xl mb-6">
+    <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted max-w-xl mb-6 lang-ja">
       カードをかざすだけで打刻が完結。Raspberry Pi 2 と 100円の NFC カードで作った
       勤怠管理システム。Google スプレッドシートへ自動同期し、給与計算まで自動化する。
+    </p>
+    <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted max-w-xl mb-6 lang-en">
+      Tap to check in and out. Attendance system built with Raspberry Pi 2 and NFC cards, automatically syncing logs to Google Sheets and streamlining payroll calculation.
     </p>
     <div class="flex flex-wrap gap-2">
       {["Raspberry Pi 2", "Python", "PCSC", "GAS", "Discord Webhook", "systemd"].map(tag => (

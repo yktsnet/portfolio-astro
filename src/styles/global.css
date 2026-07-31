@@ -72,3 +72,12 @@
     --folio-agent-accent-contrast: var(--color-poi-base);
   }
 }
+
+/* Multi-language visibility rules */
+html[data-lang="en"] .lang-ja {
+  display: none !important;
+}
+html:not([data-lang="en"]) .lang-en {
+  display: none !important;
+}
+

@@ -71,6 +71,18 @@ const year = new Date().getFullYear();
       } else {
         document.documentElement.classList.add('dark');
       }
+
+      const lang = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('portfolio_lang')) {
+          return localStorage.getItem('portfolio_lang');
+        }
+        return 'ja';
+      })();
+      if (lang === 'en') {
+        document.documentElement.dataset.lang = 'en';
+      } else {
+        document.documentElement.dataset.lang = 'ja';
+      }
     </script>
     <style is:inline>
       .site-logo-icon {

@@ -1,0 +1,55 @@
+---
+---
+<lang-toggle>
+  <button
+    type="button"
+    class="relative flex h-8 px-2 items-center justify-center rounded-md font-mono text-xs text-zinc-700 transition-colors hover:text-poi-accent dark:text-poi-text dark:hover:text-poi-accent select-none"
+    aria-label="Toggle language"
+  >
+    <span class="lang-label-ja font-semibold text-poi-accent">JA</span>
+    <span class="mx-1 text-zinc-300 dark:text-poi-border">/</span>
+    <span class="lang-label-en text-zinc-400 dark:text-poi-muted/50 hover:text-zinc-700 dark:hover:text-poi-text">EN</span>
+  </button>
+</lang-toggle>
+
+<script>
+  class LangToggle extends HTMLElement {
+    constructor() {
+      super();
+      const button = this.querySelector<HTMLButtonElement>("button");
+
+      if (button) {
+        const updateUI = (lang: string) => {
+          const jaLabel = this.querySelector(".lang-label-ja");
+          const enLabel = this.querySelector(".lang-label-en");
+
+          if (lang === "en") {
+            jaLabel?.classList.remove("font-semibold", "text-poi-accent");
+            jaLabel?.classList.add("text-zinc-400", "dark:text-poi-muted/50");
+            enLabel?.classList.remove("text-zinc-400", "dark:text-poi-muted/50");
+            enLabel?.classList.add("font-semibold", "text-poi-accent");
+          } else {
+            enLabel?.classList.remove("font-semibold", "text-poi-accent");
+            enLabel?.classList.add("text-zinc-400", "dark:text-poi-muted/50");
+            jaLabel?.classList.remove("text-zinc-400", "dark:text-poi-muted/50");
+            jaLabel?.classList.add("font-semibold", "text-poi-accent");
+          }
+        };
+
+        const currentLang = document.documentElement.dataset.lang || "ja";
+        updateUI(currentLang);
+
+        button.addEventListener("click", () => {
+          const newLang = document.documentElement.dataset.lang === "en" ? "ja" : "en";
+          document.documentElement.dataset.lang = newLang;
+          localStorage.setItem("portfolio_lang", newLang);
+          updateUI(newLang);
+        });
+      }
+    }
+  }
+
+  if (!customElements.get("lang-toggle")) {
+    customElements.define("lang-toggle", LangToggle);
+  }
+</script>

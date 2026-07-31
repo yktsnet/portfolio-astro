@@ -12,8 +12,11 @@ export default defineConfig({
   }),
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['hono', 'hono/cors', 'simple-icons', 'lucide-react', '@folio-agent/handler'],
+    },
     ssr: {
-       external: ["node:fs", "node:path"],
+      external: ["node:fs", "node:path"],
     },
   },
   integrations: [react(), sitemap()],

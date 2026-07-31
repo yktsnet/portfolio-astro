@@ -63,7 +63,8 @@ const { work, idx } = Astro.props;
   {work.inUse && (
     <p class="mt-1 flex items-center gap-1.5 text-xs">
       <span class="inline-block h-1.5 w-1.5 rounded-full shrink-0 bg-light-accent dark:bg-poi-accent"></span>
-      <span class="text-light-accent dark:text-poi-accent">現場に導入・稼働中</span>
+      <span class="text-light-accent dark:text-poi-accent lang-ja">現場に導入・稼働中</span>
+      <span class="text-light-accent dark:text-poi-accent lang-en">Active in Production</span>
     </p>
   )}
 
@@ -88,7 +89,14 @@ const { work, idx } = Astro.props;
   </div>
 
   <p class="mt-2.5 font-sans text-sm leading-6 text-zinc-600 dark:text-poi-focus/90 whitespace-pre-line text-justify">
-    {work.description}
+    {typeof work.description === 'string' ? (
+      work.description
+    ) : (
+      <>
+        <span class="lang-ja">{work.description.ja}</span>
+        <span class="lang-en">{work.description.en}</span>
+      </>
+    )}
   </p>
 
   {work.stackResolved.length > 0 && (

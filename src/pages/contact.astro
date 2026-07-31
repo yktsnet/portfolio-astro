@@ -4,19 +4,28 @@ import MainLayout from '../layouts/MainLayout.astro';
 <MainLayout title="Contact" description="お問い合わせ・各種リンク">
   <h1 class="mb-6 text-xl font-semibold text-zinc-900 dark:text-poi-focus">Contact</h1>
 
-  <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+  <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted lang-ja">
     お仕事のご相談・ご依頼はフォームからご連絡ください。
     初回はどんな課題を抱えているかを聞かせていただければ十分です。
+  </p>
+  <p class="font-sans text-sm leading-7 text-zinc-600 dark:text-poi-muted lang-en">
+    Please reach out via the form for inquiries or work requests.
+    A brief description of your current challenges is plenty to get started.
   </p>
 
   <!-- Contact Form -->
   <section class="mt-10">
-    <h2 class="mb-6 text-base font-semibold text-zinc-900 dark:text-poi-focus">お問い合わせ</h2>
+    <h2 class="mb-6 text-base font-semibold text-zinc-900 dark:text-poi-focus">
+      <span class="lang-ja">お問い合わせ</span>
+      <span class="lang-en">Inquiry Form</span>
+    </h2>
 
     <form id="contact-form" class="space-y-4 max-w-md">
       <div>
         <label for="cf-name" class="block text-sm font-semibold text-zinc-700 dark:text-poi-focus/90 mb-1">
-          名前 <span class="text-red-400">*</span>
+          <span class="lang-ja">名前</span>
+          <span class="lang-en">Name</span>
+          <span class="text-red-400">*</span>
         </label>
         <input
           type="text"
@@ -29,7 +38,9 @@ import MainLayout from '../layouts/MainLayout.astro';
 
       <div>
         <label for="cf-email" class="block text-sm font-semibold text-zinc-700 dark:text-poi-focus/90 mb-1">
-          メールアドレス <span class="text-red-400">*</span>
+          <span class="lang-ja">メールアドレス</span>
+          <span class="lang-en">Email Address</span>
+          <span class="text-red-400">*</span>
         </label>
         <input
           type="email"
@@ -42,7 +53,9 @@ import MainLayout from '../layouts/MainLayout.astro';
 
       <div>
         <label for="cf-phone" class="block text-sm font-semibold text-zinc-700 dark:text-poi-focus/90 mb-1">
-          電話番号 <span class="text-red-400">*</span>
+          <span class="lang-ja">電話番号</span>
+          <span class="lang-en">Phone Number</span>
+          <span class="text-red-400">*</span>
         </label>
         <input
           type="tel"
@@ -55,7 +68,8 @@ import MainLayout from '../layouts/MainLayout.astro';
 
       <div>
         <label for="cf-message" class="block text-sm font-semibold text-zinc-700 dark:text-poi-focus/90 mb-1">
-          メッセージ
+          <span class="lang-ja">メッセージ</span>
+          <span class="lang-en">Message</span>
         </label>
         <textarea
           id="cf-message"
@@ -76,7 +90,8 @@ import MainLayout from '../layouts/MainLayout.astro';
         type="submit"
         class="rounded-md bg-zinc-700 dark:bg-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-100 dark:text-poi-focus/90 hover:bg-zinc-600 dark:hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        送信
+        <span class="lang-ja">送信</span>
+        <span class="lang-en">Send Message</span>
       </button>
 
       <p id="cf-status" class="text-sm hidden"></p>

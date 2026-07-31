@@ -7,10 +7,14 @@ import SV6StatusChart from './status/SV6StatusChart.astro';
   <div class="space-y-2 mb-8">
     <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">INFRASTRUCTURE</p>
     <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-      共有ホストの設計仕様
+      <span class="lang-ja">共有ホストの設計仕様</span>
+      <span class="lang-en">Shared Host Architecture</span>
     </h2>
-    <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted">
+    <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted lang-ja">
       複数の常時稼働デモを同居させるインフラ構成と、その稼働実態を確認できる。
+    </p>
+    <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted lang-en">
+      Shared infrastructure architecture and real-time live status for multiple production applications.
     </p>
   </div>
 
@@ -36,13 +40,19 @@ import SV6StatusChart from './status/SV6StatusChart.astro';
           <!-- 左側: レイヤー情報 (固定幅) -->
           <div class="w-full sm:w-48 shrink-0 space-y-1">
             <span class="font-mono text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-poi-muted/60"><span class="text-poi-accent mr-1.5">01</span>DEPLOY LAYER</span>
-            <div class="font-mono text-[10px] sm:text-[11px] text-zinc-400 dark:text-poi-muted/60 leading-none">github actions ➔ tailscale</div>
+            <div class="font-mono text-[10px] sm:text-[11px] text-zinc-400 dark:text-poi-muted/60 leading-none">github actions &rarr; tailscale</div>
           </div>
           <!-- 右側: タイトルと解説文 -->
           <div class="flex-1 space-y-2">
-            <h4 class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-poi-focus leading-tight">Tailscale経由の自動デプロイ</h4>
-            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted">
+            <h4 class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-poi-focus leading-tight">
+              <span class="lang-ja">Tailscale経由の自動デプロイ</span>
+              <span class="lang-en">Automated Deployment via Tailscale</span>
+            </h4>
+            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted lang-ja">
               GitHub ActionsからTailscale VPNを経由し、ホストのSSHポートを公開せずに自動デプロイする。
+            </p>
+            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted lang-en">
+              Automated deployments triggered from GitHub Actions via Tailscale VPN without exposing host SSH ports to the public internet.
             </p>
           </div>
         </div>
@@ -56,9 +66,15 @@ import SV6StatusChart from './status/SV6StatusChart.astro';
           </div>
           <!-- 右側: タイトルと解説文 -->
           <div class="flex-1 space-y-2">
-            <h4 class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-poi-focus leading-tight">同居のための極小化設計 &amp; 宣言的環境管理</h4>
-            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted">
+            <h4 class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-poi-focus leading-tight">
+              <span class="lang-ja">同居のための極小化設計 &amp; 宣言的環境管理</span>
+              <span class="lang-en">Minimal Footprint &amp; Declarative Environment</span>
+            </h4>
+            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted lang-ja">
               SQLiteの積極採用やファイルキャッシュの利用により、各アプリのメモリ消費を極限まで抑制。OSやコンテナの構成は NixOS でコード管理し、非力なVPSであっても高い再現性と長期の安定稼働を確保する。
+            </p>
+            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted lang-en">
+              Minimizes memory usage per app via SQLite and file caching. OS and container configurations are managed declaratively in NixOS to ensure long-term stability on modest server resources.
             </p>
           </div>
         </div>
@@ -68,13 +84,19 @@ import SV6StatusChart from './status/SV6StatusChart.astro';
           <!-- 左側: レイヤー情報 (固定幅) -->
           <div class="w-full sm:w-48 shrink-0 space-y-1">
             <span class="font-mono text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-poi-muted/60"><span class="text-poi-accent mr-1.5">03</span>ROUTING LAYER</span>
-            <div class="font-mono text-[10px] sm:text-[11px] text-zinc-400 dark:text-poi-muted/60 leading-none">cloudflare tunnel ➔ ssl</div>
+            <div class="font-mono text-[10px] sm:text-[11px] text-zinc-400 dark:text-poi-muted/60 leading-none">cloudflare tunnel &rarr; ssl</div>
           </div>
           <!-- 右側: タイトルと解説文 -->
           <div class="flex-1 space-y-2">
-            <h4 class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-poi-focus leading-tight">ポート露出ゼロの公開</h4>
-            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted">
+            <h4 class="font-semibold text-sm sm:text-base text-zinc-900 dark:text-poi-focus leading-tight">
+              <span class="lang-ja">ポート露出ゼロの公開</span>
+              <span class="lang-en">Zero-Exposed-Port Publishing</span>
+            </h4>
+            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted lang-ja">
               公開ポートを開けず、Cloudflare Tunnel の外向き暗号化経路のみを通じて安全にHTTPS公開する。
+            </p>
+            <p class="text-[13px] sm:text-sm leading-relaxed text-zinc-500 dark:text-poi-muted lang-en">
+              Securely published over HTTPS using outbound encrypted Cloudflare Tunnel channels without opening public inbound ports.
             </p>
           </div>
         </div>

@@ -17,15 +17,25 @@
   {/* 2行目: メトリクス（常時表示、値はfetch後に更新） + Detailsリンク */}
   <div class="flex items-center justify-between gap-4 mt-1.5 text-zinc-500 dark:text-poi-muted">
     <div class="flex items-center gap-4">
-      <span>稼働 <span id="live-status-uptime" class="text-zinc-900 dark:text-poi-focus font-semibold">&mdash;</span></span>
-      <span>CPU <span id="live-status-cpu" class="text-zinc-900 dark:text-poi-focus font-semibold">&mdash;</span></span>
-      <span>メモリ <span id="live-status-mem" class="text-zinc-900 dark:text-poi-focus font-semibold">&mdash;</span></span>
+      <span>
+        <span class="lang-ja">稼働</span>
+        <span class="lang-en">Uptime</span>
+        <span id="live-status-uptime" class="text-zinc-900 dark:text-poi-focus font-semibold ml-1">&mdash;</span>
+      </span>
+      <span>
+        CPU <span id="live-status-cpu" class="text-zinc-900 dark:text-poi-focus font-semibold">&mdash;</span>
+      </span>
+      <span>
+        <span class="lang-ja">メモリ</span>
+        <span class="lang-en">Mem</span>
+        <span id="live-status-mem" class="text-zinc-900 dark:text-poi-focus font-semibold ml-1">&mdash;</span>
+      </span>
     </div>
     <a
       href="#infrastructure"
       class="inline-flex items-center gap-1 text-light-accent dark:text-poi-accent hover:underline underline-offset-2 shrink-0"
     >
-      Details ↓
+      Details &darr;
     </a>
   </div>
 </div>
@@ -34,23 +44,40 @@
   import type { SV6StatusPayload } from "../../lib/sv6-status";
   import { latestLoadPercent, latestAvailablePercent, uptimeDays } from "../../lib/sv6-status";
 
+  let cachedData: SV6StatusPayload | null = null;
+
+  function updateMetrics() {
+    if (!cachedData) return;
+    const days = uptimeDays(cachedData);
+    const cpu = Math.round(latestLoadPercent(cachedData));
+    const mem = Math.round(100 - latestAvailablePercent(cachedData));
+
+    const uptimeEl = document.getElementById("live-status-uptime");
+    const cpuEl = document.getElementById("live-status-cpu");
+    const memEl = document.getElementById("live-status-mem");
+
+    const isEn = document.documentElement.dataset.lang === "en";
+    if (uptimeEl) uptimeEl.textContent = isEn ? `${days}d` : `${days}日`;
+    if (cpuEl) cpuEl.textContent = `${cpu}%`;
+    if (memEl) memEl.textContent = `${mem}%`;
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    for (const m of mutations) {
+      if (m.attributeName === "data-lang") {
+        updateMetrics();
+      }
+    }
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-lang"] });
+
   async function loadAndRender() {
     try {
       const res = await fetch("/api/sv6-status");
       if (!res.ok) throw new Error(`api ${res.status}`);
       const data = (await res.json()) as SV6StatusPayload;
-
-      const days = uptimeDays(data);
-      const cpu = Math.round(latestLoadPercent(data));
-      const mem = Math.round(100 - latestAvailablePercent(data));
-
-      const uptimeEl = document.getElementById("live-status-uptime");
-      const cpuEl = document.getElementById("live-status-cpu");
-      const memEl = document.getElementById("live-status-mem");
-
-      if (uptimeEl) uptimeEl.textContent = `${days}日`;
-      if (cpuEl) cpuEl.textContent = `${cpu}%`;
-      if (memEl) memEl.textContent = `${mem}%`;
+      cachedData = data;
+      updateMetrics();
     } catch {
       // 取得失敗・開発サーバー時（KV未接続）はダッシュ表示のまま。
       // 帯は #infrastructure へのアンカーとしてのみ機能させる。

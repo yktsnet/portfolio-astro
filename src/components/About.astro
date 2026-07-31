@@ -2,7 +2,7 @@
 import { getBrandIcon } from '../lib/brand-icons';
 import { getLucideIcon } from '../lib/lucide';
 
-type TimelineEntry = { year: string; label: string };
+type TimelineEntry = { year: string; label: { ja: string; en: string } };
 type LocationGroup = { location: string; items: TimelineEntry[] };
 type StackItem = { name: string; brand: string | null };
 type CoverageRow = { area: string; items: StackItem[] };
@@ -56,17 +56,17 @@ const timeline: LocationGroup[] = [
   {
     location: "Management",
     items: [
-      { year: "2013", label: "学習塾 開業" },
-      { year: "2019", label: "合同会社 設立" },
-      { year: "2024", label: "合同会社 清算" },
-      { year: "2025", label: "学習塾 閉業" },
+      { year: "2013", label: { ja: "学習塾 開業", en: "Founded Tutoring School" } },
+      { year: "2019", label: { ja: "合同会社 設立", en: "Established LLC" } },
+      { year: "2024", label: { ja: "合同会社 清算", en: "Liquidated LLC" } },
+      { year: "2025", label: { ja: "学習塾 閉業", en: "Closed Tutoring School" } },
     ],
   },
   {
     location: "Engineering",
     items: [
-      { year: "2025", label: "個人開発 / 外部CTO" },
-      { year: "2026〜", label: "SES 受託開発 / 標準化主導" },
+      { year: "2025", label: { ja: "個人開発 / 外部CTO", en: "Solo Dev / External CTO" } },
+      { year: "2026〜", label: { ja: "SES 受託開発 / 標準化主導", en: "SES Contract Dev / Leading Dev Standards" } },
     ],
   },
 ];
@@ -76,15 +76,27 @@ const timeline: LocationGroup[] = [
   <div class="text-zinc-600 dark:text-poi-muted">
     <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">ABOUT</p>
     <h2 class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-      <span class="block">曖昧な課題を技術に翻訳し、</span>
-      <span class="block mt-2">現場に定着する仕組みをつくる。</span>
+      <span class="lang-ja">
+        <span class="block">曖昧な課題を技術に翻訳し、</span>
+        <span class="block mt-2">現場に定着する仕組みをつくる。</span>
+      </span>
+      <span class="lang-en">
+        <span class="block">Translating real problems into tech,</span>
+        <span class="block mt-2">building systems that stick.</span>
+      </span>
     </h2>
     <div class="mt-6 space-y-4">
-      <p class="text-sm leading-7">
+      <p class="text-sm leading-7 lang-ja">
         いまは SES 企業で、エンジニア2名とのチームで受託開発を担っている。CI/CD・IaC・テストコードの導入と、散在していた資料の GitHub / Markdown への集約を主導し、AI エージェントを組み込める開発標準へ社内を移している途中にある。並行してマンション管理会社の外部 CTO として現場の DX を推進。要件が曖昧な段階からビジネス課題を技術へ翻訳し、現場で使われ続ける形まで単独で落とし込む。
       </p>
-      <p class="text-sm leading-7">
+      <p class="text-sm leading-7 lang-en">
+        Currently leading contract development at an SES firm with a 2-engineer team. Driving CI/CD, IaC, and test automation while consolidating scattered docs into GitHub Markdown to transition company engineering toward AI-agent-ready standards. Simultaneously serving as External CTO for a property management company, translating business needs into production software.
+      </p>
+      <p class="text-sm leading-7 lang-ja">
         その土台は経営経験。学習塾の12年、合同会社の設立から清算まで。ツールが定着しない原因は、たいてい現場のやり方を観察せず、こちら都合で変えてしまうこと。既存の運用は崩さず、自動化だけを自然に溶け込ませる。人間中心に設計をするのが大事だと思っている。
+      </p>
+      <p class="text-sm leading-7 lang-en">
+        Grounded in 12 years of business ownership from founding to liquidating an LLC. Tools fail when imposed without observing field reality. My core principle is human-centered design—automating seamlessly behind existing operations without forcing new workflows.
       </p>
     </div>
   </div>
@@ -95,16 +107,20 @@ const timeline: LocationGroup[] = [
     {/* ビジネス層: 5領域と並列にせず、上から翻訳して落とす縦の関係で見せる（Issue 39） */}
     <div class="mt-6 rounded-lg border border-zinc-200 dark:border-poi-border/70 bg-zinc-50/60 dark:bg-white/2 px-4 py-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
       <span class="text-sm font-semibold text-zinc-800 dark:text-poi-focus">Business</span>
-      <span class="text-xs text-zinc-500 dark:text-poi-muted">課題の発見と技術への翻訳</span>
+      <span class="text-xs text-zinc-500 dark:text-poi-muted lang-ja">課題の発見と技術への翻訳</span>
+      <span class="text-xs text-zinc-500 dark:text-poi-muted lang-en">Problem discovery &amp; technical translation</span>
     </div>
 
     <div class="flex justify-center py-1" aria-hidden="true">
-      <span class="text-sm text-zinc-400 dark:text-poi-muted">↓</span>
+      <span class="text-sm text-zinc-400 dark:text-poi-muted">&darr;</span>
     </div>
 
     {/* この外枠とラベルが核。外すとただのスキル表に退行する（Issue 39） */}
     <div class="relative rounded-lg border border-zinc-300 dark:border-poi-border px-5 pt-4 pb-3 mt-2">
-      <p class="absolute -top-2.5 left-4 px-2 bg-zinc-50 dark:bg-poi-base font-mono text-[11px] tracking-wide text-zinc-500 dark:text-poi-muted">1人で設計・実装・運用</p>
+      <p class="absolute -top-2.5 left-4 px-2 bg-zinc-50 dark:bg-poi-base font-mono text-[11px] tracking-wide text-zinc-500 dark:text-poi-muted">
+        <span class="lang-ja">1人で設計・実装・運用</span>
+        <span class="lang-en">Solo Design, Dev &amp; Ops</span>
+      </p>
       <table class="w-full mt-1 text-sm">
         <tbody>
           {coverage.map(({ area, items }) => (
@@ -141,7 +157,8 @@ const timeline: LocationGroup[] = [
           href="/"
           class="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted transition-colors hover:text-poi-accent dark:hover:text-poi-accent hover:underline"
         >
-          具体例を Works で見る
+          <span class="lang-ja">具体例を Works で見る</span>
+          <span class="lang-en">View details in Works</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="12" height="12" viewBox="0 0 24 24"
@@ -173,7 +190,8 @@ const timeline: LocationGroup[] = [
               {/* 内容 (pl-6に修正して、COVERAGEのコンテンツアライメントと完全合致させる) */}
               <div class="pl-6 pb-3 flex-1 flex items-baseline gap-5 text-sm">
                 <span class="font-mono text-xs text-zinc-500 w-10 shrink-0 tabular-nums">{year}</span>
-                <span class="text-zinc-600 dark:text-poi-muted">{label}</span>
+                <span class="text-zinc-600 dark:text-poi-muted lang-ja">{label.ja}</span>
+                <span class="text-zinc-600 dark:text-poi-muted lang-en">{label.en}</span>
               </div>
             </div>
           ))}
