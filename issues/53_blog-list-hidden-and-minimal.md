@@ -1,8 +1,8 @@
 ## 既存記事の一覧非表示化とBlog一覧のミニマル化
 id: 53
 branch-slug: blog-list-hidden-and-minimal
-github_issue:
-status: open
+github_issue: 116
+status: close
 type: feat
 対象:
 - src/content.config.ts
