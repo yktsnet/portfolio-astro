@@ -111,7 +111,6 @@ const { work, idx } = Astro.props;
     <div class="relative z-10 mt-4 flex flex-wrap gap-2.5 text-xs font-mono">
       {work.subLinks.map((link: any) => {
         const isGithub = link.label.toLowerCase().includes('github');
-        const isZenn = link.label.toLowerCase().includes('zenn');
         const isNpm = link.label.toLowerCase().includes('npm');
         
         return (
@@ -132,19 +131,6 @@ const { work, idx } = Astro.props;
                 set:html={getLucideIcon('github')}
               />
             )}
-            {isZenn && (() => {
-              const brandIcon = getBrandIcon('zenn');
-              return brandIcon ? (
-                <svg
-                  width="12" height="12" viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="shrink-0"
-                  aria-hidden="true"
-                >
-                  <path d={brandIcon.path} />
-                </svg>
-              ) : null;
-            })()}
             {isNpm && (() => {
               const brandIcon = getBrandIcon('npm');
               return brandIcon ? (

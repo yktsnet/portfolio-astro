@@ -97,11 +97,6 @@ export const works: Work[] = [
     links: [
       { label: "Demo →", href: "/nfc-attendance/" },
       {
-        label: "Zenn",
-        href: "https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2",
-        external: true,
-      },
-      {
         label: "GitHub",
         href: "https://github.com/yktsnet/nfc-attendance-kit",
         external: true,
@@ -127,11 +122,6 @@ export const works: Work[] = [
     inUse: true,
     links: [
       { label: "Demo →", href: "/cat-feed-tracker/" },
-      {
-        label: "Zenn",
-        href: "https://zenn.dev/yktsnet/articles/202604-cat-feed-tracker",
-        external: true,
-      },
       {
         label: "GitHub",
         href: "https://github.com/yktsnet/cat-feed-tracker",
