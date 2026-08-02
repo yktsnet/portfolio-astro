@@ -154,11 +154,6 @@ export const works: Work[] = [
     inUse: true,
     links: [
       {
-        label: "Demo →",
-        href: "https://training-scheduler.ykts.net/",
-        external: true,
-      },
-      {
         label: "GitHub",
         href: "https://github.com/yktsnet/training-scheduler",
         external: true,
@@ -183,7 +178,6 @@ export const works: Work[] = [
       en: "Gradual migration from tightly coupled WinForms to .NET 10 Web API + React. Integrates an independent LangGraph AI agent for querying inventory and sales using natural language.",
     },
     links: [
-      { label: "Demo →", href: "https://winforms.ykts.net/", external: true },
       {
         label: "GitHub",
         href: "https://github.com/yktsnet/order-system-migration",
@@ -210,7 +204,6 @@ export const works: Work[] = [
       en: "Combines SQL aggregation and RAG document search. Structures form PDFs via Azure AI Document Intelligence, using LangGraph to classify questions and route them automatically to SQL or RAG engines.",
     },
     links: [
-      { label: "Demo →", href: "https://order-rag.ykts.net/", external: true },
       {
         label: "GitHub",
         href: "https://github.com/yktsnet/order-system-rag",
@@ -237,7 +230,6 @@ export const works: Work[] = [
       en: "Step-by-step modernization of legacy WebForms to .NET 10 Web API + React by eliminating AutoPostBack and ViewState. Adds SignalR for real-time attendance monitoring.",
     },
     links: [
-      { label: "Demo →", href: "https://webforms.ykts.net/", external: true },
       {
         label: "GitHub",
         href: "https://github.com/yktsnet/attendance-system-migration",
@@ -300,11 +292,6 @@ export const works: Work[] = [
     },
     inUse: true,
     links: [
-      {
-        label: "Demo →",
-        href: "https://excel-kanri.ykts.net/",
-        external: true,
-      },
       {
         label: "GitHub",
         href: "https://github.com/yktsnet/excel-kanri",
