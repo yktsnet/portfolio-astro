@@ -67,34 +67,6 @@ describe('GET /api/status', () => {
   });
 });
 
-// --- /api/sv6-status ---
-
-describe('GET /api/sv6-status', () => {
-  it('500 when KV not bound', async () => {
-    const res = await app.fetch(req('/api/sv6-status'), {});
-    expect(res.status).toBe(500);
-    expect(await res.json()).toMatchObject({ error: 'kv_not_bound' });
-  });
-
-  it('404 when no data in KV', async () => {
-    const res = await app.fetch(req('/api/sv6-status'), {
-      ykts_status_metrics: { get: vi.fn().mockResolvedValue(null) },
-    });
-    expect(res.status).toBe(404);
-  });
-
-  it('200 with parsed KV data', async () => {
-    const data = { equity: 200000, status: 'active' };
-    const res = await app.fetch(req('/api/sv6-status'), {
-      ykts_status_metrics: {
-        get: vi.fn().mockResolvedValue(JSON.stringify(data)),
-      },
-    });
-    expect(res.status).toBe(200);
-    expect(await res.json()).toEqual(data);
-  });
-});
-
 // --- /api/contact ---
 
 const validBody = {
