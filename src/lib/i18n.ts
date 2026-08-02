@@ -36,10 +36,6 @@ export const uiStrings = {
     ja: "OSSのみ",
     en: "OSS Only",
   },
-  filterDemo: {
-    ja: "Demoのみ",
-    en: "Demo Only",
-  },
   noResults: {
     ja: "条件に一致する作品がありません。",
     en: "No works matched this filter.",

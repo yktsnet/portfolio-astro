@@ -100,7 +100,7 @@ export const works: Work[] = [
     inUse: true,
     links: [
       {
-        label: "GitHub →",
+        label: "GitHub",
         href: "https://github.com/yktsnet/nfc-attendance-kit",
         external: true,
       },
@@ -127,7 +127,7 @@ export const works: Work[] = [
     inUse: true,
     links: [
       {
-        label: "GitHub →",
+        label: "GitHub",
         href: "https://github.com/yktsnet/cat-feed-tracker",
         external: true,
       },
@@ -167,7 +167,7 @@ export const works: Work[] = [
   },
   {
     categoryTags: ["modernization", "chatbot", "office"],
-    isOSS: false,
+    isOSS: true,
     priority: 1,
     title: "Order System",
     color: "#c792ea",
@@ -193,7 +193,7 @@ export const works: Work[] = [
   },
   {
     categoryTags: ["chatbot", "office"],
-    isOSS: false,
+    isOSS: true,
     priority: 1,
     title: "Order System RAG",
     color: "#c792ea",
@@ -219,7 +219,7 @@ export const works: Work[] = [
   },
   {
     categoryTags: ["modernization", "office"],
-    isOSS: false,
+    isOSS: true,
     priority: 1,
     title: "Attendance System",
     color: "#c792ea",
@@ -256,11 +256,6 @@ export const works: Work[] = [
       en: "Reception chatbot widget for developer portfolios with zero-maintenance build-time knowledge synchronization. Features easy toggling for Zenn article ingestion and contact routing.",
     },
     links: [
-      {
-        label: "GitHub →",
-        href: "https://github.com/yktsnet/folio-agent",
-        external: true,
-      },
       {
         label: "GitHub",
         href: "https://github.com/yktsnet/folio-agent",
@@ -319,11 +314,6 @@ export const works: Work[] = [
     },
     links: [
       {
-        label: "GitHub →",
-        href: "https://github.com/yktsnet/bt-lab",
-        external: true,
-      },
-      {
         label: "GitHub",
         href: "https://github.com/yktsnet/bt-lab",
         external: true,
@@ -348,7 +338,7 @@ export const works: Work[] = [
     },
     links: [
       {
-        label: "GitHub →",
+        label: "GitHub",
         href: "https://github.com/yktsnet/bt-dynamic",
         external: true,
       },
@@ -377,11 +367,6 @@ export const works: Work[] = [
       en: "Execution layer connecting strategies validated in bt-dynamic directly to live trading with identical logic and configs. Features idempotent order gates, OCO matching, EOD settlement, and kill switches.",
     },
     links: [
-      {
-        label: "GitHub →",
-        href: "https://github.com/yktsnet/live-dynamic",
-        external: true,
-      },
       {
         label: "GitHub",
         href: "https://github.com/yktsnet/live-dynamic",

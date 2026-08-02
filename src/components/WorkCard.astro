@@ -46,11 +46,13 @@ const { work, idx } = Astro.props;
       />
     </a>
     
-    <!-- OSS / Demo の明示ラベル & 日付 -->
+    <!-- OSS 明示ラベル & 日付 -->
     <div class="ml-auto flex items-center gap-2.5 shrink-0 select-none">
-      <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-zinc-200 dark:border-poi-border/50 text-zinc-700 dark:text-poi-focus bg-zinc-50/50 dark:bg-poi-panel/30 animate-pulse-once">
-        {work.isOSS ? "OSS" : "Demo"}
-      </span>
+      {work.isOSS && (
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded-sm border border-zinc-200 dark:border-poi-border/50 text-zinc-700 dark:text-poi-focus bg-zinc-50/50 dark:bg-poi-panel/30 animate-pulse-once">
+          OSS
+        </span>
+      )}
       
       {work.publishedAt && (
         <span class="hidden sm:inline font-mono text-[11px] font-normal text-zinc-400 dark:text-poi-muted/50">

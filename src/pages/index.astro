@@ -11,7 +11,7 @@ import { getBrandIcon } from '../lib/brand-icons';
 const worksResolved = works.map(work => ({
   ...work,
   iconPath: getLucideIcon(work.icon),
-  // カード全体の主導線＝デモ（links の先頭）。残りは副アクション（制作記事・GitHub）。
+  // カード全体の主導線＝GitHub（links の先頭）。残りは副アクション（npm / PyPI など）。
   primaryHref: work.links[0]?.href,
   primaryExternal: work.links[0]?.external ?? false,
   subLinks: work.links.slice(1),
