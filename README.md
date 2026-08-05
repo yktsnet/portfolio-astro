@@ -27,7 +27,8 @@ Cloudflare Pages
   ├─ 静的出力 (SSG)
   └─ /api/*  ─ Edge Functions (Hono)
                   ├─ /api/status   ─ Cloudflare KV（稼働ステータス配信）
-                  └─ /api/contact  ─ Discord Webhook + Turnstile
+                  ├─ /api/contact  ─ Telegram + Turnstile
+                  └─ /api/chat     ─ Folio Agent (Gemini API + Cloudflare D1)
 ```
 
 ## Deploy
@@ -40,7 +41,7 @@ main ブランチへの push で GitHub Actions が自動ビルド・デプロ�
 ```bash
 npm install
 npm run dev
-npm run build     # 本番ビルド (astro build + pagefind)
+npm run build     # 本番ビルド (astro build + folio-agent-ingest で knowledge.json 生成)
 npm run preview   # ビルド後のローカル確認
 npm test          # APIユニットテスト
 npm run typecheck # 型チェック

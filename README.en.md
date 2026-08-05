@@ -27,7 +27,8 @@ Cloudflare Pages
   ├─ Static output (SSG)
   └─ /api/*  ─ Edge Functions (Hono)
                   ├─ /api/status   ─ Cloudflare KV (live status feed)
-                  └─ /api/contact  ─ Discord Webhook + Turnstile
+                  ├─ /api/contact  ─ Telegram + Turnstile
+                  └─ /api/chat     ─ Folio Agent (Gemini API + Cloudflare D1)
 ```
 
 ## Deploy
@@ -40,7 +41,7 @@ Required GitHub Secrets are managed in repository operations documentation (not 
 ```bash
 npm install
 npm run dev
-npm run build     # Production build (astro build + pagefind)
+npm run build     # Production build (astro build + folio-agent-ingest to generate knowledge.json)
 npm run preview   # Local check after build
 npm test          # API unit tests
 npm run typecheck # Type checking
