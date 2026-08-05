@@ -106,7 +106,7 @@ const { work, idx } = Astro.props;
       {work.stackResolved.map((s: any) => (
         <span class="inline-flex items-center gap-1 font-mono text-xs text-zinc-400 dark:text-zinc-500">
           {s.brandIcon && (
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={`color:#${s.brandIcon.hex}`} aria-hidden="true">
+            <svg width="12" height="12" viewBox={s.brandIcon.viewBox ?? "0 0 24 24"} fill="currentColor" style={`color:#${s.brandIcon.hex}`} aria-hidden="true">
               <path d={s.brandIcon.path} />
             </svg>
           )}
@@ -122,6 +122,7 @@ const { work, idx } = Astro.props;
       {work.subLinks.map((link: any) => {
         const isGithub = link.label.toLowerCase().includes('github');
         const isNpm = link.label.toLowerCase().includes('npm');
+        const isZenn = link.label.toLowerCase().includes('zenn');
         
         return (
           <a
@@ -146,6 +147,19 @@ const { work, idx } = Astro.props;
               return brandIcon ? (
                 <svg
                   width="12" height="12" viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="shrink-0"
+                  aria-hidden="true"
+                >
+                  <path d={brandIcon.path} />
+                </svg>
+              ) : null;
+            })()}
+            {isZenn && (() => {
+              const brandIcon = getBrandIcon('zenn');
+              return brandIcon ? (
+                <svg
+                  width="12" height="12" viewBox={brandIcon.viewBox ?? "0 0 24 24"}
                   fill="currentColor"
                   class="shrink-0"
                   aria-hidden="true"

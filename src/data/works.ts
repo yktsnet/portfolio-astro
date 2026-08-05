@@ -21,6 +21,7 @@ export type BrandKey =
   | "gemini"
   | "pypi"
   | "pandas"
+  | "zenn"
   | "docker";
 
 export type StackItem = { label: string; brand?: BrandKey };
@@ -104,6 +105,11 @@ export const works: Work[] = [
         href: "https://github.com/yktsnet/nfc-attendance-kit",
         external: true,
       },
+      {
+        label: "Zenn",
+        href: "https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2",
+        external: true,
+      },
     ],
     stack: [
       { label: "Raspberry Pi", brand: "raspberry-pi" },
@@ -129,6 +135,11 @@ export const works: Work[] = [
       {
         label: "GitHub",
         href: "https://github.com/yktsnet/cat-feed-tracker",
+        external: true,
+      },
+      {
+        label: "Zenn",
+        href: "https://zenn.dev/yktsnet/articles/202604-cat-feed-tracker",
         external: true,
       },
     ],
