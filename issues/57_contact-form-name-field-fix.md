@@ -1,8 +1,8 @@
 ## Contact フォームが常に送信失敗する不具合の修正とテスト整備
 id: 57
 branch-slug: contact-form-name-field-fix
-github_issue:
-status: open
+github_issue: 126
+status: close
 type: fix
 対象: src/pages/contact.astro / src/lib/contact-form.ts (新規) / src/lib/contact-form.test.ts (新規) / package.json / docs/guarantees.md
 内容: 送信スクリプトが `name` フィールドの値を取得できず、API に `name` を欠いたボディを送るため常に 400 になる。ボディ組み立てを `src/lib/contact-form.ts` に切り出して `form.elements` 経由に修正し、DOM 環境の単体テストで回帰を固定する。あわせて保証台帳の陳腐化（`category`）を訂正する。
