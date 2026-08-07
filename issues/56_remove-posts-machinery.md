@@ -1,8 +1,8 @@
 ## 記事機構（posts / tags / RSS）の撤去
 id: 56
 branch-slug: remove-posts-machinery
-github_issue:
-status: open
+github_issue: 124
+status: close
 type: cleanup
 対象:
 - src/pages/posts/、src/pages/tags/、src/pages/rss.xml.ts（ディレクトリごと削除）
