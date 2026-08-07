@@ -1,8 +1,8 @@
 ## 到達不能ページの撤去（詳細ページ・status表示）
 id: 55
 branch-slug: remove-unreachable-pages
-github_issue:
-status: open
+github_issue: 122
+status: close
 type: cleanup
 対象:
 - src/pages/cat-feed-tracker/index.astro（削除）
