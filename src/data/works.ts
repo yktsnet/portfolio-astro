@@ -74,7 +74,6 @@ export type Work = {
   title: string;
   color: string;
   icon: string;
-  postSlug?: string;
   description: MultilingualText;
   /** 現場に導入・稼働中なら true */
   inUse?: boolean;
@@ -92,7 +91,6 @@ export const works: Work[] = [
     title: "NFC Attendance Kit",
     color: "#addb67",
     icon: "id-card",
-    postSlug: "nfc-attendance-system",
     publishedAt: "2026.01",
     description: {
       ja: "NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。Python 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
@@ -124,7 +122,6 @@ export const works: Work[] = [
     title: "Cat Feed Tracker",
     color: "#addb67",
     icon: "cat",
-    postSlug: "cat-feed-tracker",
     publishedAt: "2026.03",
     description: {
       ja: "給餌棚の開閉を自動検知し、LINE で家族へ定時通知する家庭向け IoT。Pico W → FastAPI → PostgreSQL 構成で、体重管理や設定変更まで LINE から完結。",
@@ -413,14 +410,3 @@ export const researches: Research[] = [
     publishedAt: "2026.07",
   },
 ];
-
-const DEFAULT_POST_COLOR = "#5de4c7";
-
-export function getPostVisualMeta(postSlug: string, fallbackIcon = "code") {
-  const work = works.find((item) => item.postSlug === postSlug);
-
-  return {
-    color: work?.color ?? DEFAULT_POST_COLOR,
-    icon: work?.icon ?? fallbackIcon,
-  };
-}
