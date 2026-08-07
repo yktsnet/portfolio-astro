@@ -9,7 +9,7 @@
 - `GET /api/status` は KV にデータが無い場合（`get` が `null` を返す場合）、404 を返す。
 - `GET /api/status` は KV に保存された JSON をパースし、そのまま 200 で返す。
 - `POST /api/contact` はリクエストボディが JSON としてパースできない場合、400 で `{ error: 'invalid_json' }` を返す。
-- `POST /api/contact` は `name`/`email`/`phone`/`category` のいずれかが欠けている場合、400 を返す。
+- `POST /api/contact` は `name`/`email`/`phone` のいずれかが欠けている場合、400 を返す。
 - `POST /api/contact` は `TELEGRAM_BOT_TOKEN` または `TELEGRAM_CHAT_ID` が未設定の場合、500 で `{ error: 'server_config_error' }` を返す。
 - `POST /api/contact` は Telegram API 呼び出しが成功すると、200 で `{ ok: true }` を返す。
 - `POST /api/contact` は Telegram API 呼び出しが失敗（非 2xx 応答）すると、502 を返す。
@@ -35,6 +35,20 @@
 | `/api/chat` 設定未バインド時 500 | `POST /api/chat > 500 when DB, GEMINI_API_KEY or ASSETS not bound` |
 | `/api/chat` knowledge 取得失敗時 500 | `POST /api/chat > 500 knowledge_unavailable when knowledge.json cannot be fetched` |
 | `/api/chat` 正常系のハンドラ委譲 | `POST /api/chat > loads knowledge.json via ASSETS and delegates to the folio-agent handler` |
+
+### 2. `src/lib/contact-form.test.ts` — src/lib/contact-form.ts
+
+- `buildContactBody(form)` は `name` / `email` / `phone` / `message` の各値を、フォーム内の対応する入力要素から取得して返す。
+- `buildContactBody(form)` は入力欄の `name` 属性が `HTMLFormElement` の組み込みプロパティ（`name`・`action`・`method`・`id`・`elements` 等）と衝突する場合でも、組み込みプロパティではなく入力要素の値を返す。
+- `buildContactBody(form)` は対応する入力要素が存在しないフィールドについて、`undefined` ではなく空文字列を返す（`JSON.stringify` でキーが欠落しない）。
+- `buildContactBody(form)` は Turnstile が挿入する `cf-turnstile-response` の値を `cfToken` として返し、要素が無い場合は空文字列を返す。
+
+| 保証(要約) | 対応テスト |
+|---|---|
+| 4フィールドの値取得 | `buildContactBody > returns the entered values for all four fields` |
+| `name` の組み込みプロパティ衝突を回避 | `buildContactBody > is not shadowed by HTMLFormElement built-in properties (regression for the name field bug)` |
+| 未入力フィールドは `''`（`undefined` にしない） | `buildContactBody > returns an empty string, not undefined, when message and cf-turnstile-response are absent` |
+| `cf-turnstile-response` の取得と欠落時の `''` | `buildContactBody > returns the entered values for all four fields` / `buildContactBody > returns an empty string, not undefined, when message and cf-turnstile-response are absent` |
 
 ## About
 
