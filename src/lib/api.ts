@@ -98,14 +98,18 @@ app.post('/api/contact', async (c) => {
 
   const token = String(body.cfToken || '');
   const tsSecret = c.env?.TURNSTILE_SECRET_KEY;
-  if (tsSecret && token) {
+  if (tsSecret) {
+    if (!token) {
+      return c.json({ error: 'turnstile_failed' }, 403);
+    }
     const tsRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({ secret: tsSecret, response: token }),
     });
-    const tsData = (await tsRes.json()) as { success: boolean };
+    const tsData = (await tsRes.json()) as { success: boolean; 'error-codes'?: string[] };
     if (!tsData.success) {
+      console.warn('Turnstile verification failed:', tsData['error-codes']);
       return c.json({ error: 'turnstile_failed' }, 403);
     }
   }

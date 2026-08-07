@@ -139,15 +139,24 @@ describe('POST /api/contact', () => {
     expect(res.status).toBe(403);
   });
 
-  it('Turnstile skipped when no token provided', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue(new Response(null, { status: 204 }))
-    );
+  it('403 when secret is set but cfToken is empty, without calling siteverify', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 204 }));
+    vi.stubGlobal('fetch', fetchMock);
     const res = await app.fetch(
       jsonReq('/api/contact', validBody),
       { ...envWithWebhook, TURNSTILE_SECRET_KEY: 'test-secret' }
     );
+    expect(res.status).toBe(403);
+    expect(await res.json()).toMatchObject({ error: 'turnstile_failed' });
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('200 when secret is not set, regardless of cfToken', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(new Response(null, { status: 200 }))
+    );
+    const res = await app.fetch(jsonReq('/api/contact', validBody), envWithWebhook);
     expect(res.status).toBe(200);
   });
 });
