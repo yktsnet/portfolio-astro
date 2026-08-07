@@ -104,6 +104,16 @@ import MainLayout from '../layouts/MainLayout.astro';
 <script>
   import { buildContactBody } from '../lib/contact-form';
 
+  // CDN スクリプト (challenges.cloudflare.com/turnstile/v0/api.js) が定義するグローバル。
+  // 読み込み前・失敗時は undefined になり得るため呼び出し側で存在チェックする。
+  declare global {
+    interface Window {
+      turnstile?: {
+        reset: (widgetId?: string) => void;
+      };
+    }
+  }
+
   document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -115,6 +125,23 @@ import MainLayout from '../layouts/MainLayout.astro';
     status.classList.add('hidden');
 
     const body = buildContactBody(form);
+
+    const resetTurnstile = () => {
+      // reset 直後はトークン未発行のため、発行が反映されるまでボタンを再有効化しない
+      // （でないと空トークンのまま再送し、サーバ側の 403 を確実に踏む）。
+      window.turnstile?.reset();
+      const widget = form.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]');
+      if (!widget) {
+        btn.disabled = false;
+        return;
+      }
+      const check = setInterval(() => {
+        if (widget.value) {
+          clearInterval(check);
+          btn.disabled = false;
+        }
+      }, 200);
+    };
 
     try {
       const res = await fetch('/api/contact', {
@@ -129,17 +156,21 @@ import MainLayout from '../layouts/MainLayout.astro';
         status.textContent = 'ありがとうございます。メッセージを送信しました。';
         status.className = 'text-sm text-green-600 dark:text-green-400';
         form.reset();
-      } else {
-        status.textContent = '送信に失敗しました。再度お試しください。';
-        status.className = 'text-sm text-red-500';
+        btn.disabled = false;
+        btn.textContent = '送信';
+        return;
       }
+
+      status.textContent = '送信に失敗しました。再度お試しください。';
+      status.className = 'text-sm text-red-500';
+      btn.textContent = '送信';
+      resetTurnstile();
     } catch {
       status.classList.remove('hidden');
       status.textContent = 'ネットワークエラーが発生しました。';
       status.className = 'text-sm text-red-500';
-    } finally {
-      btn.disabled = false;
       btn.textContent = '送信';
+      resetTurnstile();
     }
   });
 </script>
