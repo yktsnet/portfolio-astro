@@ -41,7 +41,7 @@ export const CATEGORIES: Record<string, { icon: string; weight: number }> = {
   office: { icon: "briefcase", weight: DEFAULT_CATEGORY_WEIGHT },
   chatbot: { icon: "message-circle", weight: DEFAULT_CATEGORY_WEIGHT },
   trading: { icon: "trending-up", weight: DEFAULT_CATEGORY_WEIGHT },
-  finance: { icon: "calculator", weight: DEFAULT_CATEGORY_WEIGHT },
+  finance: { icon: "piggy-bank", weight: DEFAULT_CATEGORY_WEIGHT },
   package: { icon: "wrench", weight: DEFAULT_CATEGORY_WEIGHT },
 };
 
@@ -394,7 +394,7 @@ export const works: Work[] = [
     priority: 2,
     title: "etax-prep",
     color: "#89ddff",
-    icon: "notebook-pen",
+    icon: "japanese-yen",
     publishedAt: "2026.08",
     description: {
       ja: "給与所得がありながら副業で事業所得がある人のための帳簿。入力は金額と勘定科目だけで、複式簿記・家事按分・給与との合算は裏側で導出し、確定申告書へ転記できる集計まで出す。",
