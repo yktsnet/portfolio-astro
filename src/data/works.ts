@@ -22,6 +22,7 @@ export type BrandKey =
   | "pypi"
   | "pandas"
   | "zenn"
+  | "javascript"
   | "docker";
 
 export type StackItem = { label: string; brand?: BrandKey };
@@ -40,6 +41,7 @@ export const CATEGORIES: Record<string, { icon: string; weight: number }> = {
   office: { icon: "briefcase", weight: DEFAULT_CATEGORY_WEIGHT },
   chatbot: { icon: "message-circle", weight: DEFAULT_CATEGORY_WEIGHT },
   trading: { icon: "trending-up", weight: DEFAULT_CATEGORY_WEIGHT },
+  finance: { icon: "calculator", weight: DEFAULT_CATEGORY_WEIGHT },
   package: { icon: "wrench", weight: DEFAULT_CATEGORY_WEIGHT },
 };
 
@@ -384,6 +386,31 @@ export const works: Work[] = [
     stack: [
       { label: "Python", brand: "python" },
       { label: "NixOS", brand: "nixos" },
+    ],
+  },
+  {
+    categoryTags: ["finance"],
+    isOSS: true,
+    priority: 2,
+    title: "etax-prep",
+    color: "#89ddff",
+    icon: "notebook-pen",
+    publishedAt: "2026.08",
+    description: {
+      ja: "給与所得がありながら副業で事業所得がある人のための帳簿。入力は金額と勘定科目だけで、複式簿記・家事按分・給与との合算は裏側で導出し、確定申告書へ転記できる集計まで出す。",
+      en: "Bookkeeping for a salaried worker with side-business income. Entry takes only an amount and an account; double-entry, household apportionment, and the salary merge are derived behind the scenes, down to figures ready to transcribe onto a tax return.",
+    },
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/etax-prep",
+        external: true,
+      },
+    ],
+    stack: [
+      { label: "JavaScript", brand: "javascript" },
+      { label: "Cloudflare", brand: "cloudflare" },
+      { label: "GitHub API" },
     ],
   },
 ];
