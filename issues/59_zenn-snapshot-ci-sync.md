@@ -1,8 +1,8 @@
 ## Zenn記事の更新を受けてサイトを再ビルドする
 id: 59
 branch-slug: zenn-snapshot-ci-sync
-github_issue:
-status: open
+github_issue: 131
+status: close
 type: fix
 対象: `.github/workflows/ci.yml`, `folio-agent.config.json`, `zenn-snapshot.json`
 内容: Chatbot（folio-agent）が参照する `zenn-snapshot.json` が手動生成のまま陳腐化し、Zenn記事の追加・更新がサイトに反映されていない。更新の起点は Zenn リポ側なので、本リポは外部トリガー（`repository_dispatch`）を受けて Zenn 記事を取り込み直し再デプロイする「受け」の口を用意する。あわせて `folio-agent.config.json` の `zenn.articlesDir` が実在しない macOS パスのままなので、現行の Linux 実パスに直す。
