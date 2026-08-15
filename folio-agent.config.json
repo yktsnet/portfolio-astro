@@ -13,7 +13,7 @@
     "text": "#111827"
   },
   "zenn": {
-    "articlesDir": "/Users/ykts/github-private/zenn/articles",
+    "articlesDir": "/home/g83/github-private/zenn/articles",
     "baseUrl": "yktsnet"
   },
   "zennSnapshotPath": "zenn-snapshot.json"
