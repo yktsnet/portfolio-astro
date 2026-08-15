@@ -2,7 +2,7 @@
 id: 58
 branch-slug: contact-turnstile-hardening
 github_issue:
-status: open
+status: close
 type: fix
 対象: src/lib/api.ts / src/lib/api.test.ts / src/pages/contact.astro / docs/guarantees.md
 内容: `POST /api/contact` は `cfToken` が空だと Turnstile 検証を丸ごと飛ばして通すため、トークンを付けずに叩けば誰でも検証を回避して Telegram へ送信できる。空トークンを拒否するよう条件を反転する。あわせて、送信失敗時に使用済みトークンが残り再送が必ず失敗する問題を、Turnstile ウィジェットのリセットで解消する。
