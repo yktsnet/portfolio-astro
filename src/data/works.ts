@@ -70,6 +70,11 @@ export function displayCategoryTags(tags: string[]): string[] {
 }
 
 export type Work = {
+  /**
+   * 三段（1: 数字から決める / 2: 現場を変えずに作る / 3: 人が回せる形で渡す）のどれを示すか。
+   * 三段のどれとも言い切れないものは付けない。付けないものは一覧の下にリストで並ぶ。
+   */
+  step?: 1 | 2 | 3;
   categoryTags: string[];
   isOSS: boolean;
   priority: number;
@@ -87,6 +92,7 @@ export type Work = {
 
 export const works: Work[] = [
   {
+    step: 1,
     categoryTags: ["iot", "office"],
     isOSS: true,
     priority: 1,
@@ -95,8 +101,8 @@ export const works: Work[] = [
     icon: "id-card",
     publishedAt: "2026.01",
     description: {
-      ja: "NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。Python 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
-      en: "Automated attendance tracking by tapping NFC cards, logging directly to Google Sheets. Built using only the Python standard library with zero dependencies, running seamlessly even on Raspberry Pi 2 or old PCs.",
+      ja: "費用の6割を占める人件費から逆算して選んだ最初の一手。NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。Python 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
+      en: "Chosen by working back from labor costs, which accounted for 60% of expenses. Automated attendance tracking by tapping NFC cards, logging directly to Google Sheets. Built using only the Python standard library with zero dependencies, running seamlessly even on Raspberry Pi 2 or old PCs.",
     },
     inUse: true,
     links: [
@@ -176,6 +182,7 @@ export const works: Work[] = [
     ],
   },
   {
+    step: 2,
     categoryTags: ["modernization", "chatbot", "office"],
     isOSS: true,
     priority: 1,
@@ -228,6 +235,7 @@ export const works: Work[] = [
     ],
   },
   {
+    step: 2,
     categoryTags: ["modernization", "office"],
     isOSS: true,
     priority: 1,
@@ -254,6 +262,7 @@ export const works: Work[] = [
     ],
   },
   {
+    step: 3,
     categoryTags: ["chatbot", "package"],
     isOSS: true,
     priority: 1,
@@ -284,6 +293,7 @@ export const works: Work[] = [
     ],
   },
   {
+    step: 2,
     categoryTags: ["office"],
     isOSS: true,
     priority: 2,
@@ -365,6 +375,7 @@ export const works: Work[] = [
     ],
   },
   {
+    step: 3,
     categoryTags: ["trading"],
     isOSS: true,
     priority: 2,

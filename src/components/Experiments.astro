@@ -1,26 +1,39 @@
 ---
-import { researches } from '../data/works';
 import { getLucideIcon } from '../lib/lucide';
+import type { MultilingualText } from '../lib/i18n';
+
+export type ExtraItem = {
+  title: string;
+  description: MultilingualText;
+  href: string;
+  publishedAt?: string;
+};
+
+interface Props {
+  items: ExtraItem[];
+}
+
+const { items } = Astro.props;
 ---
 
 <section id="research" class="mt-14 sm:mt-16">
   {/* セクション見出し（COLLECTION / INFRASTRUCTURE と統一スタイル） */}
   <div class="space-y-2 mb-10">
-    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">RESEARCH</p>
+    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">OTHERS</p>
     <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-      <span class="lang-ja">技術検証と実験</span>
-      <span class="lang-en">Technical Verification &amp; Experiments</span>
+      <span class="lang-ja">そのほかの実装と検証</span>
+      <span class="lang-en">Other Builds &amp; Experiments</span>
     </h2>
     <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted lang-ja">
-      技術検証と測定器づくり。アルゴリズムや検索の頑健性を定量的に評価・記録したもの。
+      上の三つのどれか一つには絞れないもの。自分の必要から作った道具と、確かめるために作ったもの。
     </p>
     <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted lang-en">
-      Empirical benchmarks and measurement tooling. Quantitatively evaluating and logging algorithm &amp; search robustness.
+      Work that doesn't reduce to a single step above. Tools built out of my own need, and things built to find something out.
     </p>
   </div>
 
   <div class="space-y-4">
-    {researches.map((research, idx) => (
+    {items.map((item, idx) => (
       <article class="group/card relative rounded-xl border border-zinc-300 dark:border-poi-border bg-transparent hover:border-zinc-400 dark:hover:border-poi-border/80 p-5 transition-all hover:-translate-y-0.5 hover:shadow-xs">
         <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
           <span class="font-mono text-sm font-semibold tabular-nums text-poi-accent/70 select-none shrink-0">
@@ -29,11 +42,11 @@ import { getLucideIcon } from '../lib/lucide';
           {/* カード全体を覆う主導線 */}
           <a
             class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-poi-accent outline-hidden focus-visible:underline inline-flex items-center gap-1"
-            href={research.href}
+            href={item.href}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span>{research.title}</span>
+            <span>{item.title}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11" height="11" viewBox="0 0 24 24"
@@ -43,23 +56,23 @@ import { getLucideIcon } from '../lib/lucide';
               set:html={getLucideIcon('external-link')}
             />
           </a>
-          
+
           <div class="ml-auto flex items-center gap-2.5 shrink-0 select-none">
-            {research.publishedAt && (
+            {item.publishedAt && (
               <span class="hidden sm:inline font-mono text-[11px] font-normal text-zinc-400 dark:text-poi-muted/50">
-                {research.publishedAt}
+                {item.publishedAt}
               </span>
             )}
           </div>
         </h3>
 
         <p class="mt-2.5 font-sans text-sm leading-6 text-zinc-600 dark:text-poi-focus/90 whitespace-pre-line text-justify">
-          {typeof research.description === 'string' ? (
-            research.description
+          {typeof item.description === 'string' ? (
+            item.description
           ) : (
             <>
-              <span class="lang-ja">{research.description.ja}</span>
-              <span class="lang-en">{research.description.en}</span>
+              <span class="lang-ja">{item.description.ja}</span>
+              <span class="lang-en">{item.description.en}</span>
             </>
           )}
         </p>

@@ -96,6 +96,9 @@ const { resolvedTags } = Astro.props;
 
   function apply() {
     let visibleIndex = 0;
+    // 番号は群ごとに 01 から振り直す
+    const groupCounters = new Map<Element, number>();
+
     cards.forEach(card => {
       const cardTags = card.dataset.tags?.split(',') || [];
       const isMatch = Array.from(activeTags).every(tag => cardTags.includes(tag));
@@ -103,13 +106,25 @@ const { resolvedTags } = Astro.props;
       card.style.display = isMatch ? '' : 'none';
       if (isMatch) {
         visibleIndex += 1;
+        const group = card.closest('.work-step-group');
+        const scope = group ?? document.body;
+        const n = (groupCounters.get(scope) ?? 0) + 1;
+        groupCounters.set(scope, n);
+
         const indexEl = card.querySelector<HTMLElement>('.work-index');
-        if (indexEl) indexEl.textContent = String(visibleIndex).padStart(2, '0');
+        if (indexEl) indexEl.textContent = String(n).padStart(2, '0');
         card.style.animation = 'none';
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         card.offsetHeight; // reflow
         card.style.animation = 'work-fade .28s ease-out';
       }
+    });
+
+    // 群の中身が全部隠れたら見出しごと畳む
+    document.querySelectorAll<HTMLElement>('.work-step-group').forEach(group => {
+      const shown = Array.from(group.querySelectorAll<HTMLElement>('.work-card'))
+        .some(c => c.style.display !== 'none');
+      group.style.display = shown ? '' : 'none';
     });
 
     const empty = document.getElementById('work-empty');

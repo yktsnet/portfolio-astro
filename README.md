@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/yktsnet/portfolio-astro/actions/workflows/ci.yml/badge.svg)](https://github.com/yktsnet/portfolio-astro/actions/workflows/ci.yml)
 
-> Systems that disappear into the workflow.
+> Find what's worth fixing in the numbers, build it without changing how people already work, and hand it over so the team can keep it running.
 
 個人ポートフォリオ・技術ブログ。  
 https://ykts.net

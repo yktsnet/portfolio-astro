@@ -6,13 +6,15 @@ import { displayCategoryTags, getCategoryIcon } from '../data/works';
 interface Props {
   work: any;
   idx: number;
+  /** DOM の id。群をまたいで idx が重複するため呼び出し側で一意にする */
+  domId?: string;
 }
 
-const { work, idx } = Astro.props;
+const { work, idx, domId } = Astro.props;
 ---
 
 <article
-  id={`work-card-${idx}`}
+  id={domId ?? `work-card-${idx}`}
   class="work-card group/card relative rounded-xl border border-zinc-300 dark:border-poi-border bg-transparent hover:border-zinc-400 dark:hover:border-poi-border/80 p-5 transition-all hover:-translate-y-0.5 hover:shadow-xs"
   data-tags={work.categoryTags.join(',')}
   data-is-oss={work.isOSS ? "true" : "false"}

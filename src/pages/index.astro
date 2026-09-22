@@ -4,7 +4,7 @@ import HostingArchitecture from '../components/HostingArchitecture.astro';
 import Experiments from '../components/Experiments.astro';
 import WorkCard from '../components/WorkCard.astro';
 import WorkFilter from '../components/WorkFilter.astro';
-import { works, getCategoryIcon } from '../data/works';
+import { works, researches, getCategoryIcon } from '../data/works';
 import { getLucideIcon } from '../lib/lucide';
 import { getBrandIcon } from '../lib/brand-icons';
 
@@ -34,6 +34,31 @@ const sortedWorks = [...worksResolved].sort((a, b) => {
   return dateB.localeCompare(dateA);
 });
 
+// 三段（§1 の宣言）ごとの群。見出しは宣言の各節をそのまま使う
+const STEPS = [
+  { step: 1 as const, ja: '事業の数字から直すべきものを決め、', en: "Find what's worth fixing in the numbers," },
+  { step: 2 as const, ja: '現場のやり方を変えずに作り、', en: 'build it without changing how people already work,' },
+  { step: 3 as const, ja: '人が回せる形にして渡す。', en: 'and hand it over so the team can keep it running.' },
+];
+
+const stepGroups = STEPS.map(s => ({
+  ...s,
+  works: sortedWorks.filter(w => w.step === s.step),
+}));
+
+// 三段のどれか一つには絞れないもの。OTHERS 枠へ回し、研究と同じ軽いカードで見せる
+const others = [
+  ...sortedWorks
+    .filter(w => !w.step)
+    .map(w => ({
+      title: w.title,
+      description: w.description,
+      href: w.primaryHref,
+      publishedAt: w.publishedAt,
+    })),
+  ...researches,
+].sort((a, b) => (b.publishedAt || '').localeCompare(a.publishedAt || ''));
+
 // ユニークなカテゴリタグの抽出（小文字、アルファベット順にソート）
 const allUniqueCategoryTags = Array.from(
   new Set(works.flatMap(w => w.categoryTags))
@@ -56,15 +81,30 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
   {/* フィルターパネル（コレクション説明・絞り込みトグル・404メッセージ） */}
   <WorkFilter resolvedTags={resolvedTags} />
 
-  {/* 作品一覧 */}
-  <div id="work-list" class="space-y-6">
-    {sortedWorks.map((work, idx) => (
-      <WorkCard work={work} idx={idx} />
+  {/* 作品一覧。三段ごとに群を分け、見出しがトップの宣言を反復する */}
+  <div id="work-list" class="space-y-14">
+    {stepGroups.map(group => (
+      <section class="work-step-group" data-step={group.step}>
+        <div class="flex items-baseline gap-3 mb-6">
+          <span class="font-mono text-xs tabular-nums text-poi-accent/70 select-none shrink-0">
+            {String(group.step).padStart(2, '0')}
+          </span>
+          <h2 class="text-base sm:text-lg font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+            <span class="lang-ja">{group.ja}</span>
+            <span class="lang-en">{group.en}</span>
+          </h2>
+        </div>
+        <div class="space-y-6">
+          {group.works.map((work, idx) => (
+            <WorkCard work={work} idx={idx} domId={`work-card-${group.step}-${idx}`} />
+          ))}
+        </div>
+      </section>
     ))}
   </div>
 
-  {/* Works カードとは別枠の小規模な取り組み一覧。カテゴリフィルタの対象外 */}
-  <Experiments />
+  {/* 三段のどれか一つには絞れないもの。研究と同じ軽いカードで下にまとめる。カテゴリフィルタの対象外 */}
+  <Experiments items={others} />
 </ProfileLayout>
 
 <style>
