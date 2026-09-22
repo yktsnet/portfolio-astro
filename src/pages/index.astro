@@ -1,28 +1,14 @@
 ---
 import ProfileLayout from '../layouts/ProfileLayout.astro';
 import HostingArchitecture from '../components/HostingArchitecture.astro';
-import Experiments from '../components/Experiments.astro';
-import WorkCard from '../components/WorkCard.astro';
+import WorkSteps from '../components/WorkSteps.astro';
+import AllWorks from '../components/AllWorks.astro';
 import WorkFilter from '../components/WorkFilter.astro';
 import { works, researches, getCategoryIcon } from '../data/works';
 import { getLucideIcon } from '../lib/lucide';
-import { getBrandIcon } from '../lib/brand-icons';
-
-const worksResolved = works.map(work => ({
-  ...work,
-  iconPath: getLucideIcon(work.icon),
-  // カード全体の主導線＝GitHub（links の先頭）。残りは副アクション（npm / PyPI など）。
-  primaryHref: work.links[0]?.href,
-  primaryExternal: work.links[0]?.external ?? false,
-  subLinks: work.links.slice(1),
-  stackResolved: (work.stack ?? []).map(s => ({
-    ...s,
-    brandIcon: s.brand ? getBrandIcon(s.brand) : null,
-  })),
-}));
 
 // 現場導入（inUse trueが上）を第一キー、優先度（priority 昇順）を第二キー、時系列（publishedAt 降順）を第三キーとしてソート
-const sortedWorks = [...worksResolved].sort((a, b) => {
+const sortedWorks = [...works].sort((a, b) => {
   if (!!a.inUse !== !!b.inUse) {
     return a.inUse ? -1 : 1;
   }
@@ -34,30 +20,25 @@ const sortedWorks = [...worksResolved].sort((a, b) => {
   return dateB.localeCompare(dateA);
 });
 
-// 三段（§1 の宣言）ごとの群。見出しは宣言の各節をそのまま使う
-const STEPS = [
-  { step: 1 as const, ja: '事業の数字から直すべきものを決め、', en: "Find what's worth fixing in the numbers," },
-  { step: 2 as const, ja: '現場のやり方を変えずに作り、', en: 'build it without changing how people already work,' },
-  { step: 3 as const, ja: '人が回せる形にして渡す。', en: 'and hand it over so the team can keep it running.' },
+// 全件を同じ軽いカードで並べる。研究も別枠に戻さず同じ一覧に入れる
+const allItems = [
+  ...sortedWorks.map(w => ({
+    title: w.title,
+    icon: w.icon,
+    description: w.description,
+    // カードの主導線＝GitHub（links の先頭）
+    href: w.links[0]?.href,
+    publishedAt: w.publishedAt,
+    inUse: w.inUse,
+    categoryTags: w.categoryTags,
+  })),
+  ...researches.map(r => ({
+    title: r.title,
+    description: r.description,
+    href: r.href,
+    publishedAt: r.publishedAt,
+  })),
 ];
-
-const stepGroups = STEPS.map(s => ({
-  ...s,
-  works: sortedWorks.filter(w => w.step === s.step),
-}));
-
-// 三段のどれか一つには絞れないもの。OTHERS 枠へ回し、研究と同じ軽いカードで見せる
-const others = [
-  ...sortedWorks
-    .filter(w => !w.step)
-    .map(w => ({
-      title: w.title,
-      description: w.description,
-      href: w.primaryHref,
-      publishedAt: w.publishedAt,
-    })),
-  ...researches,
-].sort((a, b) => (b.publishedAt || '').localeCompare(a.publishedAt || ''));
 
 // ユニークなカテゴリタグの抽出（小文字、アルファベット順にソート）
 const allUniqueCategoryTags = Array.from(
@@ -78,63 +59,13 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
   {/* 上部: 共同ホスト基盤「NixOS + Docker」の解説と構成図モニター */}
   <HostingArchitecture />
 
-  {/* フィルターパネル（コレクション説明・絞り込みトグル・404メッセージ） */}
-  <WorkFilter resolvedTags={resolvedTags} />
-
-  {/* 作品一覧。三段ごとに群を分け、見出しがトップの宣言を反復する */}
-  <div id="work-list" class="space-y-14">
-    {stepGroups.map(group => (
-      <section class="work-step-group" data-step={group.step}>
-        <div class="flex items-baseline gap-3 mb-6">
-          <span class="font-mono text-xs tabular-nums text-poi-accent/70 select-none shrink-0">
-            {String(group.step).padStart(2, '0')}
-          </span>
-          <h2 class="text-base sm:text-lg font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-            <span class="lang-ja">{group.ja}</span>
-            <span class="lang-en">{group.en}</span>
-          </h2>
-        </div>
-        <div class="space-y-6">
-          {group.works.map((work, idx) => (
-            <WorkCard work={work} idx={idx} domId={`work-card-${group.step}-${idx}`} />
-          ))}
-        </div>
-      </section>
-    ))}
+  {/* 三段それぞれを1枚のパネルで説明し、作品は証拠として1件だけ引く */}
+  <div class="mt-10 sm:mt-12">
+    <WorkSteps />
   </div>
 
-  {/* 三段のどれか一つには絞れないもの。研究と同じ軽いカードで下にまとめる。カテゴリフィルタの対象外 */}
-  <Experiments items={others} />
+  {/* 下段: 全件一覧。フィルタの対象はこの一覧のみ */}
+  <AllWorks items={allItems}>
+    <WorkFilter slot="filter" resolvedTags={resolvedTags} />
+  </AllWorks>
 </ProfileLayout>
-
-<style>
-  .work-card.glow-active {
-    animation: card-glow-light 1.5s ease-out;
-  }
-
-  :global(.dark) .work-card.glow-active {
-    animation: card-glow-dark 1.5s ease-out;
-  }
-
-  @keyframes card-glow-light {
-    0%, 100% {
-      border-color: rgba(212, 212, 216, 0.8);
-      box-shadow: none;
-    }
-    15% {
-      border-color: #d0679d; /* light.accent */
-      box-shadow: 0 0 16px rgba(208, 103, 157, 0.25);
-    }
-  }
-
-  @keyframes card-glow-dark {
-    0%, 100% {
-      border-color: rgba(48, 52, 70, 0.6);
-      box-shadow: none;
-    }
-    15% {
-      border-color: #5de4c7; /* poi.accent */
-      box-shadow: 0 0 16px rgba(93, 228, 199, 0.25);
-    }
-  }
-</style>

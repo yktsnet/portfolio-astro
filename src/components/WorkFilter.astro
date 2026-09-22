@@ -12,15 +12,10 @@ interface Props {
 const { resolvedTags } = Astro.props;
 ---
 
-{/* セクションヘッダー（ラベルのみ。見出し・説明文はヒーローと重複するため撤去） */}
-<div class="mt-10 sm:mt-12">
-  <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">COLLECTION</p>
-</div>
-
 {/* 領域フィルタ（ピル群） */}
 <div
   id="work-filter"
-  class="mt-3 mb-8 flex flex-wrap gap-2 font-mono text-xs content-start"
+  class="mb-8 flex flex-wrap gap-2 font-mono text-xs content-start"
   role="group"
   aria-label="タグで絞り込む"
 >
@@ -96,8 +91,6 @@ const { resolvedTags } = Astro.props;
 
   function apply() {
     let visibleIndex = 0;
-    // 番号は群ごとに 01 から振り直す
-    const groupCounters = new Map<Element, number>();
 
     cards.forEach(card => {
       const cardTags = card.dataset.tags?.split(',') || [];
@@ -106,25 +99,14 @@ const { resolvedTags } = Astro.props;
       card.style.display = isMatch ? '' : 'none';
       if (isMatch) {
         visibleIndex += 1;
-        const group = card.closest('.work-step-group');
-        const scope = group ?? document.body;
-        const n = (groupCounters.get(scope) ?? 0) + 1;
-        groupCounters.set(scope, n);
 
         const indexEl = card.querySelector<HTMLElement>('.work-index');
-        if (indexEl) indexEl.textContent = String(n).padStart(2, '0');
+        if (indexEl) indexEl.textContent = String(visibleIndex).padStart(2, '0');
         card.style.animation = 'none';
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         card.offsetHeight; // reflow
         card.style.animation = 'work-fade .28s ease-out';
       }
-    });
-
-    // 群の中身が全部隠れたら見出しごと畳む
-    document.querySelectorAll<HTMLElement>('.work-step-group').forEach(group => {
-      const shown = Array.from(group.querySelectorAll<HTMLElement>('.work-card'))
-        .some(c => c.style.display !== 'none');
-      group.style.display = shown ? '' : 'none';
     });
 
     const empty = document.getElementById('work-empty');

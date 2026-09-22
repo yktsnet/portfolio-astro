@@ -1,0 +1,108 @@
+---
+import { getLucideIcon } from '../lib/lucide';
+import type { MultilingualText } from '../lib/i18n';
+
+export type WorkListItem = {
+  title: string;
+  icon?: string;
+  description: MultilingualText;
+  href?: string;
+  publishedAt?: string;
+  inUse?: boolean;
+  categoryTags?: string[];
+};
+
+interface Props {
+  items: WorkListItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section id="all-works" class="mt-14 sm:mt-16">
+  <div class="space-y-2 mb-8">
+    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">ALL WORKS</p>
+    <h2 class="text-lg sm:text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+      <span class="lang-ja">作ったものの一覧</span>
+      <span class="lang-en">Everything I've Built</span>
+    </h2>
+    <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted lang-ja">
+      公開しているもの全件。仕事で作ったもの、自分が必要で作った道具、確かめるために作ったものを分けずに並べている。
+    </p>
+    <p class="text-xs leading-relaxed text-zinc-500 dark:text-poi-muted lang-en">
+      Everything I've published. Work done for clients, tools built for myself, and things built to find something out, listed without separating them.
+    </p>
+  </div>
+
+  <slot name="filter" />
+
+  <div id="work-list" class="space-y-4">
+    {items.map((item, idx) => (
+      <article
+        class="work-card group/card relative rounded-xl border border-zinc-300 dark:border-poi-border bg-transparent hover:border-zinc-400 dark:hover:border-poi-border/80 p-5 transition-all hover:-translate-y-0.5 hover:shadow-xs"
+        data-tags={(item.categoryTags ?? []).join(',')}
+      >
+        <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
+          <span class="work-index font-mono text-sm font-semibold tabular-nums text-poi-accent/70 select-none shrink-0">
+            {String(idx + 1).padStart(2, '0')}
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="shrink-0 text-poi-accent/80"
+            aria-hidden="true"
+            set:html={getLucideIcon(item.icon ?? 'flask-conical')}
+          />
+          {item.href ? (
+            <a
+              class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-poi-accent outline-hidden focus-visible:underline inline-flex items-center gap-1"
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>{item.title}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="11" height="11" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"
+                class="inline-block text-zinc-400 dark:text-poi-muted/50 opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all duration-200 shrink-0 ml-0.5"
+                set:html={getLucideIcon('external-link')}
+              />
+            </a>
+          ) : (
+            <span>{item.title}</span>
+          )}
+
+          <div class="ml-auto flex items-center gap-2.5 shrink-0 select-none">
+            {item.inUse && (
+              <span class="inline-flex items-center gap-1.5 font-mono text-[10px] font-normal text-poi-accent">
+                <span class="inline-block size-1.5 rounded-full bg-poi-accent"></span>
+                <span class="lang-ja">稼働中</span>
+                <span class="lang-en">in use</span>
+              </span>
+            )}
+            {item.publishedAt && (
+              <span class="hidden sm:inline font-mono text-[11px] font-normal text-zinc-400 dark:text-poi-muted/50">
+                {item.publishedAt}
+              </span>
+            )}
+          </div>
+        </h3>
+
+        <p class="mt-2.5 font-sans text-sm leading-6 text-zinc-600 dark:text-poi-focus/90 whitespace-pre-line text-justify">
+          {typeof item.description === 'string' ? (
+            item.description
+          ) : (
+            <>
+              <span class="lang-ja">{item.description.ja}</span>
+              <span class="lang-en">{item.description.en}</span>
+            </>
+          )}
+        </p>
+      </article>
+    ))}
+  </div>
+</section>
