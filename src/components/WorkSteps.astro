@@ -21,9 +21,9 @@ const slides: Slide[] = [
     ja: '事業の数字から直すべきものを決め、',
     en: "Find what's worth fixing in the numbers,",
     bodyJa:
-      '勤怠を自動化してほしい、という依頼から始まってはいない。決算を自分で締めていて、費用の6割が人件費だと分かっていた。人がかけている時間のうち、誰がやっても同じ結果になる部分を探すと、打刻と集計が残った。直すべきものは、困っている声の大きさではなく原価の構造から決めている。',
+      '勤怠を自動化してほしい、という依頼から始まってはいない。マンション管理事業者にコンサルとして入り、まず会計を見た。人件費が6割で、その中身を追うと、勤務時間の申告に詐称が出てきた。勤怠は自己申告、給与計算は毎回手書きで、突き合わせる手段がないので、起きていても気づけない。人件費を議論する土台が無いということなので、正確な記録が最初の一手になった。声の大きさではなく、原価の構造から順番を決めている。',
     bodyEn:
-      "This did not start with a request to automate attendance. I close the books myself, so I knew labor accounted for 60% of expenses. Looking for the hours that produce the same result no matter who spends them, what remained was clocking in and tallying it up. What gets fixed is decided by the cost structure, not by who complains loudest.",
+      "This did not start with a request to automate attendance. I came into a property management company as a consultant and looked at the books first. Labor was 60%, and following it down, hours were being misreported. Attendance was self-reported and payroll was worked out by hand, with nothing to check the reports against, so it could go on unnoticed. There was no ground to discuss labor cost on, and accurate records became the first move. The order is set by the cost structure, not by who complains loudest.",
     icon: 'id-card',
     cites: [{ name: 'NFC Attendance Kit' }],
   },
@@ -32,9 +32,9 @@ const slides: Slide[] = [
     ja: '現場のやり方を変えずに作り、',
     en: 'build it without changing how people already work,',
     bodyJa:
-      '現場は Excel の帳票で回っていた。それを Web 画面に置き換えるのではなく、同じ帳票を入力元のまま残し、Web フォームの生成・共有フォルダの PDF 変換・全文検索を裏側に後付けした。覚え直すことが無いので、使い続けるかどうかが本人の気力に左右されない。定着とは、習慣を変えさせないことだと考えている。',
+      '現場は Excel の帳票で回っていた。入居契約書を従業員が毎回コピーして書き換えていて、春の入退去シーズンに負荷が集中していた。狙いは繰り返している転記をなくすことなので、フォームに氏名や部屋番号を入れれば同じ帳票が埋まり、PDF まで出る経路を作った。そのうえで、共有フォルダの Excel を開いて保存する従来の経路も残した。様式もファイル形式も変えておらず、保存した時点で PDF になる。どちらから出た書類も同じ一覧から探せる。使われ続けるかどうかは、覚え直しを強いたかどうかで決まる。',
     bodyEn:
-      'The office ran on Excel forms. Rather than replacing them with web screens, I kept the same forms as the point of entry and retrofitted web form generation, PDF conversion in the shared folder, and full-text search behind them. Nothing has to be relearned, so whether the tool keeps being used does not depend on anyone\'s willpower. Adoption, to me, means not forcing a change in habit.',
+      'The office ran on Excel forms. Staff copied and rewrote the same tenancy paperwork every time, and the load piled up in the spring move-in season. The point was to remove that repeated transcription, so I built a route where filling in a name and a room number fills the same form and produces the PDF. Alongside it, the old route stayed: open the Excel file in the shared folder and save it. The layout and the file format are untouched, and the PDF appears the moment it is saved. Documents from either route are searchable in one list. Whether a system keeps being used comes down to whether anyone was made to relearn their work.',
     icon: 'user-pen',
     cites: [{ name: 'Excel Kanri' }],
   },

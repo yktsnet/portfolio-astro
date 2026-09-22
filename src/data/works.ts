@@ -101,8 +101,8 @@ export const works: Work[] = [
     icon: "id-card",
     publishedAt: "2026.01",
     description: {
-      ja: "費用の6割を占める人件費から逆算して選んだ最初の一手。NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。Python 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
-      en: "Chosen by working back from labor costs, which accounted for 60% of expenses. Automated attendance tracking by tapping NFC cards, logging directly to Google Sheets. Built using only the Python standard library with zero dependencies, running seamlessly even on Raspberry Pi 2 or old PCs.",
+      ja: "NFC カードをかざすだけで打刻が完結し、Google スプレッドシートへ自動集計。Python 標準ライブラリのみで構成し、Raspberry Pi 2 や旧 PC でも依存ゼロで動く。",
+      en: "Automated attendance tracking by tapping NFC cards, logging directly to Google Sheets. Built using only the Python standard library with zero dependencies, running seamlessly even on Raspberry Pi 2 or old PCs.",
     },
     inUse: true,
     links: [
