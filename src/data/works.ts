@@ -167,7 +167,6 @@ export const works: Work[] = [
       ja: "機械的な進捗管理ではなく、新人の手応えをメンターと共有する研修支援ツール。Vue + Go を go:embed で単一バイナリに固め、SQLite のみでインフラ依存ゼロ。",
       en: "Mentorship-focused training support tool for sharing newcomer feedback instead of mechanical progress tracking. Vue + Go bundled into a single binary via go:embed, requiring zero infrastructure dependencies with SQLite.",
     },
-    inUse: true,
     links: [
       {
         label: "GitHub",
