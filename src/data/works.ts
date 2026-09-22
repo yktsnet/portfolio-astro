@@ -38,7 +38,7 @@ const DEFAULT_CATEGORY_WEIGHT = 2;
 export const CATEGORIES: Record<string, { icon: string; weight: number }> = {
   iot: { icon: "wifi", weight: 1 },
   modernization: { icon: "refresh-cw", weight: 1 },
-  office: { icon: "briefcase", weight: DEFAULT_CATEGORY_WEIGHT },
+  team: { icon: "users", weight: DEFAULT_CATEGORY_WEIGHT },
   chatbot: { icon: "message-circle", weight: DEFAULT_CATEGORY_WEIGHT },
   trading: { icon: "trending-up", weight: DEFAULT_CATEGORY_WEIGHT },
   finance: { icon: "piggy-bank", weight: DEFAULT_CATEGORY_WEIGHT },
@@ -93,7 +93,7 @@ export type Work = {
 export const works: Work[] = [
   {
     step: 1,
-    categoryTags: ["iot", "office"],
+    categoryTags: ["iot"],
     isOSS: true,
     priority: 1,
     title: "NFC Attendance Kit",
@@ -156,7 +156,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["office"],
+    categoryTags: ["team"],
     isOSS: true,
     priority: 2,
     title: "Training Scheduler",
@@ -182,7 +182,7 @@ export const works: Work[] = [
   },
   {
     step: 2,
-    categoryTags: ["modernization", "chatbot", "office"],
+    categoryTags: ["modernization", "chatbot"],
     isOSS: true,
     priority: 1,
     title: "Order System",
@@ -208,7 +208,7 @@ export const works: Work[] = [
     ],
   },
   {
-    categoryTags: ["chatbot", "office"],
+    categoryTags: ["chatbot"],
     isOSS: true,
     priority: 1,
     title: "Order System RAG",
@@ -235,7 +235,7 @@ export const works: Work[] = [
   },
   {
     step: 2,
-    categoryTags: ["modernization", "office"],
+    categoryTags: ["modernization"],
     isOSS: true,
     priority: 1,
     title: "Attendance System",
@@ -293,7 +293,7 @@ export const works: Work[] = [
   },
   {
     step: 2,
-    categoryTags: ["office"],
+    categoryTags: ["modernization"],
     isOSS: true,
     priority: 2,
     title: "Excel Kanri",
@@ -423,7 +423,52 @@ export const works: Work[] = [
       { label: "GitHub API" },
     ],
   },
+  {
+    step: 3,
+    categoryTags: ["team", "package"],
+    isOSS: true,
+    priority: 1,
+    title: "sdlc-kit",
+    color: "#c792ea",
+    icon: "gift",
+    publishedAt: "2026.09",
+    description: {
+      ja: "1人で固めた開発の型を、チームのリポジトリへ1コマンドで取り込める単位に切り出した配布キット。何を約束し誰が裁可したかはコードに残らないので、その置き場と手順ごと配る。作業フロー・駆動文書・保証台帳を選んで入れる。",
+      en: "A distribution kit that cuts a solo-hardened development process into units a team repository pulls in with one command. What was promised and who approved it never survives in the code, so the kit hands over the place to keep it along with the procedure.",
+    },
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/sdlc-kit",
+        external: true,
+      },
+    ],
+    stack: [{ label: "Shell" }, { label: "Markdown" }, { label: "Claude Code" }],
+  },
+  {
+    step: 3,
+    categoryTags: ["team"],
+    isOSS: true,
+    priority: 2,
+    title: "ladder-kit",
+    color: "#89ddff",
+    icon: "person-standing",
+    publishedAt: "2026.09",
+    description: {
+      ja: "エージェントで開発を回すチームのエンジニア評価ラダー。5軸5段階の判定文が sdlc-kit の配る成果物を名指しし、評価・標準化・採用を1本の物差しに乗せる。在籍者の採点と候補者の見極めで、替えるのは証拠源だけになる。",
+      en: "An engineer ladder for teams that develop with agents. Its five axes name the very artifacts sdlc-kit distributes, putting evaluation, standardization, and hiring on one scale — only the source of evidence changes between a member and a candidate.",
+    },
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/ladder-kit",
+        external: true,
+      },
+    ],
+    stack: [{ label: "Markdown" }, { label: "Claude Code" }],
+  },
 ];
+
 
 /**
  * Research セクション用の型。
