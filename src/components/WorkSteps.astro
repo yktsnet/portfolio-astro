@@ -2,16 +2,17 @@
 import { works } from '../data/works';
 import { getLucideIcon } from '../lib/lucide';
 
+/** 証拠として引くもの。works.ts に無いものは icon / href を直接持つ */
+type Cite = { name: string; icon?: string; href?: string };
+
 type Slide = {
   step: 1 | 2 | 3;
   ja: string;
   en: string;
   bodyJa: string;
   bodyEn: string;
-  /** 引用する Works のタイトル。works.ts に無い名前は未公開の配布物を指す */
-  work: string;
-  /** works.ts に無いときに使うアイコン */
-  fallbackIcon: string;
+  icon: string;
+  cites: Cite[];
 };
 
 const slides: Slide[] = [
@@ -23,8 +24,8 @@ const slides: Slide[] = [
       '勤怠を自動化してほしい、という依頼から始まってはいない。決算を自分で締めていて、費用の6割が人件費だと分かっていた。人がかけている時間のうち、誰がやっても同じ結果になる部分を探すと、打刻と集計が残った。直すべきものは、困っている声の大きさではなく原価の構造から決めている。',
     bodyEn:
       "This did not start with a request to automate attendance. I close the books myself, so I knew labor accounted for 60% of expenses. Looking for the hours that produce the same result no matter who spends them, what remained was clocking in and tallying it up. What gets fixed is decided by the cost structure, not by who complains loudest.",
-    work: 'NFC Attendance Kit',
-    fallbackIcon: 'id-card',
+    icon: 'id-card',
+    cites: [{ name: 'NFC Attendance Kit' }],
   },
   {
     step: 2,
@@ -34,30 +35,38 @@ const slides: Slide[] = [
       '現場は Excel の帳票で回っていた。それを Web 画面に置き換えるのではなく、同じ帳票を入力元のまま残し、Web フォームの生成・共有フォルダの PDF 変換・全文検索を裏側に後付けした。覚え直すことが無いので、使い続けるかどうかが本人の気力に左右されない。定着とは、習慣を変えさせないことだと考えている。',
     bodyEn:
       'The office ran on Excel forms. Rather than replacing them with web screens, I kept the same forms as the point of entry and retrofitted web form generation, PDF conversion in the shared folder, and full-text search behind them. Nothing has to be relearned, so whether the tool keeps being used does not depend on anyone\'s willpower. Adoption, to me, means not forcing a change in habit.',
-    work: 'Excel Kanri',
-    fallbackIcon: 'user-pen',
+    icon: 'user-pen',
+    cites: [{ name: 'Excel Kanri' }],
   },
   {
     step: 3,
     ja: '人が回せる形にして渡して残す。',
     en: 'and hand it over so the team can keep it running on their own.',
     bodyJa:
-      'ここだけ相手が個人ではなくチームと会社になる。ひとりで守っているうちは規律で済むが、決める人と作る人が分かれた時点で、注意し続ける人を前提にした運用は崩れる。何を型にして何をその場の依頼のまま残すか、その線引きを判断の文として書き、手順と一緒に配れる形にまとめている。',
+      'ここだけ相手が個人ではなくチームと会社になる。自分の開発は型を決めて標準化していて、同じものを組織にも入れられる。ただし全部は配らない。型にするのは、人の判断を落とさせない、セッションを越えて残す、担当者が替わっても揃う、この三つに当たるものだけで、その場で頼めば足りることは型にしない。相手の規模に合わせて粒度を落とし、最低限だけを整えて渡す。1コマンドで取り込める単位にしてあるので、導入そのものに時間を使わせない。',
     bodyEn:
-      'Here the recipient is a team and a company rather than a single person. Discipline is enough while one person holds the line; the moment deciding and building are split between people, any practice that assumes someone stays vigilant falls apart. I write down where the line runs — what becomes a standard and what stays an ad hoc request — as stated judgments, packaged alongside the procedures so they can be handed over.',
-    work: 'dev-kit',
-    fallbackIcon: 'package-open',
+      'Here the counterpart is a team and a company rather than one person. My own development is standardized around a set of forms, and the same set goes into an organization. Not all of it, though. Something becomes a standard only when it keeps a human decision from being skipped, has to survive across sessions, or has to come out the same when the person changes; anything I can ask for on the spot stays out. I scale it to the size of the team and hand over the minimum that works, packaged as units a repository pulls in with one command, so nobody spends time on the rollout itself.',
+    icon: 'package-open',
+    cites: [
+      { name: 'dotfiles-public', icon: 'code', href: 'https://github.com/yktsnet/dotfiles-public' },
+      // 公開までリンクを持たない。リンクが付いても行の形は変えない
+      { name: 'dev-kit', icon: 'package-open' },
+    ],
   },
 ];
 
-const resolved = slides.map(slide => {
-  const work = works.find(w => w.title === slide.work);
-  return {
-    ...slide,
-    iconPath: getLucideIcon(work?.icon ?? slide.fallbackIcon),
-    href: work?.links[0]?.href,
-  };
-});
+const resolved = slides.map(slide => ({
+  ...slide,
+  iconPath: getLucideIcon(slide.icon),
+  cites: slide.cites.map(cite => {
+    const work = works.find(w => w.title === cite.name);
+    return {
+      name: cite.name,
+      iconPath: getLucideIcon(work?.icon ?? cite.icon ?? slide.icon),
+      href: work?.links[0]?.href ?? cite.href,
+    };
+  }),
+}));
 ---
 
 <div class="space-y-6 sm:space-y-8">
@@ -88,38 +97,42 @@ const resolved = slides.map(slide => {
         <span class="lang-en">{slide.bodyEn}</span>
       </p>
 
-      {/* 作品は証拠として1件だけ引く。リンクの有無で行の形を変えない */}
-      <div class="mt-6 pt-4 border-t border-zinc-200/70 dark:border-poi-border/60 flex items-center gap-2 font-mono text-xs text-zinc-500 dark:text-poi-muted">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="13" height="13" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" stroke-width="1.5"
-          stroke-linecap="round" stroke-linejoin="round"
-          class="shrink-0 text-zinc-400 dark:text-poi-muted/60"
-          aria-hidden="true"
-          set:html={slide.iconPath}
-        />
-        {slide.href ? (
-          <a
-            class="inline-flex items-center gap-1 hover:text-poi-accent transition-colors outline-hidden focus-visible:underline"
-            href={slide.href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>{slide.work}</span>
+      {/* 証拠は末尾の1行にまとめる。リンクの有無で行の形を変えない */}
+      <div class="mt-6 pt-4 border-t border-zinc-200/70 dark:border-poi-border/60 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs text-zinc-500 dark:text-poi-muted">
+        {slide.cites.map(cite => (
+          <span class="inline-flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="11" height="11" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2"
+              width="13" height="13" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="1.5"
               stroke-linecap="round" stroke-linejoin="round"
-              class="shrink-0"
+              class="shrink-0 text-zinc-400 dark:text-poi-muted/60"
               aria-hidden="true"
-              set:html={getLucideIcon('external-link')}
+              set:html={cite.iconPath}
             />
-          </a>
-        ) : (
-          <span>{slide.work}</span>
-        )}
+            {cite.href ? (
+              <a
+                class="inline-flex items-center gap-1 hover:text-poi-accent transition-colors outline-hidden focus-visible:underline"
+                href={cite.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>{cite.name}</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="11" height="11" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"
+                  class="shrink-0"
+                  aria-hidden="true"
+                  set:html={getLucideIcon('external-link')}
+                />
+              </a>
+            ) : (
+              <span>{cite.name}</span>
+            )}
+          </span>
+        ))}
       </div>
     </section>
   ))}
