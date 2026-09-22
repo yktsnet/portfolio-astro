@@ -53,16 +53,12 @@ const principles: Principle[] = [
     term: { ja: '生成より、検証', en: 'Verification over Generation' },
     body: [
       {
-        ja: 'AIがコードを書く時代、時間がかかるのは書くことではなく、書かれたものを信じられるか確かめることに変わった。AIは自信を持って、こっそり静かに間違える。',
-        en: 'In the age of AI code generation, the bottleneck shifts from writing code to verifying its correctness. AI makes mistakes quietly and confidently.'
+        ja: 'AIがコードを書く時代、時間がかかるのは書くことではなく、書かれたものを信じられるか確かめることに変わった。AIは自信を持って静かに間違え、放っておけば破壊的な操作や機密漏洩をそのまま本番へ通す。人が注意する約束は形骸化するので、環境差の排除・破壊的コマンドの遮断・機密の隔離はコードと設定で固定し、人間のマージを最後の関門に置く。',
+        en: 'In the age of AI code generation, the bottleneck shifts from writing code to verifying its correctness. AI makes mistakes quietly and confidently, and left unwatched it will push destructive commands or leaked secrets straight to production. A promise to be careful decays, so environment isolation, command sandboxing, and secret handling are fixed in code and config, with a human merge as the last gate.'
       },
       {
-        ja: '自律実行するエージェントは、放っておけば破壊的な操作や機密漏洩をそのまま本番へ通す。人が注意する約束は形骸化するので、環境差の排除・破壊的コマンドの遮断・機密の隔離はコードと設定で固定し、人間のマージを最後の関門に置く。',
-        en: 'Left unwatched, an autonomous agent will push destructive commands or leaked secrets straight to production. A promise to be careful decays, so environment isolation, command sandboxing, and secret handling are fixed in code and config, with a human merge as the last gate.'
-      },
-      {
-        ja: 'そのうえで「何が壊れてはいけないか」だけは人間が決めて文書で承認し、テストの作成と実装はAIに任せる。約束が破られれば機械が検知して止まるため、人間が張り付いて見張る必要がない。この分業を保証駆動開発（Guarantee-Driven Development）と呼び、約束の一覧は各リポジトリの保証台帳（guarantees.md）としてテストと紐づけて公開している。',
-        en: 'On top of that, humans decide and approve in writing what must never break, while AI writes the tests and the implementation. Break a contract and the machine catches it, so nobody has to stand watch. I call this split Guarantee-Driven Development (GDD), publishing the contracts as a guarantee ledger (guarantees.md) tied to the test suite in each repository.'
+        ja: 'そのうえで「何が壊れてはいけないか」だけは人間が決めて文書で承認し、テストと実装はAIに任せる。約束が破られれば機械が検知して止まるので、張り付いて見張らなくていい。この分業を保証駆動開発（GDD）と呼び、約束の一覧は保証台帳（guarantees.md）としてテストと紐づけて各リポジトリで公開している。',
+        en: 'On top of that, humans decide and approve in writing what must never break, while AI writes the tests and the implementation. Break a contract and the machine catches it, so nobody has to stand watch. I call this split Guarantee-Driven Development (GDD), publishing the contracts as a guarantee ledger (guarantees.md) tied to the tests in each repository.'
       },
     ],
     flow: flow02,
