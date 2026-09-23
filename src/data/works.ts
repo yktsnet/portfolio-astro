@@ -132,7 +132,7 @@ export const works: Work[] = [
     icon: "cat",
     publishedAt: "2026.03",
     description: {
-      ja: "給餌棚の開閉を自動検知し、LINE で家族へ定時通知する家庭向け IoT。Pico W → FastAPI → PostgreSQL 構成で、体重管理や設定変更まで LINE から完結。",
+      ja: "給餌棚の開閉を自動検知し、LINE で家族へ定時通知する家庭向け IoT。Pico W → FastAPI → PostgreSQL 構成で、体重管理や設定変更まで LINE で完結。",
       en: "Home IoT system detecting feeding cabinet opening/closing and sending scheduled LINE notifications to family members. Powered by Pico W → FastAPI → PostgreSQL, with weight tracking and configuration manageable via LINE.",
     },
     inUse: true,
@@ -328,7 +328,7 @@ export const works: Work[] = [
     icon: "flask-conical",
     publishedAt: "2026.07",
     description: {
-      ja: "複数の戦略を横断検証し、エントリー率・ドローダウン・Recovery Factorでランキングする8段のバックテスト探索パイプライン。単一戦略の過剰最適化を避け、崩れない戦略候補を継続選抜する。",
+      ja: "複数の戦略を横断検証し、エントリー率・ドローダウン・Recovery Factorでランキングする8段のバックテスト探索パイプライン。単一戦略の過剰最適化を避け、崩れない戦略候補を継続的に選抜する。",
       en: "An 8-stage backtest exploration pipeline ranking multi-strategy candidates by entry rate, drawdown, and Recovery Factor to avoid single-strategy overfitting.",
     },
     links: [
@@ -407,7 +407,7 @@ export const works: Work[] = [
     icon: "japanese-yen",
     publishedAt: "2026.08",
     description: {
-      ja: "給与所得がありながら副業で事業所得がある人のための帳簿。入力は金額と勘定科目だけで、複式簿記・家事按分・給与との合算は裏側で導出し、確定申告書へ転記できる集計まで出す。",
+      ja: "給与所得がありながら副業で事業所得がある人のための帳簿。入力は金額と勘定科目だけで、複式簿記・家事按分・給与との合算は裏側で導出し、確定申告書へ転記できる集計まで出力する。",
       en: "Bookkeeping for a salaried worker with side-business income. Entry takes only an amount and an account; double-entry, household apportionment, and the salary merge are derived behind the scenes, down to figures ready to transcribe onto a tax return.",
     },
     links: [
@@ -485,7 +485,7 @@ export const researches: Research[] = [
   {
     title: "wiki-guessur",
     description: {
-      ja: "冒頭の定義文を消された Wikipedia 記事の同定ベンチマーク。数式 / GBDT / LLM 再判定の 4 手法 × 5 シードで MRR を実測。",
+      ja: "冒頭の定義文が除去された Wikipedia 記事の同定ベンチマーク。数式 / GBDT / LLM 再判定の 4 手法 × 5 シードで MRR を実測。",
       en: "Identification benchmark for Wikipedia articles with redacted lead definitions. Evaluates MRR across 4 methods (Math / GBDT / LLM re-ranking) x 5 seeds.",
     },
     href: "https://github.com/yktsnet/wiki-guessur",
