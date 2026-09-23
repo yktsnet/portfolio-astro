@@ -11,8 +11,8 @@ const phases: Phase[] = [
     kicker: { ja: '背景', en: 'Context' },
     title: { ja: 'オーナーが現場を離れたい', en: 'Founder Transition to Management' },
     body: {
-      ja: '起点は勤怠の依頼ではない。費用の6割を人件費が占める原価構造を見て、最初に効くのはそこだと判断したことから始まっている。高齢のオーナーは引退を見据えて現場を離れたがっていたが、経営実務が属人化したままでは動けない。数字で当たりをつけたうえで、打刻の自動化を最初の一手に選んだ。',
-      en: 'This did not start with a request to automate attendance. It started with the cost structure: labor accounted for 60% of expenses, so that was where the first move would count. The aging owner wanted to step back from daily operations, but could not while the work stayed tied to individuals. The numbers pointed the way, and automated time tracking became the opening move.'
+      ja: '高齢のオーナーは引退を見据えて現場を離れたがっていたが、経営実務が属人化したままでは動けなかった。費用の6割を占める人件費から手を付けると決め、打刻の自動化を最初の一手に選んだ。',
+      en: 'The aging owner wanted to step back from daily operations ahead of retirement, but could not while the management work stayed tied to individuals. Labor made up 60% of expenses, so I started there and chose automated time tracking as the first move.'
     },
   },
   {
@@ -20,8 +20,8 @@ const phases: Phase[] = [
     title: { ja: 'NFC勤怠キットを納品', en: 'NFC Attendance Kit Deployment' },
     current: true,
     body: {
-      ja: 'ITを全く使えずExcelの改行も不慣れな現場スタッフのため、スマホ操作すら省いた「ICカードをかざすだけ」の物理UXを設計し、最初の1台を納品。説明不要で初日から定着し、打刻の偽装や月次の口頭確認といった大きな負担を根絶。この成功が厚い信頼関係の土台となった。',
-      en: 'Designed a single-tap NFC card physical UX requiring zero smartphone operation or training for non-tech field staff. Adopted on day one, eliminating manual attendance checks and building strong trust.'
+      ja: 'PC に不慣れなスタッフでも使えるよう、スマホ操作も省いて IC カードをかざすだけにした。説明なしで初日から定着し、打刻の偽装と月次の口頭確認がなくなった。これが次の相談につながった。',
+      en: 'So that staff unused to PCs could use it, I removed even the smartphone step: they just tap an IC card. It was adopted on day one without explanation, and falsified clock-ins and monthly verbal checks went away. That led to the next requests.'
     },
     works: [
       {
@@ -44,8 +44,8 @@ const phases: Phase[] = [
     kicker: { ja: '現在', en: 'Present' },
     title: { ja: '外部CTOとして法人化を伴走', en: 'External CTO Advisory & Automation' },
     body: {
-      ja: '勤怠DXの成功で築いた信頼を土台に、相談領域は契約書作成の自動化や情報配信など業務プロセス全体へ拡大。PC操作に慣れない現場のワークフローを無理にSaaS化せず、Excelの手入力やスプレッドシート運用のまま、裏側で自動化を後付けする「現場フレンドリーなDX」を推進。制度設計から泥臭い実装まで伴走。',
-      en: 'Expanding advisory into full operational process automation, document generation, and business structuring as an External CTO while keeping existing Excel/Sheet workflows intact.'
+      ja: '相談は契約書作成の自動化や情報配信など、業務全体に広がった。現場のやり方を SaaS に置き換えず、Excel の手入力やスプレッドシート運用はそのままに、裏側へ自動化を後付けしている。制度設計から実装まで受け持つ。',
+      en: 'Requests have since spread across the business, from contract generation to information distribution. Instead of replacing field workflows with SaaS, I keep manual Excel entry and spreadsheet operations as they are and retrofit automation behind them. I cover everything from designing policies to implementation.'
     },
     works: [
       {
@@ -53,7 +53,7 @@ const phases: Phase[] = [
         status: { ja: '稼働中', en: 'Active' },
         live: true,
         body: {
-          ja: 'Samba 共有 Excel を行単位 diff で監視し契約書テンプレへ自動転記。生成物は SQLite FTS5 で自然言語検索。',
+          ja: 'Samba 共有 Excel を行単位 diff で監視し契約書テンプレへ自動転記。生成物は SQLite FTS5 で全文検索。',
           en: 'Monitors shared Excel files via row-level diffing to auto-populate contract templates with SQLite FTS5 full-text search.'
         },
         repo: 'https://github.com/yktsnet/excel-kanri',
@@ -85,7 +85,7 @@ const phases: Phase[] = [
     </span>
   </h2>
   <p class="mt-6 text-sm leading-7 text-zinc-600 dark:text-poi-muted lang-ja">
-    きっかけは勤怠の困りごとを片付ける小さな道具を1つ納品したこと。そこで生まれた信頼が相談の幅を広げ、いまは制度設計から日々の自動化、法人化までを一手に引き受けている。経営も実装も自分でやってきた立場だからこそ、現場の手触りのまま回る形に落とせる。
+    きっかけは勤怠の困りごとを片付ける小さな道具を1つ納品したこと。そこで生まれた信頼が相談の幅を広げ、いまは制度設計から日々の自動化、法人化までを引き受けている。
   </p>
   <p class="mt-6 text-sm leading-7 text-zinc-600 dark:text-poi-muted lang-en">
     It started with delivering a small tool to solve attendance tracking challenges. The trust built led to broader advisory roles, now covering system architecture, daily automation, and corporate structure transition.

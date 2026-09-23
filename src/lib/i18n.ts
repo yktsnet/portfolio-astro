@@ -37,8 +37,8 @@ export const uiStrings = {
     en: "OSS Only",
   },
   noResults: {
-    ja: "条件に一致する作品がありません。",
-    en: "No works matched this filter.",
+    ja: "該当するものがありません。",
+    en: "Nothing matches this filter.",
   },
   architectureTitle: {
     ja: "NixOS + Docker 基盤構成",

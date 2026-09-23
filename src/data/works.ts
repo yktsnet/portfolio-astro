@@ -270,7 +270,7 @@ export const works: Work[] = [
     icon: "bot",
     publishedAt: "2026.07",
     description: {
-      ja: "開発者ポートフォリオ向けに、ビルド時自動同期で知識更新を不要にした受付チャットボット。Zenn 記事の取り込みや Contact への誘導は、設定のオンオフだけで手軽に切り替えられる。",
+      ja: "開発者ポートフォリオ向けに、ビルド時自動同期で知識更新を不要にした受付チャットボット。Zenn 記事の取り込みや Contact への誘導は、設定のオンオフで切り替えられる。",
       en: "Reception chatbot widget for developer portfolios with zero-maintenance build-time knowledge synchronization. Features easy toggling for Zenn article ingestion and contact routing.",
     },
     links: [
@@ -328,7 +328,7 @@ export const works: Work[] = [
     icon: "flask-conical",
     publishedAt: "2026.07",
     description: {
-      ja: "複数戦略候補を横断的に検証し、エントリー率・ドローダウン・Recovery Factorでランキングする8段のバックテスト探索パイプライン。単一戦略の過剰最適化を避け、崩れない戦略候補を継続選抜する。",
+      ja: "複数の戦略を横断検証し、エントリー率・ドローダウン・Recovery Factorでランキングする8段のバックテスト探索パイプライン。単一戦略の過剰最適化を避け、崩れない戦略候補を継続選抜する。",
       en: "An 8-stage backtest exploration pipeline ranking multi-strategy candidates by entry rate, drawdown, and Recovery Factor to avoid single-strategy overfitting.",
     },
     links: [
@@ -455,7 +455,7 @@ export const works: Work[] = [
     icon: "person-standing",
     publishedAt: "2026.09",
     description: {
-      ja: "エージェントで開発を回すチームのエンジニア評価ラダー。5軸5段階の判定文が sdlc-kit の配る成果物を名指しし、評価・標準化・採用を1本の物差しに乗せる。在籍者の採点と候補者の見極めで、替えるのは証拠源だけになる。",
+      ja: "エージェントで開発を回すチームのエンジニア評価ラダー。5軸5段階の判定文が sdlc-kit の配る成果物を名指しし、評価・標準化・採用を1本の物差しに乗せる。在籍者の採点にも候補者の見極めにも同じ物差しを使い、違うのは証拠源だけ。",
       en: "An engineer ladder for teams that develop with agents. Its five axes name the very artifacts sdlc-kit distributes, putting evaluation, standardization, and hiring on one scale — only the source of evidence changes between a member and a candidate.",
     },
     links: [
