@@ -467,6 +467,37 @@ export const works: Work[] = [
     ],
     stack: [{ label: "Markdown" }, { label: "Claude Code" }],
   },
+  {
+    categoryTags: ["chatbot"],
+    isOSS: true,
+    priority: 2,
+    title: "tg-dev-digest",
+    color: "#89ddff",
+    icon: "mailbox",
+    publishedAt: "2026.09",
+    description: {
+      ja: "はてブ・Zenn・GitHub Trending から開発まわりの記事を選び、毎日 Telegram へ届けるバッチ。Claude Haiku には記事の番号だけを選ばせ、送信済みの URL は GitHub のブランチに持たせて、サーバーを置かず GitHub Actions だけで回す。配信元は RSS を設定に書き足すだけで増やせる。",
+      en: "A daily batch that picks dev articles from Hatena Bookmark, Zenn, and GitHub Trending and delivers them to Telegram. Claude Haiku chooses only article numbers, sent URLs live on a GitHub branch, and it runs on GitHub Actions alone with no server. A new source takes one RSS entry in the config.",
+    },
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/tg-dev-digest",
+        external: true,
+      },
+      {
+        label: "Zenn",
+        href: "https://zenn.dev/yktsnet/articles/202608-hatena-github-digest",
+        external: true,
+      },
+    ],
+    stack: [
+      { label: "Python", brand: "python" },
+      { label: "Claude API" },
+      { label: "GitHub Actions" },
+      { label: "Telegram" },
+    ],
+  },
 ];
 
 
