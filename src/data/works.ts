@@ -216,8 +216,8 @@ export const works: Work[] = [
     icon: "book-search",
     publishedAt: "2026.06",
     description: {
-      ja: "SQL は集計に強いが自由記述に答えられず、RAG はその逆で文面の根拠は示せても集計はできない。帳票 PDF を Azure AI Document Intelligence で構造化し、LangGraph が質問を判定して SQL / RAG へ自動で振り分ける。",
-      en: "Combines SQL aggregation and RAG document search. Structures form PDFs via Azure AI Document Intelligence, using LangGraph to classify questions and route them automatically to SQL or RAG engines.",
+      ja: "帳票 PDF の文脈検索と DB 集計を統合し、自然言語で横断照会できる AI 基盤。Azure で帳票を構造化し、LangGraph が質問の性質に応じて SQL と RAG へ自動で振り分ける。",
+      en: "Hybrid AI search unifying SQL aggregation and RAG document lookup for business forms. Structures PDFs via Azure and routes queries to SQL or RAG engines using LangGraph.",
     },
     links: [
       {
@@ -383,8 +383,8 @@ export const works: Work[] = [
     icon: "zap",
     publishedAt: "2026.07",
     description: {
-      ja: "bt-dynamic で検証した戦略を、同一の判定コード・同一の config のまま実弾に接続する実行層。冪等な発注ゲート・照合型 OCO・EOD 決済・キルスイッチの安全設計を、systemd timer による無人運転ごと参照実装として公開。",
-      en: "Execution layer connecting strategies validated in bt-dynamic directly to live trading with identical logic and configs. Features idempotent order gates, OCO matching, EOD settlement, and kill switches.",
+      ja: "bt-dynamic で検証した戦略を、同一コード・同一設定のまま実弾に接続する実行層。発注ゲートやキルスイッチ等の安全設計を備え、systemd timer による無人運転まで実装。",
+      en: "Execution layer connecting strategies validated in bt-dynamic to live trading with identical logic. Features safety gates and kill switches, running unattended via systemd timers.",
     },
     links: [
       {
@@ -433,8 +433,8 @@ export const works: Work[] = [
     icon: "gift",
     publishedAt: "2026.09",
     description: {
-      ja: "1人で固めた開発の型を、チームのリポジトリへ1コマンドで取り込める単位に切り出した配布キット。何を約束し誰が裁可したかはコードに残らないので、その置き場と手順ごと配る。作業フロー・駆動文書・保証台帳を選んで入れる。",
-      en: "A distribution kit that cuts a solo-hardened development process into units a team repository pulls in with one command. What was promised and who approved it never survives in the code, so the kit hands over the place to keep it along with the procedure.",
+      ja: "1人で固めた開発の型を、チームのリポジトリへ1コマンドで取り込める配布キット。裁可の記録場所や手順ごと、作業フロー・駆動文書・保証台帳を選択して組み込める。",
+      en: "A distribution kit that imports a solo-hardened dev process into team repos in one command. Packages workflows, driving docs, and assurance ledgers along with audit procedures.",
     },
     links: [
       {
@@ -455,8 +455,8 @@ export const works: Work[] = [
     icon: "person-standing",
     publishedAt: "2026.09",
     description: {
-      ja: "エージェントで開発を回すチームのエンジニア評価ラダー。5軸5段階の判定文が sdlc-kit の配る成果物を名指しし、評価・標準化・採用を1本の物差しに乗せる。在籍者の採点にも候補者の見極めにも同じ物差しを使い、違うのは証拠源だけ。",
-      en: "An engineer ladder for teams that develop with agents. Its five axes name the very artifacts sdlc-kit distributes, putting evaluation, standardization, and hiring on one scale — only the source of evidence changes between a member and a candidate.",
+      ja: "エージェントで開発を回すチームのエンジニア評価ラダー。5軸5段階の判定文で sdlc-kit の成果物を名指しし、在籍者の評価から採用選考までを1本の物差しに乗せる。",
+      en: "An engineer ladder for teams developing with AI agents. Uses a 5-axis, 5-level criteria tied to sdlc-kit artifacts to unify internal evaluation and hiring on a single scale.",
     },
     links: [
       {
@@ -476,8 +476,8 @@ export const works: Work[] = [
     icon: "mailbox",
     publishedAt: "2026.09",
     description: {
-      ja: "はてブ・Zenn・GitHub Trending から開発まわりの記事を選び、毎日 Telegram へ届けるバッチ。Claude Haiku には記事の番号だけを選ばせ、送信済みの URL は GitHub のブランチに持たせて、サーバーを置かず GitHub Actions だけで回す。配信元は RSS を設定に書き足すだけで増やせる。",
-      en: "A daily batch that picks dev articles from Hatena Bookmark, Zenn, and GitHub Trending and delivers them to Telegram. Claude Haiku chooses only article numbers, sent URLs live on a GitHub branch, and it runs on GitHub Actions alone with no server. A new source takes one RSS entry in the config.",
+      ja: "はてブ・Zenn・GitHub Trending から記事を選び、毎日 Telegram へ届ける配信バッチ。Claude Haiku の選別と GitHub Actions 実行でサーバーを置かず、完全自動で運用。",
+      en: "A daily batch that curates tech articles from Hatena, Zenn, and GitHub Trending to Telegram. Runs serverless on GitHub Actions using Claude Haiku for lightweight selection.",
     },
     links: [
       {
