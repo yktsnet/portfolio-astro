@@ -167,7 +167,7 @@ describe('POST /api/chat', () => {
     expect(vi.mocked(createGeminiGenerator)).toHaveBeenCalledWith(
       expect.objectContaining({
         apiKey: 'test-key',
-        knowledge: '# About\nURL: /about/\n\nAbout me\n\n# 記事\nURL: https://zenn.dev/yktsnet/articles/a\n\nArticle',
+        knowledge: '# About（このサイトのページ）\n\nAbout me\n\n# 記事\nURL: https://zenn.dev/yktsnet/articles/a\n\nArticle',
         contactUrl: 'https://ykts.net/contact/',
       })
     );

@@ -47,7 +47,19 @@ folio-agent に触れる箇所は次の4つだけである。1 の一覧に出�
 `folio-agent-init` を実行するときは、先に `--dry-run` を付けて、config と `build` スクリプトが意図せず
 変わらないことを確かめる。
 
-## 4. 検証する
+## 4. D1 の migration を適用する
+
+新しい版が migration を足していれば（`ls node_modules/@folio-agent/handler/migrations`）、本番の D1 に適用する。
+`wrangler.jsonc` の `migrations_dir` が同梱の migrations を指しているので、足りない分だけが当たる。
+本番への操作なので、Claude は実行せずコマンドを user に渡す（`.claude/settings.json` も wrangler を拒否している）。
+
+```bash
+npx wrangler d1 migrations apply ykts-folio-agent --remote
+```
+
+新しいコードより先に適用してよい（テーブルが増えるだけで、古いコードは触らない）。PR をマージしてデプロイする前に済ませてもらう。
+
+## 5. 検証する
 
 ```bash
 npm run build
@@ -67,7 +79,7 @@ dev サーバーでは D1 / Gemini に繋がらず回答は返らないことが
 - ブラウザの開発ツールで幅 390px にし、全画面で開いて閉じられる
 - 日本語と英語の切り替えで、ウィジェットの文言が意図どおりになる（`lang` 属性の扱い）
 
-## 5. PR を出す
+## 6. PR を出す
 
 コミットの件名は `chore(deps): folio-agent を <x.y.z> に上げる`。本文には 1 の一覧と、
 3 で何を直したか（直さなかったものは理由）を書く。`## 検証手順` には、デプロイ後に user が
