@@ -93,14 +93,8 @@ const { items } = Astro.props;
         </h3>
 
         <p class="mt-2.5 font-sans text-sm leading-6 text-zinc-600 dark:text-poi-focus/90 whitespace-pre-line text-justify">
-          {typeof item.description === 'string' ? (
-            item.description
-          ) : (
-            <>
-              <span class="lang-ja">{item.description.ja}</span>
-              <span class="lang-en">{item.description.en}</span>
-            </>
-          )}
+          <span class="lang-ja">{item.description.ja}</span>
+          <span class="lang-en">{item.description.en}</span>
         </p>
       </article>
     ))}

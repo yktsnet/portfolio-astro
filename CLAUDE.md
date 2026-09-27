@@ -44,7 +44,10 @@ About・Approach・Impact の各セクションは `src/data/` を経由せず�
 
 ### 多言語
 
-`src/lib/i18n.ts` が文言と言語判定を持ち、`LangToggle.astro` が切り替える。
+日英の両方を HTML に出し、`<html data-lang>` に応じて CSS（`global.css`）が片方を隠す。言語の初期値は `MainLayout.astro` が `localStorage` とブラウザの言語から決め、`LangToggle.astro` が切り替える。
+
+- コンポーネントに直書きする文言は `<span class="lang-ja">` と `<span class="lang-en">` を並べる
+- `src/data/` のデータに持たせる文言は `MultilingualText`（`src/lib/i18n.ts`）で `{ ja, en }` の両方を持ち、描画側で同じ2つの span に展開する
 
 ### API レイヤー
 
