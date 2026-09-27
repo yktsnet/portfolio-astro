@@ -97,7 +97,12 @@ const year = new Date().getFullYear();
       <slot />
     </main>
     <SiteFooter year={year} />
-    <folio-agent-widget endpoint="/api/chat" policy-href="/data-policy/"></folio-agent-widget>
+    <folio-agent-widget endpoint="/api/chat" policy-href="/data-policy/">
+      <span slot="subheading">
+        <span class="lang-ja">このサイトと、制作の経緯を書いた <a href="https://zenn.dev/yktsnet" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2">Zenn</a>（技術記事の投稿サイト）の記事をもとに AI が答えます</span>
+        <span class="lang-en">AI answers from this site and my articles on <a href="https://zenn.dev/yktsnet" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2">Zenn</a> (a tech blogging platform) about how each project was built</span>
+      </span>
+    </folio-agent-widget>
     <script>
       import { defineFolioAgentWidget } from '@folio-agent/widget';
       defineFolioAgentWidget();

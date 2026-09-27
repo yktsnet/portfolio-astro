@@ -2,7 +2,8 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createChatHandler, createGeminiGenerator } from '@folio-agent/handler';
 import { app } from './api';
 
-vi.mock('@folio-agent/handler', () => ({
+vi.mock('@folio-agent/handler', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@folio-agent/handler')>()),
   createChatHandler: vi.fn(
     () => async () =>
       new Response(JSON.stringify({ answer: 'mocked answer', route: 'thoughts' }), {
@@ -147,7 +148,12 @@ describe('POST /api/chat', () => {
       GEMINI_API_KEY: 'test-key',
       ASSETS: {
         fetch: vi.fn().mockResolvedValue(
-          new Response(JSON.stringify({ pages: [{ url: '/about/', text: 'About me' }] }), {
+          new Response(JSON.stringify({
+            pages: [
+              { url: '/about/', title: 'About', text: 'About me' },
+              { url: 'https://zenn.dev/yktsnet/articles/a', title: '記事', text: 'Article' },
+            ],
+          }), {
             headers: { 'Content-Type': 'application/json' },
           })
         ),
@@ -161,12 +167,18 @@ describe('POST /api/chat', () => {
     expect(vi.mocked(createGeminiGenerator)).toHaveBeenCalledWith(
       expect.objectContaining({
         apiKey: 'test-key',
-        knowledge: '# /about/\n\nAbout me',
+        knowledge: '# About\nURL: /about/\n\nAbout me\n\n# 記事\nURL: https://zenn.dev/yktsnet/articles/a\n\nArticle',
         contactUrl: 'https://ykts.net/contact/',
       })
     );
     expect(vi.mocked(createChatHandler)).toHaveBeenCalledWith(
-      expect.objectContaining({ db: env.DB })
+      expect.objectContaining({
+        db: env.DB,
+        answerLinks: [
+          { url: 'https://zenn.dev/yktsnet/articles/a', title: '記事' },
+          { url: 'https://ykts.net/contact/', title: 'Contactページ' },
+        ],
+      })
     );
   });
 });

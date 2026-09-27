@@ -9,7 +9,7 @@
   "language": "ja",
   "zenn": {
     "articlesDir": "/home/yktsnet/github-private/zenn/articles",
-    "baseUrl": "yktsnet"
+    "baseUrl": "https://zenn.dev/yktsnet/articles"
   },
   "zennSnapshotPath": "zenn-snapshot.json"
 }
