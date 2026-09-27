@@ -4,10 +4,6 @@
 
 ### 1. `src/lib/api.test.ts` — src/lib/api.ts (Hono app)
 
-- `GET /api/hello` は常に 200 で `{ message: 'Hello from Hono!', status: 'logical_efficiency_verified' }` を返す。
-- `GET /api/status` は `ykts_status_metrics` KV バインディングが無い場合、500 で `{ error: 'kv_not_bound' }` を返す。
-- `GET /api/status` は KV にデータが無い場合（`get` が `null` を返す場合）、404 を返す。
-- `GET /api/status` は KV に保存された JSON をパースし、そのまま 200 で返す。
 - `POST /api/contact` はリクエストボディが JSON としてパースできない場合、400 で `{ error: 'invalid_json' }` を返す。
 - `POST /api/contact` は `name`/`email`/`phone` のいずれかが欠けている場合、400 を返す。
 - `POST /api/contact` は `TELEGRAM_BOT_TOKEN` または `TELEGRAM_CHAT_ID` が未設定の場合、500 で `{ error: 'server_config_error' }` を返す。
@@ -22,10 +18,6 @@
 
 | 保証(要約) | 対応テスト |
 |---|---|
-| `/api/hello` の固定レスポンス | `GET /api/hello > 200 with fixed payload` |
-| `/api/status` KV 未バインド時 500 | `GET /api/status > 500 when KV not bound` |
-| `/api/status` データ無し時 404 | `GET /api/status > 404 when no data in KV` |
-| `/api/status` 正常時のデータ整形 | `GET /api/status > 200 with parsed KV data` |
 | `/api/contact` 不正 JSON | `POST /api/contact > 400 for invalid JSON` |
 | `/api/contact` 必須項目欠落 | `POST /api/contact > 400 when required fields missing` |
 | `/api/contact` Telegram 未設定 | `POST /api/contact > 500 when Telegram config not configured` |

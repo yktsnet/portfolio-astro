@@ -26,7 +26,6 @@ https://ykts.net
 Cloudflare Pages
   ├─ 静的出力 (SSG)
   └─ /api/*  ─ Edge Functions (Hono)
-                  ├─ /api/status   ─ Cloudflare KV（稼働ステータス配信）
                   ├─ /api/contact  ─ Telegram + Turnstile
                   └─ /api/chat     ─ Folio Agent (Gemini API + Cloudflare D1)
 ```

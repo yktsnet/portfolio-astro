@@ -1,11 +1,6 @@
 import { Hono } from 'hono';
-import { cors } from 'hono/cors';
 import { createChatHandler, createGeminiGenerator } from '@folio-agent/handler';
 import type { KnowledgeDocument } from '@folio-agent/handler';
-
-type KVNamespace = {
-  get(key: string): Promise<string | null>;
-};
 
 // Cloudflare バインディングの境界。D1Database の型は @folio-agent/handler から導出し、
 // このリポには存在しない @cloudflare/workers-types を追加しない。
@@ -16,11 +11,9 @@ type Fetcher = {
 };
 
 type Bindings = {
-  ykts_status_metrics?: KVNamespace;
   TELEGRAM_BOT_TOKEN?: string;
   TELEGRAM_CHAT_ID?: string;
   TURNSTILE_SECRET_KEY?: string;
-  SESSION?: KVNamespace;
   DB?: ChatDb;
   GEMINI_API_KEY?: string;
   ASSETS?: Fetcher;
@@ -51,28 +44,6 @@ async function loadKnowledge(assets: Fetcher, origin: string): Promise<string> {
   }
   return knowledgePromise;
 }
-
-app.use('/api/status', cors());
-
-app.get('/api/hello', (c) => {
-  return c.json({
-    message: 'Hello from Hono!',
-    status: 'logical_efficiency_verified',
-  });
-});
-
-app.get('/api/status', async (c) => {
-  const kv = c.env?.ykts_status_metrics;
-  if (!kv) {
-    return c.json({ error: 'kv_not_bound' }, 500);
-  }
-  const raw = await kv.get('status:latest');
-  if (!raw) {
-    return c.json({ error: 'no_data' }, 404);
-  }
-  const data = JSON.parse(raw);
-  return c.json(data);
-});
 
 function escapeHtml(str: string): string {
   return str

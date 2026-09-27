@@ -26,7 +26,6 @@ Selected with a focus on balancing flexibility and implementation speed.
 Cloudflare Pages
   ├─ Static output (SSG)
   └─ /api/*  ─ Edge Functions (Hono)
-                  ├─ /api/status   ─ Cloudflare KV (live status feed)
                   ├─ /api/contact  ─ Telegram + Turnstile
                   └─ /api/chat     ─ Folio Agent (Gemini API + Cloudflare D1)
 ```
