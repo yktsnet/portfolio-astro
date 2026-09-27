@@ -30,7 +30,7 @@ export type StackItem = { label: string; brand?: BrandKey };
 /**
  * カテゴリ定義の一元管理。
  * - icon: 表示に使う Lucide アイコン名
- * - weight: 並びの強弱（小さいほど強い）。ai/iot/modernization=1、webui=3、未定義は DEFAULT_CATEGORY_WEIGHT
+ * - weight: 並びの強弱（小さいほど強い）。iot/modernization=1、それ以外と未定義は DEFAULT_CATEGORY_WEIGHT
  * Work.categoryTags は内部用の全カテゴリ（4つ以上可）。表示は displayCategoryTags で重み順・最大3つに絞る。
  */
 const DEFAULT_CATEGORY_WEIGHT = 2;
