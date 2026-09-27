@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
-import { createChatHandler, createGeminiGenerator } from '@folio-agent/handler';
-import type { KnowledgeDocument } from '@folio-agent/handler';
+import { collectAnswerLinks, createChatHandler, createGeminiGenerator, formatKnowledge } from '@folio-agent/handler';
+import type { AnswerLink, KnowledgeDocument } from '@folio-agent/handler';
 
 // Cloudflare バインディングの境界。D1Database の型は @folio-agent/handler から導出し、
 // このリポには存在しない @cloudflare/workers-types を追加しない。
@@ -26,9 +26,11 @@ const CONTACT_URL = 'https://ykts.net/contact/';
 // knowledge.json は astro build 後に dist へ静的アセットとして配置される（package.json の build スクリプト参照）。
 // Worker バンドル時点ではまだ存在しないため import できず、初回リクエストで ASSETS 経由で読み、
 // Worker インスタンスの生存中（モジュールスコープ）だけキャッシュする。
-let knowledgePromise: Promise<string> | null = null;
+type LoadedKnowledge = { knowledge: string; answerLinks: AnswerLink[] };
 
-async function loadKnowledge(assets: Fetcher, origin: string): Promise<string> {
+let knowledgePromise: Promise<LoadedKnowledge> | null = null;
+
+async function loadKnowledge(assets: Fetcher, origin: string): Promise<LoadedKnowledge> {
   if (!knowledgePromise) {
     knowledgePromise = (async () => {
       const res = await assets.fetch(`${origin}/knowledge.json`);
@@ -36,7 +38,7 @@ async function loadKnowledge(assets: Fetcher, origin: string): Promise<string> {
         throw new Error(`failed to fetch knowledge.json: ${res.status}`);
       }
       const doc = (await res.json()) as KnowledgeDocument;
-      return doc.pages.map((p) => `# ${p.url}\n\n${p.text}`).join('\n\n');
+      return { knowledge: formatKnowledge(doc), answerLinks: collectAnswerLinks(doc, CONTACT_URL) };
     })().catch((err) => {
       knowledgePromise = null;
       throw err;
@@ -129,10 +131,10 @@ app.post('/api/chat', async (c) => {
     return c.json({ error: 'server_config_error' }, 500);
   }
 
-  let knowledge: string;
+  let loaded: LoadedKnowledge;
   try {
     const origin = new URL(c.req.url).origin;
-    knowledge = await loadKnowledge(assets, origin);
+    loaded = await loadKnowledge(assets, origin);
   } catch (err) {
     console.error('folio-agent chat: failed to load knowledge.json:', err);
     return c.json({ error: 'knowledge_unavailable' }, 500);
@@ -140,7 +142,8 @@ app.post('/api/chat', async (c) => {
 
   const handler = createChatHandler({
     db,
-    generateAnswer: createGeminiGenerator({ apiKey, knowledge, contactUrl: CONTACT_URL }),
+    answerLinks: loaded.answerLinks,
+    generateAnswer: createGeminiGenerator({ apiKey, knowledge: loaded.knowledge, contactUrl: CONTACT_URL }),
   });
 
   return handler(c.req.raw);

@@ -38,9 +38,9 @@ folio-agent に触れる箇所は次の4つだけである。1 の一覧に出�
 
 | 箇所 | 持っているもの |
 |---|---|
-| `src/layouts/MainLayout.astro` | `<folio-agent-widget>` のタグと属性（`endpoint` / `policy-href` / `lang` / `heading` / `greeting` / `suggestions`） |
+| `src/layouts/MainLayout.astro` | `<folio-agent-widget>` のタグと属性（`endpoint` / `policy-href` / `lang` / `heading` / `greeting` / `suggestions`）と、ヘッダ2行目の `slot="subheading"`（何をもとに答えるか。日英の span と Zenn へのリンクを持つ。リンクの見た目はサイトの CSS が決めるので、下線のクラスを付ける） |
 | `src/styles/global.css` | ウィジェットの配色。`:root`（ライト）と `.dark`（Poimandres）の2組で `--folio-agent-*` を指定する |
-| `src/lib/api.ts` | `createChatHandler` / `createGeminiGenerator` の呼び出し |
+| `src/lib/api.ts` | `formatKnowledge` / `collectAnswerLinks` と `createChatHandler` / `createGeminiGenerator` の呼び出し |
 | `folio-agent.config.json` | ingest の設定（`npm run build` が読む） |
 
 ウィジェットの配色は `global.css` だけが持つ。config に `theme` を置かず、`folio-agent.theme.css` も作らない。
