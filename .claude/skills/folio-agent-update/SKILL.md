@@ -43,8 +43,9 @@ folio-agent に触れる箇所は次の4つだけである。1 の一覧に出�
 | `src/lib/api.ts` | `createChatHandler` / `createGeminiGenerator` の呼び出し |
 | `folio-agent.config.json` | ingest の設定（`npm run build` が読む） |
 
-ウィジェットの配色は `global.css` だけが持つ。`folio-agent.theme.css` と config の `theme` は
-どこからも読み込まれていないので、配色を変えるときに触らない。
+ウィジェットの配色は `global.css` だけが持つ。config に `theme` を置かず、`folio-agent.theme.css` も作らない。
+`folio-agent-init` を実行するときは、先に `--dry-run` を付けて、config と `build` スクリプトが意図せず
+変わらないことを確かめる。
 
 ## 4. 検証する
 
@@ -52,10 +53,14 @@ folio-agent に触れる箇所は次の4つだけである。1 の一覧に出�
 npm run build
 npm run typecheck
 npm run test
-npm run dev
+npx astro dev stop; npm run dev -- --force
 ```
 
-`npm run dev` で http://localhost:4321 を開き、ウィジェットを次の条件で目視する。
+`astro dev` は常駐する。依存を上げる前に起動したサーバーが残っていると、古い widget のまま動き続け、
+ウィジェットが表示されない。先に `npx astro dev stop` で止め、`npm run dev -- --force` で起動し直す。
+確認が終わったら `npx astro dev stop` で止める。
+
+http://localhost:4321 を開き、ウィジェットを次の条件で目視する。
 dev サーバーでは D1 / Gemini に繋がらず回答は返らないことがあるので、見るのは UI だけでよい。
 
 - ライトとダーク（ヘッダの切り替え）の両方で、起動ボタン・パネル・吹き出し・補助テキストが読める

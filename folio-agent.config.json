@@ -7,11 +7,6 @@
     "/impact"
   ],
   "language": "ja",
-  "theme": {
-    "accent": "#2563eb",
-    "surface": "#ffffff",
-    "text": "#111827"
-  },
   "zenn": {
     "articlesDir": "/home/yktsnet/github-private/zenn/articles",
     "baseUrl": "yktsnet"
