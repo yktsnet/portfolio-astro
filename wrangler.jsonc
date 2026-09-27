@@ -24,11 +24,6 @@
                         "binding": "SESSION",
                         "id": "a1fd815828144dcea2f420e960be567b",
                         "remote": true
-                },
-                {
-                        "binding": "ykts_status_metrics",
-                        "id": "c04d76639e37483ea33ea380ec1bc3e6",
-                        "remote": true
                 }
         ],
         "d1_databases": [

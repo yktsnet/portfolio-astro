@@ -1,7 +1,6 @@
 ---
 import RightNav from './RightNav.astro';
 import Logo from '../layouts/Logo.astro';
-import { menuLinks } from '../site.config';
 
 interface Props {
   currentPath: string;
@@ -11,10 +10,6 @@ const { currentPath } = Astro.props;
 
 const isHome = currentPath === "/";
 const isPhotos = currentPath === "/photos/";
-const navLinks = menuLinks.map((l) => ({
-  ...l,
-  isCurrent: currentPath === l.path,
-}));
 ---
 <header class="group relative mb-16 flex flex-wrap items-center gap-y-2" id="main-header">
   <div class="relative flex sm:flex-col">
@@ -28,21 +23,6 @@ const navLinks = menuLinks.map((l) => ({
       </div>
       <span class="text-2xl font-bold text-zinc-900 dark:text-poi-focus">ykts.net</span>
     </a>
-    <nav
-      aria-label="Main menu"
-      class="bg-zinc-50 dark:bg-poi-base absolute -inset-x-4 top-14 hidden flex-col divide-y px-2 py-4 sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:divide-x sm:divide-y-0 sm:divide-light-accent dark:sm:divide-poi-accent sm:bg-transparent sm:p-0"
-      id="navigation-menu"
-    >
-      {navLinks.map((link) => (
-        <a
-          aria-current={link.isCurrent ? "page" : false}
-          class="text-light-accent dark:text-poi-accent px-2 py-4 font-semibold sm:px-4 sm:py-0 sm:underline-offset-2 sm:hover:underline"
-          href={link.path}
-        >
-          {link.title}
-        </a>
-      ))}
-    </nav>
   </div>
   <RightNav isPhotos={isPhotos} />
 </header>

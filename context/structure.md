@@ -11,7 +11,6 @@ src/
   pages/          # ルーティング (Astroファイル構造に対応)
     api/          # Edge Functions (Hono, prerender = false)
   styles/         # グローバルCSS
-  utils/          # ヘルパー関数
 ```
 
 ## ルーティング
@@ -22,7 +21,6 @@ src/
 
 - Works・写真は `src/data/*.ts`
 - About・Approach・Impact は各コンポーネント内に直書き
-- トレーディングステータスは Cloudflare KV（`/api/status` 経由）
 
 ## APIエンドポイント
 
@@ -30,8 +28,6 @@ src/
 
 | エンドポイント | 役割 |
 |---|---|
-| `GET /api/hello` | 疎通確認 |
-| `GET /api/status` | KVから最新ステータスデータを返す |
 | `POST /api/contact` | Turnstile検証 → Discord Webhookへ転送 |
 | `POST /api/chat` | folio-agent のチャット応答 |
 
