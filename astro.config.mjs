@@ -13,7 +13,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
-      include: ['hono', 'hono/cors', 'simple-icons', 'lucide-react', '@folio-agent/handler'],
+      include: ['hono', 'hono/cors', 'simple-icons', '@folio-agent/handler'],
     },
     ssr: {
       external: ["node:fs", "node:path"],
