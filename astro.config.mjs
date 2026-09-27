@@ -9,6 +9,8 @@ export default defineConfig({
   output: 'static',
   adapter: cloudflare({
     imageService: 'compile',
+    // PR の CI は Cloudflare の認証情報を持たない。静的出力の build は remote バインディングを読まないので、切って通す
+    remoteBindings: process.env.CF_REMOTE_BINDINGS !== 'false',
   }),
   vite: {
     plugins: [tailwindcss()],

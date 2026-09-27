@@ -21,6 +21,11 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
+      # main では deploy ジョブが build するので、PR のときだけ走らせる
+      - if: github.event_name == 'pull_request'
+        run: npm run build
+        env:
+          CF_REMOTE_BINDINGS: 'false'
 
   deploy:
     needs: test
