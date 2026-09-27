@@ -14,7 +14,7 @@
 - `POST /api/contact` は `TURNSTILE_SECRET_KEY` が未設定の場合、`cfToken` の有無にかかわらず Turnstile 検証をスキップして処理を続行する（ローカル開発でフォームを通すための経路）。
 - `POST /api/chat` は `DB`・`GEMINI_API_KEY`・`ASSETS` のいずれかが未設定の場合、500 で `{ error: 'server_config_error' }` を返す。
 - `POST /api/chat` は `knowledge.json` を `ASSETS` 経由（`{origin}/knowledge.json`）で取得できない場合、500 で `{ error: 'knowledge_unavailable' }` を返す。
-- `POST /api/chat` は正常系で `knowledge.json` の各ページを `# {url}\n\n{text}` 形式に整形した knowledge と `contactUrl` を `createGeminiGenerator` に、`DB` を `createChatHandler` に渡し、ハンドラのレスポンスをそのまま返す。
+- `POST /api/chat` は正常系で `knowledge.json` を `formatKnowledge` で整形した knowledge と `contactUrl` を `createGeminiGenerator` に、`DB` と `collectAnswerLinks(knowledge.json, contactUrl)` で集めた `answerLinks` を `createChatHandler` に渡し、ハンドラのレスポンスをそのまま返す。
 
 | 保証(要約) | 対応テスト |
 |---|---|
