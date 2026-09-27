@@ -52,12 +52,11 @@
     /* poi-accent の実体色。ライト=ピンク(#d0679d) / ダーク=ティール(#5de4c7) */
     --color-accent: 208 103 157;
 
-    /* folio-agent ウィジェットのテーマトークン（本サイトのパレットへマップ） */
+    /* folio-agent ウィジェットのテーマトークン（本サイトのパレットへマップ）。
+       muted / accent-contrast はこの3色からウィジェット側が導出する */
     --folio-agent-surface: var(--color-white);
     --folio-agent-text: var(--color-zinc-900);
-    --folio-agent-muted: var(--color-zinc-500);
     --folio-agent-accent: var(--color-light-accent);
-    --folio-agent-accent-contrast: var(--color-white);
     --folio-agent-font: var(--font-mono);
   }
 
@@ -66,9 +65,7 @@
 
     --folio-agent-surface: var(--color-poi-panel);
     --folio-agent-text: var(--color-poi-focus);
-    --folio-agent-muted: var(--color-poi-muted);
     --folio-agent-accent: var(--color-poi-accent);
-    --folio-agent-accent-contrast: var(--color-poi-base);
   }
 }
 
