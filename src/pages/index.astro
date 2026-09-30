@@ -6,6 +6,7 @@ import AllWorks from '../components/AllWorks.astro';
 import WorkFilter from '../components/WorkFilter.astro';
 import { works, researches, getCategoryIcon } from '../data/works';
 import { getLucideIcon } from '../lib/lucide';
+import { siteConfig } from '../site.config';
 
 // 現場導入（inUse trueが上）を第一キー、優先度（priority 昇順）を第二キー、時系列（publishedAt 降順）を第三キーとしてソート
 const sortedWorks = [...works].sort((a, b) => {
@@ -55,7 +56,7 @@ const resolvedTags = allUniqueCategoryTags.map(tag => {
 });
 ---
 
-<ProfileLayout current="works" title="Works">
+<ProfileLayout current="works" title={siteConfig.author}>
   {/* 上部: 共同ホスト基盤「NixOS + Docker」の解説と構成図モニター */}
   <HostingArchitecture />
 
