@@ -53,7 +53,7 @@ const principles: Principle[] = [
     term: { ja: '生成より、検証', en: 'Verification over Generation' },
     body: [
       {
-        ja: 'AIがコードを書く時代、時間がかかるのは書くことではなく、書かれたものを信じられるか確かめることに変わった。AIは自信を持って静かに間違え、放っておけば破壊的な操作や機密漏洩をそのまま本番へ通す。人が注意する約束は形骸化するので、環境差の排除・破壊的コマンドの遮断・機密の隔離はコードと設定で固定し、人間のマージを最後の関門に置く。',
+        ja: 'AIがコードを書く時代、時間がかかるのは書くことではなく、書かれたものを信じられるか確かめることに変わった。AIは警告も出さずに自信を持って間違え、放っておけば破壊的な操作や機密漏洩をそのまま本番へ通す。人が注意する約束は形骸化するので、環境差の排除・破壊的コマンドの遮断・機密の隔離はコードと設定で固定し、人間のマージを最後の関門に置く。',
         en: 'In the age of AI code generation, the bottleneck shifts from writing code to verifying its correctness. AI makes mistakes quietly and confidently, and left unwatched it will push destructive commands or leaked secrets straight to production. A promise to be careful decays, so environment isolation, command sandboxing, and secret handling are fixed in code and config, with a human merge as the last gate.'
       },
       {
