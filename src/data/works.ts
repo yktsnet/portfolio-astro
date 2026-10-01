@@ -301,7 +301,7 @@ export const works: Work[] = [
     icon: "user-pen",
     publishedAt: "2026.07",
     description: {
-      ja: "既存の Excel 帳票運用を壊さずに、Web フォーム生成・共有フォルダの PDF 自動変換・全文検索を後付け。clone して使う汎用モジュール群 + FastAPI/React リファレンス実装。",
+      ja: "既存の Excel 帳票運用はそのままに、Web フォーム生成・共有フォルダの PDF 自動変換・全文検索を後付け。clone して使う汎用モジュール群 + FastAPI/React リファレンス実装。",
       en: "Retrofit web forms, shared folder PDF conversion, and full-text search without breaking existing Excel workflows. Provides cloneable modules with a FastAPI/React reference implementation.",
     },
     inUse: true,
@@ -328,7 +328,7 @@ export const works: Work[] = [
     icon: "flask-conical",
     publishedAt: "2026.07",
     description: {
-      ja: "複数の戦略を横断検証し、エントリー率・ドローダウン・Recovery Factorでランキングする8段のバックテスト探索パイプライン。単一戦略の過剰最適化を避け、崩れない戦略候補を継続的に選抜する。",
+      ja: "複数の戦略を横断検証し、エントリー率・ドローダウン・Recovery Factorでランキングする8段のバックテスト探索パイプライン。単一戦略の過剰最適化を避け、成績が大きく落ち込みにくい戦略候補を継続的に選抜する。",
       en: "An 8-stage backtest exploration pipeline ranking multi-strategy candidates by entry rate, drawdown, and Recovery Factor to avoid single-strategy overfitting.",
     },
     links: [
@@ -352,7 +352,7 @@ export const works: Work[] = [
     icon: "trending-up-down",
     publishedAt: "2026.07",
     description: {
-      ja: "静的バックテストは相場環境が変われば共倒れする。相場を9セル（トレンド強度×ボラティリティ）に分類し、セルごとに順張り/逆張り/ノーポジを切り替える動的レジーム切替を、分類→判定→検証まで通して実装。",
+      ja: "静的バックテストで選んだ戦略は、相場環境が変わると一斉に成績を落とす。相場を9セル（トレンド強度×ボラティリティ）に分類し、セルごとに順張り/逆張り/ノーポジを切り替える動的レジーム切替を、分類→判定→検証まで通して実装。",
       en: "Dynamic regime switching backtester that classifies market conditions into 9 cells (trend strength x volatility) and adaptively toggles trend-following, mean-reversion, or flat positions.",
     },
     links: [
