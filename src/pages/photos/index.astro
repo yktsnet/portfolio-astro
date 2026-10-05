@@ -54,7 +54,7 @@ function toRhythmChunks(items: Photo[]) {
 }
 ---
 
-<MainLayout title="Photos" description="Photos taken by Katsuhiro Yamakawa.">
+<MainLayout title="Photos" description="Photos taken by Katsuhiro Yamakawa." showChat={false}>
   <nav id="photo-index" aria-label="Photo sections" class="mb-16 rounded-md border border-zinc-200/80 px-5 py-4 sm:px-6 sm:py-5 dark:border-poi-border/50">
     <ul class="flex flex-col">
       {sections.map((section) => (
@@ -139,9 +139,8 @@ function toRhythmChunks(items: Photo[]) {
     <p id="lightbox-meta" class="lightbox-meta"></p>
   </div>
 
-  <!-- チャットのトグル（右下20px・高さ46px）と重ならないよう、その真上に置く -->
   <button
-    class="fixed inset-e-5 bottom-20 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-light-accent dark:hover:border-poi-accent sm:h-12 sm:w-12"
+    class="fixed inset-e-4 bottom-8 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-light-accent dark:hover:border-poi-accent sm:inset-e-8 sm:h-12 sm:w-12"
     id="to-top-btn"
   >
     <span class="sr-only">Back to index</span>
