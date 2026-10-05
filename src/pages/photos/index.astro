@@ -11,7 +11,7 @@ const validPhotos = photos.filter((p) => existingNames.has(p.src));
 
 // Group consecutive photos with same location + date
 type Photo = typeof validPhotos[number];
-type Section = { location: string; date: string; items: Photo[] };
+type Section = { id: string; location: string; date: string; items: Photo[] };
 const sections: Section[] = [];
 for (const photo of validPhotos) {
   const existing = sections.find(
@@ -20,10 +20,14 @@ for (const photo of validPhotos) {
   if (existing) {
     existing.items.push(photo);
   } else {
-    sections.push({ location: photo.location, date: photo.date, items: [photo] });
+    sections.push({ id: toSlug(`${photo.location}-${photo.date}`), location: photo.location, date: photo.date, items: [photo] });
   }
 }
 sections.sort((a, b) => b.date.localeCompare(a.date));
+
+function toSlug(text: string) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
 
 // Split a flat array into alternating rhythm chunks: [full, pair, full, pair, ...]
 // chunk pattern per 3: [1 full] [2 side-by-side]
@@ -51,15 +55,30 @@ function toRhythmChunks(items: Photo[]) {
 ---
 
 <MainLayout title="Photos" description="Photos taken by Katsuhiro Yamakawa.">
+  <nav id="photo-index" aria-label="Photo sections" class="mb-16 rounded-md border border-zinc-200/80 px-5 py-4 sm:px-6 sm:py-5 dark:border-poi-border/50">
+    <ul class="flex flex-col">
+      {sections.map((section) => (
+        <li>
+          <a href={`#${section.id}`} class="group flex items-baseline gap-4 py-2 text-xs">
+            <span class="text-zinc-700 dark:text-poi-text group-hover:text-light-accent dark:group-hover:text-poi-accent">
+              {section.location}
+            </span>
+            <span class="text-zinc-400 dark:text-poi-muted/70">{section.date}</span>
+            <span class="ml-auto text-zinc-400 dark:text-zinc-500">{section.items.length}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
   <div class="-mx-4 sm:-mx-8">
     {sections.map((section) => (
-      <section class="mb-20">
-        <!-- Section header — no border -->
-        <div class="flex items-center gap-3 px-4 sm:px-8 pb-4">
-          <span class="font-mono text-xs text-light-accent dark:text-poi-accent tracking-wide">
+      <section id={section.id} class="mb-20">
+        <!-- 見出しはスクロール中も残し、いまどのセクションかを示す -->
+        <div class="sticky top-0 z-10 flex items-baseline gap-3 bg-zinc-50/90 px-4 py-3 mb-3 backdrop-blur dark:bg-poi-base/90 sm:px-8">
+          <h2 class="text-sm font-normal text-light-accent dark:text-poi-accent sm:text-base">
             {section.location}
-          </span>
-          <span class="font-mono text-xs text-zinc-300 dark:text-zinc-600" aria-hidden="true">·</span>
+          </h2>
           <span class="font-mono text-xs text-zinc-400 dark:text-poi-muted/70">
             {section.date}
           </span>
@@ -120,12 +139,12 @@ function toRhythmChunks(items: Photo[]) {
     <p id="lightbox-meta" class="lightbox-meta"></p>
   </div>
 
-  <!-- Back to top -->
+  <!-- チャットのトグル（右下20px・高さ46px）と重ならないよう、その真上に置く -->
   <button
-    class="fixed inset-e-4 bottom-8 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-light-accent dark:hover:border-poi-accent sm:inset-e-8 sm:h-12 sm:w-12"
+    class="fixed inset-e-5 bottom-20 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-light-accent dark:hover:border-poi-accent sm:h-12 sm:w-12"
     id="to-top-btn"
   >
-    <span class="sr-only">Back to top</span>
+    <span class="sr-only">Back to index</span>
     <svg aria-hidden="true" class="h-6 w-6" fill="none" focusable="false"
       stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <path d="M4.5 15.75l7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -186,12 +205,12 @@ function toRhythmChunks(items: Photo[]) {
     document.body.style.overflow = "";
   }
 
-  // Back to top
+  // Back to index
   const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
   window.addEventListener("scroll", () => {
     const show = window.scrollY > 300;
     scrollBtn.style.opacity = show ? "1" : "0";
     scrollBtn.style.pointerEvents = show ? "auto" : "none";
   });
-  scrollBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  scrollBtn.addEventListener("click", () => document.getElementById("photo-index")!.scrollIntoView({ behavior: "smooth" }));
 </script>
