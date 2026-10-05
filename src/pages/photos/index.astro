@@ -1,19 +1,29 @@
 ---
+import { Image, getImage } from "astro:assets";
 import MainLayout from "../../layouts/MainLayout.astro";
-import { photos } from "../../data/photos";
+import { photos, type Photo } from "../../data/photos";
 
-// Skip missing files at build time
-const existing = import.meta.glob("/public/images/photos/*.webp");
-const existingNames = new Set(
-  Object.keys(existing).map((p) => p.split("/").pop()!)
+// 本文の列は max-w-4xl（896px）で頭打ちになる。full はその全幅、pair は半幅で出る
+const FULL_SIZES = "(min-width: 896px) 896px, 100vw";
+const PAIR_SIZES = "(min-width: 896px) 444px, 50vw";
+const FULL_WIDTHS = [480, 896, 1344, 1792];
+const PAIR_WIDTHS = [320, 444, 640, 888];
+const widthsFor = (photo: Photo, widths: number[]) =>
+  widths.filter((w) => w <= photo.src.width);
+
+const lightboxSrc = new Map(
+  await Promise.all(
+    photos.map(async (photo) => {
+      const img = await getImage({ src: photo.src, width: Math.min(photo.src.width, 2048), format: "webp" });
+      return [photo.src.src, img.src] as const;
+    })
+  )
 );
-const validPhotos = photos.filter((p) => existingNames.has(p.src));
 
 // Group consecutive photos with same location + date
-type Photo = typeof validPhotos[number];
 type Section = { id: string; location: string; date: string; items: Photo[] };
 const sections: Section[] = [];
-for (const photo of validPhotos) {
+for (const photo of photos) {
   const existing = sections.find(
     s => s.location === photo.location && s.date === photo.date
   );
@@ -93,13 +103,15 @@ function toRhythmChunks(items: Photo[]) {
             chunk.type === "full" ? (
               <button
                 class="photo-btn block w-full overflow-hidden cursor-zoom-in group"
-                data-src={`/images/photos/${chunk.photo.src}`}
+                data-src={lightboxSrc.get(chunk.photo.src.src)}
                 data-meta={`${chunk.photo.location} · ${chunk.photo.date}`}
                 aria-label={`Open photo — ${chunk.photo.location}`}
                 type="button"
               >
-                <img
-                  src={`/images/photos/${chunk.photo.src}`}
+                <Image
+                  src={chunk.photo.src}
+                  widths={widthsFor(chunk.photo, FULL_WIDTHS)}
+                  sizes={FULL_SIZES}
                   alt={chunk.photo.location}
                   loading="lazy"
                   decoding="async"
@@ -111,13 +123,15 @@ function toRhythmChunks(items: Photo[]) {
                 {chunk.photos.map((photo) => (
                   <button
                     class="photo-btn block w-full overflow-hidden cursor-zoom-in group"
-                    data-src={`/images/photos/${photo.src}`}
+                    data-src={lightboxSrc.get(photo.src.src)}
                     data-meta={`${photo.location} · ${photo.date}`}
                     aria-label={`Open photo — ${photo.location}`}
                     type="button"
                   >
-                    <img
-                      src={`/images/photos/${photo.src}`}
+                    <Image
+                      src={photo.src}
+                      widths={widthsFor(photo, PAIR_WIDTHS)}
+                      sizes={PAIR_SIZES}
                       alt={photo.location}
                       loading="lazy"
                       decoding="async"
