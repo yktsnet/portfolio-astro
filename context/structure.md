@@ -4,6 +4,8 @@
 
 ```
 src/
+  assets/
+    photos/       # フォトギャラリー用 (.webp)。ビルド時に寸法取得・リサイズする
   components/     # 再利用可能なAstro/Reactコンポーネント
   data/           # 静的データ (works.ts / photos.ts)
   layouts/        # ページレイアウト
@@ -36,6 +38,5 @@ src/
 ```
 public/
   images/
-    photos/       # フォトギャラリー用 (.webp)
     profile/      # プロフィール画像
 ```
