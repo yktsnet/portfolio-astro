@@ -81,6 +81,7 @@ export type Work = {
   title: string;
   color: string;
   icon: string;
+  /** 一覧で他のカードと長さを揃える。目安は ja 80〜110字・en 150〜250字 */
   description: MultilingualText;
   /** 現場に導入・稼働中なら true */
   inUse?: boolean;
@@ -496,6 +497,31 @@ export const works: Work[] = [
       { label: "Claude API" },
       { label: "GitHub Actions" },
       { label: "Telegram" },
+    ],
+  },
+  {
+    categoryTags: ["package"],
+    isOSS: true,
+    priority: 2,
+    title: "codeview",
+    color: "#89ddff",
+    icon: "smartphone",
+    publishedAt: "2026.10",
+    description: {
+      ja: "手元の git リポジトリと Issue を静的 HTML にし、自分だけが読めるコードブラウザとして Cloudflare で配信する。スマホで読んだ箇所をそのままエージェントへ渡せる。",
+      en: "Turns local git repos and their GitHub issues into static HTML, a private code browser behind Cloudflare Access. Read it on your phone and hand what you find straight to an agent.",
+    },
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/yktsnet/codeview",
+        external: true,
+      },
+    ],
+    stack: [
+      { label: "Python", brand: "python" },
+      { label: "Cloudflare", brand: "cloudflare" },
+      { label: "Nix", brand: "nixos" },
     ],
   },
 ];
