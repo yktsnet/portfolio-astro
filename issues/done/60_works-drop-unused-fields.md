@@ -1,7 +1,7 @@
 ## Works のデータから表示に使われていないフィールドを削る
 id: 60
 branch-slug: works-drop-unused-fields
-status: open
+status: close
 type: cleanup
 対象: src/data/works.ts, src/data/works.test.ts (削除), src/lib/brand-icons.ts, src/pages/index.astro, src/components/WorkSteps.astro, CLAUDE.md
 内容: `Work` 型と `works` 配列には、どこからも読まれないフィールドが残っている。書く手間と読み違いの元になるので、型・データ・それにしか使われない関数とアイコンをまとめて削る。トップページの表示は変えない。
