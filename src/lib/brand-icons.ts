@@ -1,4 +1,4 @@
-import { siRaspberrypi, siCloudflare, siNixos, siEspressif, siPython, siAstro, siHono, siReact, siFastapi, siPostgresql, siGoogleappsscript, siLine, siGo, siVuedotjs, siSqlite, siDotnet, siLanggraph, siGooglegemini, siTypescript, siDocker, siTerraform, siNpm, siPypi, siPandas, siJavascript } from "simple-icons";
+import { siRaspberrypi, siCloudflare, siNixos, siEspressif, siPython, siReact, siPostgresql, siGo, siVuedotjs, siDotnet, siLanggraph, siTypescript, siTerraform } from "simple-icons";
 
 export type BrandIcon = { path: string; hex: string; viewBox?: string };
 
@@ -14,26 +14,14 @@ const map: Record<string, BrandIcon> = {
   "nixos":        { path: siNixos.path,        hex: siNixos.hex       },
   "espressif":    { path: siEspressif.path,    hex: siEspressif.hex   },
   "python":       { path: siPython.path,       hex: siPython.hex      },
-  "astro":        { path: siAstro.path,        hex: siAstro.hex       },
-  "hono":         { path: siHono.path,         hex: siHono.hex        },
   "react":        { path: siReact.path,        hex: siReact.hex       },
-  "fastapi":      { path: siFastapi.path,      hex: siFastapi.hex     },
   "postgresql":   { path: siPostgresql.path,   hex: siPostgresql.hex  },
-  "googleappsscript": { path: siGoogleappsscript.path, hex: siGoogleappsscript.hex },
-  "line":             { path: siLine.path,             hex: siLine.hex             },
   "go":               { path: siGo.path,               hex: siGo.hex               },
   "vue":              { path: siVuedotjs.path,          hex: siVuedotjs.hex         },
-  "sqlite":           { path: siSqlite.path,            hex: siSqlite.hex           },
   "csharp":           { path: siDotnet.path,            hex: siDotnet.hex           },
   "langgraph":        { path: siLanggraph.path,         hex: siLanggraph.hex        },
-  "gemini":           { path: siGooglegemini.path,      hex: siGooglegemini.hex     },
   "typescript":       { path: siTypescript.path,        hex: siTypescript.hex       },
-  "docker":           { path: siDocker.path,            hex: siDocker.hex           },
   "terraform":        { path: siTerraform.path,         hex: siTerraform.hex        },
-  "npm":              { path: siNpm.path,              hex: siNpm.hex              },
-  "pypi":             { path: siPypi.path,             hex: siPypi.hex             },
-  "pandas":           { path: siPandas.path,           hex: siPandas.hex           },
-  "javascript":       { path: siJavascript.path,       hex: siJavascript.hex       },
   "zenn":             zennIcon,
 };
 

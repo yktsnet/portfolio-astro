@@ -38,7 +38,7 @@ About・Approach・Impact の各セクションは `src/data/` を経由せず�
 - `src/lib/lucide.ts` に SVG パスを手動で列挙した独自サブセット
 - 新しいアイコンを使う際は同ファイルにエントリを追加する（npm package は使わない）
 
-**ブランドアイコン**（スタックタグの色付きロゴ）:
+**ブランドアイコン**（About・Principles の技術表示に使う色付きロゴ）:
 - `src/lib/brand-icons.ts` で `simple-icons` から必要なものだけ re-export
 - 新しいブランドを追加する際は同ファイルに追記する
 

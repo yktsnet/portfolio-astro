@@ -62,7 +62,7 @@ const resolved = slides.map(slide => ({
     return {
       name: cite.name,
       iconPath: getLucideIcon(work?.icon ?? cite.icon ?? slide.icon),
-      href: work?.links[0]?.href ?? cite.href,
+      href: work?.href ?? cite.href,
     };
   }),
 }));
