@@ -1,3 +1,35 @@
+## PR記録: refactor(works): 表示に使われていない Works のフィールドを削る
+issue: 60 (60_works-drop-unused-fields.md)
+PR: https://github.com/yktsnet/portfolio-astro/pull/166
+
+## 変更内容
+- `Work` 型と `works` 配列から `color`・`stack`・`isOSS`・`step`・`links` を削り、`links` は先頭の URL だけを `href: string` で持つ
+- `StackItem`・`BrandKey` 型、`displayCategoryTags`・`getCategoryWeight`・`DEFAULT_CATEGORY_WEIGHT`・`CATEGORIES` の `weight` を削る。`getCategoryIcon` は維持
+- テスト対象の関数が消えるので `src/data/works.test.ts` を削除する
+- `brand-icons.ts` から Works の `stack` だけが使っていたエントリ（astro・hono・fastapi・googleappsscript・line・sqlite・gemini・npm・pypi・pandas・javascript・docker）を外す。About・Principles が使うものは残す
+- `index.astro` / `WorkSteps.astro` の `links[0]?.href` を `href` に置き換える
+- `CLAUDE.md` のブランドアイコンの説明を About・Principles 向けに書き直す
+
+## 保証
+- 保証: なし（表示を変えない cleanup。台帳に Works の項目は無い）
+- 廃止する保証: `displayCategoryTags` の並び替え（`src/data/works.test.ts` のみが呼んでいた。台帳には未記載）
+
+## 静的確認結果
+- `npm run typecheck`: 0 errors
+- `npm run test`: 2 files / 14 tests passed
+- `npm run build`: 成功。変更前の build と `dist/client` を diff し、HTML は全ファイル一致（差は `knowledge.json` の `generatedAt` のみ）
+- grep: `src/` に `isOSS`・`StackItem`（About 自前の型を除く）・`BrandKey`・`displayCategoryTags`・`getCategoryWeight`・`.links`・`.stack` の参照なし
+- `getBrandIcon(` の呼び出し元は About と Principles のみ
+
+## 確認者の判定
+| 区分 | 判定 | 要点 |
+|---|---|---|
+| 確認 | 合 | typecheck 0 errors、test 14 件 pass、grep で参照なし。build 後の HTML 7 ページを main の build と `cmp` で比較し全件バイト一致 |
+| 保証 | 合 | 保証は「なし」。廃止する並び替えは台帳に未記載のため台帳更新は不要 |
+| 範囲の外 | なし | 差分は Issue の「対象」の6ファイルのみ |
+
+---
+
 ## Works のデータから表示に使われていないフィールドを削る
 id: 60
 branch-slug: works-drop-unused-fields
