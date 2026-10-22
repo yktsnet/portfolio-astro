@@ -58,23 +58,41 @@ const { items } = Astro.props;
           />
           {item.href ? (
             <a
-              class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-poi-accent outline-hidden focus-visible:underline inline-flex items-center gap-1"
+              class="after:absolute after:inset-0 after:content-[''] after:rounded-xl transition-colors group-hover/card:text-poi-accent outline-hidden focus-visible:underline inline-flex items-center"
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
             >
               <span>{item.title}</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="11" height="11" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round"
-                class="inline-block text-zinc-400 dark:text-poi-muted/50 opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 transition-all duration-200 shrink-0 ml-0.5"
-                set:html={getLucideIcon('external-link')}
-              />
+              {item.inUse && (
+                <span class="inline-flex items-center ml-2.5" title="稼働中 / in use">
+                  <span class="relative flex size-1.5 shrink-0">
+                    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-poi-accent opacity-75 [animation-duration:2.5s]" />
+                    <span class="relative inline-flex size-1.5 rounded-full bg-poi-accent" aria-hidden="true" />
+                  </span>
+                  <span class="sr-only">
+                    <span class="lang-ja">（稼働中）</span>
+                    <span class="lang-en">(in use)</span>
+                  </span>
+                </span>
+              )}
             </a>
           ) : (
-            <span>{item.title}</span>
+            <span class="inline-flex items-center">
+              <span>{item.title}</span>
+              {item.inUse && (
+                <span class="inline-flex items-center ml-2.5" title="稼働中 / in use">
+                  <span class="relative flex size-1.5 shrink-0">
+                    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-poi-accent opacity-75 [animation-duration:2.5s]" />
+                    <span class="relative inline-flex size-1.5 rounded-full bg-poi-accent" aria-hidden="true" />
+                  </span>
+                  <span class="sr-only">
+                    <span class="lang-ja">（稼働中）</span>
+                    <span class="lang-en">(in use)</span>
+                  </span>
+                </span>
+              )}
+            </span>
           )}
 
           <div class="ml-auto flex items-center gap-2.5 shrink-0 select-none">
@@ -90,13 +108,6 @@ const { items } = Astro.props;
                   set:html={item.tagIconPath}
                 />
                 <span>{item.categoryTag}</span>
-              </span>
-            )}
-            {item.inUse && (
-              <span class="inline-flex items-center gap-1.5 font-mono text-[10px] font-normal text-poi-accent">
-                <span class="inline-block size-1.5 rounded-full bg-poi-accent"></span>
-                <span class="lang-ja">稼働中</span>
-                <span class="lang-en">in use</span>
               </span>
             )}
             {item.publishedAt && (
