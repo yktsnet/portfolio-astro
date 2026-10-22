@@ -1,7 +1,7 @@
 ## Works のタグを1件1つに絞り、カードに表示する
 id: 61
 branch-slug: works-single-tag-on-card
-status: open
+status: close
 type: feat
 対象: src/data/works.ts, src/lib/lucide.ts, src/pages/index.astro, src/components/AllWorks.astro, src/components/WorkFilter.astro
 内容: Works のカテゴリタグを1件につき1つにし、実態とずれた2タグ（chatbot・package）を改名したうえで、各カードにタグを表示する。タグを「何をする作品か」という1本の軸に揃え、カード上でも主張として読めるようにする。
