@@ -9,10 +9,10 @@ export const CATEGORIES: Record<string, { icon: string }> = {
   iot: { icon: "wifi" },
   modernization: { icon: "refresh-cw" },
   team: { icon: "users" },
-  chatbot: { icon: "message-circle" },
+  ai: { icon: "ghost" },
   trading: { icon: "trending-up" },
   finance: { icon: "piggy-bank" },
-  package: { icon: "wrench" },
+  devtools: { icon: "hammer" },
 };
 
 /** カテゴリのアイコン名を返す（未定義は汎用 "tag"）。 */
@@ -21,7 +21,8 @@ export function getCategoryIcon(tag: string): string {
 }
 
 export type Work = {
-  categoryTags: string[];
+  /** 「何をする作品か」を表す1軸。CATEGORIES のキーから選ぶ */
+  categoryTag: string;
   priority: number;
   title: string;
   icon: string;
@@ -37,7 +38,7 @@ export type Work = {
 
 export const works: Work[] = [
   {
-    categoryTags: ["iot"],
+    categoryTag: "iot",
     priority: 1,
     title: "NFC Attendance Kit",
     icon: "id-card",
@@ -50,7 +51,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/nfc-attendance-kit",
   },
   {
-    categoryTags: ["iot", "chatbot"],
+    categoryTag: "iot",
     priority: 2,
     title: "Cat Feed Tracker",
     icon: "cat",
@@ -63,7 +64,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/cat-feed-tracker",
   },
   {
-    categoryTags: ["team"],
+    categoryTag: "team",
     priority: 2,
     title: "Training Scheduler",
     icon: "graduation-cap",
@@ -75,7 +76,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/training-scheduler",
   },
   {
-    categoryTags: ["modernization", "chatbot"],
+    categoryTag: "modernization",
     priority: 1,
     title: "Order System",
     icon: "shopping-cart",
@@ -87,7 +88,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/order-system-migration",
   },
   {
-    categoryTags: ["chatbot"],
+    categoryTag: "ai",
     priority: 1,
     title: "Order System RAG",
     icon: "book-search",
@@ -99,7 +100,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/order-system-rag",
   },
   {
-    categoryTags: ["modernization"],
+    categoryTag: "modernization",
     priority: 1,
     title: "Attendance System",
     icon: "clock",
@@ -111,7 +112,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/attendance-system-migration",
   },
   {
-    categoryTags: ["chatbot", "package"],
+    categoryTag: "ai",
     priority: 1,
     title: "Folio Agent",
     icon: "bot",
@@ -123,7 +124,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/folio-agent",
   },
   {
-    categoryTags: ["modernization"],
+    categoryTag: "modernization",
     priority: 2,
     title: "Excel Kanri",
     icon: "user-pen",
@@ -136,7 +137,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/excel-kanri",
   },
   {
-    categoryTags: ["trading"],
+    categoryTag: "trading",
     priority: 2,
     title: "bt-lab",
     icon: "flask-conical",
@@ -148,7 +149,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/bt-lab",
   },
   {
-    categoryTags: ["trading"],
+    categoryTag: "trading",
     priority: 2,
     title: "live-dynamic",
     icon: "zap",
@@ -160,7 +161,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/live-dynamic",
   },
   {
-    categoryTags: ["finance"],
+    categoryTag: "finance",
     priority: 2,
     title: "etax-prep",
     icon: "japanese-yen",
@@ -172,7 +173,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/etax-prep",
   },
   {
-    categoryTags: ["team", "package"],
+    categoryTag: "team",
     priority: 1,
     title: "sdlc-kit",
     icon: "gift",
@@ -184,7 +185,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/sdlc-kit",
   },
   {
-    categoryTags: ["team"],
+    categoryTag: "team",
     priority: 2,
     title: "ladder-kit",
     icon: "person-standing",
@@ -196,7 +197,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/ladder-kit",
   },
   {
-    categoryTags: ["chatbot"],
+    categoryTag: "ai",
     priority: 2,
     title: "tg-dev-digest",
     icon: "mailbox",
@@ -208,7 +209,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/tg-dev-digest",
   },
   {
-    categoryTags: ["package"],
+    categoryTag: "devtools",
     priority: 2,
     title: "codeview",
     icon: "smartphone",
@@ -220,7 +221,7 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/codeview",
   },
   {
-    categoryTags: ["package"],
+    categoryTag: "devtools",
     priority: 2,
     title: "ccreel",
     icon: "history",
