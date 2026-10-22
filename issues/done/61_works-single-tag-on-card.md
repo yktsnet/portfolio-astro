@@ -1,3 +1,30 @@
+## PR記録: feat(works): タグを1件1つにしてカードに表示する
+issue: 61 (61_works-single-tag-on-card.md)
+PR: https://github.com/yktsnet/portfolio-astro/pull/171
+
+## 変更内容
+- `Work` 型の `categoryTags: string[]` を `categoryTag: string` に変え、2つ目を付けて戻ることを型で防ぐ
+- `CATEGORIES` から chatbot・package を外し、ai（ghost）・devtools（hammer）を足す。全16件のタグを「何をする作品か」の1軸に揃える
+- `lucide.ts` に ghost・hammer を追加する
+- カードにタグ（アイコン + タグ名）を表示する。並びは タグ → 稼働中 → 公開年月。スマホ幅でタイトルが折り返す場合はメタ情報を次の行へ回す。researches には出さない
+- フィルタを単一選択にする。押したピルが選択中なら解除し、そうでなければ選択を置き換える
+
+## 保証
+- 各作品はタグをちょうど1つ持つ → 型（`categoryTag: string`）が強制する。テストなし
+- 各カードにタグが表示される・フィルタは単一選択 → テストなし（画面で確認済み）
+- 廃止: 複数タグの AND 絞り込み
+
+## 静的確認結果
+`npm run typecheck`・`npm run test`（14 passed）・`npm run build` が通る。
+
+## 画面確認
+ヘッドレスブラウザで 1280・390 幅、日英を操作し、全16件のタグ、ピル7個の件数（iot 2 / modernization 3 / ai 3 / team 3 / trading 2 / finance 1 / devtools 2）、ピルの切り替え・解除、researches にタグが出ないことを確認した。使い心地はレビューで user が確認し、アイコンと並び順の指摘を反映済み。
+
+## 確認者の判定
+省略（user の指示によりマージへ進んだ）
+
+---
+
 ## Works のタグを1件1つに絞り、カードに表示する
 id: 61
 branch-slug: works-single-tag-on-card
