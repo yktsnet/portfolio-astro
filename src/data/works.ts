@@ -148,18 +148,6 @@ export const works: Work[] = [
     href: "https://github.com/yktsnet/bt-lab",
   },
   {
-    categoryTags: ["trading", "package"],
-    priority: 2,
-    title: "bt-dynamic",
-    icon: "trending-up-down",
-    publishedAt: "2026.07",
-    description: {
-      ja: "静的バックテストで選んだ戦略は、相場環境が変わると一斉に成績を落とす。相場を9セル（トレンド強度×ボラティリティ）に分類し、セルごとに順張り/逆張り/ノーポジを切り替える動的レジーム切替を、分類→判定→検証まで通して実装。",
-      en: "Dynamic regime switching backtester that classifies market conditions into 9 cells (trend strength x volatility) and adaptively toggles trend-following, mean-reversion, or flat positions.",
-    },
-    href: "https://github.com/yktsnet/bt-dynamic",
-  },
-  {
     categoryTags: ["trading"],
     priority: 2,
     title: "live-dynamic",
@@ -230,6 +218,18 @@ export const works: Work[] = [
       en: "Turns local git repos and their GitHub issues into static HTML, a private code browser behind Cloudflare Access. Read it on your phone and hand what you find straight to an agent.",
     },
     href: "https://github.com/yktsnet/codeview",
+  },
+  {
+    categoryTags: ["package"],
+    priority: 2,
+    title: "ccreel",
+    icon: "history",
+    publishedAt: "2026.10",
+    description: {
+      ja: "Claude Code のセッション履歴を ssh/rsync のハブに集め、全端末・全リポの会話を1つの一覧から探して resume する CLI。同梱の skill で、Claude Code も過去の会話を1回の検索で引き当てる。",
+      en: "A CLI that gathers Claude Code session history from every machine into an ssh/rsync hub, so you can find and resume any conversation from one fzf list. A bundled skill lets Claude Code pull up the right past session in a single lookup.",
+    },
+    href: "https://github.com/yktsnet/ccreel",
   },
 ];
 
