@@ -1,6 +1,6 @@
 ## PR記録: feat(works): 稼働中表示をタイトル横のLiveドットに移行しカードの矢印を整理する
 issue: 62 (62_works-in-use-live-dot.md)
-PR: https://github.com/yktsnet/portfolio-astro/pull/
+PR: https://github.com/yktsnet/portfolio-astro/pull/172
 
 ## 変更内容
 - Works カード右側にあった「● 稼働中」を削除し、右側のメタ情報を「タグ + 公開年月」に統一して情報過多と野暮ったさを解消
