@@ -30,7 +30,8 @@ const allItems = [
     href: w.href,
     publishedAt: w.publishedAt,
     inUse: w.inUse,
-    categoryTags: w.categoryTags,
+    categoryTag: w.categoryTag,
+    tagIconPath: getLucideIcon(getCategoryIcon(w.categoryTag)),
   })),
   ...researches.map(r => ({
     title: r.title,
@@ -42,11 +43,11 @@ const allItems = [
 
 // ユニークなカテゴリタグの抽出（小文字、アルファベット順にソート）
 const allUniqueCategoryTags = Array.from(
-  new Set(works.flatMap(w => w.categoryTags))
+  new Set(works.map(w => w.categoryTag))
 ).sort();
 
 const resolvedTags = allUniqueCategoryTags.map(tag => {
-  const count = works.filter(w => w.categoryTags.includes(tag)).length;
+  const count = works.filter(w => w.categoryTag === tag).length;
   return {
     name: tag,
     count,

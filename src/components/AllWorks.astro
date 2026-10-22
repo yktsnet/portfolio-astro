@@ -9,7 +9,8 @@ export type WorkListItem = {
   href?: string;
   publishedAt?: string;
   inUse?: boolean;
-  categoryTags?: string[];
+  categoryTag?: string;
+  tagIconPath?: string;
 };
 
 interface Props {
@@ -40,9 +41,9 @@ const { items } = Astro.props;
     {items.map((item, idx) => (
       <article
         class="work-card group/card relative rounded-xl border border-zinc-300 dark:border-poi-border bg-transparent hover:border-zinc-400 dark:hover:border-poi-border/80 p-5 transition-all hover:-translate-y-0.5 hover:shadow-xs"
-        data-tags={(item.categoryTags ?? []).join(',')}
+        data-tag={item.categoryTag}
       >
-        <h3 class="flex items-center gap-2 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
+        <h3 class="flex flex-wrap sm:flex-nowrap items-center gap-x-2 gap-y-1 font-semibold text-lg text-zinc-900 dark:text-poi-focus">
           <span class="work-index font-mono text-sm font-semibold tabular-nums text-poi-accent/70 select-none shrink-0">
             {String(idx + 1).padStart(2, '0')}
           </span>
@@ -77,6 +78,20 @@ const { items } = Astro.props;
           )}
 
           <div class="ml-auto flex items-center gap-2.5 shrink-0 select-none">
+            {item.categoryTag && (
+              <span class="inline-flex items-center gap-1 font-mono text-[11px] font-normal text-zinc-500 dark:text-poi-muted">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12" height="12" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"
+                  class="shrink-0 text-zinc-400 dark:text-poi-muted/50"
+                  aria-hidden="true"
+                  set:html={item.tagIconPath}
+                />
+                <span>{item.categoryTag}</span>
+              </span>
+            )}
             {item.inUse && (
               <span class="inline-flex items-center gap-1.5 font-mono text-[10px] font-normal text-poi-accent">
                 <span class="inline-block size-1.5 rounded-full bg-poi-accent"></span>

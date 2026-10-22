@@ -87,14 +87,13 @@ const { resolvedTags } = Astro.props;
   const cards = Array.from(document.querySelectorAll<HTMLElement>('.work-card'));
   const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.work-filter-btn'));
   
-  const activeTags = new Set<string>();
+  let activeTag: string | null = null;
 
   function apply() {
     let visibleIndex = 0;
 
     cards.forEach(card => {
-      const cardTags = card.dataset.tags?.split(',') || [];
-      const isMatch = Array.from(activeTags).every(tag => cardTags.includes(tag));
+      const isMatch = activeTag === null || card.dataset.tag === activeTag;
 
       card.style.display = isMatch ? '' : 'none';
       if (isMatch) {
@@ -114,7 +113,7 @@ const { resolvedTags } = Astro.props;
 
     buttons.forEach(b => {
       const tag = b.dataset.tag!;
-      const on = activeTags.has(tag);
+      const on = activeTag === tag;
       b.setAttribute('aria-pressed', String(on));
     });
   }
@@ -131,17 +130,17 @@ const { resolvedTags } = Astro.props;
     if (!btn) return;
 
     const tag = btn.dataset.tag!;
-    if (activeTags.has(tag)) {
-      activeTags.delete(tag);
+    if (activeTag === tag) {
+      activeTag = null;
     } else {
-      activeTags.add(tag);
+      activeTag = tag;
       bounce(btn);
     }
     apply();
   });
 
   function resetAll() {
-    activeTags.clear();
+    activeTag = null;
     apply();
   }
 
