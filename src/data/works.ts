@@ -139,26 +139,26 @@ export const works: Work[] = [
   {
     categoryTag: "trading",
     priority: 2,
-    title: "bt-lab",
+    title: "drip-sim",
     icon: "flask-conical",
     publishedAt: "2026.07",
     description: {
       ja: "複数の戦略を横断検証し、エントリー率・ドローダウン・Recovery Factorでランキングする8段のバックテスト探索パイプライン。単一戦略の過剰最適化を避け、成績が大きく落ち込みにくい戦略候補を継続的に選抜する。",
       en: "An 8-stage backtest exploration pipeline ranking multi-strategy candidates by entry rate, drawdown, and Recovery Factor to avoid single-strategy overfitting.",
     },
-    href: "https://github.com/yktsnet/bt-lab",
+    href: "https://github.com/yktsnet/drip-sim",
   },
   {
     categoryTag: "trading",
     priority: 2,
-    title: "live-dynamic",
+    title: "drip-live",
     icon: "zap",
     publishedAt: "2026.07",
     description: {
-      ja: "bt-dynamic で検証した戦略を、同一コード・同一設定のまま実弾に接続する実行層。発注ゲートやキルスイッチ等の安全設計を備え、systemd timer による無人運転まで実装。",
-      en: "Execution layer connecting strategies validated in bt-dynamic to live trading with identical logic. Features safety gates and kill switches, running unattended via systemd timers.",
+      ja: "バックテストで検証した戦略を、同一コード・同一設定のまま実弾に接続する実行層。発注ゲートやキルスイッチ等の安全設計を備え、systemd timer による無人運転まで実装。",
+      en: "Execution layer connecting backtest-validated strategies to live trading with identical logic. Features safety gates and kill switches, running unattended via systemd timers.",
     },
-    href: "https://github.com/yktsnet/live-dynamic",
+    href: "https://github.com/yktsnet/drip-live",
   },
   {
     categoryTag: "finance",
