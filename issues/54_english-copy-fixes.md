@@ -79,13 +79,13 @@ Responses are generated using the free tier of the Gemini API. Due to the nature
 - `確認` : ClaudeCodeが提出前に行う静的確認。このリポの CLAUDE.md の検証手段を参照して埋める。例: lib変更時は影響callerをすべて列挙・修正済みであること。存在しないなら省略より `目視確認` と明示する
 ### ライフサイクル
 - `status: draft` → 設計中
-- `status: open`  → issue() で選択可能。**open は user が保証節を裁可済みであることを含む**
+- `status: open`  → issue() で選択可能。**open は user が保証節を承認済みであることを含む**
 - `status: close` → 完了済み（issue-finish で更新）
 検証で問題が出た場合はそのIssueをcloseし、`{id}a` として新しいIssueを作成する。
 元のIssueを再openしたりClaudeCodeのセッションに直接プロンプトを送ったりしない。
 ### 保証節
 - 保証は自然言語で書く。テストコードやテストファイル名の指定は補足であり、主体は振る舞いの宣言
-- user は draft→open の裁可で保証節を必ず読み、削る・足す・直す（保証節は user 承認済みであることが open の意味に含まれる）
+- user は draft→open の承認で保証節を必ず読み、削る・足す・直す（保証節は user 承認済みであることが open の意味に含まれる）
 - テストを伴わない変更（ドキュメントのみ・cleanup 等）は `保証: なし（理由）` と明示する。無記載は不可
 - リポに保証台帳 `docs/guarantees.md` がある場合、「維持する保証」は台帳から引く。台帳の記載に変更が出る場合（新保証・変更・廃止）は台帳を対象ファイルに含める
 ### 粒度
