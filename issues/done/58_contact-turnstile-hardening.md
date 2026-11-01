@@ -17,7 +17,7 @@ Merged: f23ca31f8b3e846a60a91459fb51a2fcc3a3e88e
 - 新たに宣言:
   - `POST /api/contact` は `TURNSTILE_SECRET_KEY` が設定されている場合、`cfToken` が空または未指定なら Turnstile 検証を行わずに 403 を返す → `src/lib/api.test.ts` の `POST /api/contact > 403 when secret is set but cfToken is empty, without calling siteverify`
   - `POST /api/contact` は `TURNSTILE_SECRET_KEY` が未設定の場合、`cfToken` の有無にかかわらず Turnstile 検証をスキップして処理を続行する → `src/lib/api.test.ts` の `POST /api/contact > 200 when secret is not set, regardless of cfToken`
-  - Contact フォームは送信が失敗したとき Turnstile ウィジェットをリセットし、次の送信で新しいトークンが使われる状態にする → なし（`window.turnstile` に依存するブラウザ挙動で本リポにテスト基盤が無いため。Issue で申告済み・裁可事項）
+  - Contact フォームは送信が失敗したとき Turnstile ウィジェットをリセットし、次の送信で新しいトークンが使われる状態にする → なし（`window.turnstile` に依存するブラウザ挙動で本リポにテスト基盤が無いため。Issue で申告済み・承認事項）
 - 廃止:
   - `POST /api/contact` は `cfToken` が渡されない場合、`TURNSTILE_SECRET_KEY` が設定されていても Turnstile 検証をスキップして処理を続行する → `docs/guarantees.md` から削除済み
 - 維持: JSON パースエラー時 400 / 必須項目欠落時 400 / Turnstile 検証失敗時 403 / Telegram 未設定時 500 / Telegram 成功時 200・失敗時 502 / `buildContactBody` 関連（セクション2）はすべて既存テストのまま変更なし

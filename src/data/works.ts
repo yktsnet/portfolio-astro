@@ -179,7 +179,7 @@ export const works: Work[] = [
     icon: "gift",
     publishedAt: "2026.09",
     description: {
-      ja: "1人で固めた開発の型を、チームのリポジトリへ1コマンドで取り込める配布キット。裁可の記録場所や手順ごと、作業フロー・駆動文書・保証台帳を選択して組み込める。",
+      ja: "1人で固めた開発の型を、チームのリポジトリへ1コマンドで取り込める配布キット。承認の記録場所や手順ごと、作業フロー・駆動文書・保証台帳を選択して組み込める。",
       en: "A distribution kit that imports a solo-hardened dev process into team repos in one command. Packages workflows, driving docs, and assurance ledgers along with audit procedures.",
     },
     href: "https://github.com/yktsnet/sdlc-kit",
