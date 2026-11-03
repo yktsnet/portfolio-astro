@@ -158,7 +158,7 @@ export const works: Work[] = [
       ja: "バックテストで検証した戦略を、同一コード・同一設定のまま実弾に接続する実行層。発注ゲートやキルスイッチ等の安全設計を備え、systemd timer による無人運転まで実装。",
       en: "Execution layer connecting backtest-validated strategies to live trading with identical logic. Features safety gates and kill switches, running unattended via systemd timers.",
     },
-    href: "https://github.com/yktsnet/drip-live",
+    href: "https://github.com/yktsnet/drip-live-public",
   },
   {
     categoryTag: "finance",
