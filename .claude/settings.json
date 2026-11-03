@@ -7,7 +7,6 @@
       "Bash(npx astro *)"
     ],
     "deny": [
-      "Bash(ssh *)",
       "Bash(wrangler *)"
     ]
   }
