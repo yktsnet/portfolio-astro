@@ -146,7 +146,7 @@ export const works: Work[] = [
       ja: "複数の戦略を横断検証し、エントリー率・ドローダウン・Recovery Factorでランキングする8段のバックテスト探索パイプライン。単一戦略の過剰最適化を避け、成績が大きく落ち込みにくい戦略候補を継続的に選抜する。",
       en: "An 8-stage backtest exploration pipeline ranking multi-strategy candidates by entry rate, drawdown, and Recovery Factor to avoid single-strategy overfitting.",
     },
-    href: "https://github.com/yktsnet/drip-sim",
+    href: "https://github.com/yktsnet/drip-sim-public",
   },
   {
     categoryTag: "trading",
