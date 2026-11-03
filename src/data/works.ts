@@ -139,7 +139,7 @@ export const works: Work[] = [
   {
     categoryTag: "trading",
     priority: 2,
-    title: "drip-sim",
+    title: "drip-sim-public",
     icon: "flask-conical",
     publishedAt: "2026.07",
     description: {
@@ -151,7 +151,7 @@ export const works: Work[] = [
   {
     categoryTag: "trading",
     priority: 2,
-    title: "drip-live",
+    title: "drip-live-public",
     icon: "zap",
     publishedAt: "2026.07",
     description: {
