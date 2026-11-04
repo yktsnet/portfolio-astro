@@ -191,7 +191,7 @@ approach / impact も同様（`id` だけ異なる）。`id="about"` 等の id �
 ## 挙動メモ・既知の割り切り
 
 - デスクトップ: 左ペインの About/Approach/Impact/Works クリック → 該当スライドへ。← → キー・右下の矢印で順送り。両端で矢印は `disabled`。アクティブなラベルは緑（`#5de4c7`）。
-- モバイル: 左ペイン（HeroDesktop）は `hidden sm:block` で非表示。`#slides-track` は `flex-col` で縦積み・transform なし＝現状どおりの縦スクロール。区切り線も `sm:` 打ち消し前のモバイル値が効く。
+- モバイル: 左ペイン（HeroDesktop）は `hidden sm:block` で非表示。`#slides-track` は `flex-col` で縦積み・transform なし＝現状どおりの縦スクロール。区切り線も `sm:` 打ち消し前のモバイル値が適用される。
 - hash: 初期ロード時に `#approach` 等があればそのスライドから開始。`history.replaceState` で URL を同期。
   - 既知の割り切り: セクション内 `id` が残るため、深いリンクで初回に微小なネイティブスクロールが起きうる。実害が出る場合は実装時に viewport へ `scroll-margin` 等で調整可。
 - ビューポート高: `sm:h-[calc(100vh-8rem)]`。短いパネル（About 等）は下に余白が出るが、スライドとして許容。Works はパネル内部で縦スクロール。

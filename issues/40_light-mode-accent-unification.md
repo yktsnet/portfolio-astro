@@ -40,7 +40,7 @@ type: fix
 ## 個別対応が必要な箇所
 
 - `src/components/Impact.astro` のドット背景（`bg-[radial-gradient(#5de4c7_1px,transparent_1px)]`）は
-  hex 直書きなのでトークン変更が効かない。`rgb(var(--color-accent))` を使う arbitrary value に置き換えるか、
+  hex 直書きなのでトークンを変えても色が変わらない。`rgb(var(--color-accent))` を使う arbitrary value に置き換えるか、
   同等の見た目になる別の書き方にする。
 - `poi.accent-hover`（#4ebca5）の扱い: 使用箇所を grep で確認し、テキスト色として使われていれば
   同様に CSS 変数化（ライト用の hover 色はピンクを1段濃くした値を選ぶ）。装飾的用途のみなら現状維持でよい。

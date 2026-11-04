@@ -39,7 +39,7 @@ type: feat
 `cat-feed-tracker.md` / `live-demo.md` / `nfc-attendance-system.md` / `trading-lab.md` の frontmatter に `hidden: true` を追加する。本文・他のfrontmatterフィールドは変更しない。
 
 ### src/data/post.ts
-`getAllPosts` を、一覧・タグ集計向けの取得では `hidden` な記事を除外するように変更する。個別記事ページ（`[slug].astro` の `getStaticPaths`）は `getCollection("post")` を直接使っており `hidden` に関わらず全件生成される想定のため、そちら側は変更不要（要現状確認）。`getAllPosts` の呼び出し元すべて（一覧・タグページ・RSS）で除外が効くことを確認する。
+`getAllPosts` を、一覧・タグ集計向けの取得では `hidden` な記事を除外するように変更する。個別記事ページ（`[slug].astro` の `getStaticPaths`）は `getCollection("post")` を直接使っており `hidden` に関わらず全件生成される想定のため、そちら側は変更不要（要現状確認）。`getAllPosts` の呼び出し元すべて（一覧・タグページ・RSS）で除外されることを確認する。
 
 ### src/pages/rss.xml.ts
 `hidden: true` の記事が RSS フィードに含まれないことを確認する（`getAllPosts` 経由であれば自動的に反映される）。

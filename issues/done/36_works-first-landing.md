@@ -45,6 +45,6 @@ src/pages/works.astro
 
 - `npm run dev` でローカル起動し、`/` が Works の1画面目（インフラ構成図・ライブメトリクス）から始まることを目視確認
 - `/about/` が旧トップページ（About）の内容で表示されることを目視確認
-- `/works/` にアクセスして `/` へリダイレクトされることを確認（本番 Cloudflare Pages 環境でのみ `_redirects` が効くため、ローカル `astro dev` では確認できない場合がある。デプロイ後に確認）
+- `/works/` にアクセスして `/` へリダイレクトされることを確認（本番 Cloudflare Pages 環境でのみ `_redirects` が適用されるため、ローカル `astro dev` では確認できない場合がある。デプロイ後に確認）
 - モバイル幅・デスクトップ幅の両方でナビの並び順（WORKS → IMPACT → ABOUT → APPROACH）とハイライトを確認
 - Approach ページの「Works — Trading Lab」proof リンクが `/` に遷移することを確認
