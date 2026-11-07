@@ -10,7 +10,7 @@ interface Props {
 }
 const { service: s, reverse = false } = Astro.props;
 ---
-<article class="group relative grid overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-xs dark:border-poi-border/70 dark:bg-poi-panel/15 dark:hover:border-poi-border md:grid-cols-2">
+<article class="group relative grid overflow-hidden rounded-xl border border-zinc-200 bg-white transition-colors duration-200 hover:border-poi-accent/50 dark:border-poi-border/70 dark:bg-poi-panel/15 dark:hover:border-poi-accent/50 md:grid-cols-2">
   <div class:list={["flex flex-col justify-between p-7 sm:p-10", reverse && "md:order-2"]}>
     <div>
       <p class="flex items-center gap-2 font-mono type-label text-poi-accent">
@@ -45,7 +45,7 @@ const { service: s, reverse = false } = Astro.props;
     </div>
 
     <div class="mt-8">
-      <span class="inline-flex items-center gap-1.5 font-mono type-caption text-poi-accent group-hover:underline underline-offset-4">
+      <span class="inline-flex items-center gap-1.5 rounded-md border border-poi-accent/35 bg-poi-accent/5 px-3 py-1.5 font-mono type-caption text-poi-accent">
         <span class="lang-ja">詳しく見る</span><span class="lang-en">Learn more</span>
         <LucideIcon name="arrow-right" class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
       </span>
