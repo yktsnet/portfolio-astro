@@ -42,7 +42,7 @@ npm install
 npm run dev
 npm run build     # 本番ビルド (astro build + folio-agent-ingest で knowledge.json 生成)
 npm run preview   # ビルド後のローカル確認
-npm test          # APIユニットテスト
+npm test          # ユニットテスト
 npm run typecheck # 型チェック
 ```
 
