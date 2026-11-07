@@ -110,6 +110,9 @@
 @utility ui-card {
   @apply rounded-xl border border-zinc-200 bg-white dark:border-poi-border/70 dark:bg-poi-panel/15;
 }
+@utility ui-card-hover {
+  @apply transition-colors duration-200 hover:border-zinc-300 dark:hover:border-poi-text/30;
+}
 @utility ui-subpanel {
   @apply border-zinc-200 bg-zinc-100/60 dark:border-poi-border/70 dark:bg-poi-panel/35;
 }

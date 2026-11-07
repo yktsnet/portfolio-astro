@@ -71,7 +71,7 @@ const others = services.filter((o) => o.slug !== s.slug);
     <SectionHead size="heading" kicker="What I offer" title={{ ja: '提供できること', en: 'What I offer' }} />
     <div class:list={["mt-5 grid gap-5 sm:mt-6", s.offerings.length % 2 === 0 ? "md:grid-cols-2" : "md:grid-cols-3"]}>
       {s.offerings.map((o: Offering) => (
-        <article class="flex flex-col ui-card p-6">
+        <article class="flex flex-col ui-card ui-card-hover p-6">
           <p class="flex items-center gap-2 type-subheading font-semibold text-zinc-900 dark:text-poi-focus">
             <LucideIcon name={o.icon} class="h-4 w-4 text-poi-accent" />
             <T text={o.title} />
