@@ -45,8 +45,8 @@ const metrics: Metric[] = [
 const offeringDetails: OfferingDetail[] = [
   {
     line: {
-      ja: '出退勤の打刻から、給与計算に使う集計までを自動にする。',
-      en: 'Everything from clock-ins to the payroll tally is automated.',
+      ja: '今の勤務の流れは変えずに、出退勤の打刻から給与計算に使う集計までを自動にする。スタッフはカードをかざすだけ。集計は管理者が見慣れたスプレッドシートに自動で並ぶので、月末に手で集計しなくてよくなる。',
+      en: 'The daily routine stays the same while everything from clock-ins to the payroll tally is automated. Staff just tap a card. The tally lands in the spreadsheet managers already use, so no more counting by hand at month end.',
     },
     before: [
       { ja: '出退勤の時刻を紙に自己申告する', en: 'Staff self-report their hours on paper' },
@@ -73,8 +73,8 @@ const offeringDetails: OfferingDetail[] = [
   },
   {
     line: {
-      ja: '契約書などの書類を自動で作ってPDFにし、1つの一覧から探せるようにする。',
-      en: 'Contracts and other documents are generated as PDFs, and all of them can be found from one list.',
+      ja: '今使っている契約書のExcelを共有フォルダに保存すれば、その時点でPDFができる。Webのフォームから作る方法も足すが、慣れていない人は今まで通りExcelに書いて保存すればよく、使える人から移ればいい。作った書類は1つの一覧に集まり、全文検索で探せる。',
+      en: 'Saving your current Excel contract to the shared folder produces the PDF on the spot. A web form is added too, but anyone not used to it can keep writing in Excel and saving as before; people move over when they are ready. Every document is gathered in one list with full-text search.',
     },
     before: [
       { ja: '前の契約書をコピーし、名前や部屋番号を書き換える', en: 'Copy the last contract and rewrite names and room numbers' },
@@ -135,27 +135,11 @@ const compare: { point: MultilingualText; cells: MultilingualText[] }[] = [
     ],
   },
   {
-    point: { ja: '毎月の費用', en: 'Monthly cost' },
-    cells: [
-      { ja: '利用人数や件数に応じた月額', en: 'Fees by users or volume' },
-      { ja: 'サーバーや保守の契約による', en: 'Depends on hosting and maintenance contracts' },
-      { ja: '新しい月額サービスは契約せず、手元の機材とスプレッドシートで動かす', en: 'No new subscriptions; runs on cheap hardware and spreadsheets' },
-    ],
-  },
-  {
     point: { ja: '入れたあと', en: 'After launch' },
     cells: [
       { ja: '製品の更新に合わせて使う', en: 'Use it as the product updates' },
       { ja: '保守契約の範囲で直す', en: 'Fixes within the maintenance contract' },
       { ja: '使われ方を見て直し、現場で回り出すまで付き合う', en: 'I adjust it until it runs on its own' },
-    ],
-  },
-  {
-    point: { ja: '頼む前の確かめ方', en: 'Checking before you ask' },
-    cells: [
-      { ja: '製品の説明と試用で確かめる', en: 'Product docs and a trial' },
-      { ja: '提案書と見積もりで確かめる', en: 'A proposal and a quote' },
-      { ja: '仕組みを公開しているので、中身を見て確かめられる', en: 'The code is public, so you can look inside' },
     ],
   },
 ];
@@ -165,8 +149,8 @@ const steps: Step[] = [
     no: '01',
     title: { ja: '数字から直すものを決める', en: 'Decide what to fix from the numbers' },
     done: {
-      ja: '費用の6割が人件費だった。中身を追うと勤務時間の申告に水増しが見つかったが、自己申告と手書きの給与計算では突き合わせる手段がなかった。正確な記録が先に要るので、勤怠を最初に直した。',
-      en: 'Labor was 60% of costs. Tracing it turned up padded hours, but with self-reported time and handwritten payroll there was nothing to check against. Accurate records had to come first, so attendance was fixed first.',
+      ja: '費用の6割が人件費で、中身を追うと勤務時間の申告に水増しが見つかった。正確な記録が先に要るので、勤怠を最初に直した。',
+      en: 'Labor was 60% of costs, and tracing it turned up padded hours. Accurate records had to come first, so attendance was fixed first.',
     },
   },
   {
@@ -248,24 +232,11 @@ const label = 'font-mono text-[10px] tracking-widest uppercase text-poi-muted';
           </div>
         ))}
       </dl>
-      <div class="border-t border-zinc-200 p-7 sm:px-8 dark:border-poi-border/60">
-        <p class="flex flex-wrap items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-poi-focus">
-          <LucideIcon name="trending-up" class="h-4 w-4 text-poi-accent" />
-          <T text={{ ja: '売上の側：空室情報の配信', en: 'On the sales side: vacancy listings' }} />
-          <span class="rounded-full border border-poi-accent/50 px-2 py-0.5 font-mono text-[10px] font-normal text-poi-accent"><T text={{ ja: '作成中', en: 'In progress' }} /></span>
-        </p>
-        <p class="mt-2 max-w-3xl text-[13px] leading-7 text-zinc-600 dark:text-poi-muted">
-          <T text={{
-            ja: '経費を減らしたあとは空室を早く埋める仕事に移っている。事業者に空室の情報を届けるWebアプリを作っていて、相手ごとに見せる範囲を3段階に分け、電話での問い合わせとは受け付ける時間帯を分ける。',
-            en: 'After cutting costs, the work has moved to filling vacancies faster. I am building a web app that delivers vacancy information to partner businesses, with three levels of what each can see, and split by time of day from phone inquiries.',
-          }} />
-        </p>
-      </div>
       <div class="border-t border-zinc-200 bg-zinc-100/60 p-7 sm:px-8 dark:border-poi-border/60 dark:bg-poi-panel/35">
         <p class="max-w-3xl text-sm leading-7 text-zinc-700 dark:text-poi-text">
           <T text={{
-            ja: '高齢のオーナーは引退を見据えて現場を離れたがっていたが、経営の実務が特定の人に頼ったままで、離れられなかった。そこに外部から入り、勤怠と書類作成を自動にした。いまも外部CTOとして関わっている。',
-            en: 'The aging owner wanted to step back ahead of retirement, but day-to-day management depended on specific people. I came in from outside and automated attendance and paperwork, and I am still involved as external CTO.',
+            ja: '高齢のオーナーは引退を見据えて現場を離れたがっていたが、経営の実務が特定の人に頼ったままで、離れられなかった。そこに外部から入り、勤怠と書類作成を自動にした。いまも外部CTOとして関わり、空室の情報を事業者に届けるWebアプリを作っている（作成中）。',
+            en: 'The aging owner wanted to step back ahead of retirement, but day-to-day management depended on specific people. I came in from outside and automated attendance and paperwork. I am still there as external CTO, now building a web app that delivers vacancy information to partner businesses (in progress).',
           }} />
         </p>
         <p class="mt-3 max-w-3xl text-[13px] leading-7 text-zinc-600 dark:text-poi-muted">
@@ -377,9 +348,7 @@ const label = 'font-mono text-[10px] tracking-widest uppercase text-poi-muted';
   <section class="mt-20">
     <h2 class={h2}><T text={{ ja: '進め方', en: 'How I work' }} /></h2>
     <p class="mt-3 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-      <T text={{ ja: 'マンション管理会社で、実際にこの順に進めた。なぜこの順にするかは', en: 'This is the order it went in at the property management company. Why this order: see ' }} />
-      <a href="/#about" class="text-poi-accent underline-offset-4 hover:underline">About</a>
-      <T text={{ ja: 'に書いている。', en: '.' }} />
+      <T text={{ ja: 'マンション管理会社では、この順に進めた。', en: 'At the property management company, it went in this order.' }} />
     </p>
     <ol class="mt-6 grid gap-8 md:grid-cols-3">
       {steps.map((st) => (

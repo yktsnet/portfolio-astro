@@ -8,12 +8,11 @@ import { services } from '../data/services';
 import { siteConfig } from '../site.config';
 
 // 4つのうち3つは導入事例の数字。最後の1つだけ経歴から取る
-// 人についての事実だけを置く。案件の数字はサービスのカードと詳細ページに任せる
 const numbers = [
-  { tag: 'SCHOOL', value: { ja: '12', en: '12' }, unit: { ja: '年', en: 'yrs' }, label: { ja: '学習塾の経営', en: 'Running a tutoring school' } },
-  { tag: 'COMPANY', value: { ja: '5', en: '5' }, unit: { ja: '年', en: 'yrs' }, label: { ja: '合同会社の設立から清算まで', en: 'An LLC, from founding to liquidation' } },
-  { tag: 'ACCOUNTING', value: { ja: '自分で', en: 'Myself' }, unit: { ja: '', en: '' }, label: { ja: '税理士を立てずに決算まで', en: 'Closed the books without an accountant' } },
-  { tag: 'EXTERNAL CTO', value: { ja: '2025', en: '2025' }, unit: { ja: '年〜', en: '–' }, label: { ja: 'マンション管理会社の外部CTO', en: 'External CTO, property management' } },
+  { tag: 'ATTENDANCE', value: { ja: '−5', en: '−5' }, unit: { ja: '時間/月', en: 'h/mo' }, label: { ja: '管理者の勤怠集計の工数', en: 'Admin hours on attendance' } },
+  { tag: 'PAYROLL', value: { ja: '−3〜4', en: '−3〜4' }, unit: { ja: '万円/月', en: '×10k JPY/mo' }, label: { ja: '給与計算の月次差異', en: 'Monthly payroll discrepancy' } },
+  { tag: 'ADOPTION', value: { ja: '初日', en: 'Day 1' }, unit: { ja: 'から', en: '' }, label: { ja: '説明なしで現場に定着', en: 'Adopted without instructions' } },
+  { tag: 'MANAGEMENT', value: { ja: '12', en: '12' }, unit: { ja: '年', en: 'yrs' }, label: { ja: '学習塾の経営', en: 'Running a tutoring school' } },
 ];
 
 // 見出しの「決めるのは経営から、作るのは現場から、渡すのは教育から」を1枚ずつに分ける
