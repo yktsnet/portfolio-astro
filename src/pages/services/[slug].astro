@@ -9,7 +9,10 @@ import ProcessSteps from '../../components/services/ProcessSteps.astro';
 import { services, type Service } from '../../data/services';
 
 export function getStaticPaths() {
-  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+  // operations は専用のページ（operations.astro）で描く
+  return services
+    .filter((service) => service.slug !== 'operations')
+    .map((service) => ({ params: { slug: service.slug }, props: { service } }));
 }
 
 interface Props {

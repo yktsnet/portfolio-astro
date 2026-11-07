@@ -27,12 +27,21 @@ const { service: s, reverse = false } = Astro.props;
 
       <ul class="mt-6 space-y-2.5 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
         {s.offerings.map((o) => (
-          <li class="flex items-center gap-2.5 text-sm text-zinc-800 dark:text-poi-focus">
-            <LucideIcon name={o.icon} class="h-4 w-4 shrink-0 text-poi-accent" />
-            <T text={o.title} />
+          <li class="flex gap-2.5 text-sm text-zinc-800 dark:text-poi-focus">
+            <LucideIcon name={o.icon} class="mt-0.5 h-4 w-4 shrink-0 text-poi-accent" />
+            <span>
+              <T text={o.title} />
+              {o.short && <span class="mt-0.5 block text-xs leading-6 text-zinc-500 dark:text-poi-muted"><T text={o.short} /></span>}
+            </span>
           </li>
         ))}
       </ul>
+      {s.proof && (
+        <p class="mt-5 flex gap-2 rounded-lg bg-zinc-100/80 px-3.5 py-2.5 text-xs leading-6 text-zinc-700 dark:bg-poi-panel/40 dark:text-poi-text">
+          <LucideIcon name="trending-up" class="mt-1 h-3.5 w-3.5 shrink-0 text-poi-accent" />
+          <T text={s.proof} />
+        </p>
+      )}
     </div>
 
     <div class="mt-8">
@@ -43,10 +52,10 @@ const { service: s, reverse = false } = Astro.props;
     </div>
   </div>
   <div class:list={[
-    "flex items-center justify-center border-t border-zinc-200 bg-zinc-100/60 p-6 sm:p-8 dark:border-poi-border/70 dark:bg-poi-panel/35 md:border-t-0",
+    "flex items-center justify-center border-t border-zinc-200 bg-zinc-100/60 p-5 sm:p-6 dark:border-poi-border/70 dark:bg-poi-panel/35 md:border-t-0",
     reverse ? "md:order-1 md:border-r" : "md:border-l",
   ]}>
-    <div class="w-full max-w-sm">
+    <div class="w-full max-w-md">
       <ServiceDiagram slug={s.slug} />
     </div>
   </div>
