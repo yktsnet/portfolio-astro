@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 // ページごとに文字の大きさを直書きすると、同じ役割の文字がページ間でずれる。大きさは global.css の type-* だけで指定する
 const RAW_SIZE = /(?<![\w-])(?:[a-z]+:)*text-(?:xs|sm|base|lg|[2-9]?xl|\[[^\]]+\])(?![\w-])/g;
-const TARGET = /\.(astro|tsx|jsx)$/;
+const TARGET = /\.astro$/;
 
 const walk = (dir: string): string[] =>
   readdirSync(dir).flatMap((name) => {

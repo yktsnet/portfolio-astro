@@ -5,13 +5,10 @@
 
 @theme {
   --color-poi-base: #1b1e28;
-  --color-poi-back: #171922;
   --color-poi-panel: #232735;
   --color-poi-text: #a6accd;
   --color-poi-focus: #e4f0fb;
   --color-poi-blue: #89ddff;
-  --color-poi-green: #addb67;
-  --color-poi-pink: #bae67e;
   --color-poi-border: #303446;
   --color-poi-accent: rgb(var(--color-accent));
   --color-poi-accent-hover: #4ebca5;
@@ -167,8 +164,6 @@ html:not([data-lang="en"]) .lang-en {
   --dg-muted: #a6accd;
 }
 .dg .dg-line { stroke: var(--dg-ink); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
-.dg .dg-soft { stroke: var(--dg-soft); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
-.dg .dg-dash { stroke: var(--dg-soft); fill: none; stroke-width: 1.4; stroke-dasharray: 4 4; }
 .dg .dg-box { stroke: var(--dg-soft); fill: var(--dg-panel); stroke-width: 1.4; }
 .dg .dg-acc { stroke: rgb(var(--color-accent)); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
 .dg .dg-accbox { stroke: rgb(var(--color-accent) / 0.65); fill: rgb(var(--color-accent) / 0.06); stroke-width: 1.4; }

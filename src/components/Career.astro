@@ -6,7 +6,7 @@ type LocationGroup = { location: string; items: TimelineEntry[] };
 type StackItem = { name: string; brand: string | null };
 type CoverageRow = { area: string; items: StackItem[] };
 
-// 抽象表現なので works.ts から導出せず代表技術を手選びする
+// 抽象表現なので代表技術を手選びする
 const coverage: CoverageRow[] = [
   {
     area: "Frontend",

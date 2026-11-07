@@ -29,12 +29,11 @@ describe("services", () => {
     }
   });
 
-  it("fills both ja and en for every text except empty units", () => {
+  it("fills both ja and en for every text", () => {
     const texts: [string, unknown][] = [];
     collectTexts(services, "services", texts);
     for (const [path, t] of texts) {
       const { ja, en } = t as { ja: string; en: string };
-      if (path.endsWith(".unit")) continue;
       expect(ja, path).not.toBe("");
       expect(en, path).not.toBe("");
     }

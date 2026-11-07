@@ -4,15 +4,14 @@
 
 | 対象 | 規則 | 例 |
 |---|---|---|
-| Astroコンポーネント | PascalCase | `SiteHeader.astro`, `WorkCard.astro` |
-| ページファイル | kebab-case | `about.astro`, `data-policy.astro` |
+| Astroコンポーネント | PascalCase | `SiteHeader.astro`, `ServiceCard.astro` |
+| ページファイル | kebab-case | `contact.astro`, `data-policy.astro` |
 | TypeScriptモジュール | kebab-case | `brand-icons.ts`, `site.config.ts` |
 | CSSファイル | kebab-case | `global.css` |
 
 ## コンポーネント
 
-- Astroコンポーネントをデフォルトとする
-- インタラクティブな状態管理が必要な箇所のみReactを使用（Astroアイランド）
+- Astroコンポーネントをデフォルトとし、クライアント側の振る舞いは `<script>` または Custom Elements で書く
 - コンポーネントは `src/components/` に配置
 
 ## TypeScript
@@ -37,7 +36,7 @@ Tailwind CSSのユーティリティクラスを使用。グローバルスタ�
 | `type-body` | 14px | 本文 |
 | `type-small` | 13px | 表・箇条書き・カード内の説明 |
 | `type-caption` | 12px | 注記・リンク・小さな見出し |
-| `type-label` | 11px | 英字のラベル（PHASE 01 など） |
+| `type-label` | 11px | 英字のラベル（DECIDE、OPERATIONS など） |
 
 新しい大きさが要るときは、直書きせずに `type-*` のクラスを足す。
 
@@ -45,4 +44,4 @@ Tailwind CSSのユーティリティクラスを使用。グローバルスタ�
 
 - Honoのアプリケーション本体は `src/lib/api.ts` に定義
 - `src/pages/api/[...route].ts` はAstroとHonoのブリッジのみ担う
-- 環境変数・KVバインディングは `c.env` 経由でアクセス（ハードコードしない）
+- 環境変数・バインディングは `c.env` 経由でアクセス（ハードコードしない）

@@ -18,10 +18,10 @@ export const photoGroups: PhotoGroup[] = [
   { range: [1,   33],  location: "Croatia",  date: "2024.03" },
   { range: [34,  41],  location: "Japan", date: "2019.07" },
   { range: [42,  54],  location: "Thailand",  date: "2018.12" },
-  { range: [55,  89],  location: "Tunisia", date:"2015. 08" },
+  { range: [55,  89],  location: "Tunisia", date: "2015.08" },
   { range: [90,  100],  location: "Portland, US",  date: "2016.05" },
   { range: [101,  112], location: "Japan",    date: "2018.04" },
-  { range: [113, 134], location: "Austlia, Slovenia, Italy",    date: "2018.05" },
+  { range: [113, 134], location: "Austria, Slovenia, Italy",    date: "2018.05" },
   { range: [135,  151],  location: "Japan",  date: "2018.04" },
 ];
 
