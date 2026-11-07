@@ -5,11 +5,8 @@ import type { Service } from '../../data/services';
 
 interface Props {
   service: Service;
-  useHeroCopy?: boolean;
 }
-const { service: s, useHeroCopy = false } = Astro.props;
-const title = useHeroCopy ? s.heroTitle : s.title;
-const body = useHeroCopy ? s.heroBody : s.summary;
+const { service: s } = Astro.props;
 ---
 <section>
   <a href="/#services" class="inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors duration-200 hover:text-zinc-900 dark:text-poi-muted dark:hover:text-poi-focus">
@@ -21,9 +18,9 @@ const body = useHeroCopy ? s.heroBody : s.summary;
     <span class="text-poi-muted">— {s.kicker}</span>
   </p>
   <h1 class="mt-3 max-w-3xl type-display font-semibold leading-normal tracking-tight text-zinc-900 dark:text-poi-focus">
-    <T text={title} />
+    <T text={s.title} />
   </h1>
   <p class="mt-4 max-w-2xl type-lead leading-7 text-zinc-600 sm:leading-8 dark:text-poi-muted">
-    <T text={body} />
+    <T text={s.summary} />
   </p>
 </section>
