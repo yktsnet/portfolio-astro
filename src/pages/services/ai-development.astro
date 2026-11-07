@@ -132,7 +132,7 @@ const offeringDetails: OfferingDetail[] = [
   },
 ];
 
-// 研修は開発キットと評価のつながりの外にあり、SES の多い会社に向けて単独で頼める
+// 勉強会は開発キットと評価のつながりの外にあり、SES の多い会社に向けて単独で頼める
 const training = {
   offering: s.offerings[2],
   line: {
@@ -156,7 +156,7 @@ const fits: Fit[] = [
   { text: { ja: 'エンジニアの評価・採用・育成の基準がばらばら', en: 'Engineer evaluation, hiring and growth run on different criteria' } },
   {
     text: { ja: '客先常駐（SES）の社員が多く、触れる機会に差がある', en: 'Many staff stationed at clients, with uneven access' },
-    reason: { ja: '研修', en: 'training' },
+    reason: { ja: '勉強会', en: 'study group' },
   },
 ];
 
@@ -312,12 +312,12 @@ const misfits: Fit[] = [
     </ol>
   </section>
 
-  {/* 5. 研修: 開発キットと評価とは別に、SES の多い会社へ単独で出せる */}
+  {/* 5. 勉強会: 開発キットと評価とは別に、SES の多い会社へ単独で出せる */}
   <section class="mt-20 sm:mt-24">
     <SectionHead
       size="heading"
-      kicker="Training"
-      title={{ ja: 'SESの多い会社には、研修も', en: 'For SES-heavy companies: training' }}
+      kicker="Study group"
+      title={{ ja: 'SESの多い会社には、勉強会も', en: 'For SES-heavy companies: a study group' }}
       lead={{ ja: '開発キットや評価とは別に、これだけを頼むこともできる。', en: 'Available on its own, separate from the kit and evaluation.' }}
     />
     <article class="ui-card mt-5 grid gap-8 p-6 sm:mt-6 sm:p-8 lg:grid-cols-2">
