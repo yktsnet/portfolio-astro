@@ -9,15 +9,13 @@ interface Props {
 }
 const { kicker, title, lead } = Astro.props;
 ---
-<div class:list={["grid gap-4", lead && "sm:grid-cols-2 sm:gap-12 sm:items-end"]}>
-  <div>
-    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">{kicker}</p>
-    <h2 class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-      <T text={title} />
-    </h2>
-  </div>
+<div class="max-w-2xl">
+  <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">{kicker}</p>
+  <h2 class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
+    <T text={title} />
+  </h2>
   {lead && (
-    <p class="text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+    <p class="mt-4 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
       <T text={lead} />
     </p>
   )}

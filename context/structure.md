@@ -25,7 +25,7 @@ src/
 
 - サービス・Works・写真は `src/data/*.ts`
 - トップページの各節は `src/pages/index.astro` に直書き
-- About・Impact・Principles は各コンポーネント内に直書き
+- 経歴の年表と技術の範囲（Career）・Impact・Principles は各コンポーネント内に直書き
 
 ## APIエンドポイント
 

@@ -3,44 +3,54 @@ import T from '../T.astro';
 import LucideIcon from '../LucideIcon.astro';
 import RepoLink from '../RepoLink.astro';
 import ServiceDiagram from './ServiceDiagram.astro';
-import type { Service } from '../../data/services';
+import type { Repo, Service } from '../../data/services';
 
 interface Props {
   service: Service;
   reverse?: boolean;
 }
 const { service: s, reverse = false } = Astro.props;
+// 同じリポを複数の提供内容が使うことがあるので、名前で1つにまとめる
+const repos = [...new Map<string, Repo>(s.offerings.flatMap((o) => o.repos).map((r) => [r.name, r])).values()];
 ---
 <article class="grid overflow-hidden rounded-lg border border-zinc-200 dark:border-poi-border/70 bg-white dark:bg-poi-base md:grid-cols-2">
-  <div class:list={["p-6 sm:p-9", reverse && "md:order-2"]}>
+  <div class:list={["p-7 sm:p-10", reverse && "md:order-2"]}>
     <p class="flex items-center gap-2 font-mono text-[11px] text-poi-accent">
       <LucideIcon name={s.icon} />
       {s.no}
       <span class="tracking-widest text-poi-muted">{s.kicker}</span>
     </p>
     <h3 class="mt-3 text-lg font-semibold text-zinc-900 dark:text-poi-focus"><T text={s.title} /></h3>
-    <p class="mt-3 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={s.summary} /></p>
+    <p class="mt-4 text-sm leading-7 text-zinc-600 dark:text-poi-muted"><T text={s.summary} /></p>
 
-    <ul class="mt-5 divide-y divide-zinc-200/70 border-t border-zinc-200 dark:divide-poi-border/50 dark:border-poi-border/60">
+    <ul class="mt-6 space-y-2.5 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
       {s.offerings.map((o) => (
-        <li class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 py-2.5 text-[13px]">
-          <span class="flex items-center gap-2 text-zinc-800 dark:text-poi-focus">
-            <LucideIcon name={o.icon} class="h-3.5 w-3.5 shrink-0 text-poi-accent" />
-            <T text={o.title} />
-          </span>
-          {o.repos.length > 0 && (
-            <span class="flex flex-wrap gap-x-4 gap-y-1">
-              {o.repos.map((r) => <RepoLink label={r.name} href={r.href} />)}
-            </span>
-          )}
+        <li class="flex items-center gap-2.5 text-sm text-zinc-800 dark:text-poi-focus">
+          <LucideIcon name={o.icon} class="h-4 w-4 shrink-0 text-poi-accent" />
+          <T text={o.title} />
         </li>
       ))}
     </ul>
 
-    <a href={`/services/${s.slug}/`} class="mt-6 inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
+    {/* 公開しているリポは、元サイトの作品カードと同じく末尾の1行にまとめる */}
+    {repos.length > 0 && (
+      <div class="mt-6 flex flex-wrap gap-x-5 gap-y-2">
+        {repos.map((r) => <RepoLink label={r.name} href={r.href} />)}
+      </div>
+    )}
+
+    <div class="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+    <a href={`/services/${s.slug}/`} class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
       <span class="lang-ja">詳しく見る</span><span class="lang-en">Learn more</span>
       <LucideIcon name="arrow-right" class="h-3.5 w-3.5" />
     </a>
+    {s.caseStudy && (
+      <a href={`/services/${s.slug}/#case`} class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
+        <span class="lang-ja">導入事例を見る</span><span class="lang-en">See the case study</span>
+        <LucideIcon name="arrow-right" class="h-3.5 w-3.5" />
+      </a>
+    )}
+    </div>
   </div>
   <div class:list={[
     "flex items-center justify-center border-t border-zinc-200 bg-zinc-100/60 p-6 sm:p-8 dark:border-poi-border/70 dark:bg-poi-panel/40 md:border-t-0",

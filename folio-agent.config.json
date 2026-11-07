@@ -2,7 +2,6 @@
   "distDir": "dist/client",
   "include": [
     "/",
-    "/about",
     "/services/operations",
     "/services/ai-development",
     "/services/education",
