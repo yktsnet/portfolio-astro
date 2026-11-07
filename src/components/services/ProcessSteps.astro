@@ -1,0 +1,30 @@
+---
+import T from '../T.astro';
+import type { Step } from '../../data/services';
+
+interface Props {
+  steps: Step[];
+}
+const { steps } = Astro.props;
+---
+<ol class="grid gap-y-8 md:grid-cols-3">
+  {steps.map((step, idx) => (
+    <li class="relative border-t border-zinc-200 dark:border-poi-border pt-6 md:pr-8">
+      <span
+        class:list={[
+          "absolute -top-1.5 left-0 h-3 w-3 rounded-full border-2",
+          idx === 0 ? "border-poi-accent bg-poi-accent" : "border-zinc-300 bg-zinc-50 dark:border-poi-border dark:bg-poi-base",
+        ]}
+        aria-hidden="true"
+      ></span>
+      <p class="font-mono text-[10px] tracking-widest text-poi-muted">PHASE 0{idx + 1}</p>
+      <h3 class="mt-1 text-[15px] font-semibold text-zinc-900 dark:text-poi-focus"><T text={step.title} /></h3>
+      <p class="mt-2 text-xs leading-6 text-zinc-600 dark:text-poi-muted"><T text={step.body} /></p>
+      {step.duration && (
+        <span class="mt-3 inline-block rounded border border-zinc-200 dark:border-poi-border px-2 font-mono text-[10px] text-zinc-500 dark:text-poi-muted">
+          <T text={step.duration} />
+        </span>
+      )}
+    </li>
+  ))}
+</ol>

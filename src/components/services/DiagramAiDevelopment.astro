@@ -1,0 +1,29 @@
+---
+import DgText from './DgText.astro';
+---
+<svg class="dg h-auto w-full" viewBox="0 0 440 320" role="img" aria-label="型を配り、成果物が揃い、評価し、研修で育てる循環を、1本の物差しがつなぐ図">
+  <defs>
+    <marker id="dg-ai-mk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="dg-mk" d="M0 0L10 5L0 10z" /></marker>
+  </defs>
+  <circle class="dg-dash" cx="220" cy="160" r="110" />
+  <path class="dg-acc" marker-end="url(#dg-ai-mk)" d="M290 76A110 110 0 0 1 318 120" />
+  <path class="dg-acc" marker-end="url(#dg-ai-mk)" d="M318 200A110 110 0 0 1 290 244" />
+  <path class="dg-acc" marker-end="url(#dg-ai-mk)" d="M150 244A110 110 0 0 1 122 200" />
+  <path class="dg-acc" marker-end="url(#dg-ai-mk)" d="M122 120A110 110 0 0 1 150 76" />
+
+  <rect class="dg-box" x="150" y="28" width="140" height="44" rx="22" />
+  <DgText x={220} y={55} ja="キットを配る" en="Distribute the kit" />
+  <rect class="dg-box" x="282" y="138" width="140" height="44" rx="22" />
+  <DgText x={352} y={165} ja="成果物が揃う" en="Uniform output" />
+  <rect class="dg-box" x="150" y="248" width="140" height="44" rx="22" />
+  <DgText x={220} y={275} ja="評価する" en="Evaluate" />
+  <rect class="dg-box" x="18" y="138" width="140" height="44" rx="22" />
+  <DgText x={88} y={165} ja="研修で育てる" en="Train" />
+
+  <circle class="dg-accbox" cx="220" cy="160" r="48" />
+  <path class="dg-acc" d="M196 150h48M200 144v12M212 146v8M224 144v12M236 146v8" />
+  <DgText x={220} y={178} ja="1本の物差し" en="One scale" class="dg-acctext" />
+
+  <DgText x={14} y={22} ja="経営：物差しで読む" en="Management reads the scale" class="dg-small" anchor="start" />
+  <DgText x={426} y={312} ja="現場：型で回す" en="Teams run the kit" class="dg-small" anchor="end" />
+</svg>
