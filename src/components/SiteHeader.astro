@@ -9,7 +9,6 @@ interface Props {
 const { currentPath } = Astro.props;
 
 const isHome = currentPath === "/";
-const isPhotos = currentPath === "/photos/";
 ---
 {/* スクロールしても上に残す。背景を敷いて下の本文と重ならないようにする */}
 <header
@@ -29,5 +28,5 @@ const isPhotos = currentPath === "/photos/";
     </a>
   </div>
 
-  <RightNav isPhotos={isPhotos} />
+  <RightNav />
 </header>

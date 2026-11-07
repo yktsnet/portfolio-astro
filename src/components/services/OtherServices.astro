@@ -12,7 +12,7 @@ const { others } = Astro.props;
 <section class="mt-20 border-t border-zinc-200 pt-12 sm:mt-24 sm:pt-14 dark:border-poi-border/60">
   <SectionHead size="heading" kicker="Other services" title={{ ja: 'ほかのサービス', en: 'Other services' }} />
   <div class="mt-5 grid gap-4 sm:mt-6 md:grid-cols-2">
-    {others.map((o) => (
+    {others.map((o: Service) => (
       <a href={`/services/${o.slug}/`} class="group flex flex-col justify-between ui-card p-6 transition-colors hover:border-poi-accent/50 dark:hover:border-poi-accent/50">
         <div>
           <p class="flex items-center gap-2 font-mono type-label text-poi-accent">
