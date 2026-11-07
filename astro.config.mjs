@@ -23,5 +23,10 @@ export default defineConfig({
   integrations: [sitemap()],
   redirects: {
     '/about': '/#about',
+    // 消したページへの被リンク（Zenn の記事など）を切らないため、今の対応する場所へ送る
+    '/impact': '/services/operations/',
+    '/works': '/#services',
+    '/principles': '/#about',
+    '/services/education': '/services/ai-development/',
   },
 });
