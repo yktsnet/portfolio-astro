@@ -44,8 +44,8 @@ const metrics: Metric[] = [
 const offeringDetails: OfferingDetail[] = [
   {
     line: {
-      ja: 'ICカードをかざすだけで打刻が済み、集計と給与計算用のデータまで自動で作る。',
-      en: 'A tap of an IC card clocks staff in and out, and the tally and payroll data are built automatically.',
+      ja: '出退勤の打刻から、給与計算に使う集計までを自動にする。',
+      en: 'Everything from clock-ins to the payroll tally is automated.',
     },
     before: [
       { ja: '出退勤の時刻を紙に自己申告する', en: 'Staff self-report their hours on paper' },
@@ -61,10 +61,6 @@ const offeringDetails: OfferingDetail[] = [
         body: { ja: '操作が1つ増えるたびに、打刻されない日が出る。', en: 'Every extra step means days with no clock-in.' },
       },
       {
-        title: { ja: '管理画面を作らない', en: 'No new admin screen' },
-        body: { ja: '集計は、管理者が見慣れたスプレッドシートに並べる。', en: 'Results go into the spreadsheet the manager already reads.' },
-      },
-      {
         title: { ja: '異常を推測で埋めない', en: 'No guessing over gaps' },
         body: { ja: '打刻忘れは印を付けて残し、管理者が直す。給与に推測した値を混ぜない。', en: 'Missed clock-ins are flagged for the manager to fix. Guesses never reach payroll.' },
       },
@@ -76,8 +72,8 @@ const offeringDetails: OfferingDetail[] = [
   },
   {
     line: {
-      ja: '契約書などの書類を、いまのExcelの様式のまま自動で作ってPDFにし、1つの一覧から探せるようにする。',
-      en: 'Contracts and other documents are generated from the existing Excel templates as PDFs, and all of them can be found from one list.',
+      ja: '契約書などの書類を自動で作ってPDFにし、1つの一覧から探せるようにする。',
+      en: 'Contracts and other documents are generated as PDFs, and all of them can be found from one list.',
     },
     before: [
       { ja: '前の契約書をコピーし、名前や部屋番号を書き換える', en: 'Copy the last contract and rewrite names and room numbers' },
@@ -90,10 +86,6 @@ const offeringDetails: OfferingDetail[] = [
       { ja: '作った書類は全文検索で探せる', en: 'Every document can be found with full-text search' },
     ],
     decisions: [
-      {
-        title: { ja: '共有フォルダの手順を残す', en: 'Keep the shared folder' },
-        body: { ja: 'Excelを開いて保存するこれまでのやり方でも、PDFになる。', en: 'Opening and saving the Excel file, as before, still produces the PDF.' },
-      },
       {
         title: { ja: '様式を作り直さない', en: 'Keep the templates' },
         body: { ja: 'いま使っている契約書のExcelに、そのまま項目を流し込む。', en: 'Fields go straight into the contract templates already in use.' },
@@ -118,43 +110,51 @@ const options: MultilingualText[] = [
 ];
 const compare: { point: MultilingualText; cells: MultilingualText[] }[] = [
   {
-    point: { ja: '現場の操作', en: 'For your staff' },
+    point: { ja: '始め方', en: 'Getting started' },
     cells: [
-      { ja: '製品の画面に合わせて、やり方を覚え直す', en: 'Relearn the work to fit the product' },
-      { ja: '新しく作った画面を覚える', en: 'Learn the newly built screens' },
-      { ja: '今のExcelと紙のまま。勤怠はカードをかざすだけ', en: 'Same Excel and paper; attendance is a card tap' },
+      { ja: '製品の機能に合わせて、まとめて切り替える', en: 'Switch over to fit the product' },
+      { ja: '要件を固めてから作り始める', en: 'Fix the requirements, then build' },
+      { ja: '手間の大きい作業1つから、小さく始める', en: 'Start small, with the single most costly task' },
     ],
   },
   {
     point: { ja: '何を作るか', en: 'What gets built' },
     cells: [
-      { ja: '製品にある機能から選ぶ', en: 'Choose from the product\'s features' },
-      { ja: '頼んだとおりに作る', en: 'Whatever you specify' },
-      { ja: '会計の数字を一緒に見て、経費が減るところから決める', en: 'Decided together from the accounts, starting where costs drop' },
+      { ja: '製品にある機能から選ぶ', en: 'Chosen from the product\'s features' },
+      { ja: '依頼した内容を作る', en: 'What you specify' },
+      { ja: '会計の数字を一緒に見て、経費が減り売上につながるところから決める', en: 'Decided together from the accounts, where costs drop or sales grow' },
+    ],
+  },
+  {
+    point: { ja: '現場の操作', en: 'For your staff' },
+    cells: [
+      { ja: '製品の画面と手順に合わせる', en: 'Follow the product\'s screens and steps' },
+      { ja: '作った画面の使い方を覚える', en: 'Learn the screens that were built' },
+      { ja: '今の手順に合わせて作るので、覚え直しが要らない', en: 'Built around the current routine, so nothing to relearn' },
     ],
   },
   {
     point: { ja: '毎月の費用', en: 'Monthly cost' },
     cells: [
-      { ja: '人数や件数に応じた利用料がかかり続ける', en: 'Fees per user or volume, every month' },
-      { ja: '作り方による', en: 'Depends on how it is built' },
-      { ja: '新しい月額サービスは契約しない。手元の機材と今のスプレッドシートで動く', en: 'No new subscriptions; runs on cheap hardware and your current spreadsheet' },
+      { ja: '利用人数や件数に応じた月額', en: 'Fees by users or volume' },
+      { ja: 'サーバーや保守の契約による', en: 'Depends on hosting and maintenance contracts' },
+      { ja: '新しい月額サービスは契約せず、手元の機材とスプレッドシートで動かす', en: 'No new subscriptions; runs on cheap hardware and spreadsheets' },
     ],
   },
   {
     point: { ja: '入れたあと', en: 'After launch' },
     cells: [
-      { ja: '製品の変更に合わせる', en: 'You follow the product\'s changes' },
-      { ja: '納品で区切りになることが多い', en: 'Often ends at delivery' },
+      { ja: '製品の更新に合わせて使う', en: 'Use it as the product updates' },
+      { ja: '保守の契約の範囲で直す', en: 'Fixes within the maintenance contract' },
       { ja: '使われ方を見て直し、現場で回り出すまで付き合う', en: 'I adjust it until it runs on its own' },
     ],
   },
   {
-    point: { ja: '中身', en: 'What is inside' },
+    point: { ja: '頼む前の確かめ方', en: 'Checking before you ask' },
     cells: [
-      { ja: '見えない', en: 'Hidden' },
-      { ja: '契約による', en: 'Depends on the contract' },
-      { ja: '仕組みを公開しているので、頼む前に確かめられる', en: 'Public, so you can check before asking' },
+      { ja: '製品の説明と試用で確かめる', en: 'Product docs and a trial' },
+      { ja: '提案書と見積もりで確かめる', en: 'A proposal and a quote' },
+      { ja: '仕組みを公開しているので、中身を見て確かめられる', en: 'The code is public, so you can look inside' },
     ],
   },
 ];
@@ -180,8 +180,8 @@ const steps: Step[] = [
       en: 'I have watched, as the one in charge, features welcomed at launch go unused six months later. Whether something keeps being used comes down to whether people had to relearn their work.',
     },
     done: {
-      ja: 'スタッフはPCに不慣れだったので、打刻はスマホも使わず、カードをかざすだけにした。契約書は、共有フォルダのExcelを開いて保存するこれまでの手順を残した。',
-      en: 'The staff were not used to PCs, so clocking in needs no phone, only a card tap. For contracts, the routine of opening and saving the Excel file in the shared folder stayed.',
+      ja: 'スタッフは、Excelで改行する操作にも慣れていなかった。そこで、説明しなくても使えることを作る条件にした。',
+      en: 'The staff were not even used to adding a line break in Excel, so working without any explanation became a requirement for what I built.',
     },
   },
   {
@@ -192,8 +192,8 @@ const steps: Step[] = [
       en: 'A new way of working is not used just because it is handed down. Delivery is not the end: I watch how it is used and fix what does not fit.',
     },
     done: {
-      ja: '最初に納めた勤怠の道具が定着して、相談が増えた。いまは外部CTOとして、契約書の作成に加えて、空室情報の配信の設計まで引き受けている。',
-      en: 'Once the first attendance tool took hold, more requests followed. As external CTO I now handle contract generation and the design of a vacancy listing service.',
+      ja: '最初に納めた勤怠の道具が定着して、相談が増えた。書類作成の自動化は、そのあとに頼まれたものである。いまも外部CTOとして関わっている。',
+      en: 'Once the first attendance tool took hold, more requests followed; document automation came after that. I am still involved as external CTO.',
     },
   },
 ];
@@ -259,6 +259,19 @@ const label = 'font-mono text-[10px] tracking-widest uppercase text-poi-muted';
           </div>
         ))}
       </dl>
+      <div class="border-t border-zinc-200 p-7 sm:px-8 dark:border-poi-border/60">
+        <p class="flex flex-wrap items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-poi-focus">
+          <LucideIcon name="trending-up" class="h-4 w-4 text-poi-accent" />
+          <T text={{ ja: '売上の側：空室情報の配信', en: 'On the sales side: vacancy listings' }} />
+          <span class="rounded-full border border-poi-accent/50 px-2 py-0.5 font-mono text-[10px] font-normal text-poi-accent"><T text={{ ja: '作成中', en: 'In progress' }} /></span>
+        </p>
+        <p class="mt-2 max-w-3xl text-[13px] leading-7 text-zinc-600 dark:text-poi-muted">
+          <T text={{
+            ja: '経費を減らした次は、空室を早く埋める側に移っている。事業者に空室の情報を届けるWebアプリを作っていて、相手ごとに見せる範囲を3段階で分け、電話での問い合わせとは受け付ける時間帯で住み分ける。',
+            en: 'After cutting costs, the work has moved to filling vacancies faster. I am building a web app that delivers vacancy information to partner businesses, with three levels of what each can see, and split by time of day from phone inquiries.',
+          }} />
+        </p>
+      </div>
       <div class="border-t border-zinc-200 bg-zinc-100/60 p-7 sm:px-8 dark:border-poi-border/60 dark:bg-poi-panel/35">
         <p class="max-w-3xl text-sm leading-7 text-zinc-700 dark:text-poi-text">
           <T text={{
@@ -366,6 +379,9 @@ const label = 'font-mono text-[10px] tracking-widest uppercase text-poi-muted';
         ))}
       </div>
     </div>
+    <p class="mt-3 text-xs text-zinc-500 dark:text-poi-muted">
+      <T text={{ ja: 'SaaSと開発会社の列は、一般的な場合を書いている。', en: 'The SaaS and dev firm columns describe the typical case.' }} />
+    </p>
   </section>
 
   {/* 4. 進め方: なぜそうするかと、導入事例で実際にどうしたか */}
