@@ -56,11 +56,11 @@ export const services: Service[] = [
     kicker: "OPERATIONS",
     title: { ja: "業務の自動化", en: "Operations Automation" },
     summary: {
-      ja: "Excel の手入力や紙の帳票、口頭での確認を続けたまま、転記・PDF 化・集計を裏側で自動にする。SaaS に置き換えないので、現場は覚え直さなくていい。",
+      ja: "Excelの手入力や紙の帳票、口頭での確認を続けたまま、転記・PDF化・集計を裏側で自動にする。SaaSに置き換えないので、現場は覚え直さなくていい。",
       en: "Keep manual Excel entry, paper forms and verbal checks as they are, and automate the copying, PDF conversion and tallying behind them. Nothing is replaced with SaaS, so nobody has to relearn their job.",
     },
     heroTitle: {
-      ja: "いまの Excel と紙のまま、転記と集計をなくす。",
+      ja: "いまのExcelと紙のまま、転記と集計をなくす。",
       en: "Keep the Excel and paper. Lose the copying and tallying.",
     },
     heroBody: {
@@ -83,9 +83,9 @@ export const services: Service[] = [
         },
       },
       {
-        title: { ja: "SaaS を入れても使われない", en: "SaaS was introduced but nobody uses it" },
+        title: { ja: "SaaSを入れても使われない", en: "SaaS was introduced but nobody uses it" },
         body: {
-          ja: "操作を覚える負担が大きく、結局 Excel と紙に戻ってしまった。",
+          ja: "操作を覚える負担が大きく、結局Excelと紙に戻ってしまった。",
           en: "Learning it was too much of a burden, and everyone drifted back to Excel and paper.",
         },
       },
@@ -99,7 +99,7 @@ export const services: Service[] = [
           en: "A feature welcomed at launch is used by no one six months later. I watched that happen from inside the business.",
         },
         {
-          ja: "だから新しい画面や操作を覚えさせる設計を避ける。既存の Excel・スプレッドシート・紙の運用はそのまま残し、自動化はその裏側に差し込む。共有フォルダの Excel を開いて保存する従来の経路も残してあり、保存した時点で PDF になる。",
+          ja: "だから新しい画面や操作を覚えさせる設計を避ける。既存のExcel・スプレッドシート・紙の運用はそのまま残し、自動化はその裏側に差し込む。共有フォルダのExcelを開いて保存する従来の経路も残してあり、保存した時点でPDFになる。",
           en: "So I avoid designs that make people learn new screens. Existing Excel, spreadsheets and paper stay as they are, and automation goes in behind them. The old route of opening and saving the Excel file in the shared folder still works, and saving produces the PDF.",
         },
       ],
@@ -109,11 +109,11 @@ export const services: Service[] = [
         icon: "id-card",
         title: { ja: "勤怠システム", en: "Attendance System" },
         body: {
-          ja: "IC カードをかざすだけで打刻が済み、スプレッドシートへの集計と通知まで自動で回る。スマホの操作も要らないので、PC に不慣れなスタッフでも初日から使える。",
+          ja: "ICカードをかざすだけで打刻が済み、スプレッドシートへの集計と通知まで自動で回る。スマホの操作も要らないので、PCに不慣れなスタッフでも初日から使える。",
           en: "Tap an IC card and the clock-in is done; tallying into a spreadsheet and notifications run on their own. No smartphone step either, so staff unused to PCs can use it from day one.",
         },
         points: [
-          { ja: "Raspberry Pi と市販のカードリーダーで動く", en: "Runs on a Raspberry Pi and an off-the-shelf card reader" },
+          { ja: "Raspberry Piと市販のカードリーダーで動く", en: "Runs on a Raspberry Pi and an off-the-shelf card reader" },
           { ja: "給与計算用の集計まで自動で作る", en: "Builds the payroll tally automatically" },
           { ja: "打刻の偽装と記入漏れを防ぐ", en: "Prevents faked clock-ins and missed entries" },
         ],
@@ -121,14 +121,14 @@ export const services: Service[] = [
       },
       {
         icon: "file-text",
-        title: { ja: "Excel 帳票の書類管理", en: "Excel Document Management" },
+        title: { ja: "Excel帳票の書類管理", en: "Excel Document Management" },
         body: {
-          ja: "Web フォームの入力か、共有フォルダの Excel の保存を合図に、契約書などの書類を自動で作って PDF にする。作った書類は1つの一覧から全文検索で探せる。",
+          ja: "Webフォームの入力か、共有フォルダのExcelの保存を合図に、契約書などの書類を自動で作ってPDFにする。作った書類は1つの一覧から全文検索で探せる。",
           en: "A web form entry, or saving an Excel file in a shared folder, triggers generating documents such as contracts as PDFs. Everything produced can be found from one list with full-text search.",
         },
         points: [
-          { ja: "テンプレートの Excel をそのまま使う", en: "Uses the existing Excel templates as they are" },
-          { ja: "共有フォルダの変更を検知して PDF を更新する", en: "Detects changes in the shared folder and refreshes the PDFs" },
+          { ja: "テンプレートのExcelをそのまま使う", en: "Uses the existing Excel templates as they are" },
+          { ja: "共有フォルダの変更を検知してPDFを更新する", en: "Detects changes in the shared folder and refreshes the PDFs" },
           { ja: "テンプレートと対応表を替えれば別の業種にも使える", en: "Swap the templates and mappings to reuse it in another industry" },
         ],
         repos: [gh("excel-kanri")],
@@ -138,7 +138,7 @@ export const services: Service[] = [
       {
         title: { ja: "作業を見せてもらう", en: "Watch the actual work" },
         body: {
-          ja: "実際の Excel と書類、月末の作業を見て、手で書き写している箇所を洗い出す。",
+          ja: "実際のExcelと書類、月末の作業を見て、手で書き写している箇所を洗い出す。",
           en: "Look at the real spreadsheets, documents and month-end routine, and list every place where data is copied by hand.",
         },
         duration: { ja: "1〜2週間", en: "1–2 weeks" },
@@ -163,7 +163,7 @@ export const services: Service[] = [
     caseStudy: {
       label: "Property Management",
       title: {
-        ja: "マンション管理会社の外部 CTO として、勤怠から書類作成まで自動化",
+        ja: "マンション管理会社の外部CTOとして、勤怠から書類作成まで自動化",
         en: "As external CTO of a property management company, automating everything from attendance to documents",
       },
       body: {
@@ -183,7 +183,7 @@ export const services: Service[] = [
           tag: "BUILD",
           title: { ja: "現場のやり方を変えずに作った", en: "Built without changing how people work" },
           body: {
-            ja: "IC カードをかざすだけの打刻は、説明なしで初日から定着した。契約書も共有フォルダの Excel に保存すれば PDF になる形で自動化した。",
+            ja: "ICカードをかざすだけの打刻は、説明なしで初日から定着した。契約書も共有フォルダのExcelに保存すればPDFになる形で自動化した。",
             en: "Clock-ins by just tapping an IC card stuck from day one without instructions. Contracts were automated so that saving the Excel file in the shared folder produces the PDF.",
           },
           on: true,
@@ -212,22 +212,22 @@ export const services: Service[] = [
     no: "02",
     icon: "sparkles",
     kicker: "AI DEVELOPMENT",
-    title: { ja: "AI と開発する組織づくり", en: "AI-Native Development Teams" },
+    title: { ja: "AIと開発する組織づくり", en: "AI-Native Development Teams" },
     summary: {
-      ja: "AI エージェントと開発する手順を型にして配り、エンジニアでない経営層も読める基準で人を評価し、研修で人を育てる。型と評価と育成を、共通の評価基準でつなぐ。",
+      ja: "AIエージェントと開発する手順を型にして配り、エンジニアでない経営層も読める基準で人を評価し、研修で人を育てる。型と評価と育成を、共通の評価基準でつなぐ。",
       en: "Package the way of developing with AI agents and distribute it, evaluate people on criteria that non-engineer executives can read, and grow people through training, all tied together by shared evaluation criteria.",
     },
     heroTitle: {
-      ja: "AI と開発する型を、経営と現場の両方に根づかせる。",
+      ja: "AIと開発する型を、経営と現場の両方に根づかせる。",
       en: "Root the way of building with AI in both management and the floor.",
     },
     heroBody: {
-      ja: "AI エージェントを使うと、詰まる場所がコードを書くことから、意図を伝えることと確かめることへ移る。そこを型にして配り、共通の評価基準で人を見て、使える人を育てる。",
+      ja: "AIエージェントを使うと、詰まる場所がコードを書くことから、意図を伝えることと確かめることへ移る。そこを型にして配り、共通の評価基準で人を見て、使える人を育てる。",
       en: "With AI agents, the bottleneck moves from writing code to conveying intent and verifying results. That is what gets packaged and distributed, evaluated on shared criteria, and taught.",
     },
     problems: [
       {
-        title: { ja: "AI の使い方が人によってばらばら", en: "Everyone uses AI differently" },
+        title: { ja: "AIの使い方が人によってばらばら", en: "Everyone uses AI differently" },
         body: {
           ja: "使う人と使わない人の差が開き、成果物の形もそろわない。",
           en: "The gap between users and non-users widens, and deliverables never share a shape.",
@@ -253,11 +253,11 @@ export const services: Service[] = [
       title: { ja: "生成より、検証", en: "Verification over generation" },
       body: [
         {
-          ja: "AI がコードを書く時代、時間がかかるのは書くことではなく、書かれたものを信じられるか確かめることに変わった。AI は警告も出さずに自信を持って間違え、放っておけば破壊的な操作や機密の漏洩をそのまま本番へ通す。",
+          ja: "AIがコードを書く時代、時間がかかるのは書くことではなく、書かれたものを信じられるか確かめることに変わった。AIは警告も出さずに自信を持って間違え、放っておけば破壊的な操作や機密の漏洩をそのまま本番へ通す。",
           en: "Now that AI writes the code, the time goes not into writing but into confirming that what was written can be trusted. AI is confidently wrong without warning, and left alone it will carry destructive operations or leaked secrets straight into production.",
         },
         {
-          ja: "人が注意する約束は形骸化するので、破壊的なコマンドの遮断や機密の隔離はコードと設定で固定する。そのうえで「何が壊れてはいけないか」だけを人が決めて文書で承認し、テストと実装は AI に任せる。約束が破られれば機械が検知して止まる。この分業を保証駆動開発（GDD）と呼び、開発キットに入れている。",
+          ja: "人が注意する約束は形骸化するので、破壊的なコマンドの遮断や機密の隔離はコードと設定で固定する。そのうえで「何が壊れてはいけないか」だけを人が決めて文書で承認し、テストと実装はAIに任せる。約束が破られれば機械が検知して止まる。この分業を保証駆動開発（GDD）と呼び、開発キットに入れている。",
           en: "Promises that rely on human attention erode, so blocking destructive commands and isolating secrets are fixed in code and config. On top of that, a human decides only what must not break and approves it in writing, while tests and implementation go to AI. When a promise is broken, the machine detects it and stops. I call this split Guarantee-Driven Development (GDD), and it is built into the kit.",
         },
       ],
@@ -271,7 +271,7 @@ export const services: Service[] = [
         icon: "package",
         title: { ja: "開発キットの配布", en: "Development Kit" },
         body: {
-          ja: "Issue と PR の運用、main への直接 push を止める安全機構、文書の規範を単位に切り分けて配る。型にするのは、人の判断を省かせない・セッションを超えて残す・担当者が替わっても揃う、の3つのどれかに当たるものだけ。相手の規模に合わせて粒度を落とし、1単位ずつ入れる。",
+          ja: "IssueとPRの運用、mainへの直接pushを止める安全機構、文書の規範を単位に切り分けて配る。型にするのは、人の判断を省かせない・セッションを超えて残す・担当者が替わっても揃う、の3つのどれかに当たるものだけ。相手の規模に合わせて粒度を落とし、1単位ずつ入れる。",
           en: "Issue and PR workflows, guards that block direct pushes to main, and writing standards are split into units. Only what keeps a human decision from being skipped, must survive across sessions, or must come out the same when people change becomes a unit. The grain is scaled to the team, and units go in one at a time.",
         },
         points: [
@@ -285,12 +285,12 @@ export const services: Service[] = [
         icon: "user-check",
         title: { ja: "エンジニアの評価", en: "Engineer Evaluation" },
         body: {
-          ja: "5つの軸と5つの段階で、在籍者と採用候補者を同じ尺度で測る。メンバーごとの AI の利用量と成果も毎日集計し、評価と配分の材料にする。",
+          ja: "5つの軸と5つの段階で、在籍者と採用候補者を同じ尺度で測る。メンバーごとのAIの利用量と成果も毎日集計し、評価と配分の材料にする。",
           en: "Five axes and five levels measure current staff and candidates on the same scale. AI usage and output per member are tallied daily and feed into evaluation and allocation.",
         },
         points: [
           { ja: "判定文が成果物の置き場を名指しするので、書式でなく中身で読める", en: "Criteria point to where deliverables live, so content is judged, not formatting" },
-          { ja: "利用時間・トークン量・PR・Issue をメンバー別に並べる", en: "Usage time, tokens, PRs and issues side by side per member" },
+          { ja: "利用時間・トークン量・PR・Issueをメンバー別に並べる", en: "Usage time, tokens, PRs and issues side by side per member" },
           { ja: "採用では証拠にするものだけを替えて同じ軸を当てる", en: "For hiring, only the evidence changes; the axes stay the same" },
         ],
         repos: [gh("ladder-kit")],
@@ -298,14 +298,14 @@ export const services: Service[] = [
       },
       {
         icon: "notebook-pen",
-        title: { ja: "AI 開発の研修", en: "AI Development Training" },
+        title: { ja: "AI開発の研修", en: "AI Development Training" },
         body: {
-          ja: "講師が教える研修ではなく、社員どうしが AI で作って見せ合い、教え合う場を数か月かけて立ち上げる。未経験者が混ざっても、最初に全員の環境をそろえてから始める。",
+          ja: "講師が教える研修ではなく、社員どうしがAIで作って見せ合い、教え合う場を数か月かけて立ち上げる。未経験者が混ざっても、最初に全員の環境をそろえてから始める。",
           en: "Not a lecture series: a few months of building with AI, showing each other the results and teaching one another. Everyone's environment is set up first, so beginners can join too.",
         },
         points: [
           { ja: "短い講義のあと各自が手を動かし、少人数で見せ合う", en: "A short talk, then hands-on work and small-group show-and-tell" },
-          { ja: "自分で選んだ課題を AI で形にして発表する", en: "Each person builds a problem of their choice with AI and presents it" },
+          { ja: "自分で選んだ課題をAIで形にして発表する", en: "Each person builds a problem of their choice with AI and presents it" },
           { ja: "教材と環境は会社が用意し、客先の情報を持ち込まない", en: "The company provides materials and environments; no client data comes in" },
         ],
         repos: [],
@@ -315,7 +315,7 @@ export const services: Service[] = [
       {
         title: { ja: "使い方と成果物を見る", en: "Look at usage and output" },
         body: {
-          ja: "誰がどう AI を使い、何を出しているかを、リポジトリと利用状況から読む。",
+          ja: "誰がどうAIを使い、何を出しているかを、リポジトリと利用状況から読む。",
           en: "Read who uses AI how, and what they ship, from the repositories and usage data.",
         },
         duration: { ja: "1〜2週間", en: "1–2 weeks" },
@@ -323,7 +323,7 @@ export const services: Service[] = [
       {
         title: { ja: "型を1つ入れる", en: "Introduce one unit" },
         body: {
-          ja: "安全機構や PR の運用など、事故と手戻りを減らす単位から1つずつ入れる。",
+          ja: "安全機構やPRの運用など、事故と手戻りを減らす単位から1つずつ入れる。",
           en: "Start with the units that cut accidents and rework, such as guards or the PR workflow, one at a time.",
         },
         duration: { ja: "2〜4週間", en: "2–4 weeks" },
@@ -345,37 +345,37 @@ export const services: Service[] = [
     kicker: "EDUCATION",
     title: { ja: "教育事業の支援", en: "Education Business Support" },
     summary: {
-      ja: "学習塾を12年経営してきた。その経験をもとに、プログラミング教室の立ち上げから、塾の事業の広げ方、出席や成績の仕組みまでを一緒に組み立てる。",
-      en: "Twelve years of running a tutoring school. Drawing on that, I help set up programming classes, grow the school business, and build attendance and grading systems.",
+      ja: "学習塾を12年経営してきた。その経験をもとに、塾へのプログラミング教室の導入から、出席や成績の仕組みまでを一緒に組み立て、募集の経路と通塾期間を広げる。",
+      en: "Twelve years of running a tutoring school. Drawing on that, I help add programming classes to existing schools and build attendance and grading systems to widen enrollment channels and extend how long students stay.",
     },
     heroTitle: {
-      ja: "教室を開くところから、事業を広げるところまで。",
-      en: "From opening a class to growing the business.",
+      ja: "生徒募集の経路を増やし、出席と成績の仕組みを整える。",
+      en: "Open new enrollment channels and streamline attendance and grading.",
     },
     heroBody: {
-      ja: "学習塾を12年経営した経験をもとに、プログラミング教室の立ち上げと運営、塾の事業の広げ方、出席や成績の管理の仕組みまでを一緒に組み立てる。",
-      en: "Based on twelve years of running a tutoring school, I help with launching and running programming classes, growing the school business, and building attendance and grading systems.",
+      ja: "学習塾を12年経営した経験をもとに、塾へのプログラミング教室の導入と、出席・自習・成績の管理の仕組みを一緒に組み立てる。",
+      en: "Based on twelve years of running a tutoring school, I help add programming classes to your school and build systems for managing attendance, self-study, and grades.",
     },
     problems: [
       {
-        title: { ja: "プログラミング教室を始めたいが、型が無い", en: "You want a programming class but have no playbook" },
-        body: {
-          ja: "カリキュラムも運営の手順も無く、教えられる人も手元にいない。",
-          en: "There is no curriculum, no operating routine, and no one on hand who can teach.",
-        },
-      },
-      {
         title: { ja: "生徒募集が頭打ちになっている", en: "Enrollment has plateaued" },
         body: {
-          ja: "問い合わせの経路が限られ、学年が上がると生徒が抜けていく。",
-          en: "Inquiries come through few channels, and students leave as they move up a grade.",
+          ja: "問い合わせの経路が限られ、小学生からの入口も無く、学年が上がると生徒が抜けていく。",
+          en: "Inquiries come through few channels, there is no early-grade entry point, and students leave as they move up a grade.",
         },
       },
       {
-        title: { ja: "出席や成績の管理が手作業のまま", en: "Attendance and grades are still handled by hand" },
+        title: { ja: "入退室と自習の記録が手作業のまま", en: "Attendance and self-study logs are still by hand" },
         body: {
-          ja: "入退室は紙で、模試の結果も返却資料に軽く載るだけになっている。",
-          en: "Check-ins are on paper, and mock exam results barely appear in the returned handouts.",
+          ja: "紙の記録では保護者に知らせが届かず、自習に通った時間も残らない。",
+          en: "Paper logs neither notify parents nor keep a record of self-study hours.",
+        },
+      },
+      {
+        title: { ja: "模試や教材の採点・分析に手が回らない", en: "No bandwidth to grade and analyze mock exams" },
+        body: {
+          ja: "紙の答案のままで、成績の推移や弱点を生徒・保護者に返しきれていない。",
+          en: "Answers stay on paper, and grade trends or weak spots barely reach students and parents.",
         },
       },
     ],
@@ -395,20 +395,6 @@ export const services: Service[] = [
     },
     offerings: [
       {
-        icon: "code",
-        title: { ja: "プログラミング教室の運営コンサル", en: "Programming Class Consulting" },
-        body: {
-          ja: "教室を開く・運営する事業者に、カリキュラムと運営の型を渡す。教えられるエンジニアの手配まで含めて相談に乗る。",
-          en: "Hand over a curriculum and an operating playbook to those opening or running a class, including finding engineers who can teach.",
-        },
-        points: [
-          { ja: "カリキュラムと授業の進め方", en: "Curriculum and lesson flow" },
-          { ja: "教室を運営する手順", en: "Day-to-day operating routine" },
-          { ja: "教える人の手配と育成", en: "Finding and training instructors" },
-        ],
-        repos: [],
-      },
-      {
         icon: "trending-up",
         title: { ja: "塾へのプログラミング教室の導入", en: "Adding Programming to a Tutoring School" },
         body: {
@@ -424,9 +410,9 @@ export const services: Service[] = [
       },
       {
         icon: "id-card",
-        title: { ja: "NFC カードの出席管理", en: "NFC Attendance for Students" },
+        title: { ja: "NFCカードの出席管理", en: "NFC Attendance for Students" },
         body: {
-          ja: "生徒が NFC カードをかざすと入退室が記録され、保護者へ知らせが届く。自習の時間も残るので、通った時間と成績の伸びを並べた資料が作れる。",
+          ja: "生徒がNFCカードをかざすと入退室が記録され、保護者へ知らせが届く。自習の時間も残るので、通った時間と成績の伸びを並べた資料が作れる。",
           en: "Students tap an NFC card to record arrival and departure, and parents are notified. Self-study time is logged too, so time spent can be shown alongside grade improvement.",
         },
         points: [
@@ -440,7 +426,7 @@ export const services: Service[] = [
         icon: "book-search",
         title: { ja: "模試・教材のデータ化", en: "Digitizing Mock Exams and Materials" },
         body: {
-          ja: "紙の模試や教材をデータにし、採点と成績の分析に使える形にする。生徒や保護者が分析を見られる Web アプリまで作る。",
+          ja: "紙の模試や教材をデータにし、採点と成績の分析に使える形にする。生徒や保護者が分析を見られるWebアプリまで作る。",
           en: "Turn paper mock exams and materials into data usable for grading and analysis, and build a web app where students and parents can see the analysis.",
         },
         points: [
