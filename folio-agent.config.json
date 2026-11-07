@@ -11,5 +11,8 @@
     "articlesDir": "/home/yktsnet/github-private/zenn/articles",
     "baseUrl": "https://zenn.dev/yktsnet/articles"
   },
-  "zennSnapshotPath": "zenn-snapshot.json"
+  "zennSnapshotPath": "zenn-snapshot.json",
+  "github": {
+    "snapshotPath": "github-snapshot.json"
+  }
 }
