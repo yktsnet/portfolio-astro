@@ -222,18 +222,18 @@ export const services: Service[] = [
     no: "02",
     icon: "sparkles",
     kicker: "AI DEVELOPMENT",
-    title: { ja: "AIと開発する組織づくり", en: "AI-Native Development Teams" },
+    title: { ja: "開発組織のAI活用", en: "AI in Development Teams" },
     summary: {
-      ja: "AIエージェントと開発する手順を型にして配り、エンジニアでない経営層も読める基準で人を評価し、研修で人を育てる。型と評価と育成を、共通の評価基準でつなぐ。",
-      en: "Package the way of developing with AI agents and distribute it, evaluate people on criteria that non-engineer executives can read, and grow people through training, all tied together by shared evaluation criteria.",
+      ja: "AIの使い方が個人任せで、人によって差が開き、うまくいくやり方もチームに広がらない。開発の手順をそろえて配り（標準化）、使い方と力量が分かるようにする（可視化）。",
+      en: "AI use is left to each person, so the gap widens and what works never spreads across the team. I align and distribute the development process (standardization) and make usage and skill visible (visibility).",
     },
     heroTitle: {
-      ja: "AIと開発する型を、経営と現場の両方に根づかせる。",
-      en: "Root the way of building with AI in both management and the floor.",
+      ja: "AIの活用を、個人任せからチームの開発手順へ。",
+      en: "AI use, from up-to-each-person to a team development process.",
     },
     heroBody: {
-      ja: "AIエージェントを使うと、詰まる場所がコードを書くことから、意図を伝えることと確かめることへ移る。そこを型にして配り、共通の評価基準で人を見て、使える人を育てる。",
-      en: "With AI agents, the bottleneck moves from writing code to conveying intent and verifying results. That is what gets packaged and distributed, evaluated on shared criteria, and taught.",
+      ja: "AIの使い方が個人任せで、人によって差が開き、うまくいくやり方もチームに広がらない。開発の手順をそろえて配り（標準化）、使い方と力量が分かるようにする（可視化）。",
+      en: "AI use is left to each person, so the gap widens and what works never spreads across the team. I align and distribute the development process (standardization) and make usage and skill visible (visibility).",
     },
     problems: [
       {
@@ -279,7 +279,8 @@ export const services: Service[] = [
     offerings: [
       {
         icon: "package",
-        title: { ja: "開発キットの配布", en: "Development Kit" },
+        title: { ja: "AI駆動開発の標準化", en: "Standardizing AI-Driven Development" },
+        short: { ja: "手順をそろえ、誰が担当しても同じ形の成果物が出る", en: "One process, so output keeps its shape whoever does the work" },
         body: {
           ja: "IssueとPRの運用、mainへの直接pushを止める安全機構、文書の規範を単位に切り分けて配る。型にするのは、人の判断を省かせない・セッションを超えて残す・担当者が替わっても揃う、の3つのどれかに当たるものだけ。相手の規模に合わせて粒度を落とし、1単位ずつ入れる。",
           en: "Issue and PR workflows, guards that block direct pushes to main, and writing standards are split into units. Only what keeps a human decision from being skipped, must survive across sessions, or must come out the same when people change becomes a unit. The grain is scaled to the team, and units go in one at a time.",
@@ -293,7 +294,8 @@ export const services: Service[] = [
       },
       {
         icon: "user-check",
-        title: { ja: "エンジニアの評価", en: "Engineer Evaluation" },
+        title: { ja: "エンジニア評価制度づくり", en: "Engineer Evaluation System" },
+        short: { ja: "AIの利用状況と評価基準で、育成と採用を決める", en: "AI usage data and shared criteria decide growth and hiring" },
         body: {
           ja: "5つの軸と5つの段階で、在籍者と採用候補者を同じ尺度で測る。メンバーごとのAIの利用量と成果も毎日集計し、評価と配分の材料にする。",
           en: "Five axes and five levels measure current staff and candidates on the same scale. AI usage and output per member are tallied daily and feed into evaluation and allocation.",
@@ -303,12 +305,12 @@ export const services: Service[] = [
           { ja: "利用時間・トークン量・PR・Issueをメンバー別に並べる", en: "Usage time, tokens, PRs and issues side by side per member" },
           { ja: "採用では証拠にするものだけを替えて同じ軸を当てる", en: "For hiring, only the evidence changes; the axes stay the same" },
         ],
-        repos: [gh("ladder-kit")],
-        note: { ja: "利用状況の集計は非公開", en: "The usage tally is private" },
+        repos: [gh("mgmt-kit")],
       },
       {
         icon: "notebook-pen",
-        title: { ja: "AI開発の研修", en: "AI Development Training" },
+        title: { ja: "客先常駐の社員向けAI勉強会", en: "AI Study Group for Client-Site Staff" },
+        short: { ja: "客先がAIを認めていなくても、社員どうしで作って教え合える", en: "Staff build and teach each other with AI, even if their client bans it" },
         body: {
           ja: "講師が教える研修ではなく、社員どうしがAIで作って見せ合い、教え合う場を数か月かけて立ち上げる。未経験者が混ざっても、最初に全員の環境をそろえてから始める。",
           en: "Not a lecture series: a few months of building with AI, showing each other the results and teaching one another. Everyone's environment is set up first, so beginners can join too.",
@@ -347,6 +349,10 @@ export const services: Service[] = [
         duration: { ja: "継続", en: "Ongoing" },
       },
     ],
+    proof: {
+      ja: "勤務先の開発会社で運用中。14のSkillで手順をそろえ、16の指標を毎日集計",
+      en: "In use at the development company I work for: 14 skills align the process, 16 metrics tallied daily",
+    },
   },
   {
     slug: "education",
@@ -405,7 +411,7 @@ export const services: Service[] = [
     },
     offerings: [
       {
-        icon: "trending-up",
+        icon: "laptop",
         title: { ja: "塾へのプログラミング教室の導入", en: "Adding Programming to a Tutoring School" },
         body: {
           ja: "学習塾の事業にプログラミング教室を加え、生徒を集める経路を増やす。小学生で入った子が中学・高校で塾のコースへ移れば、通う期間が延びる。",
