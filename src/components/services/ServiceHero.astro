@@ -1,0 +1,29 @@
+---
+import T from '../T.astro';
+import LucideIcon from '../LucideIcon.astro';
+import type { Service } from '../../data/services';
+
+interface Props {
+  service: Service;
+  useHeroCopy?: boolean;
+}
+const { service: s, useHeroCopy = false } = Astro.props;
+const title = useHeroCopy ? s.heroTitle : s.title;
+const body = useHeroCopy ? s.heroBody : s.summary;
+---
+<section>
+  <a href="/#services" class="inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors hover:text-poi-accent dark:text-poi-muted">
+    <span aria-hidden="true">←</span> Services
+  </a>
+  <p class="mt-8 flex items-center gap-2 font-mono type-caption tracking-widest text-poi-accent sm:mt-10">
+    <LucideIcon name={s.icon} />
+    <span>{s.no}</span>
+    <span class="text-poi-muted">— {s.kicker}</span>
+  </p>
+  <h1 class="mt-3 max-w-3xl type-display font-semibold leading-normal tracking-tight text-zinc-900 dark:text-poi-focus">
+    <T text={title} />
+  </h1>
+  <p class="mt-4 max-w-2xl type-lead leading-7 text-zinc-600 sm:leading-8 dark:text-poi-muted">
+    <T text={body} />
+  </p>
+</section>

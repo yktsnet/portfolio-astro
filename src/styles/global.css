@@ -106,6 +106,17 @@
   @apply underline underline-offset-2 transition-colors hover:decoration-2 hover:decoration-light-accent dark:hover:decoration-poi-accent;
 }
 
+/* ページ間で揃える外枠とラベルの基本形 */
+@utility ui-card {
+  @apply rounded-xl border border-zinc-200 bg-white dark:border-poi-border/70 dark:bg-poi-panel/15;
+}
+@utility ui-subpanel {
+  @apply border-zinc-200 bg-zinc-100/60 dark:border-poi-border/70 dark:bg-poi-panel/35;
+}
+@utility ui-kicker {
+  @apply font-mono type-label tracking-widest uppercase text-poi-muted;
+}
+
 @layer utilities {
   :root {
     /* poi-accent の実体色。ライト=ピンク(#d0679d) / ダーク=ティール(#5de4c7) */

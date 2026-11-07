@@ -6,16 +6,23 @@ interface Props {
   kicker: string;
   title: MultilingualText;
   lead?: MultilingualText;
+  size?: 'display' | 'heading';
 }
-const { kicker, title, lead } = Astro.props;
+const { kicker, title, lead, size = 'display' } = Astro.props;
 ---
 <div class="max-w-3xl">
   <p class="font-mono type-caption tracking-widest uppercase text-poi-muted">{kicker}</p>
-  <h2 class="mt-2 type-display font-semibold leading-relaxed tracking-tight text-zinc-900 dark:text-poi-focus sm:whitespace-pre-line">
+  <h2 class:list={[
+    "mt-2 font-semibold leading-relaxed tracking-tight text-zinc-900 dark:text-poi-focus sm:whitespace-pre-line",
+    size === 'heading' ? 'type-heading' : 'type-display',
+  ]}>
     <T text={title} />
   </h2>
   {lead && (
-    <p class="mt-5 max-w-2xl type-lead leading-7 sm:leading-8 text-zinc-600 dark:text-poi-muted">
+    <p class:list={[
+      "max-w-2xl leading-7 text-zinc-600 dark:text-poi-muted",
+      size === 'heading' ? 'mt-3 type-body' : 'mt-5 type-lead sm:leading-8',
+    ]}>
       <T text={lead} />
     </p>
   )}

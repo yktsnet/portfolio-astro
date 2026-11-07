@@ -3,6 +3,9 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import T from '../../components/T.astro';
 import LucideIcon from '../../components/LucideIcon.astro';
 import RepoLink from '../../components/RepoLink.astro';
+import SectionHead from '../../components/services/SectionHead.astro';
+import ServiceHero from '../../components/services/ServiceHero.astro';
+import OtherServices from '../../components/services/OtherServices.astro';
 import { services } from '../../data/services';
 import type { MultilingualText } from '../../lib/i18n';
 
@@ -198,41 +201,27 @@ const zenn = {
   href: 'https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2',
 };
 
-const h2 = 'type-heading font-semibold leading-relaxed tracking-tight text-zinc-900 dark:text-poi-focus';
-const card = 'rounded-xl border border-zinc-200 bg-white dark:border-poi-border/70 dark:bg-poi-panel/15';
-const label = 'font-mono type-label tracking-widest uppercase text-poi-muted';
 ---
 
 <MainLayout title={s.title.en} description={`${s.title.ja}。${s.summary.ja}`}>
   {/* 1. サービス名と説明（トップのカードと同じ文） */}
-  <section>
-    <a href="/#services" class="inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors hover:text-poi-accent dark:text-poi-muted">
-      <span aria-hidden="true">←</span> Services
-    </a>
-    <p class="mt-10 flex items-center gap-2 font-mono type-caption tracking-widest text-poi-accent">
-      <LucideIcon name={s.icon} />{s.no}
-    </p>
-    <h1 class="mt-3 type-display font-semibold tracking-tight text-zinc-900 dark:text-poi-focus">
-      <T text={s.title} />
-    </h1>
-    <p class="mt-4 max-w-2xl type-lead leading-7 text-zinc-700 sm:leading-8 dark:text-poi-text"><T text={s.summary} /></p>
-  </section>
+  <ServiceHero service={s} />
 
   {/* 2. 導入の結果: 数字、事例の背景、経緯を書いた記事 */}
-  <section class="mt-16">
-    <h2 class={h2}><T text={{ ja: '導入例：マンション管理会社', en: 'Example: a property management company' }} /></h2>
-    <div class:list={[card, 'mt-6']}>
+  <section class="mt-14 sm:mt-16">
+    <SectionHead size="heading" kicker="Case & Results" title={{ ja: '導入例：マンション管理会社', en: 'Example: a property management company' }} />
+    <div class="ui-card mt-5 overflow-hidden sm:mt-6">
       <dl class="grid divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
         {metrics.map((m) => (
-          <div class="p-5 sm:p-8">
+          <div class="p-6 sm:p-7">
             <dt class="whitespace-nowrap font-mono type-metric font-medium text-poi-accent">
               <T text={m.value} /><span class="ml-1.5 type-body"><T text={m.unit} /></span>
             </dt>
-            <dd class="mt-3 type-small leading-6 text-zinc-600 dark:text-poi-muted"><T text={m.label} /></dd>
+            <dd class="mt-2.5 type-small leading-6 text-zinc-600 dark:text-poi-muted"><T text={m.label} /></dd>
           </div>
         ))}
       </dl>
-      <div class="border-t border-zinc-200 bg-zinc-100/60 p-5 sm:p-7 sm:px-8 dark:border-poi-border/60 dark:bg-poi-panel/35">
+      <div class="border-t ui-subpanel p-6 sm:p-7">
         <p class="max-w-3xl type-body leading-7 text-zinc-700 dark:text-poi-text">
           <T text={{
             ja: '高齢のオーナーは引退を見据えて現場を離れたがっていたが、経営の実務が特定の人に頼ったままで、離れられなかった。そこに外部から入り、勤怠と書類作成を自動にした。いまも外部CTOとして関わり、空室の情報を事業者に届けるWebアプリを作っている（作成中）。',
@@ -253,20 +242,20 @@ const label = 'font-mono type-label tracking-widest uppercase text-poi-muted';
   </section>
 
   {/* 3. 提供できること */}
-  <section class="mt-20">
-    <h2 class={h2}><T text={{ ja: '提供できること', en: 'What I offer' }} /></h2>
-    <div class="mt-6 grid gap-5 lg:grid-cols-2">
+  <section class="mt-20 sm:mt-24">
+    <SectionHead size="heading" kicker="What I offer" title={{ ja: '提供できること', en: 'What I offer' }} />
+    <div class="mt-5 grid gap-6 sm:mt-6 lg:grid-cols-2">
       {s.offerings.map((o, idx) => {
         const d = offeringDetails[idx];
         return (
-          <article class:list={[card, 'flex flex-col p-5 sm:p-8']}>
+          <article class="ui-card flex flex-col p-6 sm:p-8">
             <h3 class="flex items-center gap-2.5 type-subheading font-semibold text-zinc-900 dark:text-poi-focus">
               <LucideIcon name={o.icon} class="h-5 w-5 text-poi-accent" />
               <T text={o.title} />
             </h3>
             <p class="mt-3 type-body leading-7 text-zinc-600 dark:text-poi-muted"><T text={d.line} /></p>
 
-            <div class="mt-6 grid gap-5 border-t border-zinc-200 pt-6 sm:grid-cols-2 dark:border-poi-border/60">
+            <div class="mt-6 grid gap-5 border-t border-zinc-200 pt-5 sm:grid-cols-2 dark:border-poi-border/60">
               <div>
                 <p class="type-caption font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: 'これまで', en: 'Before' }} /></p>
                 <ul class="mt-2 space-y-1.5">
@@ -285,13 +274,13 @@ const label = 'font-mono type-label tracking-widest uppercase text-poi-muted';
               </div>
             </div>
 
-            <div class="mt-6 border-t border-zinc-200 pt-6 dark:border-poi-border/60">
-              <p class={label}><T text={{ ja: '作り方の工夫', en: 'How it is built' }} /></p>
+            <div class="mt-6 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
+              <p class="ui-kicker"><T text={{ ja: '作り方の工夫', en: 'How it is built' }} /></p>
               <ul class="mt-3 space-y-3">
                 {d.decisions.map((dc) => (
                   <li class="type-small leading-6">
                     <span class="font-semibold text-zinc-900 dark:text-poi-focus"><T text={dc.title} /></span>
-                    <span class="block text-zinc-600 dark:text-poi-muted"><T text={dc.body} /></span>
+                    <span class="mt-0.5 block text-zinc-600 dark:text-poi-muted"><T text={dc.body} /></span>
                   </li>
                 ))}
               </ul>
@@ -313,10 +302,10 @@ const label = 'font-mono type-label tracking-widest uppercase text-poi-muted';
   </section>
 
   {/* 3b. ほかの頼み方との違い: 経営者が SaaS や開発会社と比べて選べるようにする */}
-  <section class="mt-20">
-    <h2 class={h2}><T text={{ ja: 'SaaS・開発会社との違い', en: 'Compared with SaaS and dev firms' }} /></h2>
-    <div class:list={[card, 'mt-6 overflow-hidden']}>
-      <div class="hidden border-b border-zinc-200 bg-zinc-100/60 md:grid md:grid-cols-[9rem_1fr_1fr_1.3fr] dark:border-poi-border/60 dark:bg-poi-panel/35">
+  <section class="mt-20 sm:mt-24">
+    <SectionHead size="heading" kicker="Comparison" title={{ ja: 'SaaS・開発会社との違い', en: 'Compared with SaaS and dev firms' }} />
+    <div class="ui-card mt-5 overflow-hidden sm:mt-6">
+      <div class="hidden border-b ui-subpanel md:grid md:grid-cols-[9rem_1fr_1fr_1.3fr]">
         <span></span>
         {options.map((o, i) => (
           <p class:list={['px-5 py-3.5 type-caption font-semibold', i === 2 ? 'text-poi-accent' : 'text-zinc-500 dark:text-poi-muted']}><T text={o} /></p>
@@ -328,10 +317,10 @@ const label = 'font-mono type-label tracking-widest uppercase text-poi-muted';
             <p class="px-5 pt-4 type-small font-semibold text-zinc-900 md:py-4 dark:text-poi-focus"><T text={row.point} /></p>
             {row.cells.map((c, i) => (
               <p class:list={[
-                'px-5 py-1.5 type-small leading-6 md:py-4',
+                'px-5 py-2 type-small leading-6 md:py-4',
                 i === 2 ? 'pb-4 text-zinc-900 md:bg-poi-accent/5 dark:text-poi-focus' : 'text-zinc-500 dark:text-poi-muted',
               ]}>
-                <span class:list={['block type-label md:hidden', i === 2 ? 'text-poi-accent' : '']}><T text={options[i]} /></span>
+                <span class:list={['mb-0.5 block type-label md:hidden', i === 2 ? 'text-poi-accent' : '']}><T text={options[i]} /></span>
                 <T text={c} />
               </p>
             ))}
@@ -345,11 +334,13 @@ const label = 'font-mono type-label tracking-widest uppercase text-poi-muted';
   </section>
 
   {/* 4. 進め方: 考え方はトップに任せ、ここでは導入例で実際にどうしたかだけを書く */}
-  <section class="mt-20">
-    <h2 class={h2}><T text={{ ja: '進め方', en: 'How I work' }} /></h2>
-    <p class="mt-3 type-body leading-7 text-zinc-600 dark:text-poi-muted">
-      <T text={{ ja: 'マンション管理会社では、この順に進めた。', en: 'At the property management company, it went in this order.' }} />
-    </p>
+  <section class="mt-20 sm:mt-24">
+    <SectionHead
+      size="heading"
+      kicker="Process"
+      title={{ ja: '進め方', en: 'How I work' }}
+      lead={{ ja: 'マンション管理会社では、この順に進めた。', en: 'At the property management company, it went in this order.' }}
+    />
     <ol class="mt-6 grid gap-8 md:grid-cols-3">
       {steps.map((st) => (
         <li class="border-t-2 border-poi-accent/60 pt-5">
@@ -362,12 +353,12 @@ const label = 'font-mono type-label tracking-widest uppercase text-poi-muted';
   </section>
 
   {/* 5. 合う現場・合わない現場 */}
-  <section class="mt-20">
-    <h2 class={h2}><T text={{ ja: '合う現場・合わない現場', en: 'Where it fits' }} /></h2>
-    <div class:list={[card, 'mt-6 grid gap-8 p-5 sm:p-8 md:grid-cols-2']}>
+  <section class="mt-20 sm:mt-24">
+    <SectionHead size="heading" kicker="Fit" title={{ ja: '合う現場・合わない現場', en: 'Where it fits' }} />
+    <div class="ui-card mt-5 grid gap-8 p-6 sm:mt-6 sm:p-8 md:grid-cols-2">
       <div>
         <p class="type-body font-semibold text-poi-accent"><T text={{ ja: '合う現場', en: 'Fits' }} /></p>
-        <ul class="mt-3 space-y-2">
+        <ul class="mt-3 space-y-2.5">
           {fits.map((f) => (
             <li class="flex gap-2.5 type-small leading-6 text-zinc-700 dark:text-poi-text">
               <LucideIcon name="check" class="mt-1 h-3.5 w-3.5 shrink-0 text-poi-accent" /><T text={f.text} />
@@ -377,7 +368,7 @@ const label = 'font-mono type-label tracking-widest uppercase text-poi-muted';
       </div>
       <div>
         <p class="type-body font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: '合わない現場', en: 'Does not fit' }} /></p>
-        <ul class="mt-3 space-y-2">
+        <ul class="mt-3 space-y-2.5">
           {misfits.map((m) => (
             <li class="flex gap-2.5 type-small leading-6 text-zinc-600 dark:text-poi-muted">
               <LucideIcon name="x" class="mt-1 h-3.5 w-3.5 shrink-0 text-zinc-400 dark:text-poi-muted" />
@@ -393,18 +384,5 @@ const label = 'font-mono type-label tracking-widest uppercase text-poi-muted';
   </section>
 
   {/* 6. ほかのサービス */}
-  <section class="mt-20 border-t border-zinc-200 pt-8 dark:border-poi-border/60">
-    <h2 class="type-body font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: 'ほかのサービス', en: 'Other services' }} /></h2>
-    <ul class="mt-4 flex flex-col gap-3 sm:flex-row sm:gap-10">
-      {others.map((o) => (
-        <li>
-          <a href={`/services/${o.slug}/`} class="group inline-flex items-center gap-2 type-subheading font-semibold text-zinc-900 transition-colors hover:text-poi-accent dark:text-poi-focus">
-            <span class="font-mono type-caption text-poi-accent">{o.no}</span>
-            <T text={o.title} />
-            <LucideIcon name="arrow-right" class="h-4 w-4 text-poi-accent transition-transform group-hover:translate-x-0.5" />
-          </a>
-        </li>
-      ))}
-    </ul>
-  </section>
+  <OtherServices others={others} />
 </MainLayout>
