@@ -12,9 +12,9 @@ import { services, type CaseStudy, type Link, type Metric, type Offering, type R
 import type { MultilingualText } from '../../lib/i18n';
 
 export function getStaticPaths() {
-  // operations は専用のページ（operations.astro）で描く
+  // operations と ai-development は専用のページで描く
   return services
-    .filter((service) => service.slug !== 'operations')
+    .filter((service) => !['operations', 'ai-development'].includes(service.slug))
     .map((service) => ({ params: { slug: service.slug }, props: { service } }));
 }
 

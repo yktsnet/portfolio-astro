@@ -228,12 +228,12 @@ export const services: Service[] = [
       en: "Package the way of developing with AI agents and distribute it, evaluate people on criteria that non-engineer executives can read, and grow people through training, all tied together by shared evaluation criteria.",
     },
     heroTitle: {
-      ja: "AIと開発する型を、経営と現場の両方に根づかせる。",
-      en: "Root the way of building with AI in both management and the floor.",
+      ja: "AIの活用を、個人任せからチームの開発手順へ。",
+      en: "AI use, from up-to-each-person to a team development process.",
     },
     heroBody: {
-      ja: "AIエージェントを使うと、詰まる場所がコードを書くことから、意図を伝えることと確かめることへ移る。そこを型にして配り、共通の評価基準で人を見て、使える人を育てる。",
-      en: "With AI agents, the bottleneck moves from writing code to conveying intent and verifying results. That is what gets packaged and distributed, evaluated on shared criteria, and taught.",
+      ja: "AIの使い方が個人任せで、人によって差が開き、うまくいくやり方もチームに広がらない。開発の手順をそろえて配り（標準化）、使い方と力量が分かるようにする（可視化）。",
+      en: "AI use is left to each person, so the gap widens and what works never spreads across the team. I align and distribute the development process (standardization) and make usage and skill visible (visibility).",
     },
     problems: [
       {
@@ -303,8 +303,7 @@ export const services: Service[] = [
           { ja: "利用時間・トークン量・PR・Issueをメンバー別に並べる", en: "Usage time, tokens, PRs and issues side by side per member" },
           { ja: "採用では証拠にするものだけを替えて同じ軸を当てる", en: "For hiring, only the evidence changes; the axes stay the same" },
         ],
-        repos: [gh("ladder-kit")],
-        note: { ja: "利用状況の集計は非公開", en: "The usage tally is private" },
+        repos: [gh("mgmt-kit")],
       },
       {
         icon: "notebook-pen",

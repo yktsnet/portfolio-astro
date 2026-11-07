@@ -1,0 +1,35 @@
+---
+import DgText from './DgText.astro';
+---
+{/* 言いたいのは「客先の方針で開いた経験の差を、会社が用意する場で埋め合わせる」こと */}
+<svg class="dg h-auto w-full" viewBox="0 0 440 260" role="img" aria-label="AIの利用を認める客先と認めない客先で社員の経験に差が開き、両方の社員が会社の用意する研修に集まる図">
+  <defs>
+    <marker id="dg-ses-mk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="dg-mk" d="M0 1L9 5L0 9z" /></marker>
+  </defs>
+
+  <DgText x={105} y={22} ja="客先での業務" en="At client sites" class="dg-small" />
+  <DgText x={335} y={22} ja="会社が用意する場" en="Set up by the company" class="dg-small" />
+
+  {/* 左上: AI を認める客先 */}
+  <rect class="dg-box" x="20" y="36" width="170" height="86" rx="8" />
+  <DgText x={105} y={74} ja="AIの利用を認める客先" en="Client allows AI" />
+  <DgText x={105} y={94} ja="業務の中で身につく" en="Learned on the job" class="dg-small" />
+
+  {/* 左下: AI を認めない客先。触れる機会が無いことを破線で示す */}
+  <rect class="dg-box" x="20" y="152" width="170" height="86" rx="8" stroke-dasharray="4 4" />
+  <DgText x={105} y={190} ja="AIの利用を認めない客先" en="Client bans AI" />
+  <DgText x={105} y={210} ja="触れる機会がない" en="No chance to touch it" class="dg-small" />
+
+  {/* 右: 研修の場（ここだけアクセント色） */}
+  <rect class="dg-accbox" x="250" y="64" width="170" height="146" rx="8" />
+  <g class="dg-acc" transform="translate(324, 80) scale(0.9)">
+    <path d="M18 21a8 8 0 0 0-16 0" /><circle cx="10" cy="8" r="5" /><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
+  </g>
+  <DgText x={335} y={128} ja="社員どうしの研修" en="Peer-led training" class="dg-acctext" />
+  <DgText x={335} y={150} ja="作る・見せる・教える" en="Build, show, teach" class="dg-small" />
+  <DgText x={335} y={170} ja="3か月・全6回" en="3 months, 6 sessions" class="dg-small" />
+
+  {/* 両方の客先から、同じ場へ集まる */}
+  <path class="dg-line" marker-end="url(#dg-ses-mk)" d="M194 79L246 112" />
+  <path class="dg-line" marker-end="url(#dg-ses-mk)" d="M194 195L246 162" />
+</svg>
