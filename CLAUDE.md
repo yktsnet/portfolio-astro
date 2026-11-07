@@ -12,6 +12,7 @@ npm run typecheck  # Astro / TypeScript 型チェック
 npm run test       # Vitest でテスト一括実行
 npm run test:watch # Vitest ウォッチモード
 npm run sync-zenn  # Zenn 記事のスナップショット取得（zenn-snapshot.json）
+npm run sync-github # GitHub の README のスナップショット取得（github-snapshot.json）。build の後に実行
 ```
 
 単一テストを実行する場合:
