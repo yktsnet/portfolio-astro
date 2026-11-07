@@ -22,13 +22,10 @@ const others = services.filter((o) => o.slug !== s.slug);
 <MainLayout title={s.title.en} description={s.summary.ja} wide>
   {/* Hero */}
   <section>
-    <p class="font-mono text-[11px] text-zinc-500 dark:text-poi-muted">
-      <a href="/" class="hover:text-poi-accent"><span class="lang-ja">トップ</span><span class="lang-en">Home</span></a>
-      <span class="mx-1.5">/</span>
-      <a href="/#services" class="hover:text-poi-accent"><span class="lang-ja">できること</span><span class="lang-en">Services</span></a>
-      <span class="mx-1.5">/</span>
-      <T text={s.title} />
-    </p>
+    <a href="/#services" class="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-poi-accent dark:text-poi-muted">
+      <span aria-hidden="true">←</span>
+      <span class="lang-ja">個人として受けていること</span><span class="lang-en">Work I take on</span>
+    </a>
     <p class="mt-8 flex items-center gap-2 font-mono text-xs tracking-widest text-poi-accent">
       <LucideIcon name={s.icon} />
       {s.no} — {s.kicker}
@@ -106,6 +103,34 @@ const others = services.filter((o) => o.slug !== s.slug);
     </div>
   </section>
 
+  {/* 導入事例（実際に入れた案件のあるサービスだけ） */}
+  {s.caseStudy && (
+    <section id="case" class="mt-28 scroll-mt-28">
+      <SectionHead kicker="Case" title={{ ja: '導入事例', en: 'Case study' }} />
+      <div class="mt-10 grid overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-poi-border/70 dark:bg-poi-base md:grid-cols-[1fr_1.2fr]">
+        <div class="p-7 sm:p-10">
+          <p class="font-mono text-[11px] tracking-widest uppercase text-poi-muted">{s.caseStudy.label}</p>
+          <h3 class="mt-3 text-lg font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={s.caseStudy.title} /></h3>
+          <p class="mt-4 text-sm leading-8 text-zinc-600 dark:text-poi-muted"><T text={s.caseStudy.body} /></p>
+        </div>
+        <ol class="border-t border-zinc-200 bg-zinc-100/60 p-7 sm:p-10 dark:border-poi-border/70 dark:bg-poi-panel/40 md:border-t-0 md:border-l">
+          {s.caseStudy.timeline.map((t, idx) => (
+            <li class="relative pb-8 pl-7 last:pb-0">
+              {idx < s.caseStudy!.timeline.length - 1 && <span class="absolute left-[5px] top-4 bottom-0 w-px bg-zinc-200 dark:bg-poi-border" aria-hidden="true"></span>}
+              <span class:list={[
+                "absolute left-0 top-1.5 h-3 w-3 rounded-full border-2",
+                t.on ? "border-poi-accent bg-poi-accent" : "border-zinc-300 bg-zinc-50 dark:border-poi-border dark:bg-poi-base",
+              ]} aria-hidden="true"></span>
+              <p class="font-mono text-[10px] tracking-widest text-poi-muted">{t.tag}</p>
+              <p class:list={["mt-1 text-sm font-semibold", t.on ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus"]}><T text={t.title} /></p>
+              <p class="mt-1.5 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={t.body} /></p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
   {/* 成果（数字のあるサービスだけ） */}
   {s.results && (
     <section class="mt-28">
@@ -114,7 +139,7 @@ const others = services.filter((o) => o.slug !== s.slug);
         {s.results.metrics.map((m) => (
           <div>
             <p class="font-mono text-3xl font-medium text-poi-accent">
-              {m.value}<span class="ml-1 text-sm"><T text={m.unit} /></span>
+              <T text={m.value} /><span class="ml-1 text-sm"><T text={m.unit} /></span>
             </p>
             <p class="mt-1 text-xs text-zinc-600 dark:text-poi-muted"><T text={m.label} /></p>
           </div>

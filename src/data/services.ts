@@ -19,7 +19,15 @@ export type Link = { label: string; href: string };
 // サービスを頼む理由になる考え方や経験。詳細ページに1つ置く
 export type Stance = { kicker: string; title: MultilingualText; body: MultilingualText[]; links?: Link[] };
 
-export type Metric = { value: string; unit: MultilingualText; label: MultilingualText };
+export type Metric = { value: MultilingualText; unit: MultilingualText; label: MultilingualText };
+
+// 実際に入れた案件。決める・作る・渡すの順に時系列で置く
+export type CaseStudy = {
+  label: string;
+  title: MultilingualText;
+  body: MultilingualText;
+  timeline: { tag: string; title: MultilingualText; body: MultilingualText; on?: boolean }[];
+};
 
 export type Service = {
   slug: string;
@@ -34,6 +42,7 @@ export type Service = {
   offerings: Offering[];
   stance: Stance;
   process: Step[];
+  caseStudy?: CaseStudy;
   results?: { note: MultilingualText; metrics: Metric[] };
 };
 
@@ -151,12 +160,50 @@ export const services: Service[] = [
         duration: { ja: "継続", en: "Ongoing" },
       },
     ],
+    caseStudy: {
+      label: "Property Management",
+      title: {
+        ja: "マンション管理会社の外部 CTO として、勤怠から書類作成まで自動化",
+        en: "As external CTO of a property management company, automating everything from attendance to documents",
+      },
+      body: {
+        ja: "高齢のオーナーは引退を見据えて現場を離れたがっていたが、経営実務が属人化したままでは動けなかった。きっかけは勤怠の困りごとを片付ける小さな道具を1つ納品したこと。そこで信頼を得て相談の幅が広がり、いまは制度設計から日々の自動化、法人化までを引き受けている。",
+        en: "The aging owner wanted to step back ahead of retirement, but could not while management work stayed tied to individuals. It started with delivering one small tool for an attendance problem. The trust it built widened the requests, and today I cover everything from policy design and daily automation to incorporation.",
+      },
+      timeline: [
+        {
+          tag: "DECIDE",
+          title: { ja: "数字から直すものを決めた", en: "Decided what to fix from the numbers" },
+          body: {
+            ja: "依頼を待たず、まず会計を見た。人件費が費用の6割で、申告の中身を追うと勤務時間の水増しが見つかった。声の大きさではなく原価の構造から順番を決め、正確な記録を最初の一手にした。",
+            en: "Rather than waiting for a brief, I looked at the books. Labor was 60% of costs, and tracing the reports turned up padded hours. I set the order by the cost structure, not by who complained loudest, and made accurate records the first move.",
+          },
+        },
+        {
+          tag: "BUILD",
+          title: { ja: "現場のやり方を変えずに作った", en: "Built without changing how people work" },
+          body: {
+            ja: "IC カードをかざすだけの打刻は、説明なしで初日から定着した。契約書も共有フォルダの Excel に保存すれば PDF になる形で自動化した。",
+            en: "Clock-ins by just tapping an IC card stuck from day one without instructions. Contracts were automated so that saving the Excel file in the shared folder produces the PDF.",
+          },
+          on: true,
+        },
+        {
+          tag: "HAND OVER",
+          title: { ja: "回り出すまで付き合い、広げた", en: "Stayed until it ran, then expanded" },
+          body: {
+            ja: "使われ方を見て直し続け、相談は情報配信や制度設計、法人化まで広がった。いまは空室情報の配信を設計している。",
+            en: "I kept fixing it as I watched it being used, and requests grew to information distribution, policy design and incorporation. A vacancy distribution app is now in design.",
+          },
+        },
+      ],
+    },
     results: {
       note: { ja: "マンション管理会社で導入した結果", en: "Results at a property management company" },
       metrics: [
-        { value: "−5", unit: { ja: "時間/月", en: "h/mo" }, label: { ja: "管理者が勤怠の集計にかけていた時間", en: "Admin hours spent tallying attendance" } },
-        { value: "−3〜4", unit: { ja: "万円/月", en: "×10k JPY/mo" }, label: { ja: "打刻の偽装と記入漏れで出ていた給与の差異", en: "Payroll discrepancy from faked or missed clock-ins" } },
-        { value: "Day 1", unit: { ja: "", en: "" }, label: { ja: "説明なしでスタッフ全員が使い始めた", en: "All staff started using it without instructions" } },
+        { value: { ja: "−5", en: "−5" }, unit: { ja: "時間/月", en: "h/mo" }, label: { ja: "管理者が勤怠の集計にかけていた時間", en: "Admin hours spent tallying attendance" } },
+        { value: { ja: "−3〜4", en: "−3〜4" }, unit: { ja: "万円/月", en: "×10k JPY/mo" }, label: { ja: "打刻の偽装と記入漏れで出ていた給与の差異", en: "Payroll discrepancy from faked or missed clock-ins" } },
+        { value: { ja: "初日", en: "Day 1" }, unit: { ja: "から", en: "" }, label: { ja: "説明なしでスタッフ全員が使い始めた", en: "All staff started using it without instructions" } },
       ],
     },
   },
