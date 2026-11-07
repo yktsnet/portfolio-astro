@@ -12,9 +12,9 @@ const { label, href, icon = 'github' } = Astro.props;
   href={href}
   target="_blank"
   rel="noopener noreferrer"
-  class="inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors hover:text-poi-accent dark:text-poi-muted"
+  class="group inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors duration-200 hover:text-zinc-900 dark:text-poi-muted dark:hover:text-poi-focus"
 >
-  <LucideIcon name={icon} class="h-3.5 w-3.5 shrink-0 opacity-70" />
+  <LucideIcon name={icon} class="h-3.5 w-3.5 shrink-0 opacity-70 transition-opacity duration-200 group-hover:opacity-100" />
   {label}
-  <LucideIcon name="external-link" class="h-3 w-3 shrink-0" />
+  <LucideIcon name="external-link" class="h-3 w-3 shrink-0 opacity-70 transition-opacity duration-200 group-hover:opacity-100" />
 </a>
