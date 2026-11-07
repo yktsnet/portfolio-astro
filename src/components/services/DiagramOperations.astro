@@ -23,7 +23,7 @@ import DgText from './DgText.astro';
       <g class="dg-line" transform={`translate(${x + 120}, 52) scale(0.9)`}>
         <path d="M16 10h2" /><path d="M16 14h2" /><path d="M6.17 15a3 3 0 0 1 5.66 0" /><circle cx="9" cy="11" r="2" /><rect x="2" y="5" width="20" height="14" rx="2" />
       </g>
-      <DgText x={x + 85} y={98} ja="Excel・紙・ICカード" en="Excel, paper, IC card" />
+      <DgText x={x + 85} y={98} ja="Excel・紙・ICカード" en="Excel, paper, cards" />
       <DgText x={x + 85} y={114} ja="現場の入力" en="How staff enter data" class="dg-small" />
     </g>
   ))}
@@ -37,7 +37,7 @@ import DgText from './DgText.astro';
   <g class="dg-line" transform="translate(94, 186) scale(0.9)">
     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
   </g>
-  <DgText x={105} y={230} ja="手で転記・集計" en="Copied and tallied by hand" />
+  <DgText x={105} y={230} ja="手で転記・集計" en={"Manual copy & tally"} />
   <DgText x={105} y={250} ja="月末と繁忙期に集中する" en="Piles up at month end" class="dg-small" />
 
   {/* 下の段・右: 裏側の自動処理（ここだけアクセント色） */}
@@ -46,7 +46,7 @@ import DgText from './DgText.astro';
     <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
   </g>
   <DgText x={335} y={230} ja="裏側で自動" en="Automated behind it" class="dg-acctext" />
-  <DgText x={335} y={250} ja="PDF・検索・給与の集計" en="PDFs, search, payroll tally" class="dg-small" />
+  <DgText x={335} y={250} ja="PDF・検索・給与の集計" en="PDFs, search, payroll" class="dg-small" />
 
   {/* 下の段のあいだ: 置き換わることを矢印で示す */}
   <path class="dg-line" marker-end="url(#dg-op-mk)" d="M194 222H246" />
