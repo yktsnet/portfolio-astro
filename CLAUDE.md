@@ -30,7 +30,7 @@ PR 前に `npm run typecheck` と `npm run test` を通す。実行確認が必�
 
 `src/data/services.ts` がトップページの Services 節と `/services/<slug>/` の詳細ページのデータソース。サービスと、その中で提供できること・考え方の追加・変更はここだけを触れば反映される。サービスごとの簡易図は `src/components/services/Diagram*.astro` に SVG で直書きしている。
 
-トップページの Hero・Process・Principles・Case・About の各節は、`src/pages/index.astro` に直書きしている。`/about/` の本文は `src/components/About.astro` にある。
+トップページの Hero・Services・Case・About の各節は `src/pages/index.astro` に直書きしている。About の節の年表と技術の範囲は `src/components/Career.astro` にある。`/about` はトップの About の節へ転送する。
 
 旧トップの Works は `/works/` に、旧ページの Impact と Principles は元の URL（`/impact/`・`/principles/`）に、どこからもリンクせず、検索エンジンに載せない指定（noindex）を付けて残している。Works のデータソースは `src/data/works.ts`、Impact と Principles の内容は各コンポーネントに直書きしている。
 
@@ -40,7 +40,7 @@ PR 前に `npm run typecheck` と `npm run test` を通す。実行確認が必�
 - `src/lib/lucide.ts` に SVG パスを手動で列挙した独自サブセット
 - 新しいアイコンを使う際は同ファイルにエントリを追加する（npm package は使わない）
 
-**ブランドアイコン**（About・Principles の技術表示に使う色付きロゴ）:
+**ブランドアイコン**（Career・Principles の技術表示に使う色付きロゴ）:
 - `src/lib/brand-icons.ts` で `simple-icons` から必要なものだけ re-export
 - 新しいブランドを追加する際は同ファイルに追記する
 

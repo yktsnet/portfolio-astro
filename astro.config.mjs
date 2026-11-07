@@ -22,4 +22,7 @@ export default defineConfig({
     },
   },
   integrations: [react(), sitemap()],
+  redirects: {
+    '/about': '/#about',
+  },
 });

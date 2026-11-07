@@ -167,16 +167,16 @@ export const services: Service[] = [
     kicker: "AI DEVELOPMENT",
     title: { ja: "AI と開発する組織づくり", en: "AI-Native Development Teams" },
     summary: {
-      ja: "AI エージェントと開発する手順を型にして配り、エンジニアでない経営層も読める物差しで評価し、研修で人を育てる。型と評価と育成を、1本の物差しでつなぐ。",
-      en: "Package the way of developing with AI agents and distribute it, evaluate people on a scale that non-engineer executives can read, and grow people through training — all tied to a single scale.",
+      ja: "AI エージェントと開発する手順を型にして配り、エンジニアでない経営層も読める基準で人を評価し、研修で人を育てる。型と評価と育成を、共通の評価基準でつなぐ。",
+      en: "Package the way of developing with AI agents and distribute it, evaluate people on criteria that non-engineer executives can read, and grow people through training, all tied together by shared evaluation criteria.",
     },
     heroTitle: {
       ja: "AI と開発する型を、経営と現場の両方に根づかせる。",
       en: "Root the way of building with AI in both management and the floor.",
     },
     heroBody: {
-      ja: "AI エージェントを使うと、詰まる場所がコードを書くことから、意図を伝えることと確かめることへ移る。そこを型にして配り、同じ物差しで評価し、使える人を育てる。",
-      en: "With AI agents, the bottleneck moves from writing code to conveying intent and verifying results. That is what gets packaged and distributed, measured on one scale, and taught.",
+      ja: "AI エージェントを使うと、詰まる場所がコードを書くことから、意図を伝えることと確かめることへ移る。そこを型にして配り、共通の評価基準で人を見て、使える人を育てる。",
+      en: "With AI agents, the bottleneck moves from writing code to conveying intent and verifying results. That is what gets packaged and distributed, evaluated on shared criteria, and taught.",
     },
     problems: [
       {
@@ -282,7 +282,7 @@ export const services: Service[] = [
         duration: { ja: "2〜4週間", en: "2–4 weeks" },
       },
       {
-        title: { ja: "物差しで測って広げる", en: "Measure and expand" },
+        title: { ja: "評価基準で測って広げる", en: "Measure and expand" },
         body: {
           ja: "評価の軸で全員の現在地を位置づけ、研修で次に伸ばす軸を鍛える。",
           en: "Place everyone on the scale, then use training to raise the next axis.",
@@ -296,7 +296,7 @@ export const services: Service[] = [
     no: "03",
     icon: "graduation-cap",
     kicker: "EDUCATION",
-    title: { ja: "教育事業の立ち上げ支援", en: "Education Business Support" },
+    title: { ja: "教育事業の支援", en: "Education Business Support" },
     summary: {
       ja: "学習塾を12年経営してきた。その経験をもとに、プログラミング教室の立ち上げから、塾の事業の広げ方、出席や成績の仕組みまでを一緒に組み立てる。",
       en: "Twelve years of running a tutoring school. Drawing on that, I help set up programming classes, grow the school business, and build attendance and grading systems.",

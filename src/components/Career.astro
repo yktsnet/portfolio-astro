@@ -1,13 +1,12 @@
 ---
 import { getBrandIcon } from '../lib/brand-icons';
-import { getLucideIcon } from '../lib/lucide';
 
 type TimelineEntry = { year: string; label: { ja: string; en: string } };
 type LocationGroup = { location: string; items: TimelineEntry[] };
 type StackItem = { name: string; brand: string | null };
 type CoverageRow = { area: string; items: StackItem[] };
 
-// 抽象表現なので works.ts から導出せず代表技術を手選びする（Issue 39）
+// 抽象表現なので works.ts から導出せず代表技術を手選びする
 const coverage: CoverageRow[] = [
   {
     area: "Frontend",
@@ -72,48 +71,9 @@ const timeline: LocationGroup[] = [
 ];
 ---
 
-<section id="about" class="relative">
-  <div class="text-zinc-600 dark:text-poi-muted">
-    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">ABOUT</p>
-    <h2 class="mt-2 text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-poi-focus">
-      <span class="lang-ja">
-        <span class="block">実装から来た人間ではない。</span>
-        <span class="block mt-2">事業を回す側にいて、開発もやるようになった。</span>
-      </span>
-      <span class="lang-en">
-        <span class="block">I didn't start out as an engineer.</span>
-        <span class="block mt-2">I was running the business, and ended up building the systems myself.</span>
-      </span>
-    </h2>
-    <div class="mt-6 space-y-4">
-      <p class="text-sm leading-7 lang-ja">
-        受託開発を主とする企業に、フルリモートで勤めている。並行して個人でも開発を請け負い、必要になった仕組みは小さく OSS として公開している。マンション管理会社の外部 CTO も務め、現場の DX を進めている。
-      </p>
-      <p class="text-sm leading-7 lang-en">
-        Working fully remote at a contract development firm, while also taking on freelance work and releasing the tooling it needs as small open-source projects. Also serving as External CTO for a property management company, driving DX on the ground.
-      </p>
-      <p class="text-sm leading-7 lang-ja">
-        学習塾を12年、合同会社を設立から清算まで経営。税理士を立てず決算までやってきたので、事業の金がどこを通っているかを自分で読める。依頼を待たず、数字を見て直すものを決めるところから入る。
-      </p>
-      <p class="text-sm leading-7 lang-en">
-        Twelve years running a tutoring school, and an LLC from founding through liquidation. Having closed the books myself without an accountant, I can read where the money moves in a business. I start from the numbers rather than from a brief.
-      </p>
-      <p class="text-sm leading-7 lang-ja">
-        どちらも、仕組みを作るのも毎日使うのも自分だった。手順を一つ増やせばそのまま自分の手間になるので、増やさずに回る形を先に考えるようになった。教えるときも、言って聞かせるより、生徒が自分で進められるよう場と段取りを整えるほうが続いた。
-      </p>
-      <p class="text-sm leading-7 lang-en">
-        In both, I built the systems and used them every day. Every extra step landed back on me, so I learned to find a way to run things without adding steps. Teaching was the same: setting up the room and the sequence so students could move on their own lasted longer than telling them what to do.
-      </p>
-      <p class="text-sm leading-7 lang-ja">
-        いまの仕事でも、仕組みは納めて終わりにしない。新しいやり方は押し付けても使われないので、使われ方を見て合わないところを直し、現場で回り出すまで付き合う。
-      </p>
-      <p class="text-sm leading-7 lang-en">
-        In my work now, delivery is not the end. A new way of working pushed onto people does not get used, so I watch how it is used, fix what does not fit, and stay with it until it runs on its own.
-      </p>
-    </div>
-  </div>
-
-  <div class="mt-12">
+{/* 経歴の年表と技術の範囲。本文はトップの経歴の節に書く */}
+<div class="grid gap-12 md:grid-cols-2">
+  <div>
     <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">COVERAGE</p>
 
     {/* ビジネス層: 5領域と並列にせず、上から翻訳して落とす縦の関係で見せる（Issue 39） */}
@@ -164,27 +124,10 @@ const timeline: LocationGroup[] = [
           ))}
         </tbody>
       </table>
-      <div class="mt-2 text-right">
-        <a
-          href="/"
-          class="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 dark:text-poi-muted transition-colors hover:text-poi-accent dark:hover:text-poi-accent hover:underline"
-        >
-          <span class="lang-ja">具体例を Works で見る</span>
-          <span class="lang-en">View details in Works</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="12" height="12" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round"
-            aria-hidden="true"
-            set:html={getLucideIcon('arrow-right')}
-          />
-        </a>
-      </div>
     </div>
   </div>
 
-  <div class="mt-12 space-y-6">
+  <div class="space-y-6">
     <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">TIMELINE</p>
     {timeline.map(({ location, items }) => (
       <div>
@@ -211,7 +154,7 @@ const timeline: LocationGroup[] = [
       </div>
     ))}
   </div>
-</section>
+</div>
 
 <style>
   .brand-icon {

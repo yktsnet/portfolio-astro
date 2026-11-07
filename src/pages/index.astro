@@ -2,237 +2,174 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import T from '../components/T.astro';
 import LucideIcon from '../components/LucideIcon.astro';
+import RepoLink from '../components/RepoLink.astro';
+import Career from '../components/Career.astro';
 import SectionHead from '../components/services/SectionHead.astro';
 import ServiceCard from '../components/services/ServiceCard.astro';
-import ProcessSteps from '../components/services/ProcessSteps.astro';
-import RepoLink from '../components/RepoLink.astro';
-import { services, type Step, type Link } from '../data/services';
+import { services } from '../data/services';
 import { siteConfig } from '../site.config';
 
-// トップの数字は、導入の結果と経営の経験から拾う。AI と教育は成果の数字を出さない
+// 4つのうち3つは導入事例の数字。最後の1つだけ経歴から取る
 const numbers = [
-  { tag: 'ATTENDANCE', value: '−5', unit: { ja: '時間/月', en: 'h/mo' }, label: { ja: '管理者の勤怠集計の工数', en: 'Admin hours on attendance' } },
-  { tag: 'PAYROLL', value: '−3〜4', unit: { ja: '万円/月', en: '×10k JPY/mo' }, label: { ja: '給与計算の月次差異', en: 'Monthly payroll discrepancy' } },
-  { tag: 'ADOPTION', value: 'Day 1', unit: { ja: '', en: '' }, label: { ja: '説明なしで現場に定着', en: 'Adopted without instructions' } },
-  { tag: 'TUTORING', value: '12', unit: { ja: '年', en: 'yrs' }, label: { ja: '学習塾の経営', en: 'Running a tutoring school' } },
+  { tag: 'ATTENDANCE', value: { ja: '−5', en: '−5' }, unit: { ja: '時間/月', en: 'h/mo' }, label: { ja: '管理者の勤怠集計の工数', en: 'Admin hours on attendance' } },
+  { tag: 'PAYROLL', value: { ja: '−3〜4', en: '−3〜4' }, unit: { ja: '万円/月', en: '×10k JPY/mo' }, label: { ja: '給与計算の月次差異', en: 'Monthly payroll discrepancy' } },
+  { tag: 'ADOPTION', value: { ja: '初日', en: 'Day 1' }, unit: { ja: 'から', en: '' }, label: { ja: '説明なしで現場に定着', en: 'Adopted without instructions' } },
+  { tag: 'TUTORING', value: { ja: '12', en: '12' }, unit: { ja: '年', en: 'yrs' }, label: { ja: '学習塾の経営', en: 'Running a tutoring school' } },
 ];
 
-const process: Step[] = [
-  {
-    title: { ja: '事業の数字から直すものを決める', en: 'Decide what to fix from the numbers' },
-    body: {
-      ja: '依頼を待たず、まず会計を見る。マンション管理会社では人件費が費用の6割を占め、その中身を追うと勤務時間の申告に水増しが見つかった。声の大きさではなく、原価の構造から順番を決める。',
-      en: "I don't wait for a brief; I look at the books first. At a property management company, labor was 60% of costs, and tracing it turned up padded hours. The order comes from the cost structure, not from who complains loudest.",
-    },
-  },
-  {
-    title: { ja: '現場のやり方を変えずに作る', en: 'Build without changing how people work' },
-    body: {
-      ja: '使われ続けるかどうかは、覚え直しを強いたかどうかで決まる。契約書の転記が春の入退去に集中していたので、氏名と部屋番号を入れれば PDF まで出る経路を足し、共有フォルダの Excel に保存する従来の経路も残した。',
-      en: 'Whether a system keeps being used comes down to whether anyone had to relearn their work. Contract copying piled up in the spring move-in season, so I added a route where a name and room number produce the PDF, and kept the old route of saving the Excel file in the shared folder.',
-    },
-  },
-  {
-    title: { ja: '人が回せる形にして渡して残す', en: 'Hand it over so people can run it' },
-    body: {
-      ja: '納めて終わりにせず、使われ方を見て合わないところを直し、回り出すまで付き合う。チームへ渡す型は、人の判断を省かせない・セッションを超えて残す・担当者が替わっても揃う、の3つのどれかに当たるものだけにし、相手の規模に合わせて粒度を落とす。',
-      en: 'Delivery is not the end: I watch how it is used, fix what does not fit, and stay until it runs. What I hand a team as a standard is limited to what keeps a human decision from being skipped, survives across sessions, or comes out the same when people change, scaled to the size of the team.',
-    },
-  },
-];
-
-// 判断の基準。どれも、実際に作って運用しているものを根拠にする
-const principles: { title: { ja: string; en: string }; body: { ja: string; en: string }; links: Link[] }[] = [
-  {
-    title: { ja: '刷新より、定着', en: 'Adoption over overhaul' },
-    body: {
-      ja: '導入時に歓迎された機能が、半年後には誰にも使われなくなる。経営の現場でその経緯を当事者として見てきたので、新しい画面や操作を覚えさせる設計を避け、自動化は既存の運用の裏側に差し込む。',
-      en: 'A feature welcomed at launch is used by no one six months later. Having watched that from inside the business, I avoid making people learn new screens and put automation behind the existing work instead.',
-    },
-    links: [{ label: 'excel-kanri', href: 'https://github.com/yktsnet/excel-kanri' }],
-  },
-  {
-    title: { ja: '生成より、検証', en: 'Verification over generation' },
-    body: {
-      ja: 'AI が書く時代に時間がかかるのは、書かれたものを信じられるか確かめることのほうだ。何が壊れてはいけないかだけを人が決めて文書で承認し、テストと実装は AI に任せ、約束が破られれば機械が検知して止める。この分業を保証駆動開発（GDD）と呼んでいる。',
-      en: 'With AI writing code, the time goes into confirming that what was written can be trusted. A human decides only what must not break and approves it in writing; tests and implementation go to AI, and the machine stops when a promise is broken. I call this Guarantee-Driven Development (GDD).',
-    },
-    links: [
-      { label: 'Zenn — GDD', href: 'https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development' },
-      { label: 'sdlc-kit', href: 'https://github.com/yktsnet/sdlc-kit' },
-    ],
-  },
-  {
-    title: { ja: '機能より、安定', en: 'Stability over features' },
-    body: {
-      ja: '動くデモと、本番で障害を起こさない運用は別物だ。自動売買を個人で本番運用するために、React の操作画面があったバージョンを、JSONL と systemd だけで状態を扱う構成へ作り直し、止めずに回し続けている。',
-      en: 'A working demo and operations that do not break in production are different things. To run automated trading in production on my own, I rebuilt a version with a React UI into one that handles state with only JSONL and systemd, and it keeps running without stopping.',
-    },
-    links: [
-      { label: 'drip-sim-public', href: 'https://github.com/yktsnet/drip-sim-public' },
-      { label: 'drip-live-public', href: 'https://github.com/yktsnet/drip-live-public' },
-    ],
-  },
-];
-
+// 元サイトの「数字から決め、変えずに作り、渡して残す」を、この案件で実際にしたことの順に置く
 const caseTimeline = [
-  { title: { ja: '背景: オーナーが現場を離れたい', en: 'Context: the owner wants to step back' }, body: { ja: '高齢のオーナーは引退を見据えていたが、経営実務が属人化していて離れられなかった。', en: 'The aging owner was planning to retire, but management work was tied to individuals.' } },
-  { title: { ja: '会計を見る', en: 'Reading the books' }, body: { ja: '人件費が費用の6割。申告の中身を追うと、勤務時間の水増しが見つかった。', en: 'Labor was 60% of costs. Tracing the reports turned up padded hours.' } },
-  { title: { ja: '勤怠システムを納品', en: 'Attendance system delivered' }, body: { ja: 'IC カードをかざすだけにし、説明なしで初日から定着した。月5時間かかっていた集計と、給与の差異がなくなった。', en: 'Just tap an IC card. It stuck from day one without instructions, and 5 hours of monthly tallying and payroll gaps disappeared.' }, on: true },
-  { title: { ja: '書類作成の自動化', en: 'Document automation' }, body: { ja: '共有 Excel の保存を合図に契約書を作り、全文検索で探せるようにした。', en: 'Saving the shared Excel file now produces contracts, searchable in full text.' } },
-  { title: { ja: '現在: 法人化に伴走', en: 'Now: through incorporation' }, body: { ja: '相談は情報配信や制度設計、法人化まで広がった。空室情報の配信を設計している。', en: 'Requests have grown to information distribution, policy design and incorporation. A vacancy distribution app is in design.' } },
+  {
+    tag: 'DECIDE',
+    title: { ja: '数字から直すものを決めた', en: 'Decided what to fix from the numbers' },
+    body: {
+      ja: '依頼を待たず、まず会計を見た。人件費が費用の6割で、申告の中身を追うと勤務時間の水増しが見つかった。声の大きさではなく原価の構造から順番を決め、正確な記録を最初の一手にした。',
+      en: 'Rather than waiting for a brief, I looked at the books. Labor was 60% of costs, and tracing the reports turned up padded hours. I set the order by the cost structure, not by who complained loudest, and made accurate records the first move.',
+    },
+  },
+  {
+    tag: 'BUILD',
+    title: { ja: '現場のやり方を変えずに作った', en: 'Built without changing how people work' },
+    body: {
+      ja: 'IC カードをかざすだけの打刻は、説明なしで初日から定着した。契約書も共有フォルダの Excel に保存すれば PDF になる形で自動化した。',
+      en: 'Clock-ins by just tapping an IC card stuck from day one without instructions. Contracts were automated so that saving the Excel file in the shared folder produces the PDF.',
+    },
+    on: true,
+  },
+  {
+    tag: 'HAND OVER',
+    title: { ja: '回り出すまで付き合い、広げた', en: 'Stayed until it ran, then expanded' },
+    body: {
+      ja: '使われ方を見て直し続け、相談は情報配信や制度設計、法人化まで広がった。いまは空室情報の配信を設計している。',
+      en: 'I kept fixing it as I watched it being used, and requests grew to information distribution, policy design and incorporation. A vacancy distribution app is now in design.',
+    },
+  },
 ];
 ---
 
 <MainLayout title={siteConfig.author} wide>
-  {/* Hero */}
-  <section>
-    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">Katsuhiro Yamakawa — Builder</p>
-    <h1 class="mt-3 text-2xl sm:text-[32px] font-semibold leading-normal tracking-tight text-zinc-900 dark:text-poi-focus">
-      <span class="lang-ja"><span class="block">いまのやり方のまま、</span><span class="block"><span class="text-poi-accent">仕組み</span>を後付けする。</span></span>
-      <span class="lang-en"><span class="block">Keep how people work.</span><span class="block">Add the <span class="text-poi-accent">systems</span> behind it.</span></span>
-    </h1>
-    <p class="mt-5 max-w-2xl text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-      <span class="lang-ja">現場の Excel や紙の運用は変えずに、裏側を自動化する。AI と開発する型を、経営と現場の両方に根づかせる。教育事業の立ち上げにも入る。決めるところは経営から、作るところは現場から、渡すところは教育から来ていて、この3つを1人で担っている。作ったものは GitHub で公開している。</span>
-      <span class="lang-en">I automate what happens behind existing Excel and paper workflows, root the practice of building with AI in both management and teams, and help launch education businesses. Deciding comes from running a business, building from the shop floor, handing over from teaching, and I carry all three myself. What I build is public on GitHub.</span>
-    </p>
+  {/* 最初に伝えるのは経歴。どういう人かを先に置く */}
+  <section class="pt-4">
+    <div class="flex flex-col gap-8 sm:flex-row sm:items-start">
+      <img src="/images/profile/me.webp" alt="Katsuhiro Yamakawa" class="h-24 w-24 shrink-0 rounded-full object-cover sm:h-32 sm:w-32" />
+      <div>
+        <p class="font-mono text-sm text-zinc-500 dark:text-poi-muted">Katsuhiro Yamakawa</p>
+        <h1 class="mt-3 text-2xl sm:text-[32px] font-semibold leading-normal tracking-tight text-zinc-900 dark:text-poi-focus">
+          <span class="lang-ja"><span class="block">実装から来た人間ではない。</span><span class="block">事業を回す側にいて、開発もやるようになった。</span></span>
+          <span class="lang-en"><span class="block">I didn't start out as an engineer.</span><span class="block">I was running the business, and ended up building the systems myself.</span></span>
+        </h1>
+        <p class="mt-6 max-w-2xl text-sm leading-8 text-zinc-600 dark:text-poi-muted">
+          <span class="lang-ja">学習塾を12年、合同会社を設立から清算まで経営してきた。いまは受託開発の企業に勤めながら、個人でも開発とコンサルを受け、マンション管理会社の外部 CTO も務めている。</span>
+          <span class="lang-en">Twelve years running a tutoring school, and an LLC from founding to liquidation. Today I work at a contract development firm, take on development and consulting on my own, and serve as external CTO for a property management company.</span>
+        </p>
+      </div>
+    </div>
 
-    <dl class="mt-12 grid grid-cols-2 gap-6 border-t border-zinc-200 pt-6 dark:border-poi-border/60 md:grid-cols-4">
+    <dl class="mt-16 grid grid-cols-2 gap-8 border-t border-zinc-200 pt-8 dark:border-poi-border/60 md:grid-cols-4">
       {numbers.map((n) => (
         <div>
           <dt class="font-mono text-[10px] tracking-widest text-poi-muted">{n.tag}</dt>
-          <dd class="mt-1 font-mono text-2xl font-medium text-poi-accent">
-            {n.value}<span class="ml-0.5 text-xs"><T text={n.unit} /></span>
+          <dd class="mt-2 font-mono text-2xl font-medium text-poi-accent">
+            <T text={n.value} /><span class="ml-0.5 text-xs"><T text={n.unit} /></span>
           </dd>
-          <dd class="text-xs text-zinc-600 dark:text-poi-muted"><T text={n.label} /></dd>
+          <dd class="mt-1 text-xs text-zinc-600 dark:text-poi-muted"><T text={n.label} /></dd>
         </div>
       ))}
     </dl>
   </section>
 
   {/* Services */}
-  <section id="services" class="mt-24 scroll-mt-28">
+  <section id="services" class="mt-32 scroll-mt-28">
     <SectionHead
       kicker="Services"
-      title={{ ja: 'できること', en: 'What I do' }}
+      title={{ ja: '個人として受けていること', en: 'Work I take on as an individual' }}
       lead={{
-        ja: '道具を入れて終わりにはしない。小さく1つ入れ、現場に定着したのを確かめてから広げる。使っている仕組みは GitHub で公開している。',
-        en: 'Delivery is not the end. I put in one small thing, confirm it has taken hold, then expand. The building blocks are public on GitHub.',
+        ja: '経営と現場と教育でやってきたことを、いまは個人の仕事として受けている。使っている仕組みは GitHub で公開している。',
+        en: 'What I did in management, on the floor and in teaching, I now take on as individual work. The building blocks are public on GitHub.',
       }}
     />
-    <div class="mt-10 space-y-6">
+    <div class="mt-12 space-y-8">
       {services.map((s, idx) => <ServiceCard service={s} reverse={idx % 2 === 1} />)}
     </div>
   </section>
 
-  {/* Process */}
-  <section id="process" class="mt-24 scroll-mt-28">
-    <SectionHead
-      kicker="Process"
-      title={{ ja: '数字から決め、変えずに作り、渡して残す', en: 'Decide from the numbers, build without disruption, hand it over' }}
-      lead={{
-        ja: '個人の受託でも、チームの開発でも、組織の制度づくりでも、この順番は変えていない。',
-        en: 'Whether it is a solo contract, a team build, or a practice set up for an organization, the order stays the same.',
-      }}
-    />
-    <div class="mt-10">
-      <ProcessSteps steps={process} />
-    </div>
-  </section>
-
-  {/* Principles */}
-  <section id="principles" class="mt-24 scroll-mt-28">
-    <SectionHead
-      kicker="Principles"
-      title={{ ja: '人の注意や記憶に、品質を預けない', en: 'Quality never rests on human vigilance or memory' }}
-      lead={{ ja: '覚え直しも、見張りも要らない形を選ぶ。判断に迷ったときは、この3つに戻る。', en: 'I choose forms that need no retraining and no watching. When in doubt, I come back to these three.' }}
-    />
-    <div class="mt-10 grid gap-4 md:grid-cols-3">
-      {principles.map((p) => (
-        <article class="flex flex-col rounded-lg border border-zinc-200 bg-white p-6 dark:border-poi-border/70 dark:bg-poi-base">
-          <h3 class="text-[15px] font-semibold text-zinc-900 dark:text-poi-focus"><T text={p.title} /></h3>
-          <p class="mt-3 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={p.body} /></p>
-          <div class="mt-auto pt-5">
-            <div class="flex flex-wrap gap-x-4 gap-y-1 border-t border-zinc-200 pt-4 dark:border-poi-border/60">
-              {p.links.map((l) => <RepoLink label={l.label} href={l.href} icon={l.href.includes('zenn.dev') ? 'file-text' : 'github'} />)}
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  {/* Case */}
-  <section id="case" class="mt-24 scroll-mt-28">
+  {/* Case: 進め方はこの案件の流れの中で示す */}
+  <section id="case" class="mt-32 scroll-mt-28">
     <SectionHead kicker="Case" title={{ ja: '導入事例', en: 'Case study' }} />
-    <div class="mt-8 grid overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-poi-border/70 dark:bg-poi-base md:grid-cols-[1.15fr_1fr]">
-      <div class="p-6 sm:p-9">
+    <div class="mt-10 grid overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-poi-border/70 dark:bg-poi-base md:grid-cols-[1fr_1.2fr]">
+      <div class="p-7 sm:p-10">
         <p class="font-mono text-[11px] tracking-widest uppercase text-poi-muted">Property Management</p>
-        <h3 class="mt-2 text-lg font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
+        <h3 class="mt-3 text-lg font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
           <span class="lang-ja">マンション管理会社の外部 CTO として、勤怠から書類作成まで自動化</span>
           <span class="lang-en">As external CTO of a property management company, automating everything from attendance to documents</span>
         </h3>
-        <p class="mt-3 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted">
-          <span class="lang-ja">きっかけは勤怠の困りごとを片付ける小さな道具を1つ納品したこと。そこで生まれた信頼が相談の幅を広げ、いまは制度設計から日々の自動化、法人化までを引き受けている。</span>
-          <span class="lang-en">It started with delivering one small tool for an attendance problem. The trust it built widened the requests, and today I cover everything from policy design and daily automation to incorporation.</span>
+        <p class="mt-4 text-sm leading-8 text-zinc-600 dark:text-poi-muted">
+          <span class="lang-ja">高齢のオーナーは引退を見据えて現場を離れたがっていたが、経営実務が属人化したままでは動けなかった。きっかけは勤怠の困りごとを片付ける小さな道具を1つ納品したこと。そこで信頼を得て相談の幅が広がり、いまは制度設計から日々の自動化、法人化までを引き受けている。</span>
+          <span class="lang-en">The aging owner wanted to step back ahead of retirement, but could not while management work stayed tied to individuals. It started with delivering one small tool for an attendance problem. The trust it built widened the requests, and today I cover everything from policy design and daily automation to incorporation.</span>
         </p>
-        <a href="/services/operations/" class="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
+        <a href="/services/operations/" class="mt-6 inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
           <span class="lang-ja">業務の自動化を見る</span><span class="lang-en">See Operations Automation</span>
           <LucideIcon name="arrow-right" class="h-3.5 w-3.5" />
         </a>
       </div>
-      <ol class="border-t border-zinc-200 bg-zinc-100/60 p-6 sm:p-9 dark:border-poi-border/70 dark:bg-poi-panel/40 md:border-t-0 md:border-l">
+      <ol class="border-t border-zinc-200 bg-zinc-100/60 p-7 sm:p-10 dark:border-poi-border/70 dark:bg-poi-panel/40 md:border-t-0 md:border-l">
         {caseTimeline.map((t, idx) => (
-          <li class="relative pb-5 pl-6 last:pb-0 text-xs">
+          <li class="relative pb-8 pl-7 last:pb-0">
             {idx < caseTimeline.length - 1 && <span class="absolute left-[5px] top-4 bottom-0 w-px bg-zinc-200 dark:bg-poi-border" aria-hidden="true"></span>}
             <span class:list={[
               "absolute left-0 top-1.5 h-3 w-3 rounded-full border-2",
               t.on ? "border-poi-accent bg-poi-accent" : "border-zinc-300 bg-zinc-50 dark:border-poi-border dark:bg-poi-base",
             ]} aria-hidden="true"></span>
-            <p class:list={["text-[13px] font-semibold", t.on ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus"]}><T text={t.title} /></p>
-            <p class="text-zinc-600 dark:text-poi-muted"><T text={t.body} /></p>
+            <p class="font-mono text-[10px] tracking-widest text-poi-muted">{t.tag}</p>
+            <p class:list={["mt-1 text-sm font-semibold", t.on ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus"]}><T text={t.title} /></p>
+            <p class="mt-1.5 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={t.body} /></p>
           </li>
         ))}
       </ol>
     </div>
   </section>
 
-  {/* About */}
-  <section id="about" class="mt-24 scroll-mt-28">
-    <SectionHead kicker="About" title={{ ja: '実装から来た人間ではない。事業を回す側にいて、開発もやるようになった。', en: "I didn't start out as an engineer. I was running the business, and ended up building the systems myself." }} />
-    <div class="mt-8 flex flex-col gap-6 rounded-lg border border-zinc-200 bg-white p-6 sm:flex-row sm:p-9 dark:border-poi-border/70 dark:bg-poi-base">
-      <img src="/images/profile/me.webp" alt="Katsuhiro Yamakawa" class="h-24 w-24 shrink-0 rounded-full object-cover" />
-      <div>
-        <p class="text-lg font-semibold text-zinc-900 dark:text-poi-focus">Katsuhiro Yamakawa</p>
-        <p class="font-mono text-xs text-poi-accent">Builder</p>
-        <div class="mt-3 space-y-3 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted">
-          <p>
-            <span class="lang-ja">学習塾を12年、合同会社を設立から清算まで経営してきた。税理士を立てず決算までやったので、事業の金がどこを通っているかを自分で読める。いまは受託開発の企業に勤めながら、個人でも開発とコンサルを受け、マンション管理会社の外部 CTO も務めている。</span>
-            <span class="lang-en">Twelve years running a tutoring school, and an LLC from founding to liquidation. Having closed the books myself without an accountant, I can read where the money moves in a business. Today I work at a contract development firm, take on development and consulting on my own, and serve as external CTO for a property management company.</span>
-          </p>
-          <p>
-            <span class="lang-ja">どちらの経営でも、仕組みを作るのも毎日使うのも自分だった。手順を一つ増やせばそのまま自分の手間になるので、増やさずに回る形を先に考える。教えるときも、言って聞かせるより、生徒が自分で進められるよう場と段取りを整えるほうが続いた。</span>
-            <span class="lang-en">In both businesses, I built the systems and used them every day. Every extra step landed back on me, so I look first for a way to run things without adding steps. Teaching was the same: setting up the room and the sequence so students could move on their own lasted longer than telling them what to do.</span>
-          </p>
-          <p>
-            <span class="lang-ja">だから仕組みは納めて終わりにしない。使われ方を見て合わないところを直し、現場で回り出すまで付き合う。</span>
-            <span class="lang-en">So delivery is not the end. I watch how it is used, fix what does not fit, and stay with it until it runs on its own.</span>
-          </p>
-        </div>
-        <div class="mt-4 flex flex-wrap gap-5">
-          <a href="/about/" class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
-            <span class="lang-ja">経歴と技術の範囲を見る</span><span class="lang-en">Timeline and coverage</span>
-            <LucideIcon name="arrow-right" class="h-3.5 w-3.5" />
-          </a>
-          <a href="https://zenn.dev/yktsnet" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
-            Zenn <LucideIcon name="external-link" class="h-3 w-3" />
-          </a>
-          <a href="/photos/" class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
-            Photos <LucideIcon name="arrow-right" class="h-3.5 w-3.5" />
-          </a>
-        </div>
-      </div>
+  {/* About: 考え方はここで、経歴のどこから来たかと一緒に示す */}
+  <section id="about" class="mt-32 scroll-mt-28">
+    <SectionHead
+      kicker="About"
+      title={{ ja: '決めるところは経営から、作るところは現場から、渡すところは教育から来ている', en: 'Deciding comes from running a business, building from the shop floor, handing over from teaching' }}
+    />
+    <div class="mt-10 max-w-3xl space-y-5 text-sm leading-8 text-zinc-600 dark:text-poi-muted">
+      <p>
+        <span class="lang-ja">塾と会社の経営では税理士を立てず決算まで自分でやってきた。だから事業の金がどこを通っているかを自分で読める。依頼を待たず、数字を見て直すものを決めるところから入る。</span>
+        <span class="lang-en">Running the school and the company, I closed the books myself without an accountant. So I can read where the money moves in a business. I start from the numbers rather than from a brief.</span>
+      </p>
+      <p>
+        <span class="lang-ja">どちらも仕組みを作るのも毎日使うのも自分だった。手順を一つ増やせばそのまま自分の手間になるので、増やさずに回る形を先に考えるようになった。導入時に歓迎された機能が半年後には誰にも使われなくなるのも、当事者として見てきた。だから新しい操作を覚えさせず、自動化は既存の運用の裏側に差し込む。</span>
+        <span class="lang-en">In both, I built the systems and used them every day. Every extra step landed back on me, so I learned to find a way to run things without adding steps. I also watched, from inside, features welcomed at launch go unused six months later. So I don't make people learn new operations; automation goes in behind the existing work.</span>
+      </p>
+      <p>
+        <span class="lang-ja">教えるときも言って聞かせるより、生徒が自分で進められるよう場と段取りを整えるほうが続いた。いまの仕事でも仕組みは納めて終わりにしない。使われ方を見て合わないところを直し、現場で回り出すまで付き合う。</span>
+        <span class="lang-en">Teaching was the same: setting up the room and the sequence so students could move on their own lasted longer than telling them what to do. In my work now, delivery is not the end. I watch how it is used, fix what does not fit, and stay with it until it runs on its own.</span>
+      </p>
+      <p>
+        <span class="lang-ja">開発では必要になった仕組みを小さく OSS として公開している。AI がコードを書くいまは、書かれたものを信じられるか確かめることに時間を使う。何が壊れてはいけないかだけを人が決めて文書で承認し、テストと実装は AI に任せ、約束が破られれば機械が止める。この分業を保証駆動開発（GDD）と呼んでいる。自動売買を個人で本番運用するために、操作画面を捨てて最小の構成に作り直したように、機能の多さより止まらないことを選ぶ。人の注意や記憶に品質を預けず、覚え直しも見張りも要らない形を選ぶ。</span>
+        <span class="lang-en">In development, I publish the tools I need as small open-source projects. With AI writing code, I spend my time confirming that what was written can be trusted. A human decides only what must not break and approves it in writing; tests and implementation go to AI, and the machine stops when a promise is broken. I call this split Guarantee-Driven Development (GDD). Just as I rebuilt my automated trading setup without its UI so it would never stop in production, I choose not stopping over having more features. Quality never rests on human vigilance or memory; I choose forms that need no retraining and no watching.</span>
+      </p>
+    </div>
+    <div class="mt-6 flex flex-wrap gap-x-5 gap-y-2">
+      <RepoLink label="Zenn — 保証駆動開発 (GDD)" href="https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development" icon="file-text" />
+      <RepoLink label="drip-live-public" href="https://github.com/yktsnet/drip-live-public" />
+      <RepoLink label="dotfiles-public" href="https://github.com/yktsnet/dotfiles-public" />
+    </div>
+
+    <div class="mt-16">
+      <Career />
+    </div>
+
+    <div class="mt-12 flex flex-wrap gap-6">
+      <a href="https://zenn.dev/yktsnet" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
+        Zenn <LucideIcon name="external-link" class="h-3 w-3" />
+      </a>
+      <a href="/photos/" class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
+        Photos <LucideIcon name="arrow-right" class="h-3.5 w-3.5" />
+      </a>
     </div>
   </section>
-
 </MainLayout>
