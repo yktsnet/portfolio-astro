@@ -3,8 +3,7 @@
   "include": [
     "/",
     "/services/operations",
-    "/services/ai-development",
-    "/services/education"
+    "/services/ai-development"
   ],
   "language": "ja",
   "zenn": {

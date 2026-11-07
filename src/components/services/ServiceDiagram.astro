@@ -1,7 +1,6 @@
 ---
 import DiagramOperations from './DiagramOperations.astro';
 import DiagramAiDevelopment from './DiagramAiDevelopment.astro';
-import DiagramEducation from './DiagramEducation.astro';
 
 interface Props {
   slug: string;
@@ -10,4 +9,3 @@ const { slug } = Astro.props;
 ---
 {slug === 'operations' && <DiagramOperations />}
 {slug === 'ai-development' && <DiagramAiDevelopment />}
-{slug === 'education' && <DiagramEducation />}
