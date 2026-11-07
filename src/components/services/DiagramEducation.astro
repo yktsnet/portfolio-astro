@@ -1,30 +1,33 @@
 ---
 import DgText from './DgText.astro';
 ---
-<svg class="dg h-auto w-full" viewBox="0 0 440 300" role="img" aria-label="教室・塾の事業を中心に、運営の型・塾への導入・出席管理・教材のデータ化を組み合わせる図">
+<svg class="dg h-auto w-full" viewBox="0 0 440 300" role="img" aria-label="プログラミング教室の導入・NFC出席管理・模試や教材のデータ化の3つが学習塾の事業を支える図">
   <defs>
-    <marker id="dg-ed-mk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="dg-mk" d="M0 0L10 5L0 10z" /></marker>
+    <marker id="dg-ed-mk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="dg-mk" d="M0 1L9 5L0 9z" /></marker>
   </defs>
-  <path class="dg-box" d="M172 146L220 112L268 146V206H172Z" />
-  <rect class="dg-line" x="207" y="174" width="26" height="32" />
-  <path class="dg-soft" d="M184 158h16M240 158h16" />
-  <DgText x={220} y={228} ja="教室・塾の事業" en="School business" />
 
-  <rect class="dg-accbox" x="12" y="26" width="140" height="52" rx="8" />
-  <DgText x={82} y={48} ja="運営の型" en="Class playbook" class="dg-acctext" />
-  <DgText x={82} y={66} ja="カリキュラム・手順" en="curriculum, routine" class="dg-small" />
-  <rect class="dg-accbox" x="288" y="26" width="140" height="52" rx="8" />
-  <DgText x={358} y={48} ja="塾への導入" en="Into the school" class="dg-acctext" />
-  <DgText x={358} y={66} ja="募集の経路を増やす" en="new enrollment path" class="dg-small" />
-  <rect class="dg-accbox" x="12" y="222" width="140" height="52" rx="8" />
-  <DgText x={82} y={244} ja="出席管理" en="Attendance" class="dg-acctext" />
-  <DgText x={82} y={262} ja="NFC カード" en="NFC cards" class="dg-small" />
-  <rect class="dg-accbox" x="288" y="222" width="140" height="52" rx="8" />
-  <DgText x={358} y={244} ja="教材のデータ化" en="Exam data" class="dg-acctext" />
-  <DgText x={358} y={262} ja="採点・分析" en="grading, analysis" class="dg-small" />
+  {/* 左列: 3つの提供内容（ニュートラル、1行ずつ大きく明快に） */}
+  <rect class="dg-box" x="18" y="42" width="196" height="52" rx="8" />
+  <DgText x={116} y={73} ja="プログラミング教室の導入" en="Add programming" />
 
-  <path class="dg-acc" marker-end="url(#dg-ed-mk)" d="M154 64C186 64 196 92 200 112" />
-  <path class="dg-acc" marker-end="url(#dg-ed-mk)" d="M286 64C254 64 244 92 240 112" />
-  <path class="dg-acc" marker-end="url(#dg-ed-mk)" d="M154 240C164 240 166 196 170 190" />
-  <path class="dg-acc" marker-end="url(#dg-ed-mk)" d="M286 240C276 240 274 196 270 190" />
+  <rect class="dg-box" x="18" y="124" width="196" height="52" rx="8" />
+  <DgText x={116} y={155} ja="NFCカードの出席管理" en="NFC attendance" />
+
+  <rect class="dg-box" x="18" y="206" width="196" height="52" rx="8" />
+  <DgText x={116} y={237} ja="模試・教材のデータ化" en="Exam & material data" />
+
+  {/* 接続矢印（ニュートラル） */}
+  <path class="dg-line" marker-end="url(#dg-ed-mk)" d="M216 68C252 68 256 116 286 116" />
+  <path class="dg-line" marker-end="url(#dg-ed-mk)" d="M216 150H286" />
+  <path class="dg-line" marker-end="url(#dg-ed-mk)" d="M216 232C252 232 256 184 286 184" />
+
+  {/* 右: 学習塾・教室の事業（ここだけアクセント色＋Lucideのgraduation-capアイコン） */}
+  <rect class="dg-accbox" x="290" y="72" width="132" height="156" rx="10" stroke-dasharray="5 4" />
+  <g class="dg-acc" transform="translate(342, 108) scale(1.15)">
+    <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+    <path d="M22 10v6" />
+    <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+  </g>
+  <DgText x={356} y={164} ja="学習塾・教室" en="Tutoring school" class="dg-acctext" />
+  <DgText x={356} y={186} ja="募集・継続・運営" en="enrollment & ops" class="dg-small" />
 </svg>
