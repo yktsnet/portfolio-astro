@@ -88,13 +88,13 @@ const origins = [
       <div class="space-y-4">
         <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">PRINCIPLES</p>
         {origins.map((o) => (
-          <article class="rounded-lg border border-zinc-200 bg-white p-6 dark:border-poi-border/70 dark:bg-poi-panel/15">
+          <article class="rounded-xl border border-zinc-200 bg-white p-6 dark:border-poi-border/70 dark:bg-poi-panel/15">
             <p class="flex items-baseline justify-between font-mono text-[10px] tracking-widest text-poi-muted">
               <span>{o.tag}</span>
               <span class="text-poi-accent"><T text={o.from} /></span>
             </p>
-            <h3 class="mt-2 text-sm font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={o.title} /></h3>
-            <p class="mt-2 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={o.body} /></p>
+            <h3 class="mt-2.5 text-[15px] sm:text-base font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={o.title} /></h3>
+            <p class="mt-2 text-[13.5px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={o.body} /></p>
           </article>
         ))}
       </div>
@@ -106,7 +106,7 @@ const origins = [
   </section>
 
   {/* 2. Services: 経営・現場・教育から来ている仕事の受け方 */}
-  <section id="services" class="mt-28 scroll-mt-28 border-t border-zinc-200 pt-20 dark:border-poi-border/60">
+  <section id="services" class="mt-20 scroll-mt-28 border-t border-zinc-200 pt-16 dark:border-poi-border/60">
     <SectionHead
       kicker="Services"
       title={{
@@ -118,8 +118,8 @@ const origins = [
         en: 'What I did in management, on the floor and in teaching, I now take on across three areas: operations automation, AI-native development teams, and education business support. Rather than relying on human vigilance, a human approves only what must not break while mechanisms handle verification—and I stay until it runs on the ground.',
       }}
     />
-    <div class="mt-12 space-y-6">
-      {services.map((s) => <ServiceCard service={s} />)}
+    <div class="mt-12 space-y-8">
+      {services.map((s, idx) => <ServiceCard service={s} reverse={idx % 2 === 1} />)}
     </div>
   </section>
 </MainLayout>

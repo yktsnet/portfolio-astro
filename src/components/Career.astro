@@ -77,8 +77,8 @@ const timeline: LocationGroup[] = [
     <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">COVERAGE</p>
 
     {/* ビジネス層: 5領域と並列にせず、上から翻訳して落とす縦の関係で見せる（Issue 39） */}
-    <div class="mt-4 rounded-lg border border-zinc-200 dark:border-poi-border/70 bg-zinc-50/60 dark:bg-white/2 px-4 py-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-      <span class="text-xs font-medium text-zinc-700 dark:text-poi-text">Business</span>
+    <div class="mt-4 rounded-xl border border-zinc-200 dark:border-poi-border/70 bg-zinc-50/60 dark:bg-white/2 px-4 py-3.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+      <span class="text-[13px] font-medium text-zinc-800 dark:text-poi-focus/90">Business</span>
       <span class="text-xs text-zinc-500 dark:text-poi-muted lang-ja">会計・原価から手を付ける順番を決める</span>
       <span class="text-xs text-zinc-500 dark:text-poi-muted lang-en">Setting priorities from accounting and cost structure</span>
     </div>
@@ -88,16 +88,16 @@ const timeline: LocationGroup[] = [
     </div>
 
     {/* この外枠とラベルが核。外すとただのスキル表に退行する（Issue 39） */}
-    <div class="relative rounded-lg border border-zinc-300 dark:border-poi-border px-5 pt-4 pb-3 mt-2">
+    <div class="relative rounded-xl border border-zinc-300 dark:border-poi-border px-5 pt-4 pb-3 mt-2">
       <p class="absolute -top-2.5 left-4 px-2 bg-zinc-50 dark:bg-poi-base font-mono text-[11px] tracking-wide text-zinc-500 dark:text-poi-muted">
         <span class="lang-ja">1人で設計・実装・運用</span>
         <span class="lang-en">Solo Design, Dev &amp; Ops</span>
       </p>
-      <table class="w-full mt-1 text-xs">
+      <table class="w-full mt-1 text-[13px]">
         <tbody>
           {coverage.map(({ area, items }) => (
             <tr class="border-t first:border-t-0 border-zinc-200 dark:border-poi-border/50">
-              <td class="py-2.5 pr-4 w-[32%] whitespace-nowrap align-middle font-medium text-zinc-700 dark:text-poi-text">{area}</td>
+              <td class="py-2.5 pr-4 w-[32%] whitespace-nowrap align-middle font-medium text-zinc-800 dark:text-poi-focus/90">{area}</td>
               <td class="py-2 align-middle">
                 <div class="flex flex-wrap gap-1.5">
                   {items.map(item => {
@@ -109,7 +109,7 @@ const timeline: LocationGroup[] = [
                             xmlns="http://www.w3.org/2000/svg"
                             width="11" height="11" viewBox="0 0 24 24"
                             fill="currentColor"
-                            class="text-zinc-400 dark:text-poi-muted/50 transition-colors duration-200 group-hover:text-(--brand-hex)"
+                            class="brand-icon text-zinc-400 dark:text-poi-muted/50 transition-all duration-200 group-hover:text-(--brand-hex)"
                             style={`--brand-hex: #${icon.hex}`}
                             set:html={`<path d="${icon.path}" />`}
                           />
@@ -143,7 +143,7 @@ const timeline: LocationGroup[] = [
                   )}
                   <span class="absolute left-1/2 top-2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-poi-accent ring-2 ring-white dark:ring-poi-base"></span>
                 </div>
-                <div class="pl-4 pb-2.5 flex-1 flex items-baseline gap-4 text-xs sm:text-[13px]">
+                <div class="pl-4 pb-3 flex-1 flex items-baseline gap-4 text-[13px]">
                   <span class="font-mono text-xs text-zinc-500 w-11 shrink-0 tabular-nums">{year}</span>
                   <span class="text-zinc-600 dark:text-poi-muted lang-ja">{label.ja}</span>
                   <span class="text-zinc-600 dark:text-poi-muted lang-en">{label.en}</span>
