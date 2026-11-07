@@ -86,7 +86,7 @@ export const services: Service[] = [
       title: { ja: "刷新より、定着", en: "Adoption over overhaul" },
       body: [
         {
-          ja: "導入時に歓迎された機能が、半年後には誰にも使われなくなる。経営の現場で、その経緯を当事者として見てきた。",
+          ja: "導入時に歓迎された機能が、半年後には誰にも使われなくなる。経営の現場でその経緯を当事者として見てきた。",
           en: "A feature welcomed at launch is used by no one six months later. I watched that happen from inside the business.",
         },
         {
@@ -224,7 +224,7 @@ export const services: Service[] = [
         icon: "package",
         title: { ja: "開発キットの配布", en: "Development Kit" },
         body: {
-          ja: "Issue と PR の運用、main への直接 push を止める安全機構、文書の規範を単位に切り分けて配る。型にするのは、人の判断を省かせない・セッションを超えて残す・担当者が替わっても揃う、の3つに当たるものだけ。相手の規模に合わせて粒度を落とし、1単位ずつ入れる。",
+          ja: "Issue と PR の運用、main への直接 push を止める安全機構、文書の規範を単位に切り分けて配る。型にするのは、人の判断を省かせない・セッションを超えて残す・担当者が替わっても揃う、の3つのどれかに当たるものだけ。相手の規模に合わせて粒度を落とし、1単位ずつ入れる。",
           en: "Issue and PR workflows, guards that block direct pushes to main, and writing standards are split into units. Only what keeps a human decision from being skipped, must survive across sessions, or must come out the same when people change becomes a unit. The grain is scaled to the team, and units go in one at a time.",
         },
         points: [
@@ -284,7 +284,7 @@ export const services: Service[] = [
       {
         title: { ja: "物差しで測って広げる", en: "Measure and expand" },
         body: {
-          ja: "評価の軸で現在地を置き、研修で次に上げる軸を育てる。",
+          ja: "評価の軸で全員の現在地を位置づけ、研修で次に伸ばす軸を鍛える。",
           en: "Place everyone on the scale, then use training to raise the next axis.",
         },
         duration: { ja: "継続", en: "Ongoing" },
@@ -320,7 +320,7 @@ export const services: Service[] = [
       {
         title: { ja: "生徒募集が頭打ちになっている", en: "Enrollment has plateaued" },
         body: {
-          ja: "問い合わせの入口が限られ、学年が上がると生徒が抜けていく。",
+          ja: "問い合わせの経路が限られ、学年が上がると生徒が抜けていく。",
           en: "Inquiries come through few channels, and students leave as they move up a grade.",
         },
       },
@@ -365,7 +365,7 @@ export const services: Service[] = [
         icon: "trending-up",
         title: { ja: "塾へのプログラミング教室の導入", en: "Adding Programming to a Tutoring School" },
         body: {
-          ja: "学習塾の事業にプログラミング教室を加え、生徒を集める入口を増やす。小学生で入った子が中学・高校で塾のコースへ移れば、通う期間が延びる。",
+          ja: "学習塾の事業にプログラミング教室を加え、生徒を集める経路を増やす。小学生で入った子が中学・高校で塾のコースへ移れば、通う期間が延びる。",
           en: "Add a programming class to a tutoring school to open a new enrollment channel. Kids who join in elementary school and move into the school's courses in junior and senior high stay much longer.",
         },
         points: [
@@ -399,7 +399,7 @@ export const services: Service[] = [
         points: [
           { ja: "紙の答案と教材をデータにする", en: "Convert paper answers and materials into data" },
           { ja: "成績の分析を自動で出す", en: "Generate grade analysis automatically" },
-          { ja: "生徒と保護者に直接届く画面を持つ", en: "Give students and parents a screen of their own" },
+          { ja: "生徒と保護者が直接見られる画面を用意する", en: "Give students and parents a screen of their own" },
         ],
         repos: [],
       },

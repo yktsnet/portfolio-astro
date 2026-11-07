@@ -35,7 +35,7 @@ const process: Step[] = [
   {
     title: { ja: '人が回せる形にして渡して残す', en: 'Hand it over so people can run it' },
     body: {
-      ja: '納めて終わりにせず、使われ方を見て合わないところを直し、回り出すまで付き合う。チームへ渡す型は、人の判断を省かせない・セッションを超えて残す・担当者が替わっても揃う、の3つに当たるものだけにし、相手の規模に合わせて粒度を落とす。',
+      ja: '納めて終わりにせず、使われ方を見て合わないところを直し、回り出すまで付き合う。チームへ渡す型は、人の判断を省かせない・セッションを超えて残す・担当者が替わっても揃う、の3つのどれかに当たるものだけにし、相手の規模に合わせて粒度を落とす。',
       en: 'Delivery is not the end: I watch how it is used, fix what does not fit, and stay until it runs. What I hand a team as a standard is limited to what keeps a human decision from being skipped, survives across sessions, or comes out the same when people change, scaled to the size of the team.',
     },
   },
@@ -65,7 +65,7 @@ const principles: { title: { ja: string; en: string }; body: { ja: string; en: s
   {
     title: { ja: '機能より、安定', en: 'Stability over features' },
     body: {
-      ja: '動くデモと、本番で壊れない運用は別物だ。自動売買を個人で本番運用するために、React の操作画面を持っていた版を、JSONL と systemd だけで状態を扱う構成へ作り直し、止めずに回し続けている。',
+      ja: '動くデモと、本番で障害を起こさない運用は別物だ。自動売買を個人で本番運用するために、React の操作画面があったバージョンを、JSONL と systemd だけで状態を扱う構成へ作り直し、止めずに回し続けている。',
       en: 'A working demo and operations that do not break in production are different things. To run automated trading in production on my own, I rebuilt a version with a React UI into one that handles state with only JSONL and systemd, and it keeps running without stopping.',
     },
     links: [
@@ -78,7 +78,7 @@ const principles: { title: { ja: string; en: string }; body: { ja: string; en: s
 const caseTimeline = [
   { title: { ja: '背景: オーナーが現場を離れたい', en: 'Context: the owner wants to step back' }, body: { ja: '高齢のオーナーは引退を見据えていたが、経営実務が属人化していて離れられなかった。', en: 'The aging owner was planning to retire, but management work was tied to individuals.' } },
   { title: { ja: '会計を見る', en: 'Reading the books' }, body: { ja: '人件費が費用の6割。申告の中身を追うと、勤務時間の水増しが見つかった。', en: 'Labor was 60% of costs. Tracing the reports turned up padded hours.' } },
-  { title: { ja: '勤怠システムを納品', en: 'Attendance system delivered' }, body: { ja: 'IC カードをかざすだけにし、説明なしで初日から定着した。月5時間の集計と給与の差異がなくなった。', en: 'Just tap an IC card. It stuck from day one without instructions, and 5 hours of monthly tallying and payroll gaps disappeared.' }, on: true },
+  { title: { ja: '勤怠システムを納品', en: 'Attendance system delivered' }, body: { ja: 'IC カードをかざすだけにし、説明なしで初日から定着した。月5時間かかっていた集計と、給与の差異がなくなった。', en: 'Just tap an IC card. It stuck from day one without instructions, and 5 hours of monthly tallying and payroll gaps disappeared.' }, on: true },
   { title: { ja: '書類作成の自動化', en: 'Document automation' }, body: { ja: '共有 Excel の保存を合図に契約書を作り、全文検索で探せるようにした。', en: 'Saving the shared Excel file now produces contracts, searchable in full text.' } },
   { title: { ja: '現在: 法人化に伴走', en: 'Now: through incorporation' }, body: { ja: '相談は情報配信や制度設計、法人化まで広がった。空室情報の配信を設計している。', en: 'Requests have grown to information distribution, policy design and incorporation. A vacancy distribution app is in design.' } },
 ];
@@ -93,7 +93,7 @@ const caseTimeline = [
       <span class="lang-en"><span class="block">Keep how people work.</span><span class="block">Add the <span class="text-poi-accent">systems</span> behind it.</span></span>
     </h1>
     <p class="mt-5 max-w-2xl text-sm leading-7 text-zinc-600 dark:text-poi-muted">
-      <span class="lang-ja">現場の Excel や紙の運用は変えずに、裏側を自動化する。AI と開発する型を、経営と現場の両方に根づかせる。教育事業の立ち上げにも入る。決めるところは経営から、作るところは現場から、渡すところは教育から来ていて、この三つを1人で通している。作ったものは GitHub で公開している。</span>
+      <span class="lang-ja">現場の Excel や紙の運用は変えずに、裏側を自動化する。AI と開発する型を、経営と現場の両方に根づかせる。教育事業の立ち上げにも入る。決めるところは経営から、作るところは現場から、渡すところは教育から来ていて、この3つを1人で担っている。作ったものは GitHub で公開している。</span>
       <span class="lang-en">I automate what happens behind existing Excel and paper workflows, root the practice of building with AI in both management and teams, and help launch education businesses. Deciding comes from running a business, building from the shop floor, handing over from teaching, and I carry all three myself. What I build is public on GitHub.</span>
     </p>
 
@@ -173,7 +173,7 @@ const caseTimeline = [
           <span class="lang-en">As external CTO of a property management company, automating everything from attendance to documents</span>
         </h3>
         <p class="mt-3 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted">
-          <span class="lang-ja">きっかけは、勤怠の困りごとを片付ける小さな道具を1つ納品したこと。そこで生まれた信頼が相談の幅を広げ、いまは制度設計から日々の自動化、法人化までを引き受けている。</span>
+          <span class="lang-ja">きっかけは勤怠の困りごとを片付ける小さな道具を1つ納品したこと。そこで生まれた信頼が相談の幅を広げ、いまは制度設計から日々の自動化、法人化までを引き受けている。</span>
           <span class="lang-en">It started with delivering one small tool for an attendance problem. The trust it built widened the requests, and today I cover everything from policy design and daily automation to incorporation.</span>
         </p>
         <a href="/services/operations/" class="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
