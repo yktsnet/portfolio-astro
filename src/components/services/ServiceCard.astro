@@ -21,17 +21,17 @@ const { service: s, reverse = false } = Astro.props;
     <h3 class="mt-3 text-lg font-semibold text-zinc-900 dark:text-poi-focus"><T text={s.title} /></h3>
     <p class="mt-3 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={s.summary} /></p>
 
-    <ul class="mt-5 border-t border-zinc-200 dark:border-poi-border/60 pt-4 space-y-3">
+    <ul class="mt-5 divide-y divide-zinc-200/70 border-t border-zinc-200 dark:divide-poi-border/50 dark:border-poi-border/60">
       {s.offerings.map((o) => (
-        <li class="text-[13px]">
-          <div class="flex items-center gap-2 text-zinc-800 dark:text-poi-focus">
-            <LucideIcon name={o.icon} class="h-3.5 w-3.5 text-poi-accent" />
+        <li class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 py-2.5 text-[13px]">
+          <span class="flex items-center gap-2 text-zinc-800 dark:text-poi-focus">
+            <LucideIcon name={o.icon} class="h-3.5 w-3.5 shrink-0 text-poi-accent" />
             <T text={o.title} />
-          </div>
+          </span>
           {o.repos.length > 0 && (
-            <div class="mt-1.5 ml-5.5 flex flex-wrap gap-1.5">
-              {o.repos.map((r) => <RepoLink repo={r} />)}
-            </div>
+            <span class="flex flex-wrap gap-x-4 gap-y-1">
+              {o.repos.map((r) => <RepoLink label={r.name} href={r.href} />)}
+            </span>
           )}
         </li>
       ))}

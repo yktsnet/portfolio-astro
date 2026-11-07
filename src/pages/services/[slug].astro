@@ -6,7 +6,6 @@ import RepoLink from '../../components/RepoLink.astro';
 import SectionHead from '../../components/services/SectionHead.astro';
 import ServiceDiagram from '../../components/services/ServiceDiagram.astro';
 import ProcessSteps from '../../components/services/ProcessSteps.astro';
-import ContactCta from '../../components/services/ContactCta.astro';
 import { services, type Service } from '../../data/services';
 
 export function getStaticPaths() {
@@ -64,6 +63,19 @@ const others = services.filter((o) => o.slug !== s.slug);
     </div>
   </section>
 
+  {/* 考え方・背景 */}
+  <section class="mt-20">
+    <SectionHead kicker={s.stance.kicker} title={s.stance.title} />
+    <div class="mt-6 max-w-3xl space-y-4 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+      {s.stance.body.map((para) => <p><T text={para} /></p>)}
+    </div>
+    {s.stance.links && (
+      <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+        {s.stance.links.map((l) => <RepoLink label={l.label} href={l.href} icon="file-text" />)}
+      </div>
+    )}
+  </section>
+
   {/* 提供できること */}
   <section class="mt-20">
     <SectionHead kicker="What I offer" title={{ ja: '提供できること', en: 'What I offer' }} />
@@ -84,8 +96,8 @@ const others = services.filter((o) => o.slug !== s.slug);
             ))}
           </ul>
           {(o.repos.length > 0 || o.note) && (
-            <div class="mt-auto flex flex-wrap items-center gap-2 pt-5">
-              {o.repos.map((r) => <RepoLink repo={r} />)}
+            <div class="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 pt-5">
+              {o.repos.map((r) => <RepoLink label={r.name} href={r.href} />)}
               {o.note && <span class="font-mono text-[10px] text-zinc-500 dark:text-poi-muted"><T text={o.note} /></span>}
             </div>
           )}
@@ -135,10 +147,4 @@ const others = services.filter((o) => o.slug !== s.slug);
     </div>
   </section>
 
-  <section class="mt-20">
-    <ContactCta
-      title={{ ja: '同じような困りごとはないか。', en: 'Facing something similar?' }}
-      body={{ ja: 'いまの状況を聞かせてもらうところから始める。', en: 'It starts with hearing where things stand today.' }}
-    />
-  </section>
 </MainLayout>

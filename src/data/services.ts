@@ -12,7 +12,12 @@ export type Offering = {
   note?: MultilingualText;
 };
 
-export type Step = { title: MultilingualText; body: MultilingualText; duration: MultilingualText };
+export type Step = { title: MultilingualText; body: MultilingualText; duration?: MultilingualText };
+
+export type Link = { label: string; href: string };
+
+// サービスを頼む理由になる考え方や経験。詳細ページに1つ置く
+export type Stance = { kicker: string; title: MultilingualText; body: MultilingualText[]; links?: Link[] };
 
 export type Metric = { value: string; unit: MultilingualText; label: MultilingualText };
 
@@ -27,6 +32,7 @@ export type Service = {
   heroBody: MultilingualText;
   problems: { title: MultilingualText; body: MultilingualText }[];
   offerings: Offering[];
+  stance: Stance;
   process: Step[];
   results?: { note: MultilingualText; metrics: Metric[] };
 };
@@ -54,17 +60,17 @@ export const services: Service[] = [
     },
     problems: [
       {
-        title: { ja: "同じ内容を何度も書き写している", en: "The same data is copied over and over" },
+        title: { ja: "勤務時間の申告を突き合わせる手段が無い", en: "Nothing to check reported hours against" },
         body: {
-          ja: "Excel に入れた入居者の情報を、契約書や届出の書式へ手で転記している。",
-          en: "Tenant details entered in Excel are retyped by hand into contracts and notices.",
+          ja: "自己申告と手書きの給与計算では、水増しが起きていても気づけない。実際に、人件費の中身を追って初めて見つかった。",
+          en: "With self-reported hours and handwritten payroll, padding goes unnoticed. In practice it only surfaced once the labor cost was traced line by line.",
         },
       },
       {
-        title: { ja: "月末に勤怠を口頭で確かめている", en: "Attendance is checked verbally at month end" },
+        title: { ja: "繁忙期に同じ転記が集中する", en: "The same copying piles up in peak season" },
         body: {
-          ja: "手書きの出勤簿や自己申告を集め、給与計算のたびに食い違いを直している。",
-          en: "Handwritten timesheets and self-reports are collected, and every payroll run means fixing mismatches.",
+          ja: "入居契約書を毎回コピーして書き換えていて、春の入退去シーズンに負荷が集まる。",
+          en: "Tenancy contracts are copied and rewritten every time, and the load peaks in the spring move-in season.",
         },
       },
       {
@@ -75,6 +81,20 @@ export const services: Service[] = [
         },
       },
     ],
+    stance: {
+      kicker: "Adoption over Overhaul",
+      title: { ja: "刷新より、定着", en: "Adoption over overhaul" },
+      body: [
+        {
+          ja: "導入時に歓迎された機能が、半年後には誰にも使われなくなる。経営の現場で、その経緯を当事者として見てきた。",
+          en: "A feature welcomed at launch is used by no one six months later. I watched that happen from inside the business.",
+        },
+        {
+          ja: "だから新しい画面や操作を覚えさせる設計を避ける。既存の Excel・スプレッドシート・紙の運用はそのまま残し、自動化はその裏側に差し込む。共有フォルダの Excel を開いて保存する従来の経路も残してあり、保存した時点で PDF になる。",
+          en: "So I avoid designs that make people learn new screens. Existing Excel, spreadsheets and paper stay as they are, and automation goes in behind them. The old route of opening and saving the Excel file in the shared folder still works, and saving produces the PDF.",
+        },
+      ],
+    },
     offerings: [
       {
         icon: "id-card",
@@ -181,13 +201,31 @@ export const services: Service[] = [
         },
       },
     ],
+    stance: {
+      kicker: "Verification over Generation",
+      title: { ja: "生成より、検証", en: "Verification over generation" },
+      body: [
+        {
+          ja: "AI がコードを書く時代、時間がかかるのは書くことではなく、書かれたものを信じられるか確かめることに変わった。AI は警告も出さずに自信を持って間違え、放っておけば破壊的な操作や機密の漏洩をそのまま本番へ通す。",
+          en: "Now that AI writes the code, the time goes not into writing but into confirming that what was written can be trusted. AI is confidently wrong without warning, and left alone it will carry destructive operations or leaked secrets straight into production.",
+        },
+        {
+          ja: "人が注意する約束は形骸化するので、破壊的なコマンドの遮断や機密の隔離はコードと設定で固定する。そのうえで「何が壊れてはいけないか」だけを人が決めて文書で承認し、テストと実装は AI に任せる。約束が破られれば機械が検知して止まる。この分業を保証駆動開発（GDD）と呼び、開発キットに入れている。",
+          en: "Promises that rely on human attention erode, so blocking destructive commands and isolating secrets are fixed in code and config. On top of that, a human decides only what must not break and approves it in writing, while tests and implementation go to AI. When a promise is broken, the machine detects it and stops. I call this split Guarantee-Driven Development (GDD), and it is built into the kit.",
+        },
+      ],
+      links: [
+        { label: "Zenn — 保証駆動開発 (GDD)", href: "https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development" },
+        { label: "Zenn — Issue駆動ワークフロー", href: "https://zenn.dev/yktsnet/articles/202604-issue-driven-workflow" },
+      ],
+    },
     offerings: [
       {
         icon: "package",
         title: { ja: "開発キットの配布", en: "Development Kit" },
         body: {
-          ja: "Issue と PR の運用、main への直接 push を止める安全機構、文書の規範を単位に切り分けて配る。既存のリポジトリへ1単位ずつ入れられる。",
-          en: "Issue and PR workflows, guards that block direct pushes to main, and writing standards are split into units. Each unit can be dropped into an existing repository one at a time.",
+          ja: "Issue と PR の運用、main への直接 push を止める安全機構、文書の規範を単位に切り分けて配る。型にするのは、人の判断を省かせない・セッションを超えて残す・担当者が替わっても揃う、の3つに当たるものだけ。相手の規模に合わせて粒度を落とし、1単位ずつ入れる。",
+          en: "Issue and PR workflows, guards that block direct pushes to main, and writing standards are split into units. Only what keeps a human decision from being skipped, must survive across sessions, or must come out the same when people change becomes a unit. The grain is scaled to the team, and units go in one at a time.",
         },
         points: [
           { ja: "1人・チーム・依頼主ありの3つの作業フローから選ぶ", en: "Pick one of three workflows: solo, team, or with a client" },
@@ -294,6 +332,20 @@ export const services: Service[] = [
         },
       },
     ],
+    stance: {
+      kicker: "Background",
+      title: { ja: "教室を経営し、教えてきた", en: "I ran a school and taught in it" },
+      body: [
+        {
+          ja: "学習塾を2013年に開き、12年経営した。経営の数字を見るのも、教室で教えるのも自分だった。",
+          en: "I opened a tutoring school in 2013 and ran it for twelve years. Reading the numbers and teaching in the classroom were both my job.",
+        },
+        {
+          ja: "教えるときは、言って聞かせるより、生徒が自分で進められるよう場と段取りを整えるほうが続いた。教室の運営の型も、その考え方で組み立てる。",
+          en: "Setting up the room and the sequence so students could move on their own lasted longer than telling them what to do. I build class playbooks the same way.",
+        },
+      ],
+    },
     offerings: [
       {
         icon: "code",
