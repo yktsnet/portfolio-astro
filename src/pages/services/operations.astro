@@ -48,16 +48,16 @@ const metrics: Metric[] = [
 const offeringDetails: OfferingDetail[] = [
   {
     line: {
-      ja: '今の勤務の流れは変えずに、出退勤の打刻から給与計算に使う集計までを自動にする。スタッフはカードをかざすだけ。集計は管理者が見慣れたスプレッドシートに自動で並ぶので、月末に手で集計しなくてよくなる。',
-      en: 'The daily routine stays the same while everything from clock-ins to the payroll tally is automated. Staff just tap a card. The tally lands in the spreadsheet managers already use, so no more counting by hand at month end.',
+      ja: '給与の根拠になる勤務の記録を、人の申告ではなく機械で残す。スタッフは出退勤のときにカードをかざすだけで、給与計算に使う集計は管理者が見慣れたスプレッドシートに自動で並ぶ。勤務の流れは今のまま変えない。',
+      en: 'The record that payroll rests on is kept by machine, not by what people report. Staff just tap a card when arriving and leaving, and the payroll tally lands in the spreadsheet managers already use. The daily routine stays as it is.',
     },
     before: [
-      { ja: '出退勤の時刻を紙に自己申告する', en: 'Staff self-report their hours on paper' },
-      { ja: '月末に管理者が手で集計し、給与を手書きで計算する', en: 'At month end a manager tallies by hand and writes up payroll' },
+      { ja: '出退勤を紙に自己申告するので、水増しや書き忘れがそのまま給与に入る', en: 'Hours are self-reported on paper, so padding and forgotten entries go straight into pay' },
+      { ja: '月末に管理者が手で集計し、給与を手書きで計算する手間が毎月かかる', en: 'Every month a manager tallies by hand and writes up payroll' },
     ],
     after: [
-      { ja: '入るときと帰るときに、カードをかざすだけ', en: 'Tap a card when arriving and leaving, nothing else' },
-      { ja: '集計と給与計算用のデータは、スプレッドシートに自動で並ぶ', en: 'The tally and payroll data land in a spreadsheet automatically' },
+      { ja: '申告と実際の勤務がずれず、二度かざしや退勤の打刻忘れも仕組みが見分ける', en: 'Reported and actual hours stay in line, and double taps or missed clock-outs are caught by the system' },
+      { ja: '給与計算用の集計がスプレッドシートに自動で並び、月末の手作業がなくなる', en: 'The payroll tally lands in a spreadsheet, and the month-end handwork is gone' },
     ],
     decisions: [
       {
@@ -76,18 +76,18 @@ const offeringDetails: OfferingDetail[] = [
   },
   {
     line: {
-      ja: '今使っている契約書のExcelを共有フォルダに保存すれば、その時点でPDFができる。Webのフォームから作る方法も足すが、慣れていない人は今まで通りExcelに書いて保存すればよく、使える人から移ればいい。作った書類は1つの一覧に集まり、全文検索で探せる。',
-      en: 'Saving your current Excel contract to the shared folder produces the PDF on the spot. A web form is added too, but anyone not used to it can keep writing in Excel and saving as before; people move over when they are ready. Every document is gathered in one list with full-text search.',
+      ja: '毎回繰り返している、契約書のExcelへの手入力と過去の書類探しをなくす。Webのフォームに項目を入れれば、Excelへの書き込みからPDFまで自動で済む。パソコンの操作に不慣れな人は、フォームを使わずに今まで通りExcelに書いて共有フォルダに保存すればよく、それだけでPDFになる。',
+      en: 'This removes chores repeated every time: typing contracts into Excel by hand and hunting for old documents. Enter the fields in a web form and everything from filling the Excel file to the PDF is done. Staff less at home with computers can skip the form, keep writing in Excel as before and save to the shared folder; that alone makes the PDF.',
     },
     before: [
-      { ja: '前の契約書をコピーし、名前や部屋番号を書き換える', en: 'Copy the last contract and rewrite names and room numbers' },
-      { ja: '春の入退去の時期に、同じ作業が集中する', en: 'The same work piles up in the spring move-in season' },
-      { ja: '過去の書類はフォルダを開いて探す', en: 'Finding an old document means digging through folders' },
+      { ja: '前の契約書をコピーし、名前や部屋番号をExcelに1件ずつ打ち込み直す', en: 'Copy the last contract and retype names and room numbers into Excel one by one' },
+      { ja: '春の入退去の時期に、その打ち込みが集中する', en: 'That retyping piles up in the spring move-in season' },
+      { ja: '過去の書類は、フォルダを1つずつ開いて探す', en: 'Finding an old document means opening folders one by one' },
     ],
     after: [
-      { ja: 'Webのフォームに入力するか、共有フォルダのExcelを保存する', en: 'Fill in a web form, or save the Excel file in the shared folder' },
-      { ja: '保存した時点でPDFができる', en: 'The PDF is ready the moment it is saved' },
-      { ja: '作った書類は全文検索で探せる', en: 'Every document can be found with full-text search' },
+      { ja: 'フォームに入れるだけで、Excelへの手入力がなくなる', en: 'Fill in the form and the hand-typing into Excel is gone' },
+      { ja: '繁忙期でも、保存した時点でPDFができる', en: 'Even in peak season, the PDF is ready the moment it is saved' },
+      { ja: '過去の書類は、1つの一覧から全文検索で見つかる', en: 'Old documents turn up from one list with full-text search' },
     ],
     decisions: [
       {
