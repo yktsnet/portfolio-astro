@@ -22,7 +22,7 @@ const { service: s } = Astro.props;
 const others = services.filter((o) => o.slug !== s.slug);
 ---
 
-<MainLayout title={s.title.en} description={s.summary.ja} wide>
+<MainLayout title={s.title.en} description={s.summary.ja}>
   {/* Hero */}
   <section>
     <a href="/#services" class="inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors hover:text-poi-accent dark:text-poi-muted">
