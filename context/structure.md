@@ -7,7 +7,7 @@ src/
   assets/
     photos/       # フォトギャラリー用 (.webp)。ビルド時に寸法取得・リサイズする
   components/     # 再利用可能なAstro/Reactコンポーネント
-  data/           # 静的データ (services.ts / works.ts / photos.ts)
+  data/           # 静的データ (services.ts / photos.ts)
   layouts/        # ページレイアウト
   lib/            # ユーティリティ・APIロジック・i18n
   pages/          # ルーティング (Astroファイル構造に対応)
@@ -19,13 +19,13 @@ src/
 
 `src/pages/` のファイル構造がそのままパスになる。`/api/*` を除き全て静的出力。
 
-サービスの詳細ページは `src/pages/services/[slug].astro` が `services.ts` から `/services/<slug>/` を生成する。
+サービスの詳細ページは `src/pages/services/[slug].astro` が `services.ts` から `/services/<slug>/` を生成する。`/services/operations/` だけは `src/pages/services/operations.astro` で個別に組んでいる。
 
 ## データフロー
 
-- サービス・Works・写真は `src/data/*.ts`
+- サービス・写真は `src/data/*.ts`
 - トップページの各節は `src/pages/index.astro` に直書き
-- 経歴の年表と技術の範囲（Career）・Impact・Principles は各コンポーネント内に直書き
+- 経歴の年表と技術の範囲は `Career.astro` に直書き
 
 ## APIエンドポイント
 
@@ -33,7 +33,7 @@ src/
 
 | エンドポイント | 役割 |
 |---|---|
-| `POST /api/contact` | Turnstile検証 → Discord Webhookへ転送 |
+| `POST /api/contact` | Turnstile検証 → Telegramへ転送 |
 | `POST /api/chat` | folio-agent のチャット応答 |
 
 ## 静的アセット

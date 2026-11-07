@@ -42,7 +42,7 @@ npm install
 npm run dev
 npm run build     # Production build (astro build + folio-agent-ingest to generate knowledge.json)
 npm run preview   # Local check after build
-npm test          # API unit tests
+npm test          # Unit tests
 npm run typecheck # Type checking
 ```
 

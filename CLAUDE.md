@@ -32,15 +32,13 @@ PR 前に `npm run typecheck` と `npm run test` を通す。実行確認が必�
 
 トップページの Hero・Services・About の各節は `src/pages/index.astro` に直書きしている。About の節の年表と技術の範囲は `src/components/Career.astro` にある。`/about` はトップの About の節へ転送する。
 
-旧トップの Works は `/works/` に、旧ページの Impact と Principles は元の URL（`/impact/`・`/principles/`）に、どこからもリンクせず、検索エンジンに載せない指定（noindex）を付けて残している。Works のデータソースは `src/data/works.ts`、Impact と Principles の内容は各コンポーネントに直書きしている。
-
 ### アイコンシステム
 
-**Lucide アイコン**（Works カードのアイコン、ナビゲーション等）:
+**Lucide アイコン**（サービスのアイコン、ナビゲーション等）:
 - `src/lib/lucide.ts` に SVG パスを手動で列挙した独自サブセット
 - 新しいアイコンを使う際は同ファイルにエントリを追加する（npm package は使わない）
 
-**ブランドアイコン**（Career・Principles の技術表示に使う色付きロゴ）:
+**ブランドアイコン**（Career の技術表示に使う色付きロゴ）:
 - `src/lib/brand-icons.ts` で `simple-icons` から必要なものだけ re-export
 - 新しいブランドを追加する際は同ファイルに追記する
 
