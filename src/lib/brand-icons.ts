@@ -1,6 +1,6 @@
 import { siRaspberrypi, siCloudflare, siNixos, siEspressif, siPython, siReact, siPostgresql, siGo, siVuedotjs, siDotnet, siLanggraph, siTypescript, siTerraform } from "simple-icons";
 
-export type BrandIcon = { path: string; hex: string; viewBox?: string };
+export type BrandIcon = { path: string; hex: string };
 
 const map: Record<string, BrandIcon> = {
   "raspberry-pi": { path: siRaspberrypi.path, hex: siRaspberrypi.hex },

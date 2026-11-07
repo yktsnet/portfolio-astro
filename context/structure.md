@@ -6,7 +6,7 @@
 src/
   assets/
     photos/       # フォトギャラリー用 (.webp)。ビルド時に寸法取得・リサイズする
-  components/     # 再利用可能なAstro/Reactコンポーネント
+  components/     # 再利用可能なAstroコンポーネント
   data/           # 静的データ (services.ts / photos.ts)
   layouts/        # ページレイアウト
   lib/            # ユーティリティ・APIロジック・i18n

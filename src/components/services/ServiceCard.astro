@@ -31,7 +31,7 @@ const { service: s, reverse = false } = Astro.props;
             <LucideIcon name={o.icon} class="mt-1 h-4 w-4 shrink-0 text-poi-accent" />
             <span>
               <T text={o.title} />
-              {o.short && <span class="mt-0.5 block type-caption leading-6 text-zinc-500 dark:text-poi-muted"><T text={o.short} /></span>}
+              <span class="mt-0.5 block type-caption leading-6 text-zinc-500 dark:text-poi-muted"><T text={o.short} /></span>
             </span>
           </li>
         ))}

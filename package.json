@@ -9,13 +9,11 @@
     "typecheck": "astro check",
     "test": "vitest run",
     "test:watch": "vitest",
-    "sync-zenn": "folio-agent-sync-zenn folio-agent.config.json zenn-snapshot.json",
-    "sync-github": "folio-agent-sync-github folio-agent.config.json github-snapshot.json"
+    "sync-zenn": "folio-agent-sync-zenn folio-agent.config.json zenn-snapshot.json"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.12",
     "@astrojs/cloudflare": "^14.4.2",
-    "@astrojs/react": "^7.1.1",
     "@astrojs/sitemap": "^3.7.4",
     "@folio-agent/handler": "^0.8.1",
     "@folio-agent/widget": "^0.8.1",
@@ -23,8 +21,6 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.4.2",
     "hono": "^4.13.14",
-    "react": "^19.3.1",
-    "react-dom": "^19.3.1",
     "simple-icons": "^16.36.0",
     "tailwindcss": "^4.3.2",
     "typescript": "^5.9.3"
