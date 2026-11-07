@@ -1,0 +1,10 @@
+---
+// MultilingualText を日英の span に展開する
+import type { MultilingualText } from '../lib/i18n';
+
+interface Props {
+  text: MultilingualText;
+}
+const { text } = Astro.props;
+---
+<span class="lang-ja">{text.ja}</span><span class="lang-en">{text.en}</span>

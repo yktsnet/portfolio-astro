@@ -12,6 +12,7 @@ interface Props {
   ogType?: "website" | "article";
   publishedTime?: Date;
   modifiedTime?: Date;
+  noindex?: boolean;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   ogType,
   publishedTime,
   modifiedTime,
+  noindex,
 } = Astro.props;
 ---
 
@@ -34,6 +36,7 @@ const {
   ogType={ogType}
   publishedTime={publishedTime}
   modifiedTime={modifiedTime}
+  noindex={noindex}
 >
   <!-- ===== Mobile: Hero + ナビ + セクション ===== -->
   <div class="sm:hidden mb-12">

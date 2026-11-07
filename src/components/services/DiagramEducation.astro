@@ -1,0 +1,30 @@
+---
+import DgText from './DgText.astro';
+---
+<svg class="dg h-auto w-full" viewBox="0 0 440 300" role="img" aria-label="教室・塾の事業を中心に、運営の型・塾への導入・出席管理・教材のデータ化を組み合わせる図">
+  <defs>
+    <marker id="dg-ed-mk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="dg-mk" d="M0 0L10 5L0 10z" /></marker>
+  </defs>
+  <path class="dg-box" d="M172 146L220 112L268 146V206H172Z" />
+  <rect class="dg-line" x="207" y="174" width="26" height="32" />
+  <path class="dg-soft" d="M184 158h16M240 158h16" />
+  <DgText x={220} y={228} ja="教室・塾の事業" en="School business" />
+
+  <rect class="dg-accbox" x="12" y="26" width="140" height="52" rx="8" />
+  <DgText x={82} y={48} ja="運営の型" en="Class playbook" class="dg-acctext" />
+  <DgText x={82} y={66} ja="カリキュラム・手順" en="curriculum, routine" class="dg-small" />
+  <rect class="dg-accbox" x="288" y="26" width="140" height="52" rx="8" />
+  <DgText x={358} y={48} ja="塾への導入" en="Into the school" class="dg-acctext" />
+  <DgText x={358} y={66} ja="入口を増やす" en="new enrollment path" class="dg-small" />
+  <rect class="dg-accbox" x="12" y="222" width="140" height="52" rx="8" />
+  <DgText x={82} y={244} ja="出席管理" en="Attendance" class="dg-acctext" />
+  <DgText x={82} y={262} ja="NFC カード" en="NFC cards" class="dg-small" />
+  <rect class="dg-accbox" x="288" y="222" width="140" height="52" rx="8" />
+  <DgText x={358} y={244} ja="教材のデータ化" en="Exam data" class="dg-acctext" />
+  <DgText x={358} y={262} ja="採点・分析" en="grading, analysis" class="dg-small" />
+
+  <path class="dg-acc" marker-end="url(#dg-ed-mk)" d="M154 64C186 64 196 92 200 112" />
+  <path class="dg-acc" marker-end="url(#dg-ed-mk)" d="M286 64C254 64 244 92 240 112" />
+  <path class="dg-acc" marker-end="url(#dg-ed-mk)" d="M154 240C164 240 166 196 170 190" />
+  <path class="dg-acc" marker-end="url(#dg-ed-mk)" d="M286 240C276 240 274 196 270 190" />
+</svg>

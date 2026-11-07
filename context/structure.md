@@ -7,7 +7,7 @@ src/
   assets/
     photos/       # フォトギャラリー用 (.webp)。ビルド時に寸法取得・リサイズする
   components/     # 再利用可能なAstro/Reactコンポーネント
-  data/           # 静的データ (works.ts / photos.ts)
+  data/           # 静的データ (services.ts / works.ts / photos.ts)
   layouts/        # ページレイアウト
   lib/            # ユーティリティ・APIロジック・i18n
   pages/          # ルーティング (Astroファイル構造に対応)
@@ -19,10 +19,13 @@ src/
 
 `src/pages/` のファイル構造がそのままパスになる。`/api/*` を除き全て静的出力。
 
+サービスの詳細ページは `src/pages/services/[slug].astro` が `services.ts` から `/services/<slug>/` を生成する。
+
 ## データフロー
 
-- Works・写真は `src/data/*.ts`
-- About・Approach・Impact は各コンポーネント内に直書き
+- サービス・Works・写真は `src/data/*.ts`
+- トップページの各節は `src/pages/index.astro` に直書き
+- About・Impact・Principles は各コンポーネント内に直書き
 
 ## APIエンドポイント
 

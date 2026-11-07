@@ -1,72 +1,190 @@
 ---
-import ProfileLayout from '../layouts/ProfileLayout.astro';
-import HostingArchitecture from '../components/HostingArchitecture.astro';
-import WorkSteps from '../components/WorkSteps.astro';
-import AllWorks from '../components/AllWorks.astro';
-import WorkFilter from '../components/WorkFilter.astro';
-import { works, researches, getCategoryIcon } from '../data/works';
-import { getLucideIcon } from '../lib/lucide';
+import MainLayout from '../layouts/MainLayout.astro';
+import T from '../components/T.astro';
+import LucideIcon from '../components/LucideIcon.astro';
+import SectionHead from '../components/services/SectionHead.astro';
+import ServiceCard from '../components/services/ServiceCard.astro';
+import ProcessSteps from '../components/services/ProcessSteps.astro';
+import ContactCta from '../components/services/ContactCta.astro';
+import { services, type Step } from '../data/services';
 import { siteConfig } from '../site.config';
 
-// 現場導入（inUse trueが上）を第一キー、優先度（priority 昇順）を第二キー、時系列（publishedAt 降順）を第三キーとしてソート
-const sortedWorks = [...works].sort((a, b) => {
-  if (!!a.inUse !== !!b.inUse) {
-    return a.inUse ? -1 : 1;
-  }
-  if (a.priority !== b.priority) {
-    return a.priority - b.priority;
-  }
-  const dateA = a.publishedAt || "0000.00";
-  const dateB = b.publishedAt || "0000.00";
-  return dateB.localeCompare(dateA);
-});
-
-// 全件を同じ軽いカードで並べる。研究も別枠に戻さず同じ一覧に入れる
-const allItems = [
-  ...sortedWorks.map(w => ({
-    title: w.title,
-    icon: w.icon,
-    description: w.description,
-    href: w.href,
-    publishedAt: w.publishedAt,
-    inUse: w.inUse,
-    categoryTag: w.categoryTag,
-    tagIconPath: getLucideIcon(getCategoryIcon(w.categoryTag)),
-  })),
-  ...researches.map(r => ({
-    title: r.title,
-    description: r.description,
-    href: r.href,
-    publishedAt: r.publishedAt,
-  })),
+// トップの数字は、導入の結果と経営の経験から拾う。AI と教育は成果の数字を出さない
+const numbers = [
+  { tag: 'ATTENDANCE', value: '−5', unit: { ja: '時間/月', en: 'h/mo' }, label: { ja: '管理者の勤怠集計の工数', en: 'Admin hours on attendance' } },
+  { tag: 'PAYROLL', value: '−3〜4', unit: { ja: '万円/月', en: '×10k JPY/mo' }, label: { ja: '給与計算の月次差異', en: 'Monthly payroll discrepancy' } },
+  { tag: 'ADOPTION', value: 'Day 1', unit: { ja: '', en: '' }, label: { ja: '説明なしで現場に定着', en: 'Adopted without instructions' } },
+  { tag: 'TUTORING', value: '12', unit: { ja: '年', en: 'yrs' }, label: { ja: '学習塾の経営', en: 'Running a tutoring school' } },
 ];
 
-// ユニークなカテゴリタグの抽出（小文字、アルファベット順にソート）
-const allUniqueCategoryTags = Array.from(
-  new Set(works.map(w => w.categoryTag))
-).sort();
+const process: Step[] = [
+  {
+    title: { ja: '困りごとを1つ選ぶ', en: 'Pick one problem' },
+    body: {
+      ja: '現場の作業と費用を聞き、効果が大きく、小さく始められる1点を決める。',
+      en: 'Hear about the work and the costs, and pick one point with a large payoff that can start small.',
+    },
+    duration: { ja: '1〜2週間', en: '1–2 weeks' },
+  },
+  {
+    title: { ja: '1つ作って入れる', en: 'Build one thing and put it in' },
+    body: {
+      ja: 'いまの運用を変えない形で作り、現場で試す。説明が要らない作りにする。',
+      en: 'Build it without changing how people work, and try it on the floor. It should need no instructions.',
+    },
+    duration: { ja: '2〜6週間', en: '2–6 weeks' },
+  },
+  {
+    title: { ja: '定着を確かめて広げる', en: 'Confirm it sticks, then expand' },
+    body: {
+      ja: '使われ方と数字を確かめ、次の業務へ広げる。制度づくりや体制づくりまで付き合う。',
+      en: 'Check how it is used and what the numbers say, then move to the next task, up to policies and team structure.',
+    },
+    duration: { ja: '継続', en: 'Ongoing' },
+  },
+];
 
-const resolvedTags = allUniqueCategoryTags.map(tag => {
-  const count = works.filter(w => w.categoryTag === tag).length;
-  return {
-    name: tag,
-    count,
-    iconPath: getLucideIcon(getCategoryIcon(tag)),
-  };
-});
+const caseTimeline = [
+  { title: { ja: '背景', en: 'Context' }, body: { ja: 'オーナーが現場を離れたい', en: 'The owner wants to step back' } },
+  { title: { ja: '勤怠システムを納品', en: 'Attendance system delivered' }, body: { ja: '月5時間の集計と、給与の差異がなくなる', en: '5 hours of monthly tallying and payroll gaps disappear' }, on: true },
+  { title: { ja: '書類作成の自動化', en: 'Document automation' }, body: { ja: '共有 Excel から契約書を作り、全文検索で探せる', en: 'Contracts generated from shared Excel, full-text searchable' } },
+  { title: { ja: '空室情報の配信', en: 'Vacancy distribution' }, body: { ja: '設計中', en: 'In design' } },
+];
 ---
 
-<ProfileLayout current="works" title={siteConfig.author}>
-  {/* 上部: 共同ホスト基盤「NixOS + Docker」の解説と構成図モニター */}
-  <HostingArchitecture />
+<MainLayout title={siteConfig.author} wide>
+  {/* Hero */}
+  <section>
+    <p class="font-mono text-xs tracking-widest uppercase text-poi-muted">Katsuhiro Yamakawa — Builder</p>
+    <h1 class="mt-3 text-2xl sm:text-[32px] font-semibold leading-normal tracking-tight text-zinc-900 dark:text-poi-focus">
+      <span class="lang-ja"><span class="block">いまのやり方のまま、</span><span class="block"><span class="text-poi-accent">仕組み</span>を後付けする。</span></span>
+      <span class="lang-en"><span class="block">Keep how people work.</span><span class="block">Add the <span class="text-poi-accent">systems</span> behind it.</span></span>
+    </h1>
+    <p class="mt-5 max-w-2xl text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+      <span class="lang-ja">現場の Excel や紙の運用は変えずに、裏側を自動化する。AI と開発する型を、経営と現場の両方に根づかせる。教育事業の立ち上げにも入る。どれも設計から実装、定着までを1人で受け持ち、作ったものは GitHub で公開している。</span>
+      <span class="lang-en">I automate what happens behind existing Excel and paper workflows, root the practice of building with AI in both management and teams, and help launch education businesses. I handle each one alone, from design through build to adoption, and publish what I build on GitHub.</span>
+    </p>
+    <div class="mt-7 flex flex-wrap items-center gap-5">
+      <a href="#services" class="inline-flex items-center gap-2 rounded-md border border-zinc-200 dark:border-poi-border bg-white dark:bg-poi-base px-4 py-2 font-mono text-xs text-zinc-800 dark:text-poi-focus transition-colors hover:border-poi-accent hover:text-poi-accent">
+        <span class="lang-ja">できることを見る</span><span class="lang-en">See what I do</span>
+        <LucideIcon name="arrow-right" class="h-3.5 w-3.5" />
+      </a>
+      <a href="https://github.com/yktsnet" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
+        <LucideIcon name="github" class="h-3.5 w-3.5" />
+        github.com/yktsnet
+      </a>
+    </div>
 
-  {/* 三段それぞれを1枚のパネルで説明し、作品は証拠として1件だけ引く */}
-  <div class="mt-10 sm:mt-12">
-    <WorkSteps />
-  </div>
+    <dl class="mt-12 grid grid-cols-2 gap-6 border-t border-zinc-200 pt-6 dark:border-poi-border/60 md:grid-cols-4">
+      {numbers.map((n) => (
+        <div>
+          <dt class="font-mono text-[10px] tracking-widest text-poi-muted">{n.tag}</dt>
+          <dd class="mt-1 font-mono text-2xl font-medium text-poi-accent">
+            {n.value}<span class="ml-0.5 text-xs"><T text={n.unit} /></span>
+          </dd>
+          <dd class="text-xs text-zinc-600 dark:text-poi-muted"><T text={n.label} /></dd>
+        </div>
+      ))}
+    </dl>
+  </section>
 
-  {/* 下段: 全件一覧。フィルタの対象はこの一覧のみ */}
-  <AllWorks items={allItems}>
-    <WorkFilter slot="filter" resolvedTags={resolvedTags} />
-  </AllWorks>
-</ProfileLayout>
+  {/* Services */}
+  <section id="services" class="mt-24 scroll-mt-28">
+    <SectionHead
+      kicker="Services"
+      title={{ ja: '3つの領域で、仕組みを入れる', en: 'Three areas where I put systems in place' }}
+      lead={{
+        ja: '道具を入れて終わりにはしない。小さく1つ入れ、現場に定着したのを確かめてから広げる。使っている仕組みは GitHub で公開している。',
+        en: 'Delivery is not the end. I put in one small thing, confirm it has taken hold, then expand. The building blocks are public on GitHub.',
+      }}
+    />
+    <div class="mt-10 space-y-6">
+      {services.map((s, idx) => <ServiceCard service={s} reverse={idx % 2 === 1} />)}
+    </div>
+  </section>
+
+  {/* Process */}
+  <section id="process" class="mt-24 scroll-mt-28">
+    <SectionHead
+      kicker="Process"
+      title={{ ja: '小さく入れて、定着を確かめてから広げる', en: 'Start small, confirm it sticks, then expand' }}
+      lead={{
+        ja: '最初に大きな計画は立てない。困りごとを1つ選んで道具を1つ入れ、現場で使われるのを確かめる。次の相談はそこから生まれる。',
+        en: 'No big plan up front. Pick one problem, put in one tool, and confirm it is used. The next request grows out of that.',
+      }}
+    />
+    <div class="mt-10">
+      <ProcessSteps steps={process} />
+    </div>
+  </section>
+
+  {/* Case */}
+  <section id="case" class="mt-24 scroll-mt-28">
+    <SectionHead kicker="Case" title={{ ja: '導入事例', en: 'Case study' }} />
+    <div class="mt-8 grid overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-poi-border/70 dark:bg-poi-base md:grid-cols-[1.15fr_1fr]">
+      <div class="p-6 sm:p-9">
+        <p class="font-mono text-[11px] tracking-widest uppercase text-poi-muted">Property Management</p>
+        <h3 class="mt-2 text-lg font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
+          <span class="lang-ja">マンション管理会社の外部 CTO として、勤怠から書類作成まで自動化</span>
+          <span class="lang-en">As external CTO of a property management company, automating everything from attendance to documents</span>
+        </h3>
+        <p class="mt-3 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted">
+          <span class="lang-ja">オーナーは現場を離れたいのに、経営実務が属人化していて動けなかった。費用の6割を占める人件費から手を付け、IC カードの打刻を最初に入れた。初日から定着し、相談は契約書の自動作成や情報配信へ広がっている。</span>
+          <span class="lang-en">The owner wanted to step back, but management work was tied to individuals. I started with labor, 60% of costs, and put in IC card clock-ins first. It stuck from day one, and requests have grown to contract generation and information distribution.</span>
+        </p>
+        <a href="/services/operations/" class="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
+          <span class="lang-ja">業務の自動化を見る</span><span class="lang-en">See Operations Automation</span>
+          <LucideIcon name="arrow-right" class="h-3.5 w-3.5" />
+        </a>
+      </div>
+      <ol class="border-t border-zinc-200 bg-zinc-100/60 p-6 sm:p-9 dark:border-poi-border/70 dark:bg-poi-panel/40 md:border-t-0 md:border-l">
+        {caseTimeline.map((t, idx) => (
+          <li class="relative pb-5 pl-6 last:pb-0 text-xs">
+            {idx < caseTimeline.length - 1 && <span class="absolute left-[5px] top-4 bottom-0 w-px bg-zinc-200 dark:bg-poi-border" aria-hidden="true"></span>}
+            <span class:list={[
+              "absolute left-0 top-1.5 h-3 w-3 rounded-full border-2",
+              t.on ? "border-poi-accent bg-poi-accent" : "border-zinc-300 bg-zinc-50 dark:border-poi-border dark:bg-poi-base",
+            ]} aria-hidden="true"></span>
+            <p class:list={["text-[13px] font-semibold", t.on ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus"]}><T text={t.title} /></p>
+            <p class="text-zinc-600 dark:text-poi-muted"><T text={t.body} /></p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* About */}
+  <section id="about" class="mt-24 scroll-mt-28">
+    <SectionHead kicker="About" title={{ ja: '1人で、作るところから根づかせるところまで', en: 'One person, from building to taking root' }} />
+    <div class="mt-8 flex flex-col gap-6 rounded-lg border border-zinc-200 bg-white p-6 sm:flex-row sm:p-9 dark:border-poi-border/70 dark:bg-poi-base">
+      <img src="/images/profile/me.webp" alt="Katsuhiro Yamakawa" class="h-24 w-24 shrink-0 rounded-full object-cover" />
+      <div>
+        <p class="text-lg font-semibold text-zinc-900 dark:text-poi-focus">Katsuhiro Yamakawa</p>
+        <p class="font-mono text-xs text-poi-accent">Builder</p>
+        <p class="mt-3 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted">
+          <span class="lang-ja">学習塾を12年、合同会社を設立から清算まで経営してきた。いまは受託開発の企業に勤めながら、個人でも開発とコンサルを受けている。事業を回す側にいたので、数字を見て直すものを決めるところから入る。</span>
+          <span class="lang-en">Twelve years running a tutoring school, and an LLC from founding to liquidation. Now I work at a contract development firm while taking on development and consulting on my own. Having run businesses, I start by deciding what to fix from the numbers.</span>
+        </p>
+        <div class="mt-4 flex flex-wrap gap-5">
+          <a href="/about/" class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
+            <span class="lang-ja">経歴を見る</span><span class="lang-en">Read more</span>
+            <LucideIcon name="arrow-right" class="h-3.5 w-3.5" />
+          </a>
+          <a href="https://zenn.dev/yktsnet" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
+            Zenn <LucideIcon name="external-link" class="h-3 w-3" />
+          </a>
+          <a href="/photos/" class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent hover:underline underline-offset-4">
+            Photos <LucideIcon name="arrow-right" class="h-3.5 w-3.5" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-24">
+    <ContactCta
+      title={{ ja: 'まずは、困りごとを1つ聞かせてほしい。', en: 'Start by telling me about one problem.' }}
+      body={{ ja: '作るかどうかはその後に決める。相談だけでも構わない。', en: 'Whether to build anything comes later. Just talking it through is fine.' }}
+    />
+  </section>
+</MainLayout>

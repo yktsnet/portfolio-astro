@@ -28,9 +28,11 @@ PR 前に `npm run typecheck` と `npm run test` を通す。実行確認が必�
 
 ### ページ描画とデータの流れ
 
-`src/data/works.ts` がトップページ Works セクションのデータソース。Works の追加・変更はここだけを触れば反映される。
+`src/data/services.ts` が、トップページの Services 節と `/services/<slug>/` の詳細ページのデータソース。サービスと、その中で提供できることの追加・変更はここだけを触れば反映される。サービスごとの簡易図は `src/components/services/Diagram*.astro` に SVG で直書きしている。
 
-About・Approach・Impact の各セクションは `src/data/` を経由せず、`src/components/{About,Approach,Impact}.astro` 内にデータを直書きしている。これらの内容変更は各コンポーネントを編集する。
+トップページの Hero・Process・Case・About の各節は、`src/pages/index.astro` に直書きしている。`/about/` の本文は `src/components/About.astro` にある。
+
+旧トップの Works は `/works/` に、Impact と Principles は元の URL に、どこからもリンクせず、検索エンジンに載せない指定（noindex）を付けて残している。Works のデータソースは `src/data/works.ts`、Impact と Principles の内容は各コンポーネントに直書きしている。
 
 ### アイコンシステム
 

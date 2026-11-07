@@ -1,0 +1,41 @@
+---
+import DgText from './DgText.astro';
+---
+<svg class="dg h-auto w-full" viewBox="0 0 440 300" role="img" aria-label="Excel・紙・IC カードの入力を、後付けの自動化が PDF・検索・集計へつなぐ図">
+  <defs>
+    <marker id="dg-op-mk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="dg-mk" d="M0 0L10 5L0 10z" /></marker>
+  </defs>
+  <DgText x={68} y={24} ja="いまの運用" en="As it is" class="dg-small" />
+  <DgText x={372} y={24} ja="自動で出る" en="Produced" class="dg-small" />
+
+  <rect class="dg-box" x="20" y="40" width="96" height="56" rx="6" />
+  <path class="dg-soft" d="M34 56h68M34 68h68M34 80h44" />
+  <DgText x={68} y={114} ja="Excel 帳票" en="Excel forms" class="dg-small" />
+  <rect class="dg-box" x="20" y="130" width="96" height="56" rx="6" />
+  <path class="dg-soft" d="M44 146h48M44 158h48M44 170h30" />
+  <DgText x={68} y={204} ja="紙の書類" en="Paper" class="dg-small" />
+  <rect class="dg-box" x="36" y="222" width="64" height="40" rx="5" />
+  <path class="dg-line" d="M50 248a8 8 0 0 1 8-8M50 248a14 14 0 0 1 14-14" />
+  <DgText x={68} y={282} ja="IC カード" en="IC card" class="dg-small" />
+
+  <rect class="dg-accbox" x="166" y="70" width="108" height="160" rx="10" stroke-dasharray="5 4" />
+  <DgText x={220} y={140} ja="後付けの" en="Added" class="dg-acctext" />
+  <DgText x={220} y={160} ja="自動化" en="automation" class="dg-acctext" />
+  <circle class="dg-acc" cx="220" cy="196" r="10" />
+  <path class="dg-acc" d="M220 190v6l4 3" />
+  <path class="dg-line" marker-end="url(#dg-op-mk)" d="M118 68C142 68 142 110 164 110" />
+  <path class="dg-line" marker-end="url(#dg-op-mk)" d="M118 158H164" />
+  <path class="dg-line" marker-end="url(#dg-op-mk)" d="M102 242C142 242 142 206 164 206" />
+
+  <path class="dg-acc" marker-end="url(#dg-op-mk)" d="M276 110C300 110 300 68 322 68" />
+  <path class="dg-acc" marker-end="url(#dg-op-mk)" d="M276 150H322" />
+  <path class="dg-acc" marker-end="url(#dg-op-mk)" d="M276 196C300 196 300 232 322 232" />
+  <rect class="dg-box" x="324" y="44" width="96" height="48" rx="6" />
+  <DgText x={372} y={72} ja="PDF" en="PDF" />
+  <rect class="dg-box" x="324" y="126" width="96" height="48" rx="6" />
+  <circle class="dg-line" cx="352" cy="148" r="7" /><path class="dg-line" d="M357 153l6 6" />
+  <DgText x={390} y={154} ja="検索" en="Search" />
+  <rect class="dg-box" x="324" y="208" width="96" height="48" rx="6" />
+  <path class="dg-line" d="M340 244v-10M350 244v-18M360 244v-6" />
+  <DgText x={392} y={236} ja="集計" en="Tally" />
+</svg>

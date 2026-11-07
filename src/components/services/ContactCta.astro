@@ -1,0 +1,22 @@
+---
+import T from '../T.astro';
+import LucideIcon from '../LucideIcon.astro';
+import type { MultilingualText } from '../../lib/i18n';
+
+interface Props {
+  title: MultilingualText;
+  body: MultilingualText;
+}
+const { title, body } = Astro.props;
+---
+<div id="contact" class="rounded-lg border border-zinc-200 dark:border-poi-border/70 bg-white dark:bg-poi-base px-6 py-12 text-center">
+  <h2 class="text-lg sm:text-xl font-semibold text-zinc-900 dark:text-poi-focus"><T text={title} /></h2>
+  <p class="mt-2 text-[13px] text-zinc-600 dark:text-poi-muted"><T text={body} /></p>
+  <a
+    href="/contact/"
+    class="mt-6 inline-flex items-center gap-2 rounded-md border border-zinc-200 dark:border-poi-border bg-white dark:bg-poi-base px-4 py-2 font-mono text-xs text-zinc-800 dark:text-poi-focus transition-colors hover:border-poi-accent hover:text-poi-accent"
+  >
+    <LucideIcon name="mail" />
+    <span class="lang-ja">相談する</span><span class="lang-en">Get in touch</span>
+  </a>
+</div>

@@ -7,14 +7,14 @@ interface Props {
 const { current } = Astro.props;
 
 const items = [
-  { label: 'WORKS', href: '/', key: 'works', icon: 'flag' },
+  { label: 'WORKS', href: '/works/', key: 'works', icon: 'flag' },
   { label: 'IMPACT', href: '/impact/', key: 'impact', icon: 'thumbs-up' },
   { label: 'ABOUT', href: '/about/', key: 'about', icon: 'circle-user-round' },
   { label: 'PRINCIPLES', href: '/principles/', key: 'principles', icon: 'brain' },
 ];
 ---
 
-<aside class="w-56 shrink-0 sticky top-12 self-start hidden sm:block">
+<aside class="w-56 shrink-0 sticky top-24 self-start hidden sm:block">
   <img
     src="/images/profile/me.webp"
     alt="Katsuhiro Yamakawa"

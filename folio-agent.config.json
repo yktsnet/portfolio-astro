@@ -3,6 +3,10 @@
   "include": [
     "/",
     "/about",
+    "/services/operations",
+    "/services/ai-development",
+    "/services/education",
+    "/works",
     "/principles",
     "/impact"
   ],
