@@ -3,11 +3,11 @@ import { Image, getImage } from "astro:assets";
 import MainLayout from "../../layouts/MainLayout.astro";
 import { photos, type Photo } from "../../data/photos";
 
-// 本文の列は max-w-5xl（1024px）で頭打ちになる。full はその全幅、pair は半幅で出る
-const FULL_SIZES = "(min-width: 1024px) 1024px, 100vw";
-const PAIR_SIZES = "(min-width: 1024px) 508px, 50vw";
-const FULL_WIDTHS = [480, 1024, 1536, 2048];
-const PAIR_WIDTHS = [320, 508, 762, 1016];
+// 本文の列は max-w-5xl（1024px、左右パディング 32px×2 を除くと 960px）で頭打ちになる。full はその全幅、pair は半幅で出る
+const FULL_SIZES = "(min-width: 1024px) 960px, 100vw";
+const PAIR_SIZES = "(min-width: 1024px) 476px, 50vw";
+const FULL_WIDTHS = [480, 960, 1440, 1920];
+const PAIR_WIDTHS = [320, 476, 714, 952];
 const widthsFor = (photo: Photo, widths: number[]) =>
   widths.filter((w) => w <= photo.src.width);
 
@@ -81,11 +81,11 @@ function toRhythmChunks(items: Photo[]) {
     </ul>
   </nav>
 
-  <div class="-mx-4 sm:-mx-8">
+  <div>
     {sections.map((section) => (
       <section id={section.id} class="mb-20">
         <!-- 見出しはスクロール中も残し、いまどのセクションかを示す -->
-        <div class="sticky top-0 z-10 flex items-baseline gap-3 bg-zinc-50/90 px-4 py-3 mb-3 backdrop-blur dark:bg-poi-base/90 sm:px-8">
+        <div class="sticky top-0 z-10 flex items-baseline gap-3 bg-zinc-50/90 py-3 mb-3 backdrop-blur dark:bg-poi-base/90">
           <h2 class="type-subheading font-normal text-light-accent dark:text-poi-accent">
             {section.location}
           </h2>
