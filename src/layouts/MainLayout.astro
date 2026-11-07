@@ -98,7 +98,7 @@ const year = new Date().getFullYear();
       }
     </style>
   </head>
-  <body class:list={["bg-zinc-50 text-zinc-900 dark:bg-poi-base dark:text-poi-focus mx-auto flex min-h-screen flex-col px-5 pt-9 font-mono text-sm font-normal antialiased sm:px-8 transition-colors duration-300", wide ? "max-w-5xl" : "max-w-4xl"]}>
+  <body class:list={["bg-zinc-50 text-zinc-900 dark:bg-poi-base dark:text-poi-focus mx-auto flex min-h-screen flex-col px-5 pt-9 font-mono type-body font-normal antialiased sm:px-8 transition-colors duration-300", wide ? "max-w-5xl" : "max-w-4xl"]}>
     <SiteHeader currentPath={Astro.url.pathname} />
     <main id="main" class="flex-1">
       <slot />

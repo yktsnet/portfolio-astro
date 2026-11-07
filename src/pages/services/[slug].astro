@@ -25,18 +25,18 @@ const others = services.filter((o) => o.slug !== s.slug);
 <MainLayout title={s.title.en} description={s.summary.ja} wide>
   {/* Hero */}
   <section>
-    <a href="/#services" class="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-poi-accent dark:text-poi-muted">
+    <a href="/#services" class="inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors hover:text-poi-accent dark:text-poi-muted">
       <span aria-hidden="true">←</span>
       <span class="lang-ja">個人として受けていること</span><span class="lang-en">Work I take on</span>
     </a>
-    <p class="mt-8 flex items-center gap-2 font-mono text-xs tracking-widest text-poi-accent">
+    <p class="mt-8 flex items-center gap-2 font-mono type-caption tracking-widest text-poi-accent">
       <LucideIcon name={s.icon} />
       {s.no} — {s.kicker}
     </p>
-    <h1 class="mt-3 max-w-3xl text-2xl sm:text-[30px] font-semibold leading-normal tracking-tight text-zinc-900 dark:text-poi-focus">
+    <h1 class="mt-3 max-w-3xl type-display font-semibold leading-normal tracking-tight text-zinc-900 dark:text-poi-focus">
       <T text={s.heroTitle} />
     </h1>
-    <p class="mt-5 max-w-2xl text-sm leading-7 text-zinc-600 dark:text-poi-muted"><T text={s.heroBody} /></p>
+    <p class="mt-5 max-w-2xl type-lead leading-7 text-zinc-600 sm:leading-8 dark:text-poi-muted"><T text={s.heroBody} /></p>
   </section>
 
   {/* 課題 */}
@@ -45,9 +45,9 @@ const others = services.filter((o) => o.slug !== s.slug);
     <div class="mt-8 grid gap-4 md:grid-cols-3">
       {s.problems.map((p, idx) => (
         <div class="rounded-lg border border-zinc-200 bg-white p-6 dark:border-poi-border/70 dark:bg-poi-base">
-          <p class="font-mono text-[11px] text-poi-accent">0{idx + 1}</p>
-          <h3 class="mt-2 text-sm font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={p.title} /></h3>
-          <p class="mt-1.5 text-xs leading-6 text-zinc-600 dark:text-poi-muted"><T text={p.body} /></p>
+          <p class="font-mono type-label text-poi-accent">0{idx + 1}</p>
+          <h3 class="mt-2 type-body font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={p.title} /></h3>
+          <p class="mt-1.5 type-caption leading-6 text-zinc-600 dark:text-poi-muted"><T text={p.body} /></p>
         </div>
       ))}
     </div>
@@ -66,7 +66,7 @@ const others = services.filter((o) => o.slug !== s.slug);
   {/* 考え方・背景 */}
   <section class="mt-28">
     <SectionHead kicker={s.stance.kicker} title={s.stance.title} />
-    <div class="mt-6 max-w-3xl space-y-4 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+    <div class="mt-6 max-w-3xl space-y-4 type-body leading-7 text-zinc-600 dark:text-poi-muted">
       {s.stance.body.map((para) => <p><T text={para} /></p>)}
     </div>
     {s.stance.links && (
@@ -82,14 +82,14 @@ const others = services.filter((o) => o.slug !== s.slug);
     <div class:list={["mt-8 grid gap-4", s.offerings.length % 2 === 0 ? "md:grid-cols-2" : "md:grid-cols-3"]}>
       {s.offerings.map((o) => (
         <article class="flex flex-col rounded-lg border border-zinc-200 bg-white p-6 dark:border-poi-border/70 dark:bg-poi-base">
-          <p class="flex items-center gap-2 text-[15px] font-semibold text-zinc-900 dark:text-poi-focus">
+          <p class="flex items-center gap-2 type-subheading font-semibold text-zinc-900 dark:text-poi-focus">
             <LucideIcon name={o.icon} class="h-4 w-4 text-poi-accent" />
             <T text={o.title} />
           </p>
-          <p class="mt-3 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={o.body} /></p>
+          <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted"><T text={o.body} /></p>
           <ul class="mt-4 space-y-1.5 border-t border-zinc-200 pt-4 dark:border-poi-border/60">
             {o.points.map((pt) => (
-              <li class="flex gap-2 text-xs leading-6 text-zinc-700 dark:text-poi-text">
+              <li class="flex gap-2 type-caption leading-6 text-zinc-700 dark:text-poi-text">
                 <span class="font-mono text-poi-accent" aria-hidden="true">—</span>
                 <span><T text={pt} /></span>
               </li>
@@ -98,7 +98,7 @@ const others = services.filter((o) => o.slug !== s.slug);
           {(o.repos.length > 0 || o.note) && (
             <div class="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 pt-5">
               {o.repos.map((r) => <RepoLink label={r.name} href={r.href} />)}
-              {o.note && <span class="font-mono text-[10px] text-zinc-500 dark:text-poi-muted"><T text={o.note} /></span>}
+              {o.note && <span class="font-mono type-label text-zinc-500 dark:text-poi-muted"><T text={o.note} /></span>}
             </div>
           )}
         </article>
@@ -112,9 +112,9 @@ const others = services.filter((o) => o.slug !== s.slug);
       <SectionHead kicker="Case" title={{ ja: '導入事例', en: 'Case study' }} />
       <div class="mt-10 grid overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-poi-border/70 dark:bg-poi-base md:grid-cols-[1fr_1.2fr]">
         <div class="p-7 sm:p-10">
-          <p class="font-mono text-[11px] tracking-widest uppercase text-poi-muted">{s.caseStudy.label}</p>
-          <h3 class="mt-3 text-lg font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={s.caseStudy.title} /></h3>
-          <p class="mt-4 text-sm leading-8 text-zinc-600 dark:text-poi-muted"><T text={s.caseStudy.body} /></p>
+          <p class="font-mono type-label tracking-widest uppercase text-poi-muted">{s.caseStudy.label}</p>
+          <h3 class="mt-3 type-heading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={s.caseStudy.title} /></h3>
+          <p class="mt-4 type-body leading-8 text-zinc-600 dark:text-poi-muted"><T text={s.caseStudy.body} /></p>
         </div>
         <ol class="border-t border-zinc-200 bg-zinc-100/60 p-7 sm:p-10 dark:border-poi-border/70 dark:bg-poi-panel/40 md:border-t-0 md:border-l">
           {s.caseStudy.timeline.map((t, idx) => (
@@ -124,9 +124,9 @@ const others = services.filter((o) => o.slug !== s.slug);
                 "absolute left-0 top-1.5 h-3 w-3 rounded-full border-2",
                 t.on ? "border-poi-accent bg-poi-accent" : "border-zinc-300 bg-zinc-50 dark:border-poi-border dark:bg-poi-base",
               ]} aria-hidden="true"></span>
-              <p class="font-mono text-[10px] tracking-widest text-poi-muted">{t.tag}</p>
-              <p class:list={["mt-1 text-sm font-semibold", t.on ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus"]}><T text={t.title} /></p>
-              <p class="mt-1.5 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={t.body} /></p>
+              <p class="font-mono type-label tracking-widest text-poi-muted">{t.tag}</p>
+              <p class:list={["mt-1 type-body font-semibold", t.on ? "text-poi-accent" : "text-zinc-900 dark:text-poi-focus"]}><T text={t.title} /></p>
+              <p class="mt-1.5 type-small leading-7 text-zinc-600 dark:text-poi-muted"><T text={t.body} /></p>
             </li>
           ))}
         </ol>
@@ -141,10 +141,10 @@ const others = services.filter((o) => o.slug !== s.slug);
       <div class="mt-8 grid gap-8 border-t border-zinc-200 pt-6 dark:border-poi-border/60 md:grid-cols-3">
         {s.results.metrics.map((m) => (
           <div>
-            <p class="font-mono text-3xl font-medium text-poi-accent">
-              <T text={m.value} /><span class="ml-1 text-sm"><T text={m.unit} /></span>
+            <p class="font-mono type-metric font-medium text-poi-accent">
+              <T text={m.value} /><span class="ml-1 type-body"><T text={m.unit} /></span>
             </p>
-            <p class="mt-1 text-xs text-zinc-600 dark:text-poi-muted"><T text={m.label} /></p>
+            <p class="mt-1 type-caption text-zinc-600 dark:text-poi-muted"><T text={m.label} /></p>
           </div>
         ))}
       </div>
@@ -165,11 +165,11 @@ const others = services.filter((o) => o.slug !== s.slug);
     <div class="mt-8 grid gap-4 md:grid-cols-2">
       {others.map((o) => (
         <a href={`/services/${o.slug}/`} class="block rounded-lg border border-zinc-200 bg-white p-6 transition-colors hover:border-poi-accent dark:border-poi-border/70 dark:bg-poi-base">
-          <p class="flex items-center gap-2 font-mono text-[11px] text-poi-accent">
+          <p class="flex items-center gap-2 font-mono type-label text-poi-accent">
             <LucideIcon name={o.icon} class="h-3.5 w-3.5" />{o.no}
           </p>
-          <p class="mt-1.5 text-[15px] font-semibold text-zinc-900 dark:text-poi-focus"><T text={o.title} /></p>
-          <p class="mt-1 text-xs leading-6 text-zinc-600 dark:text-poi-muted"><T text={o.summary} /></p>
+          <p class="mt-1.5 type-subheading font-semibold text-zinc-900 dark:text-poi-focus"><T text={o.title} /></p>
+          <p class="mt-1 type-caption leading-6 text-zinc-600 dark:text-poi-muted"><T text={o.summary} /></p>
         </a>
       ))}
     </div>
