@@ -10,6 +10,8 @@ export type Offering = {
   repos: Repo[];
   // 公開リポが無い理由を一言添える（非公開の素材を下敷きにしているとき）
   note?: MultilingualText;
+  // トップのカードで名前の下に添える1行
+  short?: MultilingualText;
 };
 
 export type Step = { title: MultilingualText; body: MultilingualText; duration?: MultilingualText };
@@ -44,6 +46,8 @@ export type Service = {
   process: Step[];
   caseStudy?: CaseStudy;
   results?: { note: MultilingualText; metrics: Metric[] };
+  // トップのカードに出す、導入先と結果の1行
+  proof?: MultilingualText;
 };
 
 const gh = (name: string): Repo => ({ name, href: `https://github.com/yktsnet/${name}` });
@@ -54,10 +58,14 @@ export const services: Service[] = [
     no: "01",
     icon: "table",
     kicker: "OPERATIONS",
-    title: { ja: "業務の自動化", en: "Operations Automation" },
+    title: { ja: "事務作業の自動化", en: "Office Work Automation" },
     summary: {
-      ja: "Excelの手入力や紙の帳票、口頭での確認を続けたまま、転記・PDF化・集計を裏側で自動にする。SaaSに置き換えないので、現場は覚え直さなくていい。",
-      en: "Keep manual Excel entry, paper forms and verbal checks as they are, and automate the copying, PDF conversion and tallying behind them. Nothing is replaced with SaaS, so nobody has to relearn their job.",
+      ja: "現場のExcelや紙は変えずに、転記と集計だけを裏側で自動にする。どこを自動にすれば経費が減り、売上につながるかを、会計の数字を見ながら話すところから始める。",
+      en: "The Excel and paper on the floor stay as they are; only the copying and tallying behind them are automated. It starts with looking at the accounts together to see where automation would cut costs or help sales.",
+    },
+    proof: {
+      ja: "マンション管理会社で稼働中。勤怠の集計 −5時間/月、説明なしで初日から定着",
+      en: "Running at a property management company: −5 h/mo of attendance tallying, adopted on day one with no instructions",
     },
     heroTitle: {
       ja: "いまのExcelと紙のまま、転記と集計をなくす。",
@@ -108,6 +116,7 @@ export const services: Service[] = [
       {
         icon: "id-card",
         title: { ja: "勤怠システム", en: "Attendance System" },
+        short: { ja: "カードをかざすだけで打刻と給与の集計が済む", en: "A card tap handles clock-ins and the payroll tally" },
         body: {
           ja: "ICカードをかざすだけで打刻が済み、スプレッドシートへの集計と通知まで自動で回る。スマホの操作も要らないので、PCに不慣れなスタッフでも初日から使える。",
           en: "Tap an IC card and the clock-in is done; tallying into a spreadsheet and notifications run on their own. No smartphone step either, so staff unused to PCs can use it from day one.",
@@ -122,6 +131,7 @@ export const services: Service[] = [
       {
         icon: "file-text",
         title: { ja: "Excel帳票の書類管理", en: "Excel Document Management" },
+        short: { ja: "Excelを保存すればPDFになり、一覧から検索できる", en: "Saving the Excel file makes the PDF, searchable from one list" },
         body: {
           ja: "Webフォームの入力か、共有フォルダのExcelの保存を合図に、契約書などの書類を自動で作ってPDFにする。作った書類は1つの一覧から全文検索で探せる。",
           en: "A web form entry, or saving an Excel file in a shared folder, triggers generating documents such as contracts as PDFs. Everything produced can be found from one list with full-text search.",

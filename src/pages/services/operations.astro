@@ -1,0 +1,410 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import T from '../../components/T.astro';
+import LucideIcon from '../../components/LucideIcon.astro';
+import RepoLink from '../../components/RepoLink.astro';
+import { services } from '../../data/services';
+import type { MultilingualText } from '../../lib/i18n';
+
+// サービス名・説明・提供できることの名前はトップのカードと同じ値を使い、文言をずらさない
+const s = services.find((x) => x.slug === 'operations')!;
+const others = services.filter((x) => x.slug !== 'operations');
+
+type Metric = { value: MultilingualText; unit: MultilingualText; label: MultilingualText };
+type Decision = { title: MultilingualText; body: MultilingualText };
+type OfferingDetail = {
+  line: MultilingualText;
+  before: MultilingualText[];
+  after: MultilingualText[];
+  decisions: Decision[];
+  needs: MultilingualText;
+};
+// 見出しはトップの PRINCIPLES と同じ言葉にし、中身はこのサービスで実際にどうしたかだけを書く
+type Step = { no: string; title: MultilingualText; done: MultilingualText };
+type Fit = { text: MultilingualText; reason?: MultilingualText };
+
+const metrics: Metric[] = [
+  {
+    value: { ja: '−5', en: '−5' },
+    unit: { ja: '時間/月', en: 'h/mo' },
+    label: { ja: '管理者が勤怠の集計にかけていた時間', en: 'Admin time spent tallying attendance' },
+  },
+  {
+    value: { ja: '−3〜4', en: '−30–40k' },
+    unit: { ja: '万円/月', en: 'JPY/mo' },
+    label: { ja: '打刻の偽装と記入漏れで出ていた給与の差異', en: 'Payroll gap from faked or missed clock-ins' },
+  },
+  {
+    value: { ja: '初日', en: 'Day one' },
+    unit: { ja: 'から', en: '' },
+    label: { ja: '説明なしでスタッフ全員が使い始めた', en: 'All staff started using it with no instructions' },
+  },
+];
+
+// services.ts の offerings と同じ順に並べる（勤怠システム、Excel帳票の書類管理）
+const offeringDetails: OfferingDetail[] = [
+  {
+    line: {
+      ja: '今の勤務の流れは変えずに、出退勤の打刻から給与計算に使う集計までを自動にする。スタッフはカードをかざすだけ。集計は管理者が見慣れたスプレッドシートに自動で並ぶので、月末に手で集計しなくてよくなる。',
+      en: 'The daily routine stays the same while everything from clock-ins to the payroll tally is automated. Staff just tap a card. The tally lands in the spreadsheet managers already use, so no more counting by hand at month end.',
+    },
+    before: [
+      { ja: '出退勤の時刻を紙に自己申告する', en: 'Staff self-report their hours on paper' },
+      { ja: '月末に管理者が手で集計し、給与を手書きで計算する', en: 'At month end a manager tallies by hand and writes up payroll' },
+    ],
+    after: [
+      { ja: '入るときと帰るときに、カードをかざすだけ', en: 'Tap a card when arriving and leaving, nothing else' },
+      { ja: '集計と給与計算用のデータは、スプレッドシートに自動で並ぶ', en: 'The tally and payroll data land in a spreadsheet automatically' },
+    ],
+    decisions: [
+      {
+        title: { ja: 'スマホもボタンも使わない', en: 'No phone, no buttons' },
+        body: { ja: '操作が1つ増えるたびに、打刻されない日が出る。', en: 'Every extra step means days with no clock-in.' },
+      },
+      {
+        title: { ja: '異常を推測で埋めない', en: 'No guessing over gaps' },
+        body: { ja: '打刻忘れは印を付けて残し、管理者が直す。給与に推測した値を混ぜない。', en: 'Missed clock-ins are flagged for the manager to fix. Guesses never reach payroll.' },
+      },
+    ],
+    needs: {
+      ja: 'Raspberry Pi、市販のカードリーダー、1枚100円ほどのカード',
+      en: 'A Raspberry Pi, an off-the-shelf card reader, and cards at about 100 yen each',
+    },
+  },
+  {
+    line: {
+      ja: '今使っている契約書のExcelを共有フォルダに保存すれば、その時点でPDFができる。Webのフォームから作る方法も足すが、慣れていない人は今まで通りExcelに書いて保存すればよく、使える人から移ればいい。作った書類は1つの一覧に集まり、全文検索で探せる。',
+      en: 'Saving your current Excel contract to the shared folder produces the PDF on the spot. A web form is added too, but anyone not used to it can keep writing in Excel and saving as before; people move over when they are ready. Every document is gathered in one list with full-text search.',
+    },
+    before: [
+      { ja: '前の契約書をコピーし、名前や部屋番号を書き換える', en: 'Copy the last contract and rewrite names and room numbers' },
+      { ja: '春の入退去の時期に、同じ作業が集中する', en: 'The same work piles up in the spring move-in season' },
+      { ja: '過去の書類はフォルダを開いて探す', en: 'Finding an old document means digging through folders' },
+    ],
+    after: [
+      { ja: 'Webのフォームに入力するか、共有フォルダのExcelを保存する', en: 'Fill in a web form, or save the Excel file in the shared folder' },
+      { ja: '保存した時点でPDFができる', en: 'The PDF is ready the moment it is saved' },
+      { ja: '作った書類は全文検索で探せる', en: 'Every document can be found with full-text search' },
+    ],
+    decisions: [
+      {
+        title: { ja: '様式を作り直さない', en: 'Keep the templates' },
+        body: { ja: 'いま使っている契約書のExcelに、そのまま項目を流し込む。', en: 'Fields go straight into the contract templates already in use.' },
+      },
+      {
+        title: { ja: '業種ごとの違いを対応表に分ける', en: 'Industry details stay separate' },
+        body: { ja: '様式と項目の対応表を替えれば、ほかの業種の書類にも使える。', en: 'Swap the templates and the field mapping to use it in another industry.' },
+      },
+    ],
+    needs: {
+      ja: '共有フォルダを置くサーバー（社内に置くか、借りる）',
+      en: 'A server for the shared folder, on-site or rented',
+    },
+  },
+];
+
+// 経営者が頼み方を選ぶときに比べる観点。SaaS・開発会社の列は一般にそうなりやすい形を書く
+const options: MultilingualText[] = [
+  { ja: 'SaaSを導入する', en: 'Adopt a SaaS' },
+  { ja: '開発会社に頼む', en: 'Hire a dev firm' },
+  { ja: '私ならできること', en: 'What I can do' },
+];
+const compare: { point: MultilingualText; cells: MultilingualText[] }[] = [
+  {
+    point: { ja: '始め方', en: 'Getting started' },
+    cells: [
+      { ja: '製品の機能に合わせて、まとめて切り替える', en: 'Switch over to fit the product' },
+      { ja: '要件を固めてから作り始める', en: 'Fix the requirements, then build' },
+      { ja: '手間の大きい作業1つから小さく始める', en: 'Start small, with the single most costly task' },
+    ],
+  },
+  {
+    point: { ja: '何を作るか', en: 'What gets built' },
+    cells: [
+      { ja: '製品にある機能から選ぶ', en: 'Chosen from the product\'s features' },
+      { ja: '依頼した内容を作る', en: 'What you specify' },
+      { ja: '会計の数字を一緒に見て、経費が減り売上につながるところから決める', en: 'Decided together from the accounts, where costs drop or sales grow' },
+    ],
+  },
+  {
+    point: { ja: '現場の操作', en: 'For your staff' },
+    cells: [
+      { ja: '製品の画面と手順に合わせる', en: 'Follow the product\'s screens and steps' },
+      { ja: '作った画面の使い方を覚える', en: 'Learn the screens that were built' },
+      { ja: '今の手順に合わせて作るので、覚え直しが要らない', en: 'Built around the current routine, so nothing to relearn' },
+    ],
+  },
+  {
+    point: { ja: '入れたあと', en: 'After launch' },
+    cells: [
+      { ja: '製品の更新に合わせて使う', en: 'Use it as the product updates' },
+      { ja: '保守契約の範囲で直す', en: 'Fixes within the maintenance contract' },
+      { ja: '使われ方を見て直し、現場で回り出すまで付き合う', en: 'I adjust it until it runs on its own' },
+    ],
+  },
+];
+
+const steps: Step[] = [
+  {
+    no: '01',
+    title: { ja: '数字から直すものを決める', en: 'Decide what to fix from the numbers' },
+    done: {
+      ja: '費用の6割が人件費で、中身を追うと勤務時間の申告に水増しが見つかった。正確な記録が先に要るので、勤怠を最初に直した。',
+      en: 'Labor was 60% of costs, and tracing it turned up padded hours. Accurate records had to come first, so attendance was fixed first.',
+    },
+  },
+  {
+    no: '02',
+    title: { ja: '現場のやり方を変えずに作る', en: 'Build without changing how people work' },
+    done: {
+      ja: 'スタッフはExcelで改行する操作にも慣れていなかった。そこで、説明しなくても使えることを条件にして作った。',
+      en: 'The staff were not even used to adding a line break in Excel, so working without any explanation became a requirement for what I built.',
+    },
+  },
+  {
+    no: '03',
+    title: { ja: '回り出すまで付き合って渡す', en: 'Stay until it runs, then hand it over' },
+    done: {
+      ja: '最初に納めた勤怠の道具が定着して、相談が増えた。書類作成の自動化は、そのあとに頼まれた。',
+      en: 'Once the first attendance tool took hold, more requests followed; document automation came after that.',
+    },
+  },
+];
+
+const fits: Fit[] = [
+  { text: { ja: '数名から数十名の事業所', en: 'Offices of a few to a few dozen people' } },
+  { text: { ja: 'Excelや紙の運用が回っていて、やり方は変えたくない', en: 'Excel and paper already work, and the routine should stay' } },
+  { text: { ja: 'SaaSを入れたが、使われずに元のやり方に戻った', en: 'A SaaS was tried, and everyone went back to the old way' } },
+  { text: { ja: '管理者が転記と集計に毎月何時間も使っている', en: 'Managers spend hours every month copying and tallying' } },
+];
+
+const misfits: Fit[] = [
+  {
+    text: { ja: '数十名を超える規模', en: 'More than a few dozen people' },
+    reason: { ja: '集計の仕組みを別に用意する必要がある', en: 'the tally needs a different backend' },
+  },
+  {
+    text: { ja: '厳密な本人確認が要る打刻', en: 'Clock-ins that need strict identity checks' },
+    reason: { ja: 'カードの貸し借りは仕組みでは防げない', en: 'lending a card cannot be prevented' },
+  },
+  {
+    text: { ja: '業務のやり方ごと作り替えたい', en: 'Redesigning how the work itself is done' },
+    reason: { ja: '今のやり方を残すことを前提に作る', en: 'it is built to keep the current routine' },
+  },
+];
+
+const zenn = {
+  title: 'Raspberry Pi 2 と GAS で事務所の勤怠を NFC カード1枚に集約する',
+  href: 'https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2',
+};
+
+const h2 = 'text-xl font-semibold leading-relaxed tracking-tight text-zinc-900 sm:text-2xl dark:text-poi-focus';
+const card = 'rounded-xl border border-zinc-200 bg-white dark:border-poi-border/70 dark:bg-poi-panel/15';
+const label = 'font-mono text-[10px] tracking-widest uppercase text-poi-muted';
+---
+
+<MainLayout title={s.title.en} description={`${s.title.ja}。${s.summary.ja}`} wide>
+  {/* 1. サービス名と説明（トップのカードと同じ文） */}
+  <section>
+    <a href="/#services" class="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-poi-accent dark:text-poi-muted">
+      <span aria-hidden="true">←</span> Services
+    </a>
+    <p class="mt-10 flex items-center gap-2 font-mono text-xs tracking-widest text-poi-accent">
+      <LucideIcon name={s.icon} />{s.no}
+    </p>
+    <h1 class="mt-3 text-2xl font-semibold tracking-tight text-zinc-900 sm:text-[32px] dark:text-poi-focus">
+      <T text={s.title} />
+    </h1>
+    <p class="mt-5 max-w-2xl text-base leading-8 text-zinc-700 dark:text-poi-text"><T text={s.summary} /></p>
+  </section>
+
+  {/* 2. 導入の結果: 数字、事例の背景、経緯を書いた記事 */}
+  <section class="mt-16">
+    <h2 class={h2}><T text={{ ja: '導入例：マンション管理会社', en: 'Example: a property management company' }} /></h2>
+    <div class:list={[card, 'mt-6']}>
+      <dl class="grid divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
+        {metrics.map((m) => (
+          <div class="p-7 sm:p-8">
+            <dt class="whitespace-nowrap font-mono text-4xl font-medium text-poi-accent">
+              <T text={m.value} /><span class="ml-1.5 text-sm"><T text={m.unit} /></span>
+            </dt>
+            <dd class="mt-3 text-[13px] leading-6 text-zinc-600 dark:text-poi-muted"><T text={m.label} /></dd>
+          </div>
+        ))}
+      </dl>
+      <div class="border-t border-zinc-200 bg-zinc-100/60 p-7 sm:px-8 dark:border-poi-border/60 dark:bg-poi-panel/35">
+        <p class="max-w-3xl text-sm leading-7 text-zinc-700 dark:text-poi-text">
+          <T text={{
+            ja: '高齢のオーナーは引退を見据えて現場を離れたがっていたが、経営の実務が特定の人に頼ったままで、離れられなかった。そこに外部から入り、勤怠と書類作成を自動にした。いまも外部CTOとして関わり、空室の情報を事業者に届けるWebアプリを作っている（作成中）。',
+            en: 'The aging owner wanted to step back ahead of retirement, but day-to-day management depended on specific people. I came in from outside and automated attendance and paperwork. I am still there as external CTO, now building a web app that delivers vacancy information to partner businesses (in progress).',
+          }} />
+        </p>
+        <p class="mt-3 max-w-3xl text-[13px] leading-7 text-zinc-600 dark:text-poi-muted">
+          <T text={{
+            ja: '自動化とは別に、法人化の手続きも支援している。経営の実務を自分でやってきたので、こうした相談も受けられる。',
+            en: 'Apart from automation, I am also guiding the company through incorporation. Having run the books myself, I can take on requests like this too.',
+          }} />
+        </p>
+        <div class="mt-4">
+          <RepoLink label={`Zenn — ${zenn.title}`} href={zenn.href} icon="file-text" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* 3. 提供できること */}
+  <section class="mt-20">
+    <h2 class={h2}><T text={{ ja: '提供できること', en: 'What I offer' }} /></h2>
+    <div class="mt-6 grid gap-5 lg:grid-cols-2">
+      {s.offerings.map((o, idx) => {
+        const d = offeringDetails[idx];
+        return (
+          <article class:list={[card, 'flex flex-col p-7 sm:p-8']}>
+            <h3 class="flex items-center gap-2.5 text-lg font-semibold text-zinc-900 dark:text-poi-focus">
+              <LucideIcon name={o.icon} class="h-5 w-5 text-poi-accent" />
+              <T text={o.title} />
+            </h3>
+            <p class="mt-3 text-sm leading-7 text-zinc-600 dark:text-poi-muted"><T text={d.line} /></p>
+
+            <div class="mt-6 grid gap-5 border-t border-zinc-200 pt-6 sm:grid-cols-2 dark:border-poi-border/60">
+              <div>
+                <p class="text-xs font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: 'これまで', en: 'Before' }} /></p>
+                <ul class="mt-2 space-y-1.5">
+                  {d.before.map((b) => (
+                    <li class="flex gap-2 text-[13px] leading-6 text-zinc-500 dark:text-poi-muted"><span aria-hidden="true">·</span><T text={b} /></li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-poi-accent"><T text={{ ja: '導入後', en: 'After' }} /></p>
+                <ul class="mt-2 space-y-1.5">
+                  {d.after.map((a) => (
+                    <li class="flex gap-2 text-[13px] leading-6 text-zinc-900 dark:text-poi-focus"><span class="text-poi-accent" aria-hidden="true">·</span><T text={a} /></li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-6 border-t border-zinc-200 pt-6 dark:border-poi-border/60">
+              <p class={label}><T text={{ ja: '作り方の工夫', en: 'How it is built' }} /></p>
+              <ul class="mt-3 space-y-3">
+                {d.decisions.map((dc) => (
+                  <li class="text-[13px] leading-6">
+                    <span class="font-semibold text-zinc-900 dark:text-poi-focus"><T text={dc.title} /></span>
+                    <span class="block text-zinc-600 dark:text-poi-muted"><T text={dc.body} /></span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="mt-auto pt-6">
+              <p class="border-t border-zinc-200 pt-5 text-xs leading-6 text-zinc-600 dark:border-poi-border/60 dark:text-poi-muted">
+                <span class="font-semibold text-zinc-800 dark:text-poi-text"><T text={{ ja: '必要なもの：', en: 'Needs: ' }} /></span>
+                <T text={d.needs} />
+              </p>
+              <div class="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+                {o.repos.map((r) => <RepoLink label={r.name} href={r.href} />)}
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+
+  {/* 3b. ほかの頼み方との違い: 経営者が SaaS や開発会社と比べて選べるようにする */}
+  <section class="mt-20">
+    <h2 class={h2}><T text={{ ja: 'SaaS・開発会社との違い', en: 'Compared with SaaS and dev firms' }} /></h2>
+    <div class:list={[card, 'mt-6 overflow-hidden']}>
+      <div class="hidden border-b border-zinc-200 bg-zinc-100/60 md:grid md:grid-cols-[9rem_1fr_1fr_1.3fr] dark:border-poi-border/60 dark:bg-poi-panel/35">
+        <span></span>
+        {options.map((o, i) => (
+          <p class:list={['px-5 py-3.5 text-xs font-semibold', i === 2 ? 'text-poi-accent' : 'text-zinc-500 dark:text-poi-muted']}><T text={o} /></p>
+        ))}
+      </div>
+      <div class="divide-y divide-zinc-200 dark:divide-poi-border/60">
+        {compare.map((row) => (
+          <div class="grid md:grid-cols-[9rem_1fr_1fr_1.3fr]">
+            <p class="px-5 pt-4 text-[13px] font-semibold text-zinc-900 md:py-4 dark:text-poi-focus"><T text={row.point} /></p>
+            {row.cells.map((c, i) => (
+              <p class:list={[
+                'px-5 py-1.5 text-[13px] leading-6 md:py-4',
+                i === 2 ? 'pb-4 text-zinc-900 md:bg-poi-accent/5 dark:text-poi-focus' : 'text-zinc-500 dark:text-poi-muted',
+              ]}>
+                <span class:list={['mr-2 text-[11px] md:hidden', i === 2 ? 'text-poi-accent' : '']}><T text={options[i]} /></span>
+                <T text={c} />
+              </p>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+    <p class="mt-3 text-xs text-zinc-500 dark:text-poi-muted">
+      <T text={{ ja: 'SaaSと開発会社の列は、一般的な場合を書いている。', en: 'The SaaS and dev firm columns describe the typical case.' }} />
+    </p>
+  </section>
+
+  {/* 4. 進め方: 考え方はトップに任せ、ここでは導入例で実際にどうしたかだけを書く */}
+  <section class="mt-20">
+    <h2 class={h2}><T text={{ ja: '進め方', en: 'How I work' }} /></h2>
+    <p class="mt-3 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+      <T text={{ ja: 'マンション管理会社では、この順に進めた。', en: 'At the property management company, it went in this order.' }} />
+    </p>
+    <ol class="mt-6 grid gap-8 md:grid-cols-3">
+      {steps.map((st) => (
+        <li class="border-t-2 border-poi-accent/60 pt-5">
+          <p class="font-mono text-xs text-poi-accent">{st.no}</p>
+          <h3 class="mt-2 text-[15px] font-semibold text-zinc-900 dark:text-poi-focus"><T text={st.title} /></h3>
+          <p class="mt-2 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={st.done} /></p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  {/* 5. 合う現場・合わない現場 */}
+  <section class="mt-20">
+    <h2 class={h2}><T text={{ ja: '合う現場・合わない現場', en: 'Where it fits' }} /></h2>
+    <div class:list={[card, 'mt-6 grid gap-8 p-7 sm:p-8 md:grid-cols-2']}>
+      <div>
+        <p class="text-sm font-semibold text-poi-accent"><T text={{ ja: '合う現場', en: 'Fits' }} /></p>
+        <ul class="mt-3 space-y-2">
+          {fits.map((f) => (
+            <li class="flex gap-2.5 text-[13px] leading-6 text-zinc-700 dark:text-poi-text">
+              <LucideIcon name="check" class="mt-1 h-3.5 w-3.5 shrink-0 text-poi-accent" /><T text={f.text} />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p class="text-sm font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: '合わない現場', en: 'Does not fit' }} /></p>
+        <ul class="mt-3 space-y-2">
+          {misfits.map((m) => (
+            <li class="flex gap-2.5 text-[13px] leading-6 text-zinc-600 dark:text-poi-muted">
+              <LucideIcon name="x" class="mt-1 h-3.5 w-3.5 shrink-0 text-zinc-400 dark:text-poi-muted" />
+              <span>
+                <T text={m.text} />
+                {m.reason && <span class="text-zinc-500 dark:text-poi-muted">（<T text={m.reason} />）</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {/* 6. ほかのサービス */}
+  <section class="mt-20 border-t border-zinc-200 pt-8 dark:border-poi-border/60">
+    <h2 class="text-sm font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: 'ほかのサービス', en: 'Other services' }} /></h2>
+    <ul class="mt-4 flex flex-col gap-3 sm:flex-row sm:gap-10">
+      {others.map((o) => (
+        <li>
+          <a href={`/services/${o.slug}/`} class="group inline-flex items-center gap-2 text-[15px] font-semibold text-zinc-900 transition-colors hover:text-poi-accent dark:text-poi-focus">
+            <span class="font-mono text-xs text-poi-accent">{o.no}</span>
+            <T text={o.title} />
+            <LucideIcon name="arrow-right" class="h-4 w-4 text-poi-accent transition-transform group-hover:translate-x-0.5" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</MainLayout>
