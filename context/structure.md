@@ -19,7 +19,7 @@ src/
 
 `src/pages/` のファイル構造がそのままパスになる。`/api/*` を除き全て静的出力。
 
-サービスの詳細ページは `src/pages/services/[slug].astro` が `services.ts` から `/services/<slug>/` を生成する。`/services/operations/` だけは `src/pages/services/operations.astro` で個別に組んでいる。
+サービスの詳細ページは `src/pages/services/[slug].astro` が `services.ts` から `/services/<slug>/` を生成する。`/services/operations/` と `/services/ai-development/` はそれぞれ専用の `.astro` ファイルで個別に組んでいる。
 
 ## データフロー
 

@@ -55,26 +55,26 @@ const caseRepos = [
 const steps: Step[] = [
   {
     no: '01',
-    title: { ja: '手順をそろえて配る', en: 'Align and distribute the process' },
+    title: { ja: '数字から直すものを決める', en: 'Decide what to fix from the numbers' },
     done: {
-      ja: '私の進め方をもとに開発キットを作って配った。使った人の意見を受けて、現場と人に合わせて直し続けている。',
-      en: 'I built the development kit from how I work and distributed it. It keeps changing with feedback from the people using it, to fit each site and person.',
+      ja: '誰がどれだけ使い、何を出しているかの数字が無く、成果物の形も人ごとにばらばらだった。そこで、手順をそろえる開発キットと、利用量・成果の集計を最初から組にして始めた。',
+      en: 'There were no numbers on who used AI how much or what they produced, and output varied by person. So I started with the development kit and the usage and output tally as a pair from the beginning.',
     },
   },
   {
     no: '02',
-    title: { ja: '使い方を分かるようにする', en: 'Make usage visible' },
+    title: { ja: '現場のやり方を変えずに作る', en: 'Build without changing how people work' },
     done: {
-      ja: 'メンバーごとに、利用量と出した成果（commit・PR・Issue）を毎日並べた。',
-      en: 'For each member, usage and output (commits, PRs, issues) are laid out daily.',
+      ja: 'まず自分の開発で回して確かめたものを単位に切り分けて配った。一度に全部を押しつけず、案件や人に合わせて使える単位から1つずつ入れた。',
+      en: 'I packaged what I had first tested in my own work into separate units. Rather than forcing the whole thing at once, I introduced it one unit at a time to fit each project and person.',
     },
   },
   {
     no: '03',
-    title: { ja: '評価基準を決める', en: 'Set evaluation criteria' },
+    title: { ja: '回り出すまで付き合って渡す', en: 'Stay until it runs, then hand it over' },
     done: {
-      ja: '5つの軸と段階で、どこまで任せられる人かを判断できるようにした。求人もこの評価基準で書いている。',
-      en: 'Five axes and levels now show how much each person can be trusted with. Job listings are written against the same criteria.',
+      ja: '毎日の集計で活用の度合いを見ながら声をかけ、使った人の意見でキットを直し続けている。同じ評価基準で求人も書き、採用と育成まで一続きにした。',
+      en: 'Watching daily usage lets us reach out and teach, and I keep refining the kit from feedback. Job listings now use the same criteria, tying hiring and growth together.',
     },
   },
 ];
@@ -179,7 +179,7 @@ const misfits: Fit[] = [
 
 <MainLayout title={s.title.en} description={`${s.title.ja}。${s.summary.ja}`}>
   {/* 1. サービス名と説明（トップのカードと同じ文） */}
-  <ServiceHero service={s} useHeroCopy />
+  <ServiceHero service={s} />
 
   {/* 2. 導入例: 勤務先での変化。数字は出さず、変わったことを文で書く */}
   <section class="mt-14 sm:mt-16">
@@ -222,7 +222,7 @@ const misfits: Fit[] = [
       {s.offerings.slice(0, 2).map((o: Offering, idx: number) => {
         const d = offeringDetails[idx];
         return (
-          <article class="ui-card flex flex-col p-6 sm:p-8">
+          <article class="ui-card ui-card-hover flex flex-col p-6 sm:p-8">
             <h3 class="flex items-center gap-2.5 type-subheading font-semibold text-zinc-900 dark:text-poi-focus">
               <LucideIcon name={o.icon} class="h-5 w-5 text-poi-accent" />
               <T text={o.title} />
@@ -271,35 +271,15 @@ const misfits: Fit[] = [
         );
       })}
     </div>
-
-    {/* 2枚のつながり */}
-    <div class="mt-4 rounded-xl border ui-subpanel px-6 py-5 sm:px-8">
-      <p class="flex flex-wrap items-center gap-x-3 gap-y-1.5 type-small font-semibold text-zinc-900 dark:text-poi-focus">
-        <T text={{ ja: '開発キット', en: 'Development kit' }} />
-        <LucideIcon name="arrow-right" class="h-3.5 w-3.5 text-poi-accent" />
-        <T text={{ ja: 'そろった成果物', en: 'Aligned output' }} />
-        <LucideIcon name="arrow-right" class="h-3.5 w-3.5 text-poi-accent" />
-        <T text={{ ja: '評価', en: 'Evaluation' }} />
-        <LucideIcon name="arrow-right" class="h-3.5 w-3.5 text-poi-accent" />
-        <T text={{ ja: '次に伸ばす軸', en: 'Next axis to grow' }} />
-      </p>
-      <p class="mt-2 max-w-3xl type-small leading-6 text-zinc-600 dark:text-poi-muted">
-        <T text={{
-          ja: '開発キットで成果物の形がそろうから、評価は中身の差を読める。評価で次に伸ばす軸が決まれば、それに合う手順をキットから配る。評価だけを先に入れても、読む材料が出てこない。',
-          en: 'Because the kit aligns the output, evaluation reads differences in substance. Once evaluation sets the next axis, the kit supplies the process that fits it. Evaluation brought in alone has nothing to read.',
-        }} />
-      </p>
-    </div>
   </section>
 
-
-  {/* 4. 進め方: 勤務先で実際に進めた順 */}
+  {/* 4. 進め方: 考え方はトップに任せ、ここでは導入例で実際にどうしたかだけを書く */}
   <section class="mt-20 sm:mt-24">
     <SectionHead
       size="heading"
       kicker="Process"
       title={{ ja: '進め方', en: 'How I work' }}
-      lead={{ ja: '勤務先では、この順に進めた。', en: 'At my workplace, it went in this order.' }}
+      lead={{ ja: '勤務先では、開発キットと評価を最初から一対で設計して進めた。', en: 'At my workplace, the development kit and evaluation were designed and rolled out together from the start.' }}
     />
     <ol class="mt-6 grid gap-8 md:grid-cols-3">
       {steps.map((st) => (
@@ -320,7 +300,7 @@ const misfits: Fit[] = [
       title={{ ja: 'SESの多い会社には、勉強会も', en: 'For SES-heavy companies: a study group' }}
       lead={{ ja: '開発キットや評価とは別に、これだけを頼むこともできる。', en: 'Available on its own, separate from the kit and evaluation.' }}
     />
-    <article class="ui-card mt-5 grid gap-8 p-6 sm:mt-6 sm:p-8 lg:grid-cols-2">
+    <article class="ui-card ui-card-hover mt-5 grid gap-8 p-6 sm:mt-6 sm:p-8 lg:grid-cols-2">
       <div>
         <h3 class="flex items-center gap-2.5 type-subheading font-semibold text-zinc-900 dark:text-poi-focus">
           <LucideIcon name={training.offering.icon} class="h-5 w-5 text-poi-accent" />
