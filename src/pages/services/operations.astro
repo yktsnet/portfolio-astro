@@ -19,7 +19,8 @@ type OfferingDetail = {
   decisions: Decision[];
   needs: MultilingualText;
 };
-type Step = { no: string; title: MultilingualText; why: MultilingualText; done: MultilingualText };
+// 見出しはトップの PRINCIPLES と同じ言葉にし、中身はこのサービスで実際にどうしたかだけを書く
+type Step = { no: string; title: MultilingualText; done: MultilingualText };
 type Fit = { text: MultilingualText; reason?: MultilingualText };
 
 const metrics: Metric[] = [
@@ -114,7 +115,7 @@ const compare: { point: MultilingualText; cells: MultilingualText[] }[] = [
     cells: [
       { ja: '製品の機能に合わせて、まとめて切り替える', en: 'Switch over to fit the product' },
       { ja: '要件を固めてから作り始める', en: 'Fix the requirements, then build' },
-      { ja: '手間の大きい作業1つから、小さく始める', en: 'Start small, with the single most costly task' },
+      { ja: '手間の大きい作業1つから小さく始める', en: 'Start small, with the single most costly task' },
     ],
   },
   {
@@ -145,7 +146,7 @@ const compare: { point: MultilingualText; cells: MultilingualText[] }[] = [
     point: { ja: '入れたあと', en: 'After launch' },
     cells: [
       { ja: '製品の更新に合わせて使う', en: 'Use it as the product updates' },
-      { ja: '保守の契約の範囲で直す', en: 'Fixes within the maintenance contract' },
+      { ja: '保守契約の範囲で直す', en: 'Fixes within the maintenance contract' },
       { ja: '使われ方を見て直し、現場で回り出すまで付き合う', en: 'I adjust it until it runs on its own' },
     ],
   },
@@ -162,38 +163,26 @@ const compare: { point: MultilingualText; cells: MultilingualText[] }[] = [
 const steps: Step[] = [
   {
     no: '01',
-    title: { ja: '数字から、直すものを決める', en: 'Decide what to fix from the numbers' },
-    why: {
-      ja: '学習塾を12年、合同会社を設立から清算まで経営し、税理士を立てずに決算までやってきた。事業のお金がどこを通っているかは自分で読める。だから依頼を待たず、会計を見るところから入る。',
-      en: 'I ran a tutoring school for twelve years and an LLC from founding to liquidation, closing the books without an accountant. I can read where the money in a business goes, so I start from the accounts instead of waiting for a request.',
-    },
+    title: { ja: '数字から直すものを決める', en: 'Decide what to fix from the numbers' },
     done: {
-      ja: '費用の6割が人件費だった。中身を追うと勤務時間の申告に水増しが見つかったが、自己申告と手書きの給与計算では突き合わせる手段が無い。正確な記録が先に要るので、勤怠を最初に直した。',
+      ja: '費用の6割が人件費だった。中身を追うと勤務時間の申告に水増しが見つかったが、自己申告と手書きの給与計算では突き合わせる手段がなかった。正確な記録が先に要るので、勤怠を最初に直した。',
       en: 'Labor was 60% of costs. Tracing it turned up padded hours, but with self-reported time and handwritten payroll there was nothing to check against. Accurate records had to come first, so attendance was fixed first.',
     },
   },
   {
     no: '02',
     title: { ja: '現場のやり方を変えずに作る', en: 'Build without changing how people work' },
-    why: {
-      ja: '導入したときは歓迎された機能が、半年後には誰にも使われなくなる。経営の現場で、その経緯を当事者として見てきた。使われ続けるかどうかは、覚え直しを強いたかどうかで決まる。',
-      en: 'I have watched, as the one in charge, features welcomed at launch go unused six months later. Whether something keeps being used comes down to whether people had to relearn their work.',
-    },
     done: {
-      ja: 'スタッフは、Excelで改行する操作にも慣れていなかった。そこで、説明しなくても使えることを作る条件にした。',
+      ja: 'スタッフはExcelで改行する操作にも慣れていなかった。そこで、説明しなくても使えることを条件にして作った。',
       en: 'The staff were not even used to adding a line break in Excel, so working without any explanation became a requirement for what I built.',
     },
   },
   {
     no: '03',
-    title: { ja: '回り出すまで付き合う', en: 'Stay until it runs' },
-    why: {
-      ja: '新しいやり方は押し付けても使われない。納めて終わりにせず、使われ方を見て合わないところを直す。',
-      en: 'A new way of working is not used just because it is handed down. Delivery is not the end: I watch how it is used and fix what does not fit.',
-    },
+    title: { ja: '回り出すまで付き合って渡す', en: 'Stay until it runs, then hand it over' },
     done: {
-      ja: '最初に納めた勤怠の道具が定着して、相談が増えた。書類作成の自動化は、そのあとに頼まれたものである。いまも外部CTOとして関わっている。',
-      en: 'Once the first attendance tool took hold, more requests followed; document automation came after that. I am still involved as external CTO.',
+      ja: '最初に納めた勤怠の道具が定着して、相談が増えた。書類作成の自動化は、そのあとに頼まれた。',
+      en: 'Once the first attendance tool took hold, more requests followed; document automation came after that.',
     },
   },
 ];
@@ -267,7 +256,7 @@ const label = 'font-mono text-[10px] tracking-widest uppercase text-poi-muted';
         </p>
         <p class="mt-2 max-w-3xl text-[13px] leading-7 text-zinc-600 dark:text-poi-muted">
           <T text={{
-            ja: '経費を減らした次は、空室を早く埋める側に移っている。事業者に空室の情報を届けるWebアプリを作っていて、相手ごとに見せる範囲を3段階で分け、電話での問い合わせとは受け付ける時間帯で住み分ける。',
+            ja: '経費を減らしたあとは空室を早く埋める仕事に移っている。事業者に空室の情報を届けるWebアプリを作っていて、相手ごとに見せる範囲を3段階に分け、電話での問い合わせとは受け付ける時間帯を分ける。',
             en: 'After cutting costs, the work has moved to filling vacancies faster. I am building a web app that delivers vacancy information to partner businesses, with three levels of what each can see, and split by time of day from phone inquiries.',
           }} />
         </p>
@@ -384,26 +373,20 @@ const label = 'font-mono text-[10px] tracking-widest uppercase text-poi-muted';
     </p>
   </section>
 
-  {/* 4. 進め方: なぜそうするかと、導入事例で実際にどうしたか */}
+  {/* 4. 進め方: 考え方はトップに任せ、ここでは導入例で実際にどうしたかだけを書く */}
   <section class="mt-20">
     <h2 class={h2}><T text={{ ja: '進め方', en: 'How I work' }} /></h2>
-    <ol class="mt-6 divide-y divide-zinc-200 border-y border-zinc-200 dark:divide-poi-border/60 dark:border-poi-border/60">
+    <p class="mt-3 text-sm leading-7 text-zinc-600 dark:text-poi-muted">
+      <T text={{ ja: 'マンション管理会社で、実際にこの順に進めた。なぜこの順にするかは', en: 'This is the order it went in at the property management company. Why this order: see ' }} />
+      <a href="/#about" class="text-poi-accent underline-offset-4 hover:underline">About</a>
+      <T text={{ ja: 'に書いている。', en: '.' }} />
+    </p>
+    <ol class="mt-6 grid gap-8 md:grid-cols-3">
       {steps.map((st) => (
-        <li class="grid gap-4 py-8 md:grid-cols-[minmax(0,1fr)_minmax(0,2.2fr)] md:gap-10">
-          <div>
-            <p class="font-mono text-2xl font-medium text-poi-accent">{st.no}</p>
-            <h3 class="mt-2 text-base font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={st.title} /></h3>
-          </div>
-          <div class="grid gap-5 sm:grid-cols-2">
-            <div>
-              <p class={label}><T text={{ ja: 'なぜ', en: 'Why' }} /></p>
-              <p class="mt-2 text-[13px] leading-7 text-zinc-800 dark:text-poi-text"><T text={st.why} /></p>
-            </div>
-            <div>
-              <p class={label}><T text={{ ja: 'マンション管理会社では', en: 'At the property management company' }} /></p>
-              <p class="mt-2 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={st.done} /></p>
-            </div>
-          </div>
+        <li class="border-t-2 border-poi-accent/60 pt-5">
+          <p class="font-mono text-xs text-poi-accent">{st.no}</p>
+          <h3 class="mt-2 text-[15px] font-semibold text-zinc-900 dark:text-poi-focus"><T text={st.title} /></h3>
+          <p class="mt-2 text-[13px] leading-7 text-zinc-600 dark:text-poi-muted"><T text={st.done} /></p>
         </li>
       ))}
     </ol>
