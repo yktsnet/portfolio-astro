@@ -1,0 +1,394 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import T from '../../components/T.astro';
+import LucideIcon from '../../components/LucideIcon.astro';
+import RepoLink from '../../components/RepoLink.astro';
+import SectionHead from '../../components/services/SectionHead.astro';
+import ServiceHero from '../../components/services/ServiceHero.astro';
+import OtherServices from '../../components/services/OtherServices.astro';
+import DiagramSesTraining from '../../components/services/DiagramSesTraining.astro';
+import { services, type Link, type Offering } from '../../data/services';
+import type { MultilingualText } from '../../lib/i18n';
+
+// サービス名・説明・提供できることの名前はトップのカードと同じ値を使い、文言をずらさない
+const s = services.find((x) => x.slug === 'ai-development')!;
+const others = services.filter((x) => x.slug !== 'ai-development');
+
+type Decision = { title: MultilingualText; body: MultilingualText };
+type OfferingDetail = {
+  line: MultilingualText;
+  before: MultilingualText[];
+  after: MultilingualText[];
+  decisions: Decision[];
+  links?: Link[];
+};
+type Fit = { text: MultilingualText; reason?: MultilingualText };
+// 導入先の数字は出せないので、変わったことを文で並べる
+// 01 の数字の位置に、出せる数（配った Skill・集計する指標・評価基準の軸と段階）を置く
+type Change = { value: MultilingualText; unit: MultilingualText; label: MultilingualText };
+type Step = { no: string; title: MultilingualText; done: MultilingualText };
+
+const changes: Change[] = [
+  {
+    value: { ja: '14', en: '14' },
+    unit: { ja: 'Skill', en: 'skills' },
+    label: { ja: '慣れていない人も、同じ手順で開発できる', en: 'Newcomers develop with the same process' },
+  },
+  {
+    value: { ja: '16', en: '16' },
+    unit: { ja: '指標', en: 'metrics' },
+    label: { ja: '誰がどれだけ活用しているかが毎日分かる', en: 'Who is using it well is visible every day' },
+  },
+  {
+    value: { ja: '5×5', en: '5×5' },
+    unit: { ja: '軸×段階', en: 'axes × levels' },
+    label: { ja: '在籍者と候補者を同じ評価基準で点数化', en: 'Staff and candidates scored on the same criteria' },
+  },
+];
+
+// 勤務先で配っているものの公開版
+const caseRepos = [
+  s.offerings[0].repos.find((r) => r.name === 'sdlc-kit')!,
+  s.offerings[1].repos.find((r) => r.name === 'mgmt-kit')!,
+];
+
+const steps: Step[] = [
+  {
+    no: '01',
+    title: { ja: '手順をそろえて配る', en: 'Align and distribute the process' },
+    done: {
+      ja: '私の進め方をもとに開発キットを作って配った。使った人の意見を受けて、現場と人に合わせて直し続けている。',
+      en: 'I built the development kit from how I work and distributed it. It keeps changing with feedback from the people using it, to fit each site and person.',
+    },
+  },
+  {
+    no: '02',
+    title: { ja: '使い方を分かるようにする', en: 'Make usage visible' },
+    done: {
+      ja: 'メンバーごとに、利用量と出した成果（commit・PR・Issue）を毎日並べた。',
+      en: 'For each member, usage and output (commits, PRs, issues) are laid out daily.',
+    },
+  },
+  {
+    no: '03',
+    title: { ja: '評価基準を決める', en: 'Set evaluation criteria' },
+    done: {
+      ja: '5つの軸と段階で、どこまで任せられる人かを判断できるようにした。求人もこの評価基準で書いている。',
+      en: 'Five axes and levels now show how much each person can be trusted with. Job listings are written against the same criteria.',
+    },
+  },
+];
+
+// services.ts の offerings の先頭2つ（開発キット、エンジニアの評価）と同じ順に並べる
+const offeringDetails: OfferingDetail[] = [
+  {
+    line: {
+      ja: 'うまくいった進め方を、本人だけでなくチームの誰もが使えるようにする。開発の手順と安全機構を、リポジトリに取り込める単位にして配り、誰が担当しても同じ形の成果物が出るようにする。',
+      en: 'What worked for one person becomes usable by everyone on the team. The development steps and safeguards are packaged as units that drop into a repository, so whoever takes the work produces the same shape of output.',
+    },
+    before: [
+      { ja: '頼み方が人ごとに違い、成果物の形もそろわない', en: 'Everyone asks differently, and output never looks the same' },
+      { ja: 'なぜそう作ったか、何を確かめたかが、作業した人の頭にしか残らない', en: 'Why it was built that way and what was checked stay in one person\'s head' },
+    ],
+    after: [
+      { ja: '担当者が替わっても、同じ形の成果物が出る', en: 'Output keeps its shape when the person changes' },
+      { ja: '合意と確認の記録が、IssueとPRとしてリポジトリに残る', en: 'Agreements and checks stay in the repository as issues and PRs' },
+    ],
+    decisions: [
+      {
+        title: { ja: 'AIが自力でできないところだけを型にする', en: 'Only package what the AI cannot do alone' },
+        body: { ja: '人の判断を省かせない、記録を残す、担当者が替わっても揃える。この3つに当たるものだけを配る。', en: 'Keep human decisions in, keep records, stay consistent across people. Only what serves these is distributed.' },
+      },
+      {
+        title: { ja: '約束の承認を先に行う', en: 'Approve the promises first' },
+        body: { ja: '壊れてはいけないことを人が承認し、テストと実装はエージェントに任せる（保証駆動開発）。', en: 'People approve what must not break; the agent writes the tests and code (guarantee-driven development).' },
+      },
+    ],
+    links: [{ label: 'Zenn — 保証駆動開発 (GDD)', href: 'https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development' }],
+  },
+  {
+    line: {
+      ja: '誰をどう育て、誰を採るかを、面接官の好みではなく同じ評価基準で決める。そろった成果物と利用状況を読んで、1人ずつの現在地と次に伸ばす軸を決める。',
+      en: 'Who to grow and who to hire is decided on shared criteria, not interviewers\' tastes. Reading the aligned output and usage, it sets where each person stands and which axis to grow next.',
+    },
+    before: [
+      { ja: '評価と採用の基準が別々で、面接官の好みに頼りがち', en: 'Evaluation and hiring use separate criteria and lean on interviewers\' tastes' },
+      { ja: '誰がどれだけ活用しているかが見えない', en: 'No one can see who is making good use of it' },
+    ],
+    after: [
+      { ja: '在籍者と採用候補者を、同じ5つの軸で比べられる', en: 'Staff and candidates are compared on the same five axes' },
+      { ja: 'メンバーごとの利用量と成果が毎日並び、ライセンスの配分も決められる', en: 'Usage and output per member are laid out daily, and licenses can be allocated' },
+    ],
+    decisions: [
+      {
+        title: { ja: '軸を先に決める', en: 'Axes come first' },
+        body: { ja: '何を測るかを先に決め、それが成果物に出るように開発キットを作っている。', en: 'What to measure is decided first, and the kit is built so it shows up in the output.' },
+      },
+      {
+        title: { ja: '替えるのは評価の材料だけ', en: 'Only the evidence changes' },
+        body: { ja: '在籍者と候補者で軸は同じにし、候補者は成果物の代わりに面接・課題・職務経歴で見る。', en: 'Staff and candidates share the axes; candidates are read through interviews, assignments and work history instead of output.' },
+      },
+    ],
+  },
+];
+
+// 勉強会は開発キットと評価のつながりの外にあり、SES の多い会社に向けて単独で頼める
+const training = {
+  offering: s.offerings[2],
+  line: {
+    ja: '配属先に左右されず、社員が開発の経験を積めるようにする。講師が教える研修ではなく、社員どうしがAIで作って見せ合い、教え合う場を、会社が業務の外に用意する。',
+    en: 'Staff gain development experience regardless of where they are assigned. Instead of a lecture course, the company sets up a place outside client work where staff build with AI, show each other and teach each other.',
+  },
+  problems: [
+    { ja: '客先がAIを認めているかどうかで、同じ会社の社員でも経験の差が開く', en: 'Whether a client allows AI splits experience within one company' },
+    { ja: '社員が何をできるようになったかが、会社から見えない', en: 'The company cannot see what its staff have learned to do' },
+  ],
+  plan: [
+    { ja: '3か月・全6回。1回90分をオンラインで行う', en: 'Three months, six 90-minute sessions online' },
+    { ja: '半分以上は、各自が手を動かして班で見せ合う時間にする', en: 'Over half the time is hands-on work and small-group show-and-tell' },
+    { ja: '最終回で、自分で選んだ課題を形にして発表する', en: 'In the last session, each person presents a problem they chose and built' },
+  ],
+};
+
+const fits: Fit[] = [
+  { text: { ja: '複数人がAIエージェントで開発している受託開発の会社', en: 'Contract development firms where several people build with AI agents' } },
+  { text: { ja: '使い方と成果物の形を、担当者が替わってもそろえたい', en: 'Wanting usage and output to stay consistent when people change' } },
+  { text: { ja: 'エンジニアの評価・採用・育成の基準がばらばら', en: 'Engineer evaluation, hiring and growth run on different criteria' } },
+  {
+    text: { ja: '客先常駐（SES）の社員が多く、触れる機会に差がある', en: 'Many staff stationed at clients, with uneven access' },
+    reason: { ja: '勉強会', en: 'study group' },
+  },
+];
+
+const misfits: Fit[] = [
+  {
+    text: { ja: 'GitHub以外で開発している', en: 'Development outside GitHub' },
+    reason: { ja: '開発キットと利用状況の集計は、GitHubのIssueとPRを前提にしている', en: 'the kit and usage tally assume GitHub issues and PRs' },
+  },
+  {
+    text: { ja: 'Claude Code以外のエージェントが中心', en: 'Mainly agents other than Claude Code' },
+    reason: { ja: '利用状況はClaude Codeのデータを読む', en: 'usage reads Claude Code data' },
+  },
+  {
+    text: { ja: '1人で開発している', en: 'A single developer' },
+    reason: { ja: 'そろえる相手も、比べる相手もいない', en: 'there is no one to align with or compare against' },
+  },
+];
+
+---
+
+<MainLayout title={s.title.en} description={`${s.title.ja}。${s.summary.ja}`}>
+  {/* 1. サービス名と説明（トップのカードと同じ文） */}
+  <ServiceHero service={s} useHeroCopy />
+
+  {/* 2. 導入例: 勤務先での変化。数字は出さず、変わったことを文で書く */}
+  <section class="mt-14 sm:mt-16">
+    <SectionHead size="heading" kicker="Case & Results" title={{ ja: '導入例：勤務先の開発会社', en: 'Example: the development company I work for' }} />
+    <div class="ui-card mt-5 overflow-hidden sm:mt-6">
+      <dl class="grid divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
+        {changes.map((c) => (
+          <div class="p-6 sm:p-7">
+            <dt class="whitespace-nowrap font-mono type-metric font-medium text-poi-accent">
+              <T text={c.value} /><span class="ml-1.5 type-body"><T text={c.unit} /></span>
+            </dt>
+            <dd class="mt-2.5 type-small leading-6 text-zinc-600 dark:text-poi-muted"><T text={c.label} /></dd>
+          </div>
+        ))}
+      </dl>
+      <div class="border-t ui-subpanel p-6 sm:p-7">
+        <p class="max-w-3xl type-body leading-7 text-zinc-700 dark:text-poi-text">
+          <T text={{
+            ja: '勤務先の開発会社で、開発の手順をそろえて配り、使い方と力量が分かるようにした。人数が多いと見えなかった活用の度合いが分かり、声をかけたり教えたりできるようになってきた。まだ移行の途中である。',
+            en: 'At the development company I work for, I aligned and distributed the development process and made usage and skill visible. How well each person uses it, hidden in a larger team, is now visible, and we have started reaching out and teaching. The transition is still under way.',
+          }} />
+        </p>
+        <p class="mt-3 max-w-3xl type-small leading-7 text-zinc-600 dark:text-poi-muted">
+          <T text={{
+            ja: '採用にも同じ評価基準を使い、面接官の好みに頼ることや、入ってから合わないと分かることを減らす見込みである。配っているものは、社内の事情を除いて公開している。',
+            en: 'The same criteria are used in hiring, which should mean less reliance on interviewers\' tastes and fewer mismatches found after joining. What I distribute is public, with company-specific details removed.',
+          }} />
+        </p>
+        <div class="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+          {caseRepos.map((r) => <RepoLink label={r.name} href={r.href} />)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* 3. 提供できること: 開発キットと評価。キットがあって初めて評価ができる */}
+  <section class="mt-20 sm:mt-24">
+    <SectionHead size="heading" kicker="What I offer" title={{ ja: '提供できること', en: 'What I offer' }} />
+    <div class="mt-5 grid gap-6 sm:mt-6 lg:grid-cols-2">
+      {s.offerings.slice(0, 2).map((o: Offering, idx: number) => {
+        const d = offeringDetails[idx];
+        return (
+          <article class="ui-card flex flex-col p-6 sm:p-8">
+            <h3 class="flex items-center gap-2.5 type-subheading font-semibold text-zinc-900 dark:text-poi-focus">
+              <LucideIcon name={o.icon} class="h-5 w-5 text-poi-accent" />
+              <T text={o.title} />
+            </h3>
+            <p class="mt-3 type-body leading-7 text-zinc-600 dark:text-poi-muted"><T text={d.line} /></p>
+
+            <div class="mt-6 grid gap-5 border-t border-zinc-200 pt-5 sm:grid-cols-2 dark:border-poi-border/60">
+              <div>
+                <p class="type-caption font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: 'これまで', en: 'Before' }} /></p>
+                <ul class="mt-2 space-y-1.5">
+                  {d.before.map((b) => (
+                    <li class="flex gap-2 type-small leading-6 text-zinc-500 dark:text-poi-muted"><span aria-hidden="true">·</span><T text={b} /></li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p class="type-caption font-semibold text-poi-accent"><T text={{ ja: '導入後', en: 'After' }} /></p>
+                <ul class="mt-2 space-y-1.5">
+                  {d.after.map((a) => (
+                    <li class="flex gap-2 type-small leading-6 text-zinc-900 dark:text-poi-focus"><span class="text-poi-accent" aria-hidden="true">·</span><T text={a} /></li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-6 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
+              <p class="ui-kicker"><T text={{ ja: '作り方の工夫', en: 'How it is built' }} /></p>
+              <ul class="mt-3 space-y-3">
+                {d.decisions.map((dc) => (
+                  <li class="type-small leading-6">
+                    <span class="font-semibold text-zinc-900 dark:text-poi-focus"><T text={dc.title} /></span>
+                    <span class="mt-0.5 block text-zinc-600 dark:text-poi-muted"><T text={dc.body} /></span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {d.links && (
+              <div class="mt-auto pt-6">
+                <div class="flex flex-wrap gap-x-5 gap-y-2 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
+                  {d.links.map((l) => <RepoLink label={l.label} href={l.href} icon="file-text" />)}
+                </div>
+              </div>
+            )}
+          </article>
+        );
+      })}
+    </div>
+
+    {/* 2枚のつながり */}
+    <div class="mt-4 rounded-xl border ui-subpanel px-6 py-5 sm:px-8">
+      <p class="flex flex-wrap items-center gap-x-3 gap-y-1.5 type-small font-semibold text-zinc-900 dark:text-poi-focus">
+        <T text={{ ja: '開発キット', en: 'Development kit' }} />
+        <LucideIcon name="arrow-right" class="h-3.5 w-3.5 text-poi-accent" />
+        <T text={{ ja: 'そろった成果物', en: 'Aligned output' }} />
+        <LucideIcon name="arrow-right" class="h-3.5 w-3.5 text-poi-accent" />
+        <T text={{ ja: '評価', en: 'Evaluation' }} />
+        <LucideIcon name="arrow-right" class="h-3.5 w-3.5 text-poi-accent" />
+        <T text={{ ja: '次に伸ばす軸', en: 'Next axis to grow' }} />
+      </p>
+      <p class="mt-2 max-w-3xl type-small leading-6 text-zinc-600 dark:text-poi-muted">
+        <T text={{
+          ja: '開発キットで成果物の形がそろうから、評価は中身の差を読める。評価で次に伸ばす軸が決まれば、それに合う手順をキットから配る。評価だけを先に入れても、読む材料が出てこない。',
+          en: 'Because the kit aligns the output, evaluation reads differences in substance. Once evaluation sets the next axis, the kit supplies the process that fits it. Evaluation brought in alone has nothing to read.',
+        }} />
+      </p>
+    </div>
+  </section>
+
+
+  {/* 4. 進め方: 勤務先で実際に進めた順 */}
+  <section class="mt-20 sm:mt-24">
+    <SectionHead
+      size="heading"
+      kicker="Process"
+      title={{ ja: '進め方', en: 'How I work' }}
+      lead={{ ja: '勤務先では、この順に進めた。', en: 'At my workplace, it went in this order.' }}
+    />
+    <ol class="mt-6 grid gap-8 md:grid-cols-3">
+      {steps.map((st) => (
+        <li class="border-t-2 border-poi-accent/60 pt-5">
+          <p class="font-mono type-caption text-poi-accent">{st.no}</p>
+          <h3 class="mt-2 type-subheading font-semibold text-zinc-900 dark:text-poi-focus"><T text={st.title} /></h3>
+          <p class="mt-2 type-small leading-7 text-zinc-600 dark:text-poi-muted"><T text={st.done} /></p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  {/* 5. 勉強会: 開発キットと評価とは別に、SES の多い会社へ単独で出せる */}
+  <section class="mt-20 sm:mt-24">
+    <SectionHead
+      size="heading"
+      kicker="Study group"
+      title={{ ja: 'SESの多い会社には、勉強会も', en: 'For SES-heavy companies: a study group' }}
+      lead={{ ja: '開発キットや評価とは別に、これだけを頼むこともできる。', en: 'Available on its own, separate from the kit and evaluation.' }}
+    />
+    <article class="ui-card mt-5 grid gap-8 p-6 sm:mt-6 sm:p-8 lg:grid-cols-2">
+      <div>
+        <h3 class="flex items-center gap-2.5 type-subheading font-semibold text-zinc-900 dark:text-poi-focus">
+          <LucideIcon name={training.offering.icon} class="h-5 w-5 text-poi-accent" />
+          <T text={training.offering.title} />
+        </h3>
+        <p class="mt-3 type-body leading-7 text-zinc-600 dark:text-poi-muted"><T text={training.line} /></p>
+
+        <div class="mt-6 grid gap-5 border-t border-zinc-200 pt-5 sm:grid-cols-2 dark:border-poi-border/60">
+          <div>
+            <p class="type-caption font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: '課題', en: 'The problem' }} /></p>
+            <ul class="mt-2 space-y-1.5">
+              {training.problems.map((b) => (
+                <li class="flex gap-2 type-small leading-6 text-zinc-500 dark:text-poi-muted"><span aria-hidden="true">·</span><T text={b} /></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p class="type-caption font-semibold text-poi-accent"><T text={{ ja: '提案の中身', en: 'The proposal' }} /></p>
+            <ul class="mt-2 space-y-1.5">
+              {training.plan.map((a) => (
+                <li class="flex gap-2 type-small leading-6 text-zinc-900 dark:text-poi-focus"><span class="text-poi-accent" aria-hidden="true">·</span><T text={a} /></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center rounded-xl border ui-subpanel p-5">
+        <DiagramSesTraining />
+      </div>
+    </article>
+  </section>
+
+
+  {/* 6. 合う現場・合わない現場 */}
+  <section class="mt-20 sm:mt-24">
+    <SectionHead size="heading" kicker="Fit" title={{ ja: '合う現場・合わない現場', en: 'Where it fits' }} />
+    <div class="ui-card mt-5 grid gap-8 p-6 sm:mt-6 sm:p-8 md:grid-cols-2">
+      <div>
+        <p class="type-body font-semibold text-poi-accent"><T text={{ ja: '合う現場', en: 'Fits' }} /></p>
+        <ul class="mt-3 space-y-2.5">
+          {fits.map((f) => (
+            <li class="flex gap-2.5 type-small leading-6 text-zinc-700 dark:text-poi-text">
+              <LucideIcon name="check" class="mt-1 h-3.5 w-3.5 shrink-0 text-poi-accent" />
+              <span>
+                <T text={f.text} />
+                {f.reason && <span class="text-zinc-500 dark:text-poi-muted">（<T text={f.reason} />）</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p class="type-body font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: '合わない現場', en: 'Does not fit' }} /></p>
+        <ul class="mt-3 space-y-2.5">
+          {misfits.map((m) => (
+            <li class="flex gap-2.5 type-small leading-6 text-zinc-600 dark:text-poi-muted">
+              <LucideIcon name="x" class="mt-1 h-3.5 w-3.5 shrink-0 text-zinc-400 dark:text-poi-muted" />
+              <span>
+                <T text={m.text} />
+                {m.reason && <span class="text-zinc-500 dark:text-poi-muted">（<T text={m.reason} />）</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {/* 7. ほかのサービス */}
+  <OtherServices others={others} />
+</MainLayout>
