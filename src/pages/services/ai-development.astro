@@ -108,11 +108,11 @@ const offeringDetails: OfferingDetail[] = [
   },
   {
     line: {
-      ja: '誰をどう育て、誰を採るかを、面接官の好みではなく同じ評価基準で決める。そろった成果物と利用状況を読んで、1人ずつの現在地と次に伸ばす軸を決める。',
-      en: 'Who to grow and who to hire is decided on shared criteria, not interviewers\' tastes. Reading the aligned output and usage, it sets where each person stands and which axis to grow next.',
+      ja: '誰をどう育て、誰を採るかを、見る人ごとの感覚ではなく同じ評価基準で決める。そろった成果物と利用状況を読んで、1人ずつの現在地と次に伸ばす軸を決める。',
+      en: 'Who to grow and who to hire is decided on shared criteria, not each evaluator\'s judgment. Reading the aligned output and usage, it sets where each person stands and which axis to grow next.',
     },
     before: [
-      { ja: '評価と採用の基準が別々で、面接官の好みに頼りがち', en: 'Evaluation and hiring use separate criteria and lean on interviewers\' tastes' },
+      { ja: '評価と採用の基準が別々で、見る人によって判断がぶれる', en: 'Evaluation and hiring use separate criteria, so judgment varies by person' },
       { ja: '誰がどれだけ活用しているかが見えない', en: 'No one can see who is making good use of it' },
     ],
     after: [
@@ -125,14 +125,14 @@ const offeringDetails: OfferingDetail[] = [
         body: { ja: '何を測るかを先に決め、それが成果物に出るように開発キットを作っている。', en: 'What to measure is decided first, and the kit is built so it shows up in the output.' },
       },
       {
-        title: { ja: '替えるのは評価の材料だけ', en: 'Only the evidence changes' },
-        body: { ja: '在籍者と候補者で軸は同じにし、候補者は成果物の代わりに面接・課題・職務経歴で見る。', en: 'Staff and candidates share the axes; candidates are read through interviews, assignments and work history instead of output.' },
+        title: { ja: '採用でも同じ5つの軸を使う', en: 'Use the same five axes for hiring' },
+        body: { ja: '在籍者は日々の成果物で、採用候補者は面接と課題で、同じ5つの軸を測る。', en: 'Current staff are measured through daily deliverables, and candidates through interviews and tasks, on the same five axes.' },
       },
     ],
   },
 ];
 
-// 勉強会は開発キットと評価のつながりの外にあり、SES の多い会社に向けて単独で頼める
+// 勉強会は開発キットと評価のつながりの外にあり、客先常駐の多い会社に向けて単独で頼める
 const training = {
   offering: s.offerings[2],
   line: {
@@ -155,7 +155,7 @@ const fits: Fit[] = [
   { text: { ja: '使い方と成果物の形を、担当者が替わってもそろえたい', en: 'Wanting usage and output to stay consistent when people change' } },
   { text: { ja: 'エンジニアの評価・採用・育成の基準がばらばら', en: 'Engineer evaluation, hiring and growth run on different criteria' } },
   {
-    text: { ja: '客先常駐（SES）の社員が多く、触れる機会に差がある', en: 'Many staff stationed at clients, with uneven access' },
+    text: { ja: '客先常駐の社員が多く、触れる機会に差がある', en: 'Many staff stationed at clients, with uneven access' },
     reason: { ja: '勉強会', en: 'study group' },
   },
 ];
@@ -198,14 +198,14 @@ const misfits: Fit[] = [
       <div class="border-t ui-subpanel p-6 sm:p-7">
         <p class="max-w-3xl type-body leading-7 text-zinc-700 dark:text-poi-text">
           <T text={{
-            ja: '勤務先の開発会社で、開発の手順をそろえて配り、使い方と力量が分かるようにした。人数が多いと見えなかった活用の度合いが分かり、声をかけたり教えたりできるようになってきた。まだ移行の途中である。',
-            en: 'At the development company I work for, I aligned and distributed the development process and made usage and skill visible. How well each person uses it, hidden in a larger team, is now visible, and we have started reaching out and teaching. The transition is still under way.',
+            ja: '勤務先の開発会社で、開発の手順をそろえて配り、使い方と現在地が分かるようにした。人数が多いと見えなかった活用の度合いが分かり、声をかけたり教えたりできる。',
+            en: 'At the development company I work for, I aligned and distributed the development process and made usage and where each person stands visible. How well each person uses it, hidden in a larger team, is visible so we can reach out and teach.',
           }} />
         </p>
         <p class="mt-3 max-w-3xl type-small leading-7 text-zinc-600 dark:text-poi-muted">
           <T text={{
-            ja: '採用にも同じ評価基準を使い、面接官の好みに頼ることや、入ってから合わないと分かることを減らす見込みである。配っているものは、社内の事情を除いて公開している。',
-            en: 'The same criteria are used in hiring, which should mean less reliance on interviewers\' tastes and fewer mismatches found after joining. What I distribute is public, with company-specific details removed.',
+            ja: '採用にも同じ評価基準を使い、見る人によるぶれや、入社後の食い違いを減らせる。配っているものは公開している。',
+            en: 'The same criteria are used in hiring, reducing variation by evaluator and mismatches after joining. What I distribute is public.',
           }} />
         </p>
         <div class="mt-4 flex flex-wrap gap-x-5 gap-y-2">
@@ -292,12 +292,12 @@ const misfits: Fit[] = [
     </ol>
   </section>
 
-  {/* 5. 勉強会: 開発キットと評価とは別に、SES の多い会社へ単独で出せる */}
+  {/* 5. 勉強会: 開発キットと評価とは別に、客先常駐の多い会社へ単独で出せる */}
   <section class="mt-20 sm:mt-24">
     <SectionHead
       size="heading"
       kicker="Study group"
-      title={{ ja: 'SESの多い会社には、勉強会も', en: 'For SES-heavy companies: a study group' }}
+      title={{ ja: '客先常駐の多い会社には、勉強会も', en: 'For companies with many client-site staff: a study group' }}
       lead={{ ja: '開発キットや評価とは別に、これだけを頼むこともできる。', en: 'Available on its own, separate from the kit and evaluation.' }}
     />
     <article class="ui-card ui-card-hover mt-5 grid gap-8 p-6 sm:mt-6 sm:p-8 lg:grid-cols-2">

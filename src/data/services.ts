@@ -224,16 +224,16 @@ export const services: Service[] = [
     kicker: "AI DEVELOPMENT",
     title: { ja: "開発組織のAI活用", en: "AI in Development Teams" },
     summary: {
-      ja: "AIの使い方が個人任せで、人によって差が開き、うまくいくやり方もチームに広がらない。開発の手順をそろえて配り（標準化）、使い方と力量が分かるようにする（可視化）。",
-      en: "AI use is left to each person, so the gap widens and what works never spreads across the team. I align and distribute the development process (standardization) and make usage and skill visible (visibility).",
+      ja: "AIの使い方が個人任せで、人によって差が開き、うまくいくやり方もチームに広がらない。開発の手順をそろえて配り（標準化）、使い方と現在地が分かるようにする（可視化）。",
+      en: "AI use is left to each person, so the gap widens and what works never spreads across the team. I align and distribute the development process (standardization) and make usage and where each person stands visible (visibility).",
     },
     heroTitle: {
       ja: "AIの活用を、個人任せからチームの開発手順へ。",
       en: "AI use, from up-to-each-person to a team development process.",
     },
     heroBody: {
-      ja: "AIの使い方が個人任せで、人によって差が開き、うまくいくやり方もチームに広がらない。開発の手順をそろえて配り（標準化）、使い方と力量が分かるようにする（可視化）。",
-      en: "AI use is left to each person, so the gap widens and what works never spreads across the team. I align and distribute the development process (standardization) and make usage and skill visible (visibility).",
+      ja: "AIの使い方が個人任せで、人によって差が開き、うまくいくやり方もチームに広がらない。開発の手順をそろえて配り（標準化）、使い方と現在地が分かるようにする（可視化）。",
+      en: "AI use is left to each person, so the gap widens and what works never spreads across the team. I align and distribute the development process (standardization) and make usage and where each person stands visible (visibility).",
     },
     problems: [
       {
