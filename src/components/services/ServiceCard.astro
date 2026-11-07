@@ -13,31 +13,31 @@ const { service: s, reverse = false } = Astro.props;
 <article class="group relative grid overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-xs dark:border-poi-border/70 dark:bg-poi-panel/15 dark:hover:border-poi-border md:grid-cols-2">
   <div class:list={["flex flex-col justify-between p-7 sm:p-10", reverse && "md:order-2"]}>
     <div>
-      <p class="flex items-center gap-2 font-mono text-[11px] text-poi-accent">
+      <p class="flex items-center gap-2 font-mono type-label text-poi-accent">
         <LucideIcon name={s.icon} />
         <span>{s.no}</span>
         <span class="tracking-widest text-poi-muted">{s.kicker}</span>
       </p>
-      <h3 class="mt-3 text-lg sm:text-xl font-semibold text-zinc-900 transition-colors group-hover:text-poi-accent dark:text-poi-focus">
+      <h3 class="mt-3 type-heading font-semibold text-zinc-900 transition-colors group-hover:text-poi-accent dark:text-poi-focus">
         <a href={`/services/${s.slug}/`} class="after:absolute after:inset-0 after:content-[''] focus-visible:underline outline-hidden">
           <T text={s.title} />
         </a>
       </h3>
-      <p class="mt-4 text-sm leading-7 text-zinc-600 dark:text-poi-muted"><T text={s.summary} /></p>
+      <p class="mt-4 type-body leading-7 text-zinc-600 dark:text-poi-muted"><T text={s.summary} /></p>
 
       <ul class="mt-6 space-y-2.5 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
         {s.offerings.map((o) => (
-          <li class="flex gap-2.5 text-sm text-zinc-800 dark:text-poi-focus">
+          <li class="flex gap-2.5 type-body text-zinc-800 dark:text-poi-focus">
             <LucideIcon name={o.icon} class="mt-0.5 h-4 w-4 shrink-0 text-poi-accent" />
             <span>
               <T text={o.title} />
-              {o.short && <span class="mt-0.5 block text-xs leading-6 text-zinc-500 dark:text-poi-muted"><T text={o.short} /></span>}
+              {o.short && <span class="mt-0.5 block type-caption leading-6 text-zinc-500 dark:text-poi-muted"><T text={o.short} /></span>}
             </span>
           </li>
         ))}
       </ul>
       {s.proof && (
-        <p class="mt-5 flex gap-2 rounded-lg bg-zinc-100/80 px-3.5 py-2.5 text-xs leading-6 text-zinc-700 dark:bg-poi-panel/40 dark:text-poi-text">
+        <p class="mt-5 flex gap-2 rounded-lg bg-zinc-100/80 px-3.5 py-2.5 type-caption leading-6 text-zinc-700 dark:bg-poi-panel/40 dark:text-poi-text">
           <LucideIcon name="trending-up" class="mt-1 h-3.5 w-3.5 shrink-0 text-poi-accent" />
           <T text={s.proof} />
         </p>
@@ -45,7 +45,7 @@ const { service: s, reverse = false } = Astro.props;
     </div>
 
     <div class="mt-8">
-      <span class="inline-flex items-center gap-1.5 font-mono text-xs text-poi-accent group-hover:underline underline-offset-4">
+      <span class="inline-flex items-center gap-1.5 font-mono type-caption text-poi-accent group-hover:underline underline-offset-4">
         <span class="lang-ja">詳しく見る</span><span class="lang-en">Learn more</span>
         <LucideIcon name="arrow-right" class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
       </span>
