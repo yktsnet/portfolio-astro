@@ -210,12 +210,6 @@ const misfits: Fit[] = [
             en: 'The same criteria are used in hiring, reducing variation by evaluator and mismatches after joining.',
           }} />
         </p>
-        <p class="mt-3 max-w-3xl type-caption leading-6 text-zinc-500 dark:text-poi-muted">
-          <T text={{
-            ja: '下のリンク先は、勤務先で使っているものから社内の値を除いた公開版。利用状況のサンプルは架空のデータで作っている。',
-            en: 'The repositories linked below are public versions of what the company uses, with internal values removed. The usage samples are built from fictional data.',
-          }} />
-        </p>
       </div>
     </div>
   </section>
@@ -276,6 +270,13 @@ const misfits: Fit[] = [
         );
       })}
     </div>
+    <p class="mt-4 flex max-w-3xl gap-2 type-caption leading-6 text-zinc-500 dark:text-poi-muted">
+      <LucideIcon name="eye-off" class="mt-[5px] h-3.5 w-3.5 shrink-0" />
+      <T text={{
+        ja: 'GitHub のリンク先は、勤務先で使うものから社内の値を除いた公開版。利用状況のサンプルは架空のデータ。',
+        en: 'The GitHub links are public versions of what the company uses, with internal values removed. The usage samples are fictional.',
+      }} />
+    </p>
   </section>
 
   {/* 4. 進め方: 考え方はトップに任せ、ここでは導入例で実際にどうしたかだけを書く */}
