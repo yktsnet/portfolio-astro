@@ -380,5 +380,12 @@ const misfits: Fit[] = [
   </section>
 
   {/* 7. ほかのサービス */}
-  <OtherServices others={others} />
+  <OtherServices
+    others={others}
+    extra={{
+      href: '/services/ai-development/workflow/',
+      kicker: 'Workflow',
+      title: { ja: '開発の進め方', en: 'Development Workflow' },
+    }}
+  />
 </MainLayout>

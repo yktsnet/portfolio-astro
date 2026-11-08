@@ -8,9 +8,11 @@ import DevDiagram from '../../../components/workflow/DevDiagram.astro';
 import { services } from '../../../data/services';
 import type { MultilingualText } from '../../../lib/i18n';
 
-const kit = 'https://github.com/yktsnet/sdlc-kit';
+const gddArticle = 'https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development';
+const anthropicArticle = 'https://claude.com/ja/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop';
 
 type Point = { no: string; title: MultilingualText; body: MultilingualText };
+type StepItem = { no: string; title: MultilingualText; tags: string[]; body: MultilingualText };
 
 const overviewPoints: Point[] = [
   {
@@ -48,46 +50,50 @@ const overviewPoints: Point[] = [
   },
 ];
 
-const downstreamSteps: Point[] = [
+const downstreamSteps: StepItem[] = [
   {
-    no: '①',
+    no: '01',
     title: {
-      ja: '実装前に Issue で約束を切る（/issue-draft）',
-      en: 'Approve contracts in the Issue before building (/issue-draft)',
+      ja: '実装前に Issue で約束を切る',
+      en: 'Approve contracts in the Issue before building',
     },
+    tags: ['/issue-draft'],
     body: {
       ja: '後から条件を決めると、できたコードに合わせた甘い条件になる。完了条件（AC）と壊さない振る舞い（保証）を先に書き、人が判断すべき項目だけを承認する。',
       en: 'Defining criteria after the code is written leads to lenient tests tailored to the implementation. Acceptance criteria (AC) and invariants (guarantees) are written and approved upfront.',
     },
   },
   {
-    no: '②',
+    no: '02',
     title: {
-      ja: '文脈を切って新セッションで1本通しで作る（/issue-work）',
-      en: 'Build end-to-end in a fresh session (/issue-work)',
+      ja: '文脈を切って新セッションで1本通しで作る',
+      en: 'Build end-to-end in a fresh session',
     },
+    tags: ['/issue-work'],
     body: {
       ja: '起票時の相談の文脈を持ち込むと、書かれていない暗黙の了解で実装が進む。Issue だけを渡した新セッションを開き、独立した worktree で3本を並行して作る。',
       en: 'Carrying over the drafting conversation lets unwritten assumptions slip into code. A fresh session receives only the Issue, building up to 3 issues in parallel across isolated worktrees.',
     },
   },
   {
-    no: '③',
+    no: '03',
     title: {
-      ja: '作った者は判定しない（screen-operator・issue-verifier）',
-      en: 'The builder never judges its own work (screen-operator / issue-verifier)',
+      ja: '作った者は判定しない',
+      en: 'The builder never judges its own work',
     },
+    tags: ['screen-operator', 'issue-verifier'],
     body: {
       ja: '自分で書いたテストで自分の実装を確かめると、自分の解釈で合格にする。画面は操作役がたどって写真を撮り、人は「使い心地」だけを見る。合否は別文脈の確認者が AC ごとに判定する。',
       en: 'An agent testing its own code grades on its own interpretation. A screen operator captures UI flows so humans check only UX feel, while an isolated verifier judges each AC.',
     },
   },
   {
-    no: '④',
+    no: '04',
     title: {
-      ja: '手戻りの原因を工場へ還流する（/rework-review）',
-      en: 'Feed rework causes back into Skills and Hooks (/rework-review)',
+      ja: '手戻りの原因を仕組みへ還流する',
+      en: 'Feed rework causes back into Skills and Hooks',
     },
+    tags: ['/rework-review'],
     body: {
       ja: '判定がすべて通れば止まらずに証拠付き PR を出す。実装中にやり直した箇所（手戻り）は PR に記録し、繰り返す原因を集計して Skill の手順と Hook の更新へ戻す。',
       en: 'When all checks pass, an evidence-backed PR is opened without stopping. Rework during implementation is logged in the PR and aggregated to update Skill steps and mechanical Hooks.',
@@ -129,7 +135,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
 ];
 ---
 
-<MainLayout title="Workflow — Development Process" description="AI と開発するときの仕組みを、顧客理解と実装の2つのループと検証の分離で図解する。">
+<MainLayout title="Workflow — Development Process" description="AI と開発するときの仕組みを、顧客理解と実装の分担と別文脈での検証で図解する。">
   {/* ヒーロー */}
   <section>
     <a href="/" class="inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors duration-200 hover:text-zinc-900 dark:text-poi-muted dark:hover:text-poi-focus">
@@ -141,20 +147,16 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
     </p>
     <h1 class="mt-3 max-w-3xl type-display font-semibold leading-normal tracking-tight text-zinc-900 dark:text-poi-focus">
       <T text={{
-        ja: '開発の進め方：顧客理解と実装を2つの輪で回す',
-        en: 'How I Build: Running Discovery and Implementation as Two Loops',
+        ja: '開発の進め方：顧客理解と実装を分けて行き来する',
+        en: 'How I Build: Separating and Connecting Discovery and Implementation',
       }} />
     </h1>
     <p class="mt-4 max-w-2xl type-lead leading-7 text-zinc-600 sm:leading-8 dark:text-poi-muted">
       <T text={{
-        ja: 'AI がコードを書く時代、詰まるのは「何を作るべきか見極めること」と「出力を信じてよいか検証すること」に移った。答えを待たずに仮置きで試作して暗黙知を引き出し、別文脈の確認者で検証を回す型を図で示す。',
-        en: 'Now that AI writes the code, the bottlenecks have shifted to deciding what to build and verifying whether the output can be trusted. These diagrams show how I prototype on explicit assumptions to surface tacit needs and verify in a fresh context.',
+        ja: 'AI で実装が速くなると、詰まるのは「何を作るか決めること」と「出力の検証」になる。答えを待たずに仮置きで試作して暗黙知を引き出し、作った者とは別の文脈で検証する。',
+        en: 'When AI makes coding fast, the bottlenecks shift to deciding what to build and verifying the output. I prototype on explicit assumptions to surface tacit needs and verify in a fresh context.',
       }} />
     </p>
-    <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
-      <RepoLink label="sdlc-kit" href={kit} />
-      <RepoLink label="Zenn — 保証駆動開発 (GDD)" href="https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development" icon="zenn" />
-    </div>
   </section>
 
   {/* 01: 全体像 */}
@@ -163,22 +165,22 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
       size="heading"
       kicker="01 — Big Picture"
       title={{
-        ja: '顧客理解担当と実装担当の2つの輪をつなぐ',
+        ja: '顧客理解担当と実装担当を分け、試作と問いでつなぐ',
         en: 'Connecting Customer Understanding and Implementation',
       }}
       lead={{
-        ja: '上流（正しいものか）と下流（正しく作られているか）は詰まる理由が違う。現場と試作から要件を決める「顧客理解担当」と、約束を切って作らせる「実装担当」の2つの席を置き、動く試作と問いで行き来する。',
-        en: 'Upstream (building the right thing) and downstream (building it right) stall for different reasons. I separate Customer Understanding and Implementation into two loops connected by working prototypes and question Issues.',
+        ja: '現場と試作から要件を決める「顧客理解担当」と、約束を切って作る「実装担当」に分ける。文書でやり取りせず、動く試作と問いの Issue で2つの担当を行き来させる。',
+        en: 'Customer Understanding decides what to build from the site and prototypes; Implementation builds against approved contracts. The two sides stay connected through working prototypes and question Issues.',
       }}
     />
     <div class="ui-card mt-5 overflow-hidden sm:mt-6">
       <div class="p-6 sm:p-8">
-        <DevDiagram kind="overview" label="顧客理解担当の輪と実装担当の輪をつなぐ全体図" />
+        <DevDiagram kind="overview" label="顧客理解担当と実装担当を動く試作と問いのIssueでつなぐ全体図" />
       </div>
       <div class="grid divide-y divide-zinc-200 border-t ui-subpanel md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
         {overviewPoints.map((p) => (
           <div class="p-6 sm:p-7">
-            <p class="font-mono type-caption text-poi-accent">{p.no}</p>
+            <p class="font-mono type-caption text-zinc-400 dark:text-poi-muted">{p.no}</p>
             <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus"><T text={p.title} /></h3>
             <p class="mt-2 type-small leading-6 text-zinc-600 dark:text-poi-muted"><T text={p.body} /></p>
           </div>
@@ -208,74 +210,85 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
       <div class="grid divide-y divide-zinc-200 border-t ui-subpanel md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
         {/* 左列：実装担当 */}
         <div class="p-6 sm:p-7">
-          <p class="ui-kicker"><span class="text-poi-accent">Implementation</span></p>
+          <p class="ui-kicker">Implementation</p>
           <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
             <T text={{
               ja: '実装担当：未確定を「仮置き」と「問い」に分けて試作',
               en: 'Implementation: Split unknowns into assumptions and question Issues',
             }} />
           </h3>
-          <ul class="mt-3 space-y-2.5">
-            <li class="flex gap-2.5 type-small leading-6">
-              <span class="font-mono text-poi-accent">①</span>
-              <span class="text-zinc-600 dark:text-poi-muted">
-                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                  <T text={{ ja: '仮置き一覧に分離して作る：', en: 'Isolate in an assumption list: ' }} />
-                </strong>
-                <T text={{
-                  ja: 'AI が黙って選んだ前提がそのまま本番に残らないよう、仮に置いた仕様は一覧に明記して確定分と分ける。',
-                  en: 'So silent AI guesses never slip into production, provisional choices are recorded in a dedicated assumption list separate from confirmed specs.',
-                }} />
-              </span>
+          <ul class="mt-3.5 space-y-3">
+            <li class="flex gap-3 type-small leading-6">
+              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">01</span>
+              <div class="text-zinc-600 dark:text-poi-muted">
+                <p class="font-semibold text-zinc-900 dark:text-poi-focus">
+                  <T text={{ ja: '仮置き一覧に分離して作る', en: 'Isolate in an assumption list' }} />
+                </p>
+                <p class="mt-0.5">
+                  <T text={{
+                    ja: 'AI が黙って選んだ前提がそのまま本番に残らないよう、仮に置いた仕様は一覧に明記して確定分と分ける。',
+                    en: 'So silent AI guesses never slip into production, provisional choices are recorded in a dedicated assumption list separate from confirmed specs.',
+                  }} />
+                </p>
+              </div>
             </li>
-            <li class="flex gap-2.5 type-small leading-6">
-              <span class="font-mono text-poi-accent">②</span>
-              <span class="text-zinc-600 dark:text-poi-muted">
-                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                  <T text={{ ja: '問いを起こし、回答を読む（/client-next）：', en: 'Open questions & apply answers (/client-next): ' }} />
-                </strong>
-                <T text={{
-                  ja: '先方の判断が要る点は同じ変更で「問いの Issue」に起こして渡す。戻った回答は次の起票時に /client-next で読み、仮置きと違えば直しの Issue にする。',
-                  en: 'Items needing client decisions are opened as Question Issues in the same change. Returned answers are read via /client-next and turned into fix Issues if they differ.',
-                }} />
-              </span>
+            <li class="flex gap-3 type-small leading-6">
+              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">02</span>
+              <div class="text-zinc-600 dark:text-poi-muted">
+                <p class="flex flex-wrap items-center gap-x-2 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
+                  <span><T text={{ ja: '問いを起こし、回答を読む', en: 'Open questions & apply answers' }} /></span>
+                  <code class="inline-flex items-center rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none">/client-next</code>
+                </p>
+                <p class="mt-0.5">
+                  <T text={{
+                    ja: '先方の判断が要る点は同じ変更で「問いの Issue」に起こして渡す。戻った回答は次の起票時に読み、仮置きと違えば直しの Issue にする。',
+                    en: 'Items needing client decisions are opened as Question Issues in the same change. Returned answers are read on the next draft and turned into fix Issues if they differ.',
+                  }} />
+                </p>
+              </div>
             </li>
           </ul>
         </div>
 
         {/* 右列：顧客理解担当 */}
         <div class="p-6 sm:p-7">
-          <p class="ui-kicker"><span class="text-poi-accent">Customer Understanding</span></p>
+          <p class="ui-kicker">Customer Understanding</p>
           <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
             <T text={{
               ja: '顧客理解担当：照会・回収を回し、試作から要件を決める',
               en: 'Customer Understanding: Run Q&A skills and decide specs from prototypes',
             }} />
           </h3>
-          <ul class="mt-3 space-y-2.5">
-            <li class="flex gap-2.5 type-small leading-6">
-              <span class="font-mono text-poi-accent">③</span>
-              <span class="text-zinc-600 dark:text-poi-muted">
-                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                  <T text={{ ja: '照会と1か所への回収（/qa-send・/qa-collect）：', en: 'Send & centralize answers (/qa-send, /qa-collect): ' }} />
-                </strong>
-                <T text={{
-                  ja: '/qa-send で照会文面を下書きして送り、照会表・MTG・チャットのどこで出た回答も /qa-collect で問いの Issue 1か所に集約する。',
-                  en: 'Draft inquiries with /qa-send, and funnel answers from spreadsheets, meetings, or chat into a single Question Issue with /qa-collect.',
-                }} />
-              </span>
+          <ul class="mt-3.5 space-y-3">
+            <li class="flex gap-3 type-small leading-6">
+              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">03</span>
+              <div class="text-zinc-600 dark:text-poi-muted">
+                <p class="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
+                  <span class="mr-0.5"><T text={{ ja: '照会と1か所への回収', en: 'Send & centralize answers' }} /></span>
+                  <code class="inline-flex items-center rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none">/qa-send</code>
+                  <code class="inline-flex items-center rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none">/qa-collect</code>
+                </p>
+                <p class="mt-0.5">
+                  <T text={{
+                    ja: '照会文面を下書きして送り、照会表・MTG・チャットのどこで出た回答も問いの Issue 1か所に集約する。',
+                    en: 'Draft inquiries to send, and funnel answers from spreadsheets, meetings, or chat into a single Question Issue.',
+                  }} />
+                </p>
+              </div>
             </li>
-            <li class="flex gap-2.5 type-small leading-6">
-              <span class="font-mono text-poi-accent">④</span>
-              <span class="text-zinc-600 dark:text-poi-muted">
-                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                  <T text={{ ja: '2段階レビューと正本の更新：', en: 'Two-stage review & canonical spec updates: ' }} />
-                </strong>
-                <T text={{
-                  ja: '試作を利用者より先に触り（社内レビュー）、直ったものを利用者に見せて反応を引き出す（利用者レビュー）。決まった要件を正本へマージするのはこの担当だけに絞る。',
-                  en: 'Touch the prototype before users do (internal review), then show the refined version to users to draw out feedback. Only this role merges confirmed specs.',
-                }} />
-              </span>
+            <li class="flex gap-3 type-small leading-6">
+              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">04</span>
+              <div class="text-zinc-600 dark:text-poi-muted">
+                <p class="font-semibold text-zinc-900 dark:text-poi-focus">
+                  <T text={{ ja: '2段階レビューと正本の更新', en: 'Two-stage review & canonical spec updates' }} />
+                </p>
+                <p class="mt-0.5">
+                  <T text={{
+                    ja: '試作を利用者より先に触り（社内レビュー）、直ったものを利用者に見せて反応を引き出す（利用者レビュー）。決まった要件を正本へマージするのはこの担当だけに絞る。',
+                    en: 'Touch the prototype before users do (internal review), then show the refined version to users to draw out feedback. Only this role merges confirmed specs.',
+                  }} />
+                </p>
+              </div>
             </li>
           </ul>
         </div>
@@ -302,43 +315,56 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
         <DevDiagram kind="verify" label="約束の承認から1セッションでの実装、別文脈の確認者による判定、PRと手戻り還流までの図" />
       </div>
 
-      {/* 下段：左に①〜④の手順、右に実際の成果物（IssueのACとPRの判定表） */}
+      {/* 下段：左に01〜04の手順、右に実際の成果物（IssueのACとPRの判定表） */}
       <div class="grid divide-y divide-zinc-200 border-t ui-subpanel lg:grid-cols-12 lg:divide-x lg:divide-y-0 dark:divide-poi-border/60">
-        <div class="p-6 sm:p-7 lg:col-span-7">
-          <p class="ui-kicker">Verification Flow</p>
-          <ol class="mt-3.5 space-y-3.5">
-            {downstreamSteps.map((st) => (
-              <li class="flex gap-3">
-                <span class="font-mono type-body font-semibold text-poi-accent">{st.no}</span>
-                <div class="type-small leading-6">
-                  <p class="font-semibold text-zinc-900 dark:text-poi-focus"><T text={st.title} /></p>
-                  <p class="mt-0.5 text-zinc-600 dark:text-poi-muted"><T text={st.body} /></p>
-                </div>
-              </li>
-            ))}
-          </ol>
+        <div class="flex flex-col justify-between p-6 sm:p-7 lg:col-span-7">
+          <div>
+            <p class="ui-kicker">Verification Flow</p>
+            <ol class="mt-3.5 space-y-3.5">
+              {downstreamSteps.map((st) => (
+                <li class="flex gap-3">
+                  <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-1">{st.no}</span>
+                  <div class="type-small leading-6">
+                    <p class="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
+                      <span class="mr-0.5"><T text={st.title} /></span>
+                      {st.tags.map((tag) => (
+                        <code class="inline-flex items-center gap-1 rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none">
+                          {!tag.startsWith('/') && <LucideIcon name="bot" class="h-3 w-3 text-poi-accent" />}
+                          <span>{tag}</span>
+                        </code>
+                      ))}
+                    </p>
+                    <p class="mt-0.5 text-zinc-600 dark:text-poi-muted"><T text={st.body} /></p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div class="mt-6 border-t border-zinc-200/80 pt-4 dark:border-poi-border/50">
+            <RepoLink label="Zenn — 保証駆動開発 (GDD)" href={gddArticle} icon="zenn" />
+          </div>
         </div>
 
         <div class="flex flex-col justify-between divide-y divide-zinc-200 lg:col-span-5 dark:divide-poi-border/60">
           <div class="p-6 sm:p-7">
-            <p class="ui-kicker"><span class="text-poi-accent">Sample ①</span> <T text={{ ja: 'Issue の AC と保証', en: 'Issue ACs & Guarantees' }} /></p>
+            <p class="ui-kicker">Sample 01 — <T text={{ ja: 'Issue の AC と保証', en: 'Issue ACs & Guarantees' }} /></p>
             <pre class="lang-ja mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-zinc-200 bg-white p-3.5 type-small leading-6 text-zinc-700 dark:border-poi-border/60 dark:bg-poi-base/60 dark:text-poi-text">{acSampleJa}</pre>
             <pre class="lang-en mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-zinc-200 bg-white p-3.5 type-small leading-6 text-zinc-700 dark:border-poi-border/60 dark:bg-poi-base/60 dark:text-poi-text">{acSampleEn}</pre>
           </div>
           <div class="p-6 sm:p-7">
-            <p class="ui-kicker"><span class="text-poi-accent">Sample ③→④</span> <T text={{ ja: 'PR 本文に載る確認者の判定', en: 'Verifier table in PR body' }} /></p>
-            <ul class="mt-3 divide-y divide-zinc-200 rounded-lg border border-zinc-200 bg-white px-3.5 dark:divide-poi-border/60 dark:border-poi-border/60 dark:bg-poi-base/60">
+            <p class="ui-kicker">Sample 03→04 — <T text={{ ja: 'PR 本文に載る確認者の判定', en: 'Verifier table in PR body' }} /></p>
+            <ul class="mt-3 divide-y divide-zinc-200 rounded-lg border border-zinc-200 bg-white px-4 dark:divide-poi-border/60 dark:border-poi-border/60 dark:bg-poi-base/60">
               {verdicts.map((v) => (
-                <li class="flex items-start justify-between gap-3 py-2.5">
-                  <span class="min-w-0">
-                    <span class="type-small leading-6 text-zinc-900 dark:text-poi-focus">
-                      <span class="mr-1.5 font-mono type-caption text-zinc-500 dark:text-poi-muted"><T text={v.no} /></span>
-                      <T text={v.ac} />
-                    </span>
-                    <span class="block break-all font-mono type-caption text-zinc-500 dark:text-poi-muted">{v.evidence}</span>
-                  </span>
-                  <span class="inline-flex shrink-0 items-center gap-1 rounded-md border border-poi-accent/40 bg-poi-accent/10 px-2 py-0.5 font-mono type-label font-semibold text-poi-accent">
-                    <LucideIcon name="check" class="h-3 w-3" />
+                <li class="group flex items-center justify-between gap-3 py-3">
+                  <div class="min-w-0">
+                    <p class="flex items-baseline gap-2 type-small leading-5 text-zinc-900 dark:text-poi-focus">
+                      <span class="shrink-0 font-mono type-label text-zinc-400 dark:text-poi-muted"><T text={v.no} /></span>
+                      <span><T text={v.ac} /></span>
+                    </p>
+                    <p class="mt-1 truncate font-mono type-label text-zinc-500 dark:text-poi-muted">{v.evidence}</p>
+                  </div>
+                  <span class="inline-flex shrink-0 items-center gap-1 rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-2 py-0.5 font-mono type-label text-zinc-600 transition-colors duration-200 group-hover:bg-zinc-100 group-hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:group-hover:bg-poi-panel/50 dark:group-hover:text-poi-focus select-none">
+                    <LucideIcon name="check" class="h-3 w-3 text-poi-accent" />
                     PASS
                   </span>
                 </li>
@@ -360,78 +386,80 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
         en: 'Architectural Decisions and Mechanical Guards',
       }}
     />
-    <div class="ui-card mt-5 grid divide-y divide-zinc-200 overflow-hidden sm:mt-6 md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
-      <div class="p-6 sm:p-7">
-        <p class="ui-kicker">Agent Architecture</p>
-        <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
-          <T text={{ ja: '役割ごとにエージェントを分けない', en: 'Do not split agents by role' }} />
-        </h3>
-        <ul class="mt-3 space-y-2">
-          <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
-            <span class="text-poi-accent" aria-hidden="true">·</span>
-            <span>
-              <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                <T text={{ ja: '実装は1セッション通し：', en: 'Single session for implementation: ' }} />
-              </strong>
-              <T text={{
-                ja: '役割ごとに分けると、受け渡しのたびに「なぜそうしたか」が落ちる。',
-                en: 'Splitting by role drops the "why" at every handoff.',
-              }} />
-            </span>
-          </li>
-          <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
-            <span class="text-poi-accent" aria-hidden="true">·</span>
-            <span>
-              <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                <T text={{ ja: '文脈を切る理由がある所だけ subagent：', en: 'Subagents only when isolation matters: ' }} />
-              </strong>
-              <T text={{
-                ja: '確認者の判定・画面操作の重い出力・並行の読み合わせだけに限定する。',
-                en: 'Used only for verifier judgment, heavy UI operator output, and parallel spec checks.',
-              }} />
-            </span>
-          </li>
-        </ul>
-        <div class="mt-4">
-          <RepoLink
-            label="Anthropic — When to fold subagents"
-            href="https://claude.com/ja/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop"
-            icon="file-text"
-          />
+    <div class="ui-card mt-5 overflow-hidden sm:mt-6">
+      <div class="grid divide-y divide-zinc-200 md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
+        <div class="p-6 sm:p-7">
+          <p class="ui-kicker">Agent Architecture</p>
+          <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
+            <T text={{ ja: '役割ごとにエージェントを分けない', en: 'Do not split agents by role' }} />
+          </h3>
+          <ul class="mt-3 space-y-2">
+            <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
+              <span aria-hidden="true">·</span>
+              <span>
+                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
+                  <T text={{ ja: '実装は1セッション通し：', en: 'Single session for implementation: ' }} />
+                </strong>
+                <T text={{
+                  ja: '役割ごとに分けると、受け渡しのたびに「なぜそうしたか」が落ちる。',
+                  en: 'Splitting by role drops the "why" at every handoff.',
+                }} />
+              </span>
+            </li>
+            <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
+              <span aria-hidden="true">·</span>
+              <span>
+                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
+                  <T text={{ ja: '文脈を切る理由がある所だけ subagent：', en: 'Subagents only when isolation matters: ' }} />
+                </strong>
+                <T text={{
+                  ja: '確認者の判定・画面操作の重い出力・並行の読み合わせだけに限定する。',
+                  en: 'Used only for verifier judgment, heavy UI operator output, and parallel spec checks.',
+                }} />
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="p-6 sm:p-7">
+          <p class="ui-kicker">Mechanical Guards</p>
+          <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
+            <T text={{ ja: '守らせる規則はプロンプトではなく Hook で止める', en: 'Enforce rules with Hooks, not prompts' }} />
+          </h3>
+          <ul class="mt-3 space-y-2">
+            <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
+              <span aria-hidden="true">·</span>
+              <span>
+                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
+                  <T text={{ ja: '破壊的・越権操作の遮断（guards）：', en: 'Block destructive actions (guards): ' }} />
+                </strong>
+                <T text={{
+                  ja: 'main への直接 push、権限のない自動マージ、メイン作業ツリーでの checkout を機械的に止める。',
+                  en: 'Mechanically block direct pushes to main, unauthorized auto-merges, and branch checkouts in the main worktree.',
+                }} />
+              </span>
+            </li>
+            <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
+              <span aria-hidden="true">·</span>
+              <span>
+                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
+                  <T text={{ ja: '秘密情報の混入防止（secret-guard）：', en: 'Prevent secret leaks (secret-guard): ' }} />
+                </strong>
+                <T text={{
+                  ja: '.env や鍵の読み書き・git add を settings.json の deny とフックで遮断する。',
+                  en: 'Block reading, writing, or staging .env and key files via settings.json deny rules and pre-tool hooks.',
+                }} />
+              </span>
+            </li>
+          </ul>
         </div>
       </div>
-
-      <div class="p-6 sm:p-7">
-        <p class="ui-kicker">Mechanical Guards</p>
-        <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
-          <T text={{ ja: '守らせる規則はプロンプトではなく Hook で止める', en: 'Enforce rules with Hooks, not prompts' }} />
-        </h3>
-        <ul class="mt-3 space-y-2">
-          <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
-            <span class="text-poi-accent" aria-hidden="true">·</span>
-            <span>
-              <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                <T text={{ ja: '破壊的・越権操作の遮断（guards）：', en: 'Block destructive actions (guards): ' }} />
-              </strong>
-              <T text={{
-                ja: 'main への直接 push、権限のない自動マージ、メイン作業ツリーでの checkout を機械的に止める。',
-                en: 'Mechanically block direct pushes to main, unauthorized auto-merges, and branch checkouts in the main worktree.',
-              }} />
-            </span>
-          </li>
-          <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
-            <span class="text-poi-accent" aria-hidden="true">·</span>
-            <span>
-              <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                <T text={{ ja: '秘密情報の混入防止（secret-guard）：', en: 'Prevent secret leaks (secret-guard): ' }} />
-              </strong>
-              <T text={{
-                ja: '.env や鍵の読み書き・git add を settings.json の deny とフックで遮断する。',
-                en: 'Block reading, writing, or staging .env and key files via settings.json deny rules and pre-tool hooks.',
-              }} />
-            </span>
-          </li>
-        </ul>
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 border-t ui-subpanel px-6 py-4 sm:px-7">
+        <RepoLink
+          label="Anthropic — When to fold subagents into your main agent loop"
+          href={anthropicArticle}
+          icon="file-text"
+        />
       </div>
     </div>
   </section>
