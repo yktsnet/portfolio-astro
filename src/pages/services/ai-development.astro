@@ -5,14 +5,12 @@ import LucideIcon from '../../components/LucideIcon.astro';
 import RepoLink from '../../components/RepoLink.astro';
 import SectionHead from '../../components/services/SectionHead.astro';
 import ServiceHero from '../../components/services/ServiceHero.astro';
-import OtherServices from '../../components/services/OtherServices.astro';
 import DiagramSesTraining from '../../components/services/DiagramSesTraining.astro';
 import { services, type Link, type Offering } from '../../data/services';
 import type { MultilingualText } from '../../lib/i18n';
 
 // サービス名・説明・提供できることの名前はトップのカードと同じ値を使い、文言をずらさない
 const s = services.find((x) => x.slug === 'ai-development')!;
-const others = services.filter((x) => x.slug !== 'ai-development');
 
 type Decision = { title: MultilingualText; body: MultilingualText };
 type OfferingDetail = {
@@ -373,7 +371,4 @@ const misfits: Fit[] = [
       </div>
     </div>
   </section>
-
-  {/* 7. ほかのサービス */}
-  <OtherServices others={others} />
 </MainLayout>
