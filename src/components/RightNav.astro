@@ -5,8 +5,11 @@ import { getBrandIcon } from '../lib/brand-icons';
 
 const zenn = getBrandIcon('zenn');
 ---
-<div class="ms-auto flex items-center gap-1">
-  <LangToggle />
+{/* スマホではサイト名とアイコン群を1行に収めるため、言語の切り替えを出さず間隔も詰める */}
+<div class="ms-auto flex items-center sm:gap-1">
+  <div class="hidden sm:block">
+    <LangToggle />
+  </div>
   <a
     href="https://github.com/yktsnet"
     target="_blank"

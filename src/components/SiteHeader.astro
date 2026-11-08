@@ -18,15 +18,13 @@ const isHome = currentPath === "/";
   <div class="relative flex sm:flex-col">
     <a
       aria-current={isHome ? "page" : false}
-      aria-label="ykts.net"
       class="inline-flex items-center"
       href="/"
     >
       <div class="group/logo me-3 sm:grayscale sm:hover:filter-none sm:transition-[filter]">
         <Logo class="site-logo-icon transition-transform duration-500 ease-out group-hover/logo:rotate-180" />
       </div>
-      {/* スマホでは右のアイコン群と並ぶ幅が無いので、ロゴだけを出す */}
-      <span class="hidden sm:inline type-display font-bold text-zinc-900 dark:text-poi-focus">ykts.net</span>
+      <span class="type-display font-bold text-zinc-900 dark:text-poi-focus">ykts.net</span>
     </a>
   </div>
 
