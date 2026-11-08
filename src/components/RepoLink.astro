@@ -1,5 +1,6 @@
 ---
 import LucideIcon from './LucideIcon.astro';
+import { getBrandIcon } from '../lib/brand-icons';
 
 interface Props {
   label: string;
@@ -7,6 +8,8 @@ interface Props {
   icon?: string;
 }
 const { label, href, icon = 'github' } = Astro.props;
+const brand = getBrandIcon(icon);
+const iconClass = 'h-3.5 w-3.5 shrink-0 opacity-70 transition-opacity duration-200 group-hover:opacity-100';
 ---
 <a
   href={href}
@@ -14,7 +17,11 @@ const { label, href, icon = 'github' } = Astro.props;
   rel="noopener noreferrer"
   class="group inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors duration-200 hover:text-zinc-900 dark:text-poi-muted dark:hover:text-poi-focus"
 >
-  <LucideIcon name={icon} class="h-3.5 w-3.5 shrink-0 opacity-70 transition-opacity duration-200 group-hover:opacity-100" />
+  {brand ? (
+    <svg class={iconClass} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={brand.path} /></svg>
+  ) : (
+    <LucideIcon name={icon} class={iconClass} />
+  )}
   {label}
   <LucideIcon name="external-link" class="h-3 w-3 shrink-0 opacity-70 transition-opacity duration-200 group-hover:opacity-100" />
 </a>
