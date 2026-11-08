@@ -47,9 +47,10 @@ const changes: Change[] = [
 ];
 
 // 勤務先で配っているものの公開版。提供できることの各カードに、offerings と同じ順で1つずつ出す
+// 評価のカードは、リポのトップではなく評価基準を図で見せるスライドへ送る
 const offeringRepos = [
   s.offerings[0].repos.find((r) => r.name === 'sdlc-kit')!,
-  s.offerings[1].repos.find((r) => r.name === 'mgmt-kit')!,
+  { name: 'mgmt-kit/ladder', href: 'https://github.com/yktsnet/mgmt-kit/blob/main/ladder/README.md' },
 ];
 
 const steps: Step[] = [
