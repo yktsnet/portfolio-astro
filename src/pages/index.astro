@@ -2,6 +2,8 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import T from '../components/T.astro';
 import Career from '../components/Career.astro';
+import LucideIcon from '../components/LucideIcon.astro';
+import RepoLink from '../components/RepoLink.astro';
 import SectionHead from '../components/services/SectionHead.astro';
 import ServiceCard from '../components/services/ServiceCard.astro';
 import { services } from '../data/services';
@@ -119,5 +121,86 @@ const origins = [
     <div class="mt-10 space-y-10 sm:mt-12 sm:space-y-12">
       {services.map((s, idx) => <ServiceCard service={s} reverse={idx % 2 === 1} />)}
     </div>
+  </section>
+
+  {/* 3. Workflow: AIと開発するときの自分の進め方（Servicesとは独立した3本目の柱） */}
+  <section id="workflow" class="mt-20 scroll-mt-28 border-t border-zinc-200 pt-16 sm:mt-24 sm:pt-20 dark:border-poi-border/60">
+    <SectionHead
+      kicker="Workflow"
+      title={{
+        ja: 'AIと開発するときは、\n顧客理解と実装を2つの輪で回している。',
+        en: 'When building with AI,\nI run customer understanding and implementation as two connected loops.',
+      }}
+      lead={{
+        ja: 'AI がコードを書く時代、詰まるのは「何を作るべきか見極めること」と「出力を信じてよいか検証すること」に移った。答えを待たずに仮置きで試作して暗黙知を引き出し、別文脈の確認者で検証を回す開発の型を組んでいる。',
+        en: 'Now that AI writes the code, the bottlenecks are deciding what to build and verifying whether the output can be trusted. I prototype on explicit assumptions without waiting for answers, and verify in a fresh context.',
+      }}
+    />
+
+    <article class="group relative mt-10 overflow-hidden ui-card transition-colors duration-200 hover:border-poi-accent/50 sm:mt-12 dark:hover:border-poi-accent/50">
+      <div class="grid divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
+        <div class="p-6 sm:p-8 lg:p-9">
+          <p class="flex items-center gap-2 font-mono type-caption text-poi-accent">
+            <LucideIcon name="user-check" class="h-4 w-4" />
+            <span>01 — BIG PICTURE</span>
+          </p>
+          <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
+            <T text={{ ja: '顧客理解と実装の2つの輪', en: 'Two loops: Discovery & Implementation' }} />
+          </h3>
+          <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted">
+            <T text={{
+              ja: '仕様書をまとめる仕事は AI に移し、人の時間は「現場を見て、試作を先に触り、何を作るべきかを決めること」に使う。動く試作と問いで2つの輪を行き来させる。',
+              en: 'Leave spec writing to AI; spend human time observing the site, touching prototypes first, and deciding what to build. Connect both loops through working prototypes and questions.',
+            }} />
+          </p>
+        </div>
+
+        <div class="p-6 sm:p-8 lg:p-9">
+          <p class="flex items-center gap-2 font-mono type-caption text-poi-accent">
+            <LucideIcon name="user-round-pen" class="h-4 w-4" />
+            <span>02 — UPSTREAM</span>
+          </p>
+          <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
+            <T text={{ ja: '答えを待たずに「仮置き」で試作', en: 'Prototype on explicit assumptions' }} />
+          </h3>
+          <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted">
+            <T text={{
+              ja: '受託開発で手が止まる最大の理由は先方の回答待ちにある。未確定の仕様は「仮置き一覧」に分離して先に動く画面を見せ、並行して問いの照会と回収を回す。',
+              en: 'The biggest blocker in contract work is waiting for client answers. Separate assumptions into an explicit list to show working screens first, while collecting answers in parallel.',
+            }} />
+          </p>
+        </div>
+
+        <div class="p-6 sm:p-8 lg:p-9">
+          <p class="flex items-center gap-2 font-mono type-caption text-poi-accent">
+            <LucideIcon name="bot" class="h-4 w-4" />
+            <span>03 — DOWNSTREAM</span>
+          </p>
+          <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
+            <T text={{ ja: '約束を先に承認し、別文脈で判定', en: 'Approve contracts first, verify separately' }} />
+          </h3>
+          <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted">
+            <T text={{
+              ja: '自分で書いたテストで自分の実装を確かめると解釈が甘くなる。入口で完了条件（AC）と壊さない保証を承認し、出口では別文脈の確認者が証拠付きで判定する。',
+              en: 'Checking your own code with your own tests leads to lenient grading. Approve ACs and guarantees upfront, and verify in a separate session with test evidence.',
+            }} />
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4 border-t ui-subpanel p-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-5 lg:px-9">
+        <div class="relative z-10 flex flex-wrap items-center gap-x-5 gap-y-2">
+          <RepoLink label="sdlc-kit" href="https://github.com/yktsnet/sdlc-kit" />
+          <RepoLink label="Zenn — 保証駆動開発 (GDD)" href="https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development" icon="zenn" />
+        </div>
+        <a
+          href="/services/ai-development/workflow/"
+          class="inline-flex items-center gap-1.5 self-start rounded-md border border-poi-accent/35 bg-poi-accent/5 px-3.5 py-2 font-mono type-caption text-poi-accent after:absolute after:inset-0 after:content-[''] focus-visible:underline outline-hidden sm:self-auto"
+        >
+          <span class="lang-ja">3つの図で詳しく見る</span><span class="lang-en">See the workflow in 3 diagrams</span>
+          <LucideIcon name="arrow-right" class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </a>
+      </div>
+    </article>
   </section>
 </MainLayout>
