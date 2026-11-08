@@ -50,7 +50,7 @@ const changes: Change[] = [
 // 評価のカードは、リポのトップではなく評価基準を図で見せるスライドへ送る
 const offeringRepos = [
   s.offerings[0].repos.find((r) => r.name === 'sdlc-kit')!,
-  { name: 'Slides — エンジニア評価基準', href: 'https://github.com/yktsnet/mgmt-kit/blob/main/ladder/README.md' },
+  { name: { ja: 'Slides — エンジニア評価基準', en: 'Slides — Engineer evaluation criteria' }, href: 'https://github.com/yktsnet/mgmt-kit/blob/main/ladder/README.md' },
 ];
 
 const steps: Step[] = [
@@ -105,7 +105,7 @@ const offeringDetails: OfferingDetail[] = [
         body: { ja: '壊れてはいけないことを人が承認し、テストと実装はエージェントに任せる（保証駆動開発）。', en: 'People approve what must not break; the agent writes the tests and code (guarantee-driven development).' },
       },
     ],
-    links: [{ label: 'Zenn — 保証駆動開発 (GDD)', href: 'https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development', icon: 'zenn' }],
+    links: [{ label: { ja: 'Zenn — 保証駆動開発 (GDD)', en: 'Zenn — Guarantee-Driven Development (GDD)' }, href: 'https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development', icon: 'zenn' }],
   },
   {
     line: {
@@ -149,7 +149,7 @@ const training = {
     { ja: '半分以上は、各自が手を動かして班で見せ合う時間にする', en: 'Over half the time is hands-on work and small-group show-and-tell' },
     { ja: '最終回で、自分で選んだ課題を形にして発表する', en: 'In the last session, each person presents a problem they chose and built' },
   ],
-  links: [{ label: 'Slides — AI勉強会の提案', href: 'https://github.com/yktsnet/mgmt-kit/blob/main/training/README.md' }],
+  links: [{ label: { ja: 'Slides — AI勉強会の提案', en: 'Slides — AI study group proposal' }, href: 'https://github.com/yktsnet/mgmt-kit/blob/main/training/README.md' }],
 };
 
 const fits: Fit[] = [
@@ -183,7 +183,7 @@ const misfits: Fit[] = [
   {/* 1. サービス名と説明（トップのカードと同じ文） */}
   <ServiceHero service={s} />
 
-  {/* 2. 導入例: 勤務先での変化。数字は出さず、変わったことを文で書く */}
+  {/* 2. 導入例: 勤務先での変化。成果の数字は出せないので、出せる数と変わったことを書く */}
   <section class="mt-14 sm:mt-16">
     <SectionHead size="heading" kicker="Case & Results" title={{ ja: '導入例：勤務先の開発会社', en: 'Example: the development company I work for' }} />
     <div class="ui-card mt-5 overflow-hidden sm:mt-6">

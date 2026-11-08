@@ -1,9 +1,11 @@
 ---
 import LucideIcon from './LucideIcon.astro';
+import T from './T.astro';
 import { getBrandIcon } from '../lib/brand-icons';
+import type { MultilingualText } from '../lib/i18n';
 
 interface Props {
-  label: string;
+  label: string | MultilingualText;
   href: string;
   icon?: string;
 }
@@ -22,6 +24,6 @@ const iconClass = 'h-3.5 w-3.5 shrink-0 opacity-70 transition-opacity duration-2
   ) : (
     <LucideIcon name={icon} class={iconClass} />
   )}
-  {label}
+  {typeof label === 'string' ? label : <T text={label} />}
   <LucideIcon name="external-link" class="h-3 w-3 shrink-0 opacity-70 transition-opacity duration-200 group-hover:opacity-100" />
 </a>

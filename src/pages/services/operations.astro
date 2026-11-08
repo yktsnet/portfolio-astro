@@ -197,7 +197,10 @@ const misfits: Fit[] = [
 ];
 
 const zenn = {
-  title: 'Raspberry Pi 2 と GAS で事務所の勤怠を NFC カード1枚に集約する',
+  title: {
+    ja: 'Raspberry Pi 2 と GAS で事務所の勤怠を NFC カード1枚に集約する',
+    en: 'Consolidating office attendance onto one NFC card with Raspberry Pi 2 and GAS',
+  },
   href: 'https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2',
 };
 
@@ -235,7 +238,7 @@ const zenn = {
           }} />
         </p>
         <div class="mt-4">
-          <RepoLink label={`Zenn — ${zenn.title}`} href={zenn.href} icon="zenn" />
+          <RepoLink label={{ ja: `Zenn — ${zenn.title.ja}`, en: `Zenn — ${zenn.title.en}` }} href={zenn.href} icon="zenn" />
         </div>
       </div>
     </div>

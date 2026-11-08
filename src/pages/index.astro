@@ -12,8 +12,8 @@ import { siteConfig } from '../site.config';
 // 4つのうち3つは導入事例の数字。最後の1つだけ経歴から取る
 const numbers = [
   { tag: 'ATTENDANCE', value: { ja: '−5', en: '−5' }, unit: { ja: '時間/月', en: 'h/mo' }, label: { ja: '管理者の勤怠集計の工数', en: 'Admin hours on attendance' } },
-  { tag: 'PAYROLL', value: { ja: '−3〜4', en: '−3〜4' }, unit: { ja: '万円/月', en: '×10k JPY/mo' }, label: { ja: '給与計算の月次差異', en: 'Monthly payroll discrepancy' } },
-  { tag: 'ADOPTION', value: { ja: '初日', en: 'Day 1' }, unit: { ja: 'から', en: '' }, label: { ja: '説明なしで現場に定着', en: 'Adopted without instructions' } },
+  { tag: 'PAYROLL', value: { ja: '−3〜4', en: '−30–40k' }, unit: { ja: '万円/月', en: 'JPY/mo' }, label: { ja: '給与計算の月次差異', en: 'Monthly payroll discrepancy' } },
+  { tag: 'ADOPTION', value: { ja: '初日', en: 'Day one' }, unit: { ja: 'から', en: '' }, label: { ja: '説明なしで現場に定着', en: 'Adopted without instructions' } },
   { tag: 'MANAGEMENT', value: { ja: '12', en: '12' }, unit: { ja: '年', en: 'yrs' }, label: { ja: '学習塾の経営', en: 'Running a tutoring school' } },
 ];
 
@@ -145,7 +145,7 @@ const origins = [
             <span>01 — BIG PICTURE</span>
           </p>
           <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
-            <T text={{ ja: '顧客理解と実装を分けてつなぐ', en: 'Connect Discovery & Implementation' }} />
+            <T text={{ ja: '顧客理解と実装を分けてつなぐ', en: 'Connect customer understanding and implementation' }} />
           </h3>
           <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted">
             <T text={{
@@ -177,7 +177,7 @@ const origins = [
             <span>03 — DOWNSTREAM</span>
           </p>
           <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
-            <T text={{ ja: '約束を先に承認し、別文脈で判定', en: 'Approve contracts first, verify separately' }} />
+            <T text={{ ja: '約束を先に承認し、別文脈で判定', en: 'Approve promises first, verify separately' }} />
           </h3>
           <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted">
             <T text={{
@@ -190,7 +190,7 @@ const origins = [
 
       <div class="flex flex-col gap-4 border-t ui-subpanel p-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-5 lg:px-9">
         <div class="relative z-10 flex flex-wrap items-center gap-x-5 gap-y-2">
-          <RepoLink label="Zenn — 保証駆動開発 (GDD)" href="https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development" icon="zenn" />
+          <RepoLink label={{ ja: 'Zenn — 保証駆動開発 (GDD)', en: 'Zenn — Guarantee-Driven Development (GDD)' }} href="https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development" icon="zenn" />
         </div>
         <a
           href="/services/ai-development/workflow/"
