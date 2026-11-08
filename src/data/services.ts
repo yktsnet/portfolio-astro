@@ -10,7 +10,7 @@ export type Offering = {
   repos: Repo[];
 };
 
-export type Link = { label: string; href: string };
+export type Link = { label: string; href: string; icon?: string };
 
 export type Service = {
   slug: string;
