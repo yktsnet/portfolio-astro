@@ -5,11 +5,13 @@ import LucideIcon from '../../components/LucideIcon.astro';
 import RepoLink from '../../components/RepoLink.astro';
 import SectionHead from '../../components/services/SectionHead.astro';
 import ServiceHero from '../../components/services/ServiceHero.astro';
+import OtherServices from '../../components/services/OtherServices.astro';
 import { services } from '../../data/services';
 import type { MultilingualText } from '../../lib/i18n';
 
 // サービス名・説明・提供できることの名前はトップのカードと同じ値を使い、文言をずらさない
 const s = services.find((x) => x.slug === 'operations')!;
+const others = services.filter((x) => x.slug !== 'operations');
 
 type Metric = { value: MultilingualText; unit: MultilingualText; label: MultilingualText };
 type Decision = { title: MultilingualText; body: MultilingualText };
@@ -380,4 +382,7 @@ const zenn = {
       </div>
     </div>
   </section>
+
+  {/* 6. ほかのサービス */}
+  <OtherServices others={others} />
 </MainLayout>
