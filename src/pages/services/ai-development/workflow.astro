@@ -177,7 +177,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
       <div class="p-6 sm:p-8">
         <DevDiagram kind="overview" label="顧客理解担当と実装担当を動く試作と問いのIssueでつなぐ全体図" />
       </div>
-      <div class="grid divide-y divide-zinc-200 border-t ui-subpanel md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
+      <div class="grid grid-cols-1 divide-y divide-zinc-200 border-t ui-subpanel md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
         {overviewPoints.map((p) => (
           <div class="p-6 sm:p-7">
             <p class="font-mono type-caption text-zinc-400 dark:text-poi-muted">{p.no}</p>
@@ -207,50 +207,8 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
       <div class="p-6 sm:p-8">
         <DevDiagram kind="spec" label="実装担当の仮置き試作と、顧客理解担当の問いの照会・回収を並行させる図" />
       </div>
-      <div class="grid divide-y divide-zinc-200 border-t ui-subpanel md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
-        {/* 左列：実装担当 */}
-        <div class="p-6 sm:p-7">
-          <p class="ui-kicker">Implementation</p>
-          <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
-            <T text={{
-              ja: '実装担当：未確定を「仮置き」と「問い」に分けて試作',
-              en: 'Implementation: Split unknowns into assumptions and question Issues',
-            }} />
-          </h3>
-          <ul class="mt-3.5 space-y-3">
-            <li class="flex gap-3 type-small leading-6">
-              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">01</span>
-              <div class="text-zinc-600 dark:text-poi-muted">
-                <p class="font-semibold text-zinc-900 dark:text-poi-focus">
-                  <T text={{ ja: '仮置き一覧に分離して作る', en: 'Isolate in an assumption list' }} />
-                </p>
-                <p class="mt-0.5">
-                  <T text={{
-                    ja: 'AI が黙って選んだ前提がそのまま本番に残らないよう、仮に置いた仕様は一覧に明記して確定分と分ける。',
-                    en: 'So silent AI guesses never slip into production, provisional choices are recorded in a dedicated assumption list separate from confirmed specs.',
-                  }} />
-                </p>
-              </div>
-            </li>
-            <li class="flex gap-3 type-small leading-6">
-              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">02</span>
-              <div class="text-zinc-600 dark:text-poi-muted">
-                <p class="flex flex-wrap items-center gap-x-2 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
-                  <span><T text={{ ja: '問いを起こし、回答を読む', en: 'Open questions & apply answers' }} /></span>
-                  <code class="inline-flex items-center rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none">/client-next</code>
-                </p>
-                <p class="mt-0.5">
-                  <T text={{
-                    ja: '先方の判断が要る点は同じ変更で「問いの Issue」に起こして渡す。戻った回答は次の起票時に読み、仮置きと違えば直しの Issue にする。',
-                    en: 'Items needing client decisions are opened as Question Issues in the same change. Returned answers are read on the next draft and turned into fix Issues if they differ.',
-                  }} />
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        {/* 右列：顧客理解担当 */}
+      <div class="grid grid-cols-1 divide-y divide-zinc-200 border-t ui-subpanel md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
+        {/* 左列：顧客理解担当（図の上段と同じ順） */}
         <div class="p-6 sm:p-7">
           <p class="ui-kicker">Customer Understanding</p>
           <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
@@ -261,7 +219,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
           </h3>
           <ul class="mt-3.5 space-y-3">
             <li class="flex gap-3 type-small leading-6">
-              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">03</span>
+              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">01</span>
               <div class="text-zinc-600 dark:text-poi-muted">
                 <p class="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
                   <span class="mr-0.5"><T text={{ ja: '照会と1か所への回収', en: 'Send & centralize answers' }} /></span>
@@ -277,7 +235,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
               </div>
             </li>
             <li class="flex gap-3 type-small leading-6">
-              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">04</span>
+              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">02</span>
               <div class="text-zinc-600 dark:text-poi-muted">
                 <p class="font-semibold text-zinc-900 dark:text-poi-focus">
                   <T text={{ ja: '2段階レビューと正本の更新', en: 'Two-stage review & canonical spec updates' }} />
@@ -286,6 +244,48 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
                   <T text={{
                     ja: '試作を利用者より先に触り（社内レビュー）、直ったものを利用者に見せて反応を引き出す（利用者レビュー）。決まった要件を正本へマージするのはこの担当だけに絞る。',
                     en: 'Touch the prototype before users do (internal review), then show the refined version to users to draw out feedback. Only this role merges confirmed specs.',
+                  }} />
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        {/* 右列：実装担当 */}
+        <div class="p-6 sm:p-7">
+          <p class="ui-kicker">Implementation</p>
+          <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
+            <T text={{
+              ja: '実装担当：未確定を「仮置き」と「問い」に分けて試作',
+              en: 'Implementation: Split unknowns into assumptions and question Issues',
+            }} />
+          </h3>
+          <ul class="mt-3.5 space-y-3">
+            <li class="flex gap-3 type-small leading-6">
+              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">03</span>
+              <div class="text-zinc-600 dark:text-poi-muted">
+                <p class="font-semibold text-zinc-900 dark:text-poi-focus">
+                  <T text={{ ja: '仮置き一覧に分離して作る', en: 'Isolate in an assumption list' }} />
+                </p>
+                <p class="mt-0.5">
+                  <T text={{
+                    ja: 'AI が黙って選んだ前提がそのまま本番に残らないよう、仮に置いた仕様は一覧に明記して確定分と分ける。',
+                    en: 'So silent AI guesses never slip into production, provisional choices are recorded in a dedicated assumption list separate from confirmed specs.',
+                  }} />
+                </p>
+              </div>
+            </li>
+            <li class="flex gap-3 type-small leading-6">
+              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">04</span>
+              <div class="text-zinc-600 dark:text-poi-muted">
+                <p class="flex flex-wrap items-center gap-x-2 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
+                  <span><T text={{ ja: '問いを起こし、回答を読む', en: 'Open questions & apply answers' }} /></span>
+                  <code class="inline-flex items-center rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none">/client-next</code>
+                </p>
+                <p class="mt-0.5">
+                  <T text={{
+                    ja: '先方の判断が要る点は同じ変更で「問いの Issue」に起こして渡す。戻った回答は次の起票時に読み、仮置きと違えば直しの Issue にする。',
+                    en: 'Items needing client decisions are opened as Question Issues in the same change. Returned answers are read on the next draft and turned into fix Issues if they differ.',
                   }} />
                 </p>
               </div>
@@ -316,7 +316,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
       </div>
 
       {/* 下段：左に01〜04の手順、右に実際の成果物（IssueのACとPRの判定表） */}
-      <div class="grid divide-y divide-zinc-200 border-t ui-subpanel lg:grid-cols-12 lg:divide-x lg:divide-y-0 dark:divide-poi-border/60">
+      <div class="grid grid-cols-1 divide-y divide-zinc-200 border-t ui-subpanel lg:grid-cols-12 lg:divide-x lg:divide-y-0 dark:divide-poi-border/60">
         <div class="flex flex-col justify-between p-6 sm:p-7 lg:col-span-7">
           <div>
             <p class="ui-kicker">Verification Flow</p>
@@ -361,7 +361,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
                       <span class="shrink-0 font-mono type-label text-zinc-400 dark:text-poi-muted"><T text={v.no} /></span>
                       <span><T text={v.ac} /></span>
                     </p>
-                    <p class="mt-1 truncate font-mono type-label text-zinc-500 dark:text-poi-muted">{v.evidence}</p>
+                    <p class="mt-1 break-all font-mono type-label text-zinc-500 dark:text-poi-muted">{v.evidence}</p>
                   </div>
                   <span class="inline-flex shrink-0 items-center gap-1 rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-2 py-0.5 font-mono type-label text-zinc-600 transition-colors duration-200 group-hover:bg-zinc-100 group-hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:group-hover:bg-poi-panel/50 dark:group-hover:text-poi-focus select-none">
                     <LucideIcon name="check" class="h-3 w-3 text-poi-accent" />
@@ -387,7 +387,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
       }}
     />
     <div class="ui-card mt-5 overflow-hidden sm:mt-6">
-      <div class="grid divide-y divide-zinc-200 md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
+      <div class="grid grid-cols-1 divide-y divide-zinc-200 md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
         <div class="p-6 sm:p-7">
           <p class="ui-kicker">Agent Architecture</p>
           <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">

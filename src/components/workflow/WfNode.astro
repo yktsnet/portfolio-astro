@@ -1,6 +1,7 @@
 ---
 import DgText from '../services/DgText.astro';
 import { getLucideIcon } from '../../lib/lucide';
+import { textWidth } from '../../lib/svg-text';
 
 // box: 通常の工程や成果物、human: 顧客理解担当（人）が判断する所、
 // impl: 実装担当（人）が判断する所、agent: 文脈を切った別エージェント、
@@ -32,9 +33,8 @@ const icon =
 const iconSize = 15;
 const gap = 6;
 
-const calcW = (s: string) => [...s].reduce((n, c) => n + (c.charCodeAt(0) > 0xff ? 13 : 7.5), 0);
-const jaW = calcW(ja);
-const enW = calcW(en);
+const jaW = textWidth(ja, 13);
+const enW = textWidth(en, 13);
 const leftJa = x + (w - (icon ? iconSize + gap + jaW : jaW)) / 2;
 const leftEn = x + (w - (icon ? iconSize + gap + enW : enW)) / 2;
 const cxJa = icon ? leftJa + iconSize + gap + jaW / 2 : x + w / 2;
@@ -54,31 +54,33 @@ const textClass = isHuman
     : 'dg-text';
 const rx = 8;
 ---
-<rect class={rectClass} x={x} y={y} width={w} height={h} rx={rx} />
-{icon && (
-  <>
-    <svg
-      class:list={[isHuman ? 'dg-acc' : 'dg-line', 'lang-ja']}
-      x={leftJa}
-      y={mainY - 12}
-      width={iconSize}
-      height={iconSize}
-      viewBox="0 0 24 24"
-      style="stroke-width: 2"
-      set:html={getLucideIcon(icon)}
-    />
-    <svg
-      class:list={[isHuman ? 'dg-acc' : 'dg-line', 'lang-en']}
-      x={leftEn}
-      y={mainY - 12}
-      width={iconSize}
-      height={iconSize}
-      viewBox="0 0 24 24"
-      style="stroke-width: 2"
-      set:html={getLucideIcon(icon)}
-    />
-  </>
-)}
-<text class:list={[textClass, 'lang-ja']} x={cxJa} y={mainY} text-anchor="middle">{ja}</text>
-<text class:list={[textClass, 'lang-en']} x={cxEn} y={mainY} text-anchor="middle">{en}</text>
-{subJa && <DgText x={x + w / 2} y={subY} ja={subJa} en={subEn ?? subJa} class="dg-small" />}
+<g class="wf-node">
+  <rect class={rectClass} x={x} y={y} width={w} height={h} rx={rx} />
+  {icon && (
+    <>
+      <svg
+        class:list={[isHuman ? 'dg-acc' : 'dg-line', 'lang-ja']}
+        x={leftJa}
+        y={mainY - 12}
+        width={iconSize}
+        height={iconSize}
+        viewBox="0 0 24 24"
+        style="stroke-width: 2"
+        set:html={getLucideIcon(icon)}
+      />
+      <svg
+        class:list={[isHuman ? 'dg-acc' : 'dg-line', 'lang-en']}
+        x={leftEn}
+        y={mainY - 12}
+        width={iconSize}
+        height={iconSize}
+        viewBox="0 0 24 24"
+        style="stroke-width: 2"
+        set:html={getLucideIcon(icon)}
+      />
+    </>
+  )}
+  <text class:list={[textClass, 'lang-ja']} x={cxJa} y={mainY} text-anchor="middle">{ja}</text>
+  <text class:list={[textClass, 'lang-en']} x={cxEn} y={mainY} text-anchor="middle">{en}</text>
+  {subJa && <DgText x={x + w / 2} y={subY} ja={subJa} en={subEn ?? subJa} class="dg-small" />}
+</g>
