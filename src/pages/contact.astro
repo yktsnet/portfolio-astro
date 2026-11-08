@@ -90,14 +90,34 @@ const inputClass =
     }
   }
 
+  type Msg = { ja: string; en: string };
+  const MSG = {
+    sending: { ja: '送信中…', en: 'Sending…' },
+    sent: { ja: 'ありがとうございます。メッセージを送信しました。', en: 'Thank you. Your message has been sent.' },
+    failed: { ja: '送信に失敗しました。再度お試しください。', en: 'Sending failed. Please try again.' },
+    network: { ja: 'ネットワークエラーが発生しました。', en: 'A network error occurred.' },
+  } satisfies Record<string, Msg>;
+
+  // 送信後に言語を切り替えても表示が追従するよう、ページの文言と同じく日英の span を並べる
+  const setMsg = (el: HTMLElement, m: Msg) => {
+    const ja = document.createElement('span');
+    ja.className = 'lang-ja';
+    ja.textContent = m.ja;
+    const en = document.createElement('span');
+    en.className = 'lang-en';
+    en.textContent = m.en;
+    el.replaceChildren(ja, en);
+  };
+
   document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
     const status = document.getElementById('cf-status') as HTMLParagraphElement;
+    const btnLabel = btn.innerHTML;
 
     btn.disabled = true;
-    btn.textContent = '送信中…';
+    setMsg(btn, MSG.sending);
     status.classList.add('hidden');
 
     const body = buildContactBody(form);
@@ -129,23 +149,23 @@ const inputClass =
 
       status.classList.remove('hidden');
       if (data.ok) {
-        status.textContent = 'ありがとうございます。メッセージを送信しました。';
+        setMsg(status, MSG.sent);
         status.className = 'type-body text-green-600 dark:text-green-400';
         form.reset();
         btn.disabled = false;
-        btn.textContent = '送信';
+        btn.innerHTML = btnLabel;
         return;
       }
 
-      status.textContent = '送信に失敗しました。再度お試しください。';
+      setMsg(status, MSG.failed);
       status.className = 'type-body text-red-500';
-      btn.textContent = '送信';
+      btn.innerHTML = btnLabel;
       resetTurnstile();
     } catch {
       status.classList.remove('hidden');
-      status.textContent = 'ネットワークエラーが発生しました。';
+      setMsg(status, MSG.network);
       status.className = 'type-body text-red-500';
-      btn.textContent = '送信';
+      btn.innerHTML = btnLabel;
       resetTurnstile();
     }
   });

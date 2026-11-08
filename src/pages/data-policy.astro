@@ -1,13 +1,17 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import T from '../components/T.astro';
+import { DEFAULT_RATE_LIMIT_CONFIG } from '@folio-agent/handler';
+
+// 回数は api.ts が使う既定値から出し、実際の制限と文言をずらさない
+const { shortWindowMinutes, shortWindowMax, longWindowHours, longWindowMax } = DEFAULT_RATE_LIMIT_CONFIG;
 
 const sections = [
   {
     title: { ja: 'レート制限', en: 'Rate Limits' },
     body: {
-      ja: 'IP アドレス単位で、10分あたり3回・1日あたり10回までのレート制限を行っています。上限に達した場合はその旨をお伝えし、お急ぎのご相談は Contact ページへの問い合わせをご案内します。',
-      en: 'Rate limiting is enforced per IP address (3 questions per 10 minutes, up to 10 per day). If the limit is reached, please use the Contact page for urgent inquiries.',
+      ja: `IP アドレス単位で、${shortWindowMinutes}分あたり${shortWindowMax}回・${longWindowHours}時間あたり${longWindowMax}回までのレート制限を行っています。上限に達した場合はその旨をお伝えし、お急ぎのご相談は Contact ページへの問い合わせをご案内します。`,
+      en: `Rate limiting is enforced per IP address (${shortWindowMax} questions per ${shortWindowMinutes} minutes, up to ${longWindowMax} per ${longWindowHours} hours). If the limit is reached, please use the Contact page for urgent inquiries.`,
     },
   },
   {
@@ -26,7 +30,7 @@ const sections = [
   },
 ] as const;
 ---
-<MainLayout title="利用データの扱い" description="受付チャットボットが扱う入力・応答データの取り扱いについて">
+<MainLayout title="Data Usage Policy" description="受付チャットボットが扱う入力・応答データの取り扱いについて">
   <h1 class="mb-6 type-display font-semibold text-zinc-900 dark:text-poi-focus">
     <T text={{ ja: '利用データの扱い', en: 'Data Usage Policy' }} />
   </h1>

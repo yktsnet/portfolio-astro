@@ -44,7 +44,7 @@ const overviewPoints: Point[] = [
     },
     body: {
       ja: '値の照合や手順のチェックに人の注意力を使うとレビューが詰まる。人が止まるのは「約束（AC・保証）の承認」「使い心地」「マージ」だけに固定し、それ以外は別文脈の検証器で流す。',
-      en: 'Spending human attention on value matching and procedural checks bottlenecks review. Humans stop only at three gates—approving contracts (ACs & guarantees), UX feel, and merge—while isolated verifiers handle the rest.',
+      en: 'Spending human attention on value matching and procedural checks bottlenecks review. Humans stop only at three gates—approving promises (ACs & guarantees), UX feel, and merge—while isolated verifiers handle the rest.',
     },
   },
 ];
@@ -54,7 +54,7 @@ const downstreamSteps: StepItem[] = [
     no: '01',
     title: {
       ja: '実装前に Issue で約束を切る',
-      en: 'Approve contracts in the Issue before building',
+      en: 'Approve promises in the Issue before building',
     },
     tags: ['/issue-draft'],
     body: {
@@ -134,7 +134,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
 ];
 ---
 
-<MainLayout title="Workflow — Development Process" description="AI と開発するときの仕組みを、顧客理解と実装の分担と別文脈での検証で図解する。">
+<MainLayout title="Development Workflow" description="AI と開発するときの仕組みを、顧客理解と実装の分担と別文脈での検証で図解する。">
   {/* ヒーロー */}
   <section>
     <a href="/" class="inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors duration-200 hover:text-zinc-900 dark:text-poi-muted dark:hover:text-poi-focus">
@@ -147,7 +147,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
     <h1 class="mt-3 max-w-3xl type-display font-semibold leading-normal tracking-tight text-zinc-900 dark:text-poi-focus">
       <T text={{
         ja: '開発の進め方：顧客理解と実装を分けて行き来する',
-        en: 'How I Build: Separating and Connecting Discovery and Implementation',
+        en: 'Development workflow: separating and connecting customer understanding and implementation',
       }} />
     </h1>
     <p class="mt-4 max-w-2xl type-lead leading-7 text-zinc-600 sm:leading-8 dark:text-poi-muted">
@@ -165,11 +165,11 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
       kicker="01 — Big Picture"
       title={{
         ja: '顧客理解担当と実装担当を分け、試作と問いでつなぐ',
-        en: 'Connecting Customer Understanding and Implementation',
+        en: 'Separate customer understanding from implementation, and connect them with prototypes and questions',
       }}
       lead={{
         ja: '現場と試作から要件を決める「顧客理解担当」と、約束を切って作る「実装担当」に分ける。文書でやり取りせず、動く試作と問いの Issue で2つの担当を行き来させる。',
-        en: 'Customer Understanding decides what to build from the site and prototypes; Implementation builds against approved contracts. The two sides stay connected through working prototypes and question Issues.',
+        en: 'Customer Understanding decides what to build from the site and prototypes; Implementation builds against approved promises. The two sides stay connected through working prototypes and question Issues.',
       }}
     />
     <div class="ui-card mt-5 overflow-hidden sm:mt-6">
@@ -195,7 +195,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
       kicker="02 — Upstream"
       title={{
         ja: '答えを待たずに「仮置き」で作り、問いの回収と並行させる',
-        en: 'Build on Explicit Assumptions in Parallel with Q&A Collection',
+        en: 'Build on explicit assumptions in parallel with Q&A collection',
       }}
       lead={{
         ja: '受託開発で手が止まる最大の理由は、実装の遅さではなく「先方の回答待ち」にある。実装担当は仮置きで試作を進め、顧客理解担当が並行して問いを照会・回収する。',
@@ -213,7 +213,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
           <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
             <T text={{
               ja: '顧客理解担当：照会・回収を回し、試作から要件を決める',
-              en: 'Customer Understanding: Run Q&A skills and decide specs from prototypes',
+              en: 'Customer Understanding: run Q&A skills and decide specs from prototypes',
             }} />
           </h3>
           <ul class="mt-3.5 space-y-3">
@@ -256,7 +256,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
           <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
             <T text={{
               ja: '実装担当：未確定を「仮置き」と「問い」に分けて試作',
-              en: 'Implementation: Split unknowns into assumptions and question Issues',
+              en: 'Implementation: split unknowns into assumptions and question Issues',
             }} />
           </h3>
           <ul class="mt-3.5 space-y-3">
@@ -302,7 +302,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
       kicker="03 — Downstream"
       title={{
         ja: '約束を先に承認し、作った者とは別の文脈で判定する',
-        en: 'Approve Contracts First, Verify in an Isolated Context',
+        en: 'Approve promises first, verify in an isolated context',
       }}
       lead={{
         ja: 'エージェントは検証器が見ているものを解く。人が全差分を読む代わりに、入口で「完了条件（AC）」と「壊さない保証」を承認し、出口では別文脈の確認者が証拠付きで検証する。',
@@ -340,7 +340,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
             </ol>
           </div>
           <div class="mt-6 border-t border-zinc-200/80 pt-4 dark:border-poi-border/50">
-            <RepoLink label="Zenn — 保証駆動開発 (GDD)" href={gddArticle} icon="zenn" />
+            <RepoLink label={{ ja: 'Zenn — 保証駆動開発 (GDD)', en: 'Zenn — Guarantee-Driven Development (GDD)' }} href={gddArticle} icon="zenn" />
           </div>
         </div>
 
@@ -382,7 +382,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
       kicker="04 — Architecture & Guards"
       title={{
         ja: 'この型を支える設計判断とガード',
-        en: 'Architectural Decisions and Mechanical Guards',
+        en: 'Architectural decisions and mechanical guards',
       }}
     />
     <div class="ui-card mt-5 overflow-hidden sm:mt-6">
