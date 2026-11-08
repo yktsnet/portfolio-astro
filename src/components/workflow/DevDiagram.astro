@@ -1,7 +1,7 @@
 ---
 import N from './WfNode.astro';
+import Lane from './WfLaneTitle.astro';
 import DgText from '../services/DgText.astro';
-import { getLucideIcon } from '../../lib/lucide';
 
 interface Props {
   kind: 'overview' | 'spec' | 'verify';
@@ -20,8 +20,10 @@ const viewBox = {
   verify: '0 0 820 368',
 }[kind];
 ---
+{/* スマホで全体を縮めると文字が読めないので、幅を保って横にスクロールさせる */}
+<div class="-mx-6 overflow-x-auto px-6 sm:-mx-8 sm:px-8">
 <svg
-  class="dg mx-auto block h-auto w-full max-w-[820px]"
+  class="dg mx-auto block h-auto w-full min-w-[680px] max-w-[820px]"
   viewBox={viewBox}
   role="img"
   aria-label={label}
@@ -39,17 +41,11 @@ const viewBox = {
     <>
       {/* 左レーン外枠: 顧客理解担当（枠内テキスト見出し） */}
       <rect class="dg-box" x="14" y="14" width="320" height="392" rx="12" style="fill: none" />
-      <svg class="dg-acc" x="42" y="29" width="16" height="16" viewBox="0 0 24 24" style="stroke-width: 2" set:html={getLucideIcon('user-check')} />
-      <DgText x={64} y={42} ja="顧客理解担当" en="Customer Understanding" class="dg-acctext" anchor="start" />
-      <text class="dg-small lang-ja" x="152" y="42" text-anchor="start">— 現場と試作から決める</text>
-      <text class="dg-small lang-en" x="218" y="42" text-anchor="start">— Decides what to build</text>
+      <Lane x={64} y={42} maxX={320} icon="user-check" ja="顧客理解担当" en="Customer Understanding" subJa="現場と試作から決める" subEn="Decides what to build" />
 
       {/* 右レーン外枠: 実装担当（枠内テキスト見出し） */}
       <rect class="dg-box" x="486" y="14" width="320" height="392" rx="12" style="fill: none" />
-      <svg class="dg-acc" x="514" y="29" width="16" height="16" viewBox="0 0 24 24" style="stroke-width: 2" set:html={getLucideIcon('user-round-pen')} />
-      <DgText x={536} y={42} ja="実装担当" en="Implementation" class="dg-acctext" anchor="start" />
-      <text class="dg-small lang-ja" x="598" y="42" text-anchor="start">— 約束を切って作り検証</text>
-      <text class="dg-small lang-en" x="642" y="42" text-anchor="start">— Builds & verifies</text>
+      <Lane x={536} y={42} maxX={792} icon="user-round-pen" ja="実装担当" en="Implementation" subJa="約束を切って作り検証" subEn="Builds & verifies" />
 
       {/* 左レーンのノード（4段） */}
       <N x={64} y={82} w={220} h={44} ja="利用者の現場" en="User's workplace" />
@@ -64,7 +60,7 @@ const viewBox = {
       <N x={54} y={324} w={240} h={58} ja="問いの Issue・依頼主" en="Question Issues & client" subJa="了承と回答を回収" subEn="Collect answers" kind="dashed" />
 
       {/* 右レーンのノード（4段） */}
-      <N x={526} y={80} w={240} h={58} ja="起票（AC・保証）" en="Draft Issue (AC & Guarantees)" subJa="完了条件と壊さない約束" subEn="Done criteria & invariants" kind="impl" />
+      <N x={526} y={80} w={240} h={58} ja="起票（AC・保証）" en="Draft ACs & guarantees" subJa="完了条件と壊さない約束" subEn="Done criteria & invariants" kind="impl" />
       <path class="dg-line" marker-end={end} d="M646 138 V162" />
 
       <N x={526} y={164} w={240} h={58} ja="実装セッション（3本並行）" en="Build sessions (3 parallel)" subJa="worktree ごとに分離" subEn="Isolated per worktree" />
@@ -94,46 +90,40 @@ const viewBox = {
       {/* 起点 */}
       <N x={14} y={154} w={164} h={64} ja="未確定を含む要件" en="Open requirements" subJa="回答待ちで止めない" subEn="Do not block on Q&A" />
 
-      {/* 上段レーン枠: 実装担当 */}
-      <rect class="dg-box" x="218" y="16" width="420" height="142" rx="12" style="fill: none" />
-      <svg class="dg-acc" x="236" y="31" width="15" height="15" viewBox="0 0 24 24" style="stroke-width: 2" set:html={getLucideIcon('user-round-pen')} />
-      <DgText x={258} y={43} ja="実装担当" en="Implementation" class="dg-acctext" anchor="start" />
-      <text class="dg-small lang-ja" x="320" y="43" text-anchor="start">— 止めずに試作</text>
-      <text class="dg-small lang-en" x="364" y="43" text-anchor="start">— Prototype first</text>
+      {/* 上段レーン枠: 顧客理解担当（上流の主役なので上に置く） */}
+      <rect class="dg-box" x="218" y="16" width="420" height="142" rx="12" stroke-dasharray="4 4" style="fill: none" />
+      <Lane x={258} y={43} maxX={624} icon="user-check" ja="顧客理解担当" en="Customer Understanding" subJa="並行して照会・回収" subEn="Parallel Q&A" />
 
-      {/* 下段レーン枠: 顧客理解担当 */}
-      <rect class="dg-box" x="218" y="206" width="420" height="142" rx="12" stroke-dasharray="4 4" style="fill: none" />
-      <svg class="dg-acc" x="236" y="221" width="15" height="15" viewBox="0 0 24 24" style="stroke-width: 2" set:html={getLucideIcon('user-check')} />
-      <DgText x={258} y={233} ja="顧客理解担当" en="Customer Understanding" class="dg-acctext" anchor="start" />
-      <text class="dg-small lang-ja" x="346" y="233" text-anchor="start">— 並行して照会・回収</text>
-      <text class="dg-small lang-en" x="412" y="233" text-anchor="start">— Parallel Q&A</text>
+      {/* 下段レーン枠: 実装担当 */}
+      <rect class="dg-box" x="218" y="206" width="420" height="142" rx="12" style="fill: none" />
+      <Lane x={258} y={233} maxX={624} icon="user-round-pen" ja="実装担当" en="Implementation" subJa="止めずに試作" subEn="Prototype first" />
 
       {/* 起点からの分岐 */}
-      <path class="dg-line" marker-end={end} d="M178 172 H198 V98 H236" />
-      <path class="dg-line wf-dashed" marker-end={end} d="M178 200 H198 V288 H236" />
+      <path class="dg-line wf-dashed" marker-end={end} d="M178 172 H198 V98 H236" />
+      <path class="dg-line" marker-end={end} d="M178 200 H198 V288 H236" />
 
-      {/* 上段ノード（実装担当） */}
-      <N x={238} y={66} w={174} h={64} ja="仮置きで先に実装" en="Build on assumptions" subJa="仮置き一覧へ分離" subEn="Track in assumption list" />
-      <path class="dg-line" marker-end={end} d="M412 98 H442" />
-      <N x={444} y={66} w={174} h={64} ja="問いの Issue 起票" en="Open Question Issue" subJa="出典と仮案を添付" subEn="With source & default" />
+      {/* 上段ノード（顧客理解担当がスキルを打つ） */}
+      <N x={238} y={66} w={174} h={64} ja="依頼主へ照会" en="Send questions" subJa="/qa-send" subEn="/qa-send" kind="human" />
+      <path class="dg-line wf-dashed" marker-end={end} d="M412 98 H442" />
+      <N x={444} y={66} w={174} h={64} ja="回答を1か所に回収" en="Collect answers" subJa="/qa-collect" subEn="/qa-collect" kind="human" />
 
-      {/* 上から下への「問いの引き渡し」 */}
-      <path class="dg-line wf-dashed" marker-end={end} d="M531 130 V204" />
-      <DgText x={542} y={178} ja="問いを渡す" en="Hand off" class="dg-small" anchor="start" />
+      {/* 下段ノード（実装担当） */}
+      <N x={238} y={256} w={174} h={64} ja="仮置きで先に実装" en="Build on assumptions" subJa="仮置き一覧へ分離" subEn="Assumption list" />
+      <path class="dg-line" marker-end={end} d="M412 288 H442" />
+      <N x={444} y={256} w={174} h={64} ja="問いの Issue 起票" en="Open Question Issue" subJa="出典と仮案を添付" subEn="With source & default" />
 
-      {/* 下段ノード（顧客理解担当がスキルを打つ） */}
-      <N x={238} y={256} w={174} h={64} ja="依頼主へ照会" en="Send questions" subJa="/qa-send" subEn="/qa-send" kind="human" />
-      <path class="dg-line wf-dashed" marker-end={end} d="M412 288 H442" />
-      <N x={444} y={256} w={174} h={64} ja="回答を1か所に回収" en="Collect answers" subJa="/qa-collect" subEn="/qa-collect" kind="human" />
+      {/* 下から上への「問いの引き渡し」 */}
+      <path class="dg-line wf-dashed" marker-end={end} d="M531 256 V160" />
+      <DgText x={542} y={186} ja="問いを渡す" en="Hand off" class="dg-small" anchor="start" />
 
       {/* 合流: 試作レビューと正本・実装の更新 */}
-      <path class="dg-acc wf-strong" marker-end={endAcc} d="M618 98 H652 V168 H672" />
-      <DgText x={724} y={76} ja="試作で暗黙知が出る" en="Tacit needs surface" class="dg-acctext" />
+      <path class="dg-line" marker-end={end} d="M618 98 H652 V168 H672" />
+      <DgText x={724} y={76} ja="回答を反映 · /client-next" en="Apply · /client-next" class="dg-small" />
 
-      <path class="dg-line" marker-end={end} d="M618 288 H652 V204 H672" />
-      <DgText x={724} y={310} ja="回答を反映 · /client-next" en="Apply · /client-next" class="dg-small" />
+      <path class="dg-acc wf-strong" marker-end={endAcc} d="M618 288 H652 V204 H672" />
+      <DgText x={724} y={312} ja="試作で暗黙知が出る" en="Tacit needs surface" class="dg-acctext" />
 
-      <N x={674} y={150} w={132} h={72} ja="正本と実装を更新" en="Update spec & code" subJa="違えば直しのIssue" subEn="Fix Issue if different" kind="human" />
+      <N x={674} y={150} w={132} h={72} ja="正本と実装を更新" en="Update spec" subJa="違えば直しのIssue" subEn="Fix if different" kind="human" />
     </>
   )}
 
@@ -145,13 +135,13 @@ const viewBox = {
       <DgText x={214} y={92} ja="Issue だけ渡す" en="Fresh context" class="dg-small" />
 
       {/* 2. 1セッション通し実装 */}
-      <N x={240} y={110} w={172} h={68} ja="1セッション通し実装" en="Single-session build" subJa="/issue-work · 3本並行" subEn="/issue-work · 3 parallel" />
+      <N x={240} y={110} w={172} h={68} ja="1セッション通し実装" en="Single-session build" subJa="/issue-work · 3本並行" subEn="/issue-work ×3" />
 
       {/* 3. 三つの検証（上：操作役→使い心地、下：確認者） */}
       <path class="dg-line" marker-end={end} d="M412 130 H432 V64 H450" />
       <path class="dg-line" marker-end={end} d="M412 158 H432 V226 H450" />
 
-      <N x={452} y={32} w={174} h={64} ja="画面操作役 → 使い心地" en="Screen op → UX check" subJa="screen-operator" subEn="screen-operator" kind="impl" />
+      <N x={452} y={32} w={174} h={64} ja="画面操作役 → 使い心地" en="UX check" subJa="screen-operator" subEn="screen-operator" kind="impl" />
       <N x={452} y={194} w={174} h={64} ja="別文脈の確認者" en="Isolated Verifier" subJa="issue-verifier" subEn="issue-verifier" kind="agent" />
 
       {/* 4. PRとマージ */}
@@ -159,7 +149,7 @@ const viewBox = {
       <path class="dg-line" marker-end={end} d="M626 226 H646 V158 H664" />
       <DgText x={636} y={276} ja="合否と証拠" en="Pass/fail & evidence" class="dg-small" />
 
-      <N x={666} y={110} w={140} h={68} ja="証拠付き PR" en="Evidence PR" subJa="外れた点だけ確認" subEn="Review failures only" kind="impl" />
+      <N x={666} y={110} w={140} h={68} ja="証拠付き PR" en="Evidence PR" subJa="外れた点だけ確認" subEn="Check failures" kind="impl" />
 
       {/* 下段の還流ループ: 手戻りを仕組みへ戻す */}
       <path class="dg-line wf-dashed" marker-end={end} d="M736 178 V324 H520" />
@@ -169,3 +159,7 @@ const viewBox = {
     </>
   )}
 </svg>
+</div>
+<p class="mt-3 text-center font-mono type-caption text-zinc-500 md:hidden dark:text-poi-muted">
+  <span class="lang-ja">← 図は横にスクロールできます →</span><span class="lang-en">← Scroll sideways to see the diagram →</span>
+</p>
