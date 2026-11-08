@@ -1,0 +1,77 @@
+---
+import DgText from '../services/DgText.astro';
+import { getLucideIcon } from '../../lib/lucide';
+
+// box: 通常の工程や成果物、human: 人が判断する所、agent: 文脈を切った別エージェント、
+// dashed: 仮置きや未確定の経路、term: 起点・終点（ピル型）
+type Kind = 'box' | 'human' | 'agent' | 'dashed' | 'term';
+
+interface Props {
+  x: number;
+  y: number;
+  w: number;
+  h?: number;
+  ja: string;
+  en?: string;
+  subJa?: string;
+  subEn?: string;
+  kind?: Kind;
+}
+const { x, y, w, h = 48, ja, en = ja, subJa, subEn = subJa, kind = 'box' } = Astro.props;
+
+const icon = kind === 'human' ? 'user-check' : kind === 'agent' ? 'bot' : null;
+const iconSize = 15;
+const gap = 6;
+
+const calcW = (s: string) => [...s].reduce((n, c) => n + (c.charCodeAt(0) > 0xff ? 13 : 7.5), 0);
+const jaW = calcW(ja);
+const enW = calcW(en);
+const leftJa = x + (w - (icon ? iconSize + gap + jaW : jaW)) / 2;
+const leftEn = x + (w - (icon ? iconSize + gap + enW : enW)) / 2;
+const cxJa = icon ? leftJa + iconSize + gap + jaW / 2 : x + w / 2;
+const cxEn = icon ? leftEn + iconSize + gap + enW / 2 : x + w / 2;
+const mainY = subJa ? y + h / 2 - 5 : y + h / 2 + 4.5;
+const subY = y + h / 2 + 16;
+
+const rectClass =
+  kind === 'human'
+    ? 'dg-accbox'
+    : kind === 'dashed'
+      ? 'dg-box wf-goto'
+      : 'dg-box';
+const textClass =
+  kind === 'human'
+    ? 'dg-acctext'
+    : kind === 'dashed'
+      ? 'dg-muted-text'
+      : 'dg-text';
+const rx = kind === 'term' ? h / 2 : 8;
+---
+<rect class={rectClass} x={x} y={y} width={w} height={h} rx={rx} />
+{icon && (
+  <>
+    <svg
+      class:list={[kind === 'human' ? 'dg-acc' : 'dg-line', 'lang-ja']}
+      x={leftJa}
+      y={mainY - 12}
+      width={iconSize}
+      height={iconSize}
+      viewBox="0 0 24 24"
+      style="stroke-width: 2"
+      set:html={getLucideIcon(icon)}
+    />
+    <svg
+      class:list={[kind === 'human' ? 'dg-acc' : 'dg-line', 'lang-en']}
+      x={leftEn}
+      y={mainY - 12}
+      width={iconSize}
+      height={iconSize}
+      viewBox="0 0 24 24"
+      style="stroke-width: 2"
+      set:html={getLucideIcon(icon)}
+    />
+  </>
+)}
+<text class:list={[textClass, 'lang-ja']} x={cxJa} y={mainY} text-anchor="middle">{ja}</text>
+<text class:list={[textClass, 'lang-en']} x={cxEn} y={mainY} text-anchor="middle">{en}</text>
+{subJa && <DgText x={x + w / 2} y={subY} ja={subJa} en={subEn ?? subJa} class="dg-small" />}

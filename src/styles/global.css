@@ -171,3 +171,9 @@ html:not([data-lang="en"]) .lang-en {
 .dg .dg-text { fill: var(--dg-text); font-size: 13px; }
 .dg .dg-small { fill: var(--dg-muted); font-size: 11.5px; }
 .dg .dg-acctext { fill: rgb(var(--color-accent)); font-size: 13px; font-weight: 600; }
+
+/* 開発の進め方のページで、フェーズをつなぐ矢印の点線 */
+.dg .wf-dashed { stroke-dasharray: 4 4; }
+.dg .wf-strong { stroke-width: 2.2; }
+.dg .wf-goto { stroke-dasharray: 4 3; fill: none; }
+.dg .dg-muted-text { fill: var(--dg-muted); font-size: 13px; }
