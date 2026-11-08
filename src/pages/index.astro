@@ -128,12 +128,12 @@ const origins = [
     <SectionHead
       kicker="Workflow"
       title={{
-        ja: 'AIと開発するときは、\n顧客理解と実装を2つの輪で回している。',
-        en: 'When building with AI,\nI run customer understanding and implementation as two connected loops.',
+        ja: 'AIと開発するときは、\n顧客理解と実装を分けて行き来している。',
+        en: 'When building with AI,\nI separate and connect customer understanding and implementation.',
       }}
       lead={{
-        ja: 'AI がコードを書く時代、詰まるのは「何を作るべきか見極めること」と「出力を信じてよいか検証すること」に移った。答えを待たずに仮置きで試作して暗黙知を引き出し、別文脈の確認者で検証を回す開発の型を組んでいる。',
-        en: 'Now that AI writes the code, the bottlenecks are deciding what to build and verifying whether the output can be trusted. I prototype on explicit assumptions without waiting for answers, and verify in a fresh context.',
+        ja: 'AI で実装が速くなると、詰まるのは「何を作るか決めること」と「出力の検証」になる。答えを待たずに仮置きで試作して暗黙知を引き出し、作った者とは別の文脈で検証する。',
+        en: 'When AI makes coding fast, the bottlenecks shift to deciding what to build and verifying the output. I prototype on explicit assumptions without waiting for answers, and verify in a fresh context.',
       }}
     />
 
@@ -145,12 +145,12 @@ const origins = [
             <span>01 — BIG PICTURE</span>
           </p>
           <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
-            <T text={{ ja: '顧客理解と実装の2つの輪', en: 'Two loops: Discovery & Implementation' }} />
+            <T text={{ ja: '顧客理解と実装を分けてつなぐ', en: 'Connect Discovery & Implementation' }} />
           </h3>
           <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted">
             <T text={{
-              ja: '仕様書をまとめる仕事は AI に移し、人の時間は「現場を見て、試作を先に触り、何を作るべきかを決めること」に使う。動く試作と問いで2つの輪を行き来させる。',
-              en: 'Leave spec writing to AI; spend human time observing the site, touching prototypes first, and deciding what to build. Connect both loops through working prototypes and questions.',
+              ja: '仕様書をまとめる仕事は AI に移し、人の時間は「現場を見て、試作を先に触り、何を作るべきかを決めること」に使う。動く試作と問いで2つの担当を行き来させる。',
+              en: 'Leave spec writing to AI; spend human time observing the site, touching prototypes first, and deciding what to build. Connect both sides through working prototypes and questions.',
             }} />
           </p>
         </div>
@@ -190,7 +190,6 @@ const origins = [
 
       <div class="flex flex-col gap-4 border-t ui-subpanel p-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-5 lg:px-9">
         <div class="relative z-10 flex flex-wrap items-center gap-x-5 gap-y-2">
-          <RepoLink label="sdlc-kit" href="https://github.com/yktsnet/sdlc-kit" />
           <RepoLink label="Zenn — 保証駆動開発 (GDD)" href="https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development" icon="zenn" />
         </div>
         <a

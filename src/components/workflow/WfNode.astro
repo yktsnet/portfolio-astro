@@ -2,9 +2,10 @@
 import DgText from '../services/DgText.astro';
 import { getLucideIcon } from '../../lib/lucide';
 
-// box: 通常の工程や成果物、human: 人が判断する所、agent: 文脈を切った別エージェント、
-// dashed: 仮置きや未確定の経路、term: 起点・終点（ピル型）
-type Kind = 'box' | 'human' | 'agent' | 'dashed' | 'term';
+// box: 通常の工程や成果物、human: 顧客理解担当（人）が判断する所、
+// impl: 実装担当（人）が判断する所、agent: 文脈を切った別エージェント、
+// dashed: 仮置きや未確定の経路
+type Kind = 'box' | 'human' | 'impl' | 'agent' | 'dashed';
 
 interface Props {
   x: number;
@@ -19,7 +20,15 @@ interface Props {
 }
 const { x, y, w, h = 48, ja, en = ja, subJa, subEn = subJa, kind = 'box' } = Astro.props;
 
-const icon = kind === 'human' ? 'user-check' : kind === 'agent' ? 'bot' : null;
+const isHuman = kind === 'human' || kind === 'impl';
+const icon =
+  kind === 'human'
+    ? 'user-check'
+    : kind === 'impl'
+      ? 'user-round-pen'
+      : kind === 'agent'
+        ? 'bot'
+        : null;
 const iconSize = 15;
 const gap = 6;
 
@@ -33,25 +42,23 @@ const cxEn = icon ? leftEn + iconSize + gap + enW / 2 : x + w / 2;
 const mainY = subJa ? y + h / 2 - 5 : y + h / 2 + 4.5;
 const subY = y + h / 2 + 16;
 
-const rectClass =
-  kind === 'human'
-    ? 'dg-accbox'
-    : kind === 'dashed'
-      ? 'dg-box wf-goto'
-      : 'dg-box';
-const textClass =
-  kind === 'human'
-    ? 'dg-acctext'
-    : kind === 'dashed'
-      ? 'dg-muted-text'
-      : 'dg-text';
-const rx = kind === 'term' ? h / 2 : 8;
+const rectClass = isHuman
+  ? 'dg-accbox'
+  : kind === 'dashed'
+    ? 'dg-box wf-goto'
+    : 'dg-box';
+const textClass = isHuman
+  ? 'dg-acctext'
+  : kind === 'dashed'
+    ? 'dg-muted-text'
+    : 'dg-text';
+const rx = 8;
 ---
 <rect class={rectClass} x={x} y={y} width={w} height={h} rx={rx} />
 {icon && (
   <>
     <svg
-      class:list={[kind === 'human' ? 'dg-acc' : 'dg-line', 'lang-ja']}
+      class:list={[isHuman ? 'dg-acc' : 'dg-line', 'lang-ja']}
       x={leftJa}
       y={mainY - 12}
       width={iconSize}
@@ -61,7 +68,7 @@ const rx = kind === 'term' ? h / 2 : 8;
       set:html={getLucideIcon(icon)}
     />
     <svg
-      class:list={[kind === 'human' ? 'dg-acc' : 'dg-line', 'lang-en']}
+      class:list={[isHuman ? 'dg-acc' : 'dg-line', 'lang-en']}
       x={leftEn}
       y={mainY - 12}
       width={iconSize}
