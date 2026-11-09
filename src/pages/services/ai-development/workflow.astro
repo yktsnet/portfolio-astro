@@ -269,8 +269,8 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
               <div class="text-zinc-600 dark:text-poi-muted">
                 <p class="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
                   <span class="mr-0.5"><T text={{ ja: '照会と1か所への回収', en: 'Send & centralize answers' }} /></span>
-                  <SkillTag>/qa-send</SkillTag>
-                  <SkillTag>/qa-collect</SkillTag>
+                  <SkillTag name="/qa-send">/qa-send</SkillTag>
+                  <SkillTag name="/qa-collect">/qa-collect</SkillTag>
                 </p>
                 <p class="mt-0.5">
                   <T text={{
@@ -326,7 +326,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
               <div class="text-zinc-600 dark:text-poi-muted">
                 <p class="flex flex-wrap items-center gap-x-2 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
                   <span><T text={{ ja: '問いを起こし、回答を読む', en: 'Open questions & apply answers' }} /></span>
-                  <SkillTag>/client-next</SkillTag>
+                  <SkillTag name="/client-next">/client-next</SkillTag>
                 </p>
                 <p class="mt-0.5">
                   <T text={{
@@ -388,7 +388,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
                     <p class="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
                       <span class="mr-0.5"><T text={st.title} /></span>
                       {st.tags.map((tag) => (
-                        <SkillTag>
+                        <SkillTag name={tag}>
                           {!tag.startsWith('/') && <LucideIcon name="bot" class="h-3 w-3 text-poi-accent" />}
                           <span>{tag}</span>
                         </SkillTag>

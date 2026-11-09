@@ -1,4 +1,21 @@
 ---
-// Skill や subagent の名前を示す小さな札
+// Skill や subagent の名前を示す小さな札。リンク先があれば、PC 表示（lg 以上）でだけ sdlc-kit の定義へ飛べる
+import { skillLinks } from '../../data/skill-links';
+
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+const href = skillLinks[name];
+const base = 'inline-flex items-center gap-1 rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none';
 ---
-<code class="inline-flex items-center gap-1 rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none"><slot /></code>
+{href ? (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    class={`${base} pointer-events-none lg:pointer-events-auto lg:hover:border-zinc-300 dark:lg:hover:border-poi-border`}
+  ><slot /></a>
+) : (
+  <code class={base}><slot /></code>
+)}
