@@ -1,0 +1,19 @@
+---
+import T from '../T.astro';
+import type { Metric } from '../../types';
+
+interface Props {
+  metrics: Metric[];
+}
+const { metrics } = Astro.props;
+---
+<dl class="grid divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
+  {metrics.map((m) => (
+    <div class="p-6 sm:p-7">
+      <dt class="whitespace-nowrap font-mono type-metric font-medium text-poi-accent">
+        <T text={m.value} /><span class="ml-1.5 type-body"><T text={m.unit} /></span>
+      </dt>
+      <dd class="mt-2.5 type-small leading-6 text-zinc-600 dark:text-poi-muted"><T text={m.label} /></dd>
+    </div>
+  ))}
+</dl>

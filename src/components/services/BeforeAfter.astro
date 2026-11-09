@@ -1,0 +1,31 @@
+---
+import T from '../T.astro';
+import type { MultilingualText } from '../../lib/i18n';
+
+// 左に今の困りごと、右に変わったあとを並べる2列
+interface Props {
+  beforeLabel: MultilingualText;
+  afterLabel: MultilingualText;
+  before: MultilingualText[];
+  after: MultilingualText[];
+}
+const { beforeLabel, afterLabel, before, after } = Astro.props;
+---
+<div class="mt-6 grid gap-5 border-t border-zinc-200 pt-5 sm:grid-cols-2 dark:border-poi-border/60">
+  <div>
+    <p class="type-caption font-semibold text-zinc-500 dark:text-poi-muted"><T text={beforeLabel} /></p>
+    <ul class="mt-2 space-y-1.5">
+      {before.map((b) => (
+        <li class="flex gap-2 type-small leading-6 text-zinc-500 dark:text-poi-muted"><span aria-hidden="true">·</span><T text={b} /></li>
+      ))}
+    </ul>
+  </div>
+  <div>
+    <p class="type-caption font-semibold text-poi-accent"><T text={afterLabel} /></p>
+    <ul class="mt-2 space-y-1.5">
+      {after.map((a) => (
+        <li class="flex gap-2 type-small leading-6 text-zinc-900 dark:text-poi-focus"><span class="text-poi-accent" aria-hidden="true">·</span><T text={a} /></li>
+      ))}
+    </ul>
+  </div>
+</div>

@@ -39,25 +39,16 @@ function toSlug(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
-// Split a flat array into alternating rhythm chunks: [full, pair, full, pair, ...]
-// chunk pattern per 3: [1 full] [2 side-by-side]
-function toRhythmChunks(items: Photo[]) {
-  const chunks: { type: "full"; photo: Photo } | { type: "pair"; photos: [Photo, Photo] } extends infer C ? C[] : never = [];
+// 1枚を全幅、続く2枚を横並びにして交互に繰り返す。横並びに1枚しか残らなければ全幅にする
+type Chunk = { type: "full"; photo: Photo } | { type: "pair"; photos: [Photo, Photo] };
+function toRhythmChunks(items: Photo[]): Chunk[] {
+  const chunks: Chunk[] = [];
   let i = 0;
   while (i < items.length) {
-    // full
-    chunks.push({ type: "full", photo: items[i] });
-    i++;
-    // pair (if enough remain)
-    if (i < items.length) {
-      if (i + 1 < items.length) {
-        chunks.push({ type: "pair", photos: [items[i], items[i + 1]] });
-        i += 2;
-      } else {
-        // only one left — render as full
-        chunks.push({ type: "full", photo: items[i] });
-        i++;
-      }
+    chunks.push({ type: "full", photo: items[i++] });
+    if (i + 1 < items.length) {
+      chunks.push({ type: "pair", photos: [items[i], items[i + 1]] });
+      i += 2;
     }
   }
   return chunks;

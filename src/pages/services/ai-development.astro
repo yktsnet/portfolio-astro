@@ -7,28 +7,24 @@ import SectionHead from '../../components/services/SectionHead.astro';
 import ServiceHero from '../../components/services/ServiceHero.astro';
 import OtherServices from '../../components/services/OtherServices.astro';
 import DiagramSesTraining from '../../components/services/DiagramSesTraining.astro';
-import { services, type Link, type Offering } from '../../data/services';
-import type { MultilingualText } from '../../lib/i18n';
+import MetricGrid from '../../components/services/MetricGrid.astro';
+import BeforeAfter from '../../components/services/BeforeAfter.astro';
+import OfferingDetailCard from '../../components/services/OfferingDetailCard.astro';
+import ProcessSteps from '../../components/services/ProcessSteps.astro';
+import FitList from '../../components/services/FitList.astro';
+import { services } from '../../data/services';
+import { gddArticle } from '../../data/articles';
+import type { Fit, Link, Metric, OfferingDetail, Step } from '../../types';
 
 // サービス名・説明・提供できることの名前はトップのカードと同じ値を使い、文言をずらさない
 const s = services.find((x) => x.slug === 'ai-development')!;
 const others = services.filter((x) => x.slug !== 'ai-development');
 
-type Decision = { title: MultilingualText; body: MultilingualText };
-type OfferingDetail = {
-  line: MultilingualText;
-  before: MultilingualText[];
-  after: MultilingualText[];
-  decisions: Decision[];
-  links?: Link[];
-};
-type Fit = { text: MultilingualText; reason?: MultilingualText };
+// リポとは別に、記事やスライドへのリンクを添えられる
+type AiOfferingDetail = OfferingDetail & { links?: Link[] };
 // 導入先の数字は出せないので、変わったことを文で並べる
 // 01 の数字の位置に、出せる数（配った Skill・集計する指標・評価基準の軸と段階）を置く
-type Change = { value: MultilingualText; unit: MultilingualText; label: MultilingualText };
-type Step = { no: string; title: MultilingualText; done: MultilingualText };
-
-const changes: Change[] = [
+const changes: Metric[] = [
   {
     value: { ja: '14', en: '14' },
     unit: { ja: 'Skill', en: 'skills' },
@@ -81,7 +77,7 @@ const steps: Step[] = [
 ];
 
 // services.ts の offerings の先頭2つ（開発キット、エンジニアの評価）と同じ順に並べる
-const offeringDetails: OfferingDetail[] = [
+const offeringDetails: AiOfferingDetail[] = [
   {
     line: {
       ja: 'うまくいった進め方を、本人だけでなくチームの誰もが使えるようにする。開発の手順と安全機構を、リポジトリに取り込める単位にして配り、誰が担当しても同じ形の成果物が出るようにする。',
@@ -105,7 +101,7 @@ const offeringDetails: OfferingDetail[] = [
         body: { ja: '壊れてはいけないことを人が承認し、テストと実装はエージェントに任せる（保証駆動開発）。', en: 'People approve what must not break; the agent writes the tests and code (guarantee-driven development).' },
       },
     ],
-    links: [{ label: { ja: 'Zenn — 保証駆動開発 (GDD)', en: 'Zenn — Guarantee-Driven Development (GDD)' }, href: 'https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development', icon: 'zenn' }],
+    links: [gddArticle],
   },
   {
     line: {
@@ -187,16 +183,7 @@ const misfits: Fit[] = [
   <section class="mt-14 sm:mt-16">
     <SectionHead size="heading" kicker="Case & Results" title={{ ja: '導入例：勤務先の開発会社', en: 'Example: the development company I work for' }} />
     <div class="ui-card mt-5 overflow-hidden sm:mt-6">
-      <dl class="grid divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
-        {changes.map((c) => (
-          <div class="p-6 sm:p-7">
-            <dt class="whitespace-nowrap font-mono type-metric font-medium text-poi-accent">
-              <T text={c.value} /><span class="ml-1.5 type-body"><T text={c.unit} /></span>
-            </dt>
-            <dd class="mt-2.5 type-small leading-6 text-zinc-600 dark:text-poi-muted"><T text={c.label} /></dd>
-          </div>
-        ))}
-      </dl>
+      <MetricGrid metrics={changes} />
       <div class="border-t ui-subpanel p-6 sm:p-7">
         <p class="max-w-3xl type-body leading-7 text-zinc-700 dark:text-poi-text">
           <T text={{
@@ -218,55 +205,16 @@ const misfits: Fit[] = [
   <section class="mt-20 sm:mt-24">
     <SectionHead size="heading" kicker="What I offer" title={{ ja: '提供できること', en: 'What I offer' }} />
     <div class="mt-5 grid gap-6 sm:mt-6 lg:grid-cols-2">
-      {s.offerings.slice(0, 2).map((o: Offering, idx: number) => {
+      {s.offerings.slice(0, 2).map((o, idx) => {
         const d = offeringDetails[idx];
         const repo = offeringRepos[idx];
         return (
-          <article class="ui-card ui-card-hover flex flex-col p-6 sm:p-8">
-            <h3 class="flex items-center gap-2.5 type-subheading font-semibold text-zinc-900 dark:text-poi-focus">
-              <LucideIcon name={o.icon} class="h-5 w-5 text-poi-accent" />
-              <T text={o.title} />
-            </h3>
-            <p class="mt-3 type-body leading-7 text-zinc-600 dark:text-poi-muted"><T text={d.line} /></p>
-
-            <div class="mt-6 grid gap-5 border-t border-zinc-200 pt-5 sm:grid-cols-2 dark:border-poi-border/60">
-              <div>
-                <p class="type-caption font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: 'これまで', en: 'Before' }} /></p>
-                <ul class="mt-2 space-y-1.5">
-                  {d.before.map((b) => (
-                    <li class="flex gap-2 type-small leading-6 text-zinc-500 dark:text-poi-muted"><span aria-hidden="true">·</span><T text={b} /></li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p class="type-caption font-semibold text-poi-accent"><T text={{ ja: '導入後', en: 'After' }} /></p>
-                <ul class="mt-2 space-y-1.5">
-                  {d.after.map((a) => (
-                    <li class="flex gap-2 type-small leading-6 text-zinc-900 dark:text-poi-focus"><span class="text-poi-accent" aria-hidden="true">·</span><T text={a} /></li>
-                  ))}
-                </ul>
-              </div>
+          <OfferingDetailCard offering={o} detail={d}>
+            <div class="flex flex-wrap gap-x-5 gap-y-2 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
+              <RepoLink label={repo.name} href={repo.href} />
+              {d.links?.map((l) => <RepoLink label={l.label} href={l.href} icon={l.icon ?? 'file-text'} />)}
             </div>
-
-            <div class="mt-6 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
-              <p class="ui-kicker"><T text={{ ja: '作り方の工夫', en: 'How it is built' }} /></p>
-              <ul class="mt-3 space-y-3">
-                {d.decisions.map((dc) => (
-                  <li class="type-small leading-6">
-                    <span class="font-semibold text-zinc-900 dark:text-poi-focus"><T text={dc.title} /></span>
-                    <span class="mt-0.5 block text-zinc-600 dark:text-poi-muted"><T text={dc.body} /></span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div class="mt-auto pt-6">
-              <div class="flex flex-wrap gap-x-5 gap-y-2 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
-                <RepoLink label={repo.name} href={repo.href} />
-                {d.links?.map((l) => <RepoLink label={l.label} href={l.href} icon={l.icon ?? 'file-text'} />)}
-              </div>
-            </div>
-          </article>
+          </OfferingDetailCard>
         );
       })}
     </div>
@@ -287,15 +235,7 @@ const misfits: Fit[] = [
       title={{ ja: '進め方', en: 'How I work' }}
       lead={{ ja: '勤務先では、開発キットと評価を最初から一対で設計して進めた。', en: 'At my workplace, the development kit and evaluation were designed and rolled out together from the start.' }}
     />
-    <ol class="mt-6 grid gap-8 md:grid-cols-3">
-      {steps.map((st) => (
-        <li class="border-t-2 border-poi-accent/60 pt-5">
-          <p class="font-mono type-caption text-poi-accent">{st.no}</p>
-          <h3 class="mt-2 type-subheading font-semibold text-zinc-900 dark:text-poi-focus"><T text={st.title} /></h3>
-          <p class="mt-2 type-small leading-7 text-zinc-600 dark:text-poi-muted"><T text={st.done} /></p>
-        </li>
-      ))}
-    </ol>
+    <ProcessSteps steps={steps} />
   </section>
 
   {/* 5. 勉強会: 開発キットと評価とは別に、客先常駐の多い会社へ単独で出せる */}
@@ -314,24 +254,12 @@ const misfits: Fit[] = [
         </h3>
         <p class="mt-3 type-body leading-7 text-zinc-600 dark:text-poi-muted"><T text={training.line} /></p>
 
-        <div class="mt-6 grid gap-5 border-t border-zinc-200 pt-5 sm:grid-cols-2 dark:border-poi-border/60">
-          <div>
-            <p class="type-caption font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: '課題', en: 'The problem' }} /></p>
-            <ul class="mt-2 space-y-1.5">
-              {training.problems.map((b) => (
-                <li class="flex gap-2 type-small leading-6 text-zinc-500 dark:text-poi-muted"><span aria-hidden="true">·</span><T text={b} /></li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <p class="type-caption font-semibold text-poi-accent"><T text={{ ja: '提案の中身', en: 'The proposal' }} /></p>
-            <ul class="mt-2 space-y-1.5">
-              {training.plan.map((a) => (
-                <li class="flex gap-2 type-small leading-6 text-zinc-900 dark:text-poi-focus"><span class="text-poi-accent" aria-hidden="true">·</span><T text={a} /></li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <BeforeAfter
+          beforeLabel={{ ja: '課題', en: 'The problem' }}
+          afterLabel={{ ja: '提案の中身', en: 'The proposal' }}
+          before={training.problems}
+          after={training.plan}
+        />
 
         <div class="mt-6 flex flex-wrap gap-x-5 gap-y-2 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
           {training.links.map((l) => <RepoLink label={l.label} href={l.href} />)}
@@ -343,41 +271,8 @@ const misfits: Fit[] = [
     </article>
   </section>
 
-
   {/* 6. 合う現場・合わない現場 */}
-  <section class="mt-20 sm:mt-24">
-    <SectionHead size="heading" kicker="Fit" title={{ ja: '合う現場・合わない現場', en: 'Where it fits' }} />
-    <div class="ui-card mt-5 grid gap-8 p-6 sm:mt-6 sm:p-8 md:grid-cols-2">
-      <div>
-        <p class="type-body font-semibold text-poi-accent"><T text={{ ja: '合う現場', en: 'Fits' }} /></p>
-        <ul class="mt-3 space-y-2.5">
-          {fits.map((f) => (
-            <li class="flex gap-2.5 type-small leading-6 text-zinc-700 dark:text-poi-text">
-              <LucideIcon name="check" class="mt-1 h-3.5 w-3.5 shrink-0 text-poi-accent" />
-              <span>
-                <T text={f.text} />
-                {f.reason && <span class="text-zinc-500 dark:text-poi-muted">（<T text={f.reason} />）</span>}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <p class="type-body font-semibold text-zinc-500 dark:text-poi-muted"><T text={{ ja: '合わない現場', en: 'Does not fit' }} /></p>
-        <ul class="mt-3 space-y-2.5">
-          {misfits.map((m) => (
-            <li class="flex gap-2.5 type-small leading-6 text-zinc-600 dark:text-poi-muted">
-              <LucideIcon name="x" class="mt-1 h-3.5 w-3.5 shrink-0 text-zinc-400 dark:text-poi-muted" />
-              <span>
-                <T text={m.text} />
-                {m.reason && <span class="text-zinc-500 dark:text-poi-muted">（<T text={m.reason} />）</span>}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  </section>
+  <FitList fits={fits} misfits={misfits} />
 
   {/* 7. ほかのサービス */}
   <OtherServices

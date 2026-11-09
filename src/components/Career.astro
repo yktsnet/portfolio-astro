@@ -1,7 +1,8 @@
 ---
 import { getBrandIcon } from '../lib/brand-icons';
+import type { MultilingualText } from '../lib/i18n';
 
-type TimelineEntry = { year: string; label: { ja: string; en: string } };
+type TimelineEntry = { year: string; label: MultilingualText };
 type LocationGroup = { location: string; items: TimelineEntry[] };
 type StackItem = { name: string; brand: string | null };
 type CoverageRow = { area: string; items: StackItem[] };
@@ -109,7 +110,7 @@ const timeline: LocationGroup[] = [
                             xmlns="http://www.w3.org/2000/svg"
                             width="11" height="11" viewBox="0 0 24 24"
                             fill="currentColor"
-                            class="brand-icon text-zinc-400 dark:text-poi-muted/50 transition-all duration-200 group-hover:text-(--brand-hex)"
+                            class="brand-icon transition-all duration-200"
                             style={`--brand-hex: #${icon.hex}`}
                             set:html={`<path d="${icon.path}" />`}
                           />
