@@ -6,7 +6,9 @@ import LucideIcon from '../components/LucideIcon.astro';
 import RepoLink from '../components/RepoLink.astro';
 import SectionHead from '../components/services/SectionHead.astro';
 import ServiceCard from '../components/services/ServiceCard.astro';
+import WorkList from '../components/WorkList.astro';
 import { services } from '../data/services';
+import { works } from '../data/works';
 import { siteConfig } from '../site.config';
 
 // 4つのうち3つは導入事例の数字。最後の1つだけ経歴から取る
@@ -201,5 +203,20 @@ const origins = [
         </a>
       </div>
     </article>
+  </section>
+
+  {/* 4. Works: Services に出していない公開リポを、仕事・道具・検証を分けずに並べる */}
+  <section id="works" class="mt-16 scroll-mt-28 border-t border-zinc-200 pt-12 sm:mt-20 sm:pt-14 dark:border-poi-border/60">
+    <SectionHead
+      kicker="Works"
+      title={{ ja: '作ったものの一覧', en: "Everything I've Built" }}
+      lead={{
+        ja: 'Services で紹介したもの以外の公開リポ。自分で使う道具、確かめるために作ったもの、移行のサンプルを分けずに並べている。',
+        en: 'Public repositories beyond those in Services: tools I use myself, things built to find something out, and migration samples, listed together.',
+      }}
+    />
+    <div class="mt-6">
+      <WorkList works={works} />
+    </div>
   </section>
 </MainLayout>
