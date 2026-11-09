@@ -7,7 +7,6 @@ export const CATEGORIES: Record<string, { icon: string }> = {
   finance: { icon: "piggy-bank" },
   trading: { icon: "trending-up" },
   modernization: { icon: "refresh-cw" },
-  team: { icon: "users" },
   iot: { icon: "wifi" },
 };
 
@@ -104,16 +103,6 @@ export const works: Work[] = [
     },
   }),
   work({
-    title: "wiki-guessur",
-    icon: "book-search",
-    categoryTag: "ai",
-    publishedAt: "2026.07",
-    description: {
-      ja: "冒頭の定義文を消した Wikipedia 記事の題名を当てるベンチマーク。数式・GBDT・LLM の再判定など4つの手法を、5つのシードで比べた。",
-      en: "A benchmark for naming Wikipedia articles with their opening definitions removed, comparing four methods from formulas to GBDT to LLM re-ranking over five seeds.",
-    },
-  }),
-  work({
     title: "order-system-rag",
     icon: "book-search",
     categoryTag: "ai",
@@ -141,16 +130,6 @@ export const works: Work[] = [
     description: {
       ja: "WebForms の勤怠システムを .NET 10 + React へ段階的に移し、SignalR で打刻をリアルタイムに見られるようにした。",
       en: "Moves a WebForms attendance system to .NET 10 Web API + React step by step, adding SignalR for real-time clock-in monitoring.",
-    },
-  }),
-  work({
-    title: "training-scheduler",
-    icon: "graduation-cap",
-    categoryTag: "team",
-    publishedAt: "2026.05",
-    description: {
-      ja: "進捗を機械的に管理するより、新人の手応えをメンターと共有するための研修ツール。Vue と Go を1つの実行ファイルにまとめ、SQLite だけで動く。",
-      en: "A training tool for sharing how new hires feel with mentors, rather than tracking progress. Vue and Go in a single binary, running on SQLite alone.",
     },
   }),
   work({
