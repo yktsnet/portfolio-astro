@@ -5,6 +5,7 @@ import LucideIcon from '../../../components/LucideIcon.astro';
 import RepoLink from '../../../components/RepoLink.astro';
 import SectionHead from '../../../components/services/SectionHead.astro';
 import DevDiagram from '../../../components/workflow/DevDiagram.astro';
+import WfContrast from '../../../components/workflow/WfContrast.astro';
 import { services } from '../../../data/services';
 import type { MultilingualText } from '../../../lib/i18n';
 
@@ -162,7 +163,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
   <section id="overview" class="mt-14 scroll-mt-24 sm:mt-16">
     <SectionHead
       size="heading"
-      kicker="01 — Big Picture"
+      kicker="Big Picture"
       title={{
         ja: '顧客理解担当と実装担当を分け、試作と問いでつなぐ',
         en: 'Separate customer understanding from implementation, and connect them with prototypes and questions',
@@ -186,13 +187,27 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
         ))}
       </div>
     </div>
+    <WfContrast
+      title={{
+        ja: '要件を文書で固めて、現場にしかない情報を落とす',
+        en: 'Locking requirements in documents and losing what only the site knows',
+      }}
+      body={{
+        ja: '利用者が慣れで避けている手間や書かれていない例外は、現場にしかなく、聞き取りや文書には出てこない。要件を決める人まで実装の確認に追われると、それを拾う時間もなくなる。',
+        en: 'Chores users work around out of habit and unwritten exceptions exist only on site; they never show up in interviews or documents. When the person deciding requirements is also tied up checking the build, there is no time left to pick them up.',
+      }}
+      fix={{
+        ja: '顧客理解の担当を実装から切り離し、現場を見て試作を触ってもらうことに時間を充てる。',
+        en: 'Customer Understanding is kept apart from implementation, and its time goes to observing the site and putting prototypes in front of users.',
+      }}
+    />
   </section>
 
   {/* 02: 上流 */}
   <section id="upstream" class="mt-20 scroll-mt-24 sm:mt-24">
     <SectionHead
       size="heading"
-      kicker="02 — Upstream"
+      kicker="Upstream"
       title={{
         ja: '答えを待たずに「仮置き」で作り、問いの回収と並行させる',
         en: 'Build on explicit assumptions in parallel with Q&A collection',
@@ -293,13 +308,27 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
         </div>
       </div>
     </div>
+    <WfContrast
+      title={{
+        ja: '曖昧な点を、AI が聞き返さずに埋める',
+        en: 'AI filling in ambiguity without asking',
+      }}
+      body={{
+        ja: '回答を待たずに進めるほど、AI はもっともらしい前提で空白を埋めていく。どこを推測したかが残らないので、誰も確かめないまま本番に入る。',
+        en: 'The further work goes without answers, the more gaps AI fills with plausible assumptions. Nothing records where it guessed, so the guesses reach production with no one checking.',
+      }}
+      fix={{
+        ja: '仮に決めた点は仮置き一覧に分けて残し、先方の判断が要る点は問いの Issue にする。',
+        en: 'Provisional choices are kept apart in the assumption list, and anything the client must decide becomes a Question Issue.',
+      }}
+    />
   </section>
 
   {/* 03: 下流 */}
   <section id="downstream" class="mt-20 scroll-mt-24 sm:mt-24">
     <SectionHead
       size="heading"
-      kicker="03 — Downstream"
+      kicker="Downstream"
       title={{
         ja: '約束を先に承認し、作った者とは別の文脈で判定する',
         en: 'Approve promises first, verify in an isolated context',
@@ -373,13 +402,27 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
         </div>
       </div>
     </div>
+    <WfContrast
+      title={{
+        ja: '検証を、作った AI か人の目視に任せる',
+        en: 'Leaving verification to the builder AI or to human eyes',
+      }}
+      body={{
+        ja: 'AI は確かめる側が見るものに合わせて解くので、自分で確かめるとテストを実装に合わせて通してしまう。人が全差分を読もうとしても量に追いつかず、承認が形だけになる。',
+        en: 'AI solves for whatever the checker looks at, so checking its own work makes the tests fit the code. Humans who try to read every diff cannot keep up, and approval becomes a rubber stamp.',
+      }}
+      fix={{
+        ja: '完了条件と保証は作る前に人が承認し、合否は作った者とは別の文脈で判定する。',
+        en: 'ACs and guarantees are approved by a human before building, and pass or fail is judged in a context separate from the builder.',
+      }}
+    />
   </section>
 
   {/* 04: 補足（01〜03の後ろに小さく添える1枚のまとめ） */}
   <section id="decisions" class="mt-20 scroll-mt-24 sm:mt-24">
     <SectionHead
       size="heading"
-      kicker="04 — Architecture & Guards"
+      kicker="Architecture & Guards"
       title={{
         ja: 'この型を支える設計判断とガード',
         en: 'Architectural decisions and mechanical guards',
