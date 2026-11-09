@@ -143,40 +143,40 @@ const origins = [
       <div class="grid divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
         <div class="p-6 sm:p-8 lg:p-9">
           <p class="flex items-center gap-2 font-mono type-caption text-poi-accent">
-            <LucideIcon name="user-check" class="h-4 w-4" />
-            <span>01 — BIG PICTURE</span>
+            <LucideIcon name="users" class="h-4 w-4" />
+            <span>BIG PICTURE</span>
           </p>
           <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
             <T text={{ ja: '顧客理解と実装を分けてつなぐ', en: 'Connect customer understanding and implementation' }} />
           </h3>
           <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted">
             <T text={{
-              ja: '仕様書をまとめる仕事は AI に移し、人の時間は「現場を見て、試作を先に触り、何を作るべきかを決めること」に使う。動く試作と問いで2つの担当を行き来させる。',
-              en: 'Leave spec writing to AI; spend human time observing the site, touching prototypes first, and deciding what to build. Connect both sides through working prototypes and questions.',
+              ja: '利用者の慣れや書かれていない例外は、現場にしかない。顧客理解の担当を実装から切り離して現場と試作から何を作るかを決め、実装とは動く試作と問いでつなぐ。',
+              en: 'User habits and unwritten exceptions exist only on site. Customer Understanding stays apart from implementation and decides what to build from the site and prototypes, connected to implementation through working prototypes and questions.',
             }} />
           </p>
         </div>
 
         <div class="p-6 sm:p-8 lg:p-9">
           <p class="flex items-center gap-2 font-mono type-caption text-poi-accent">
-            <LucideIcon name="user-round-pen" class="h-4 w-4" />
-            <span>02 — UPSTREAM</span>
+            <LucideIcon name="flask-conical" class="h-4 w-4" />
+            <span>UPSTREAM</span>
           </p>
           <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
             <T text={{ ja: '答えを待たずに「仮置き」で試作', en: 'Prototype on explicit assumptions' }} />
           </h3>
           <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted">
             <T text={{
-              ja: '受託開発で手が止まる最大の理由は先方の回答待ちにある。未確定の仕様は「仮置き一覧」に分離して先に動く画面を見せ、並行して問いの照会と回収を回す。',
-              en: 'The biggest blocker in contract work is waiting for client answers. Separate assumptions into an explicit list to show working screens first, while collecting answers in parallel.',
+              ja: '先方の回答を待てば手が止まり、待たずに進めれば AI が黙って推測で埋める。未確定の点は仮置き一覧に分けて先に動く画面を見せ、並行して問いを照会・回収する。',
+              en: 'Waiting for client answers stalls the work; moving on without them lets AI fill gaps with silent guesses. Unknowns go into an assumption list so working screens can be shown first, while questions are sent and collected in parallel.',
             }} />
           </p>
         </div>
 
         <div class="p-6 sm:p-8 lg:p-9">
           <p class="flex items-center gap-2 font-mono type-caption text-poi-accent">
-            <LucideIcon name="bot" class="h-4 w-4" />
-            <span>03 — DOWNSTREAM</span>
+            <LucideIcon name="shield-check" class="h-4 w-4" />
+            <span>DOWNSTREAM</span>
           </p>
           <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
             <T text={{ ja: '約束を先に承認し、別文脈で判定', en: 'Approve promises first, verify separately' }} />
