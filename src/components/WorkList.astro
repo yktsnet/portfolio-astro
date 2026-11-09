@@ -1,0 +1,77 @@
+---
+import T from './T.astro';
+import LucideIcon from './LucideIcon.astro';
+import { getCategoryIcon, type Work } from '../data/works';
+
+interface Props {
+  works: Work[];
+}
+const { works } = Astro.props;
+
+// 最初から出す枚数
+const INITIAL = 6;
+---
+<div>
+  <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    {works.map((w: Work, idx: number) => (
+      <article
+        class="work-card group relative flex flex-col ui-card p-4 transition-colors duration-200 hover:border-poi-accent/50 dark:hover:border-poi-accent/50"
+        hidden={idx >= INITIAL}
+      >
+        <h3 class="flex items-center gap-2 type-small font-semibold text-zinc-900 dark:text-poi-focus">
+          <span class="work-index shrink-0 select-none font-mono type-label font-normal tabular-nums text-poi-accent/70">
+            {String(idx + 1).padStart(2, '0')}
+          </span>
+          <LucideIcon name={w.icon} class="h-3.5 w-3.5 shrink-0 text-poi-accent/80" />
+          <a
+            href={w.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="min-w-0 truncate font-mono transition-colors after:absolute after:inset-0 after:rounded-xl after:content-[''] group-hover:text-poi-accent focus-visible:underline outline-hidden"
+          >
+            {w.title}
+          </a>
+          <LucideIcon name="external-link" class="ml-auto h-3 w-3 shrink-0 text-zinc-400 transition-colors group-hover:text-poi-accent dark:text-poi-muted/60" />
+        </h3>
+        <p class="mt-2 type-small leading-6 text-zinc-600 dark:text-poi-muted"><T text={w.description} /></p>
+        <p class="mt-auto flex select-none items-center gap-2 pt-3 font-mono type-label text-zinc-500 dark:text-poi-muted">
+          <span class="inline-flex items-center gap-1">
+            <LucideIcon name={getCategoryIcon(w.categoryTag)} class="h-3 w-3 shrink-0 opacity-60" />
+            {w.categoryTag}
+          </span>
+          <span class="ml-auto text-zinc-400 dark:text-poi-muted/60">{w.publishedAt}</span>
+        </p>
+      </article>
+    ))}
+  </div>
+
+  {works.length > INITIAL && (
+    <div class="mt-4 flex justify-center">
+      <button
+        type="button"
+        id="work-more"
+        data-initial={INITIAL}
+        aria-expanded="false"
+        class="group inline-flex items-center gap-1.5 rounded-md border border-zinc-200 px-3.5 py-1.5 font-mono type-caption text-zinc-500 transition-colors duration-200 hover:border-poi-accent/50 hover:text-poi-accent dark:border-poi-border/70 dark:text-poi-muted"
+      >
+        <span class="work-more-open"><span class="lang-ja">すべて見る</span><span class="lang-en">Show all</span> ({works.length})</span>
+        <span class="work-more-close hidden"><span class="lang-ja">閉じる</span><span class="lang-en">Show less</span></span>
+        <LucideIcon name="chevron-down" class="h-3.5 w-3.5 transition-transform duration-200 group-aria-expanded:rotate-180" />
+      </button>
+    </div>
+  )}
+</div>
+
+<script>
+  const more = document.getElementById('work-more');
+  more?.addEventListener('click', () => {
+    const expanded = more.getAttribute('aria-expanded') !== 'true';
+    const initial = Number(more.dataset.initial);
+    document.querySelectorAll<HTMLElement>('.work-card').forEach((card, i) => {
+      card.hidden = !expanded && i >= initial;
+    });
+    more.setAttribute('aria-expanded', String(expanded));
+    more.querySelector('.work-more-open')?.classList.toggle('hidden', expanded);
+    more.querySelector('.work-more-close')?.classList.toggle('hidden', !expanded);
+  });
+</script>

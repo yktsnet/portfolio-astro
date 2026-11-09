@@ -7,7 +7,7 @@ src/
   assets/
     photos/       # フォトギャラリー用 (.webp)。ビルド時に寸法取得・リサイズする
   components/     # 再利用可能なAstroコンポーネント
-  data/           # 静的データ (services.ts / photos.ts)
+  data/           # 静的データ (services.ts / works.ts / photos.ts)
   layouts/        # ページレイアウト
   lib/            # ユーティリティ・APIロジック・i18n
   pages/          # ルーティング (Astroファイル構造に対応)
@@ -23,7 +23,7 @@ src/
 
 ## データフロー
 
-- サービス・写真は `src/data/*.ts`
+- サービス・Works・写真は `src/data/*.ts`
 - トップページの各節は `src/pages/index.astro` に直書き
 - 経歴の年表と技術の範囲は `Career.astro` に直書き
 
