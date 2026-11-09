@@ -129,7 +129,7 @@ const offeringDetails: AiOfferingDetail[] = [
   },
 ];
 
-// 勉強会は開発キットと評価のつながりの外にあり、客先常駐の多い会社に向けて単独で頼める
+// 勉強会は単独でも頼める。客先で AI を使えない社員には、評価の材料を作る場にもなる
 const training = {
   offering: s.offerings[2],
   line: {
@@ -238,13 +238,13 @@ const misfits: Fit[] = [
     <ProcessSteps steps={steps} />
   </section>
 
-  {/* 5. 勉強会: 開発キットと評価とは別に、客先常駐の多い会社へ単独で出せる */}
+  {/* 5. 勉強会: 単独でも頼める。評価の材料を作る場にもなる */}
   <section class="mt-20 sm:mt-24">
     <SectionHead
       size="heading"
       kicker="Study group"
       title={{ ja: '客先常駐の多い会社には、勉強会も', en: 'For companies with many client-site staff: a study group' }}
-      lead={{ ja: '開発キットや評価とは別に、これだけを頼むこともできる。', en: 'Available on its own, separate from the kit and evaluation.' }}
+      lead={{ ja: '客先がAIを認めていない社員は、実務で成果物を出せず、評価で測れない。勉強会で作ったものが、その社員を測る材料になる。これだけを頼むこともできる。', en: 'Staff whose client bans AI cannot produce work to be evaluated on. What they build in the study group becomes that material. It can also be ordered on its own.' }}
     />
     <article class="ui-card ui-card-hover mt-5 grid gap-8 p-6 sm:mt-6 sm:p-8 lg:grid-cols-2">
       <div>

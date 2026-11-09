@@ -81,7 +81,7 @@ export const services: Service[] = [
         icon: "notebook-pen",
         title: { ja: "客先常駐の社員向けAI勉強会", en: "AI Study Group for Client-Site Staff" },
         short: { ja: "客先がAIを認めていなくても、社員どうしで作って教え合える", en: "Staff build and teach each other with AI, even if their client bans it" },
-        repos: [],
+        repos: [gh("mgmt-kit")],
       },
     ],
     proof: {
