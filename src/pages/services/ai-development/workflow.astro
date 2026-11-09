@@ -6,10 +6,11 @@ import RepoLink from '../../../components/RepoLink.astro';
 import SectionHead from '../../../components/services/SectionHead.astro';
 import DevDiagram from '../../../components/workflow/DevDiagram.astro';
 import WfContrast from '../../../components/workflow/WfContrast.astro';
+import SkillTag from '../../../components/workflow/SkillTag.astro';
+import OtherServices from '../../../components/services/OtherServices.astro';
 import { services } from '../../../data/services';
+import { gddArticle } from '../../../data/articles';
 import type { MultilingualText } from '../../../lib/i18n';
-
-const gddArticle = 'https://zenn.dev/yktsnet/articles/202608-guarantee-driven-development';
 
 type Point = { no: string; title: MultilingualText; body: MultilingualText };
 type StepItem = { no: string; title: MultilingualText; tags: string[]; body: MultilingualText };
@@ -133,6 +134,37 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
     evidence: 'TestResendKeepsAddressHistory',
   },
 ];
+// 04 の補足。左が役割の分け方、右が機械で止める規則
+const decisions: { kicker: string; title: MultilingualText; items: { lead: MultilingualText; body: MultilingualText }[] }[] = [
+  {
+    kicker: 'Agent Architecture',
+    title: { ja: '役割ごとにエージェントを分けない', en: 'Do not split agents by role' },
+    items: [
+      {
+        lead: { ja: '実装は1セッション通し：', en: 'Single session for implementation: ' },
+        body: { ja: '役割ごとに分けると、受け渡しのたびに「なぜそうしたか」が落ちる。', en: 'Splitting by role drops the "why" at every handoff.' },
+      },
+      {
+        lead: { ja: '文脈を切る理由がある所だけ subagent：', en: 'Subagents only when isolation matters: ' },
+        body: { ja: '確認者の判定・画面操作の重い出力・並行の読み合わせだけに限定する。', en: 'Used only for verifier judgment, heavy UI operator output, and parallel spec checks.' },
+      },
+    ],
+  },
+  {
+    kicker: 'Mechanical Guards',
+    title: { ja: '守らせる規則はプロンプトではなく Hook で止める', en: 'Enforce rules with Hooks, not prompts' },
+    items: [
+      {
+        lead: { ja: '破壊的・越権操作の遮断（guards）：', en: 'Block destructive actions (guards): ' },
+        body: { ja: 'main への直接 push、権限のない自動マージ、メイン作業ツリーでの checkout を機械的に止める。', en: 'Mechanically block direct pushes to main, unauthorized auto-merges, and branch checkouts in the main worktree.' },
+      },
+      {
+        lead: { ja: '秘密情報の混入防止（secret-guard）：', en: 'Prevent secret leaks (secret-guard): ' },
+        body: { ja: '.env や鍵の読み書き・git add を settings.json の deny とフックで遮断する。', en: 'Block reading, writing, or staging .env and key files via settings.json deny rules and pre-tool hooks.' },
+      },
+    ],
+  },
+];
 ---
 
 <MainLayout title="Development Workflow" description="AI と開発するときの仕組みを、顧客理解と実装の分担と別文脈での検証で図解する。">
@@ -237,8 +269,8 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
               <div class="text-zinc-600 dark:text-poi-muted">
                 <p class="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
                   <span class="mr-0.5"><T text={{ ja: '照会と1か所への回収', en: 'Send & centralize answers' }} /></span>
-                  <code class="inline-flex items-center rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none">/qa-send</code>
-                  <code class="inline-flex items-center rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none">/qa-collect</code>
+                  <SkillTag>/qa-send</SkillTag>
+                  <SkillTag>/qa-collect</SkillTag>
                 </p>
                 <p class="mt-0.5">
                   <T text={{
@@ -294,7 +326,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
               <div class="text-zinc-600 dark:text-poi-muted">
                 <p class="flex flex-wrap items-center gap-x-2 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
                   <span><T text={{ ja: '問いを起こし、回答を読む', en: 'Open questions & apply answers' }} /></span>
-                  <code class="inline-flex items-center rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none">/client-next</code>
+                  <SkillTag>/client-next</SkillTag>
                 </p>
                 <p class="mt-0.5">
                   <T text={{
@@ -356,10 +388,10 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
                     <p class="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
                       <span class="mr-0.5"><T text={st.title} /></span>
                       {st.tags.map((tag) => (
-                        <code class="inline-flex items-center gap-1 rounded-sm border border-zinc-200/70 bg-zinc-100/70 px-1.5 py-0.5 font-mono type-label font-normal text-zinc-600 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900 dark:border-poi-border/40 dark:bg-poi-panel/25 dark:text-poi-muted dark:hover:bg-poi-panel/50 dark:hover:text-poi-focus select-none">
+                        <SkillTag>
                           {!tag.startsWith('/') && <LucideIcon name="bot" class="h-3 w-3 text-poi-accent" />}
                           <span>{tag}</span>
-                        </code>
+                        </SkillTag>
                       ))}
                     </p>
                     <p class="mt-0.5 text-zinc-600 dark:text-poi-muted"><T text={st.body} /></p>
@@ -369,7 +401,7 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
             </ol>
           </div>
           <div class="mt-6 border-t border-zinc-200/80 pt-4 dark:border-poi-border/50">
-            <RepoLink label={{ ja: 'Zenn — 保証駆動開発 (GDD)', en: 'Zenn — Guarantee-Driven Development (GDD)' }} href={gddArticle} icon="zenn" />
+            <RepoLink {...gddArticle} />
           </div>
         </div>
 
@@ -430,89 +462,27 @@ const verdicts: { no: MultilingualText; ac: MultilingualText; evidence: string }
     />
     <div class="ui-card mt-5 overflow-hidden sm:mt-6">
       <div class="grid grid-cols-1 divide-y divide-zinc-200 md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
-        <div class="p-6 sm:p-7">
-          <p class="ui-kicker">Agent Architecture</p>
-          <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
-            <T text={{ ja: '役割ごとにエージェントを分けない', en: 'Do not split agents by role' }} />
-          </h3>
-          <ul class="mt-3 space-y-2">
-            <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
-              <span aria-hidden="true">·</span>
-              <span>
-                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                  <T text={{ ja: '実装は1セッション通し：', en: 'Single session for implementation: ' }} />
-                </strong>
-                <T text={{
-                  ja: '役割ごとに分けると、受け渡しのたびに「なぜそうしたか」が落ちる。',
-                  en: 'Splitting by role drops the "why" at every handoff.',
-                }} />
-              </span>
-            </li>
-            <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
-              <span aria-hidden="true">·</span>
-              <span>
-                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                  <T text={{ ja: '文脈を切る理由がある所だけ subagent：', en: 'Subagents only when isolation matters: ' }} />
-                </strong>
-                <T text={{
-                  ja: '確認者の判定・画面操作の重い出力・並行の読み合わせだけに限定する。',
-                  en: 'Used only for verifier judgment, heavy UI operator output, and parallel spec checks.',
-                }} />
-              </span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="p-6 sm:p-7">
-          <p class="ui-kicker">Mechanical Guards</p>
-          <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
-            <T text={{ ja: '守らせる規則はプロンプトではなく Hook で止める', en: 'Enforce rules with Hooks, not prompts' }} />
-          </h3>
-          <ul class="mt-3 space-y-2">
-            <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
-              <span aria-hidden="true">·</span>
-              <span>
-                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                  <T text={{ ja: '破壊的・越権操作の遮断（guards）：', en: 'Block destructive actions (guards): ' }} />
-                </strong>
-                <T text={{
-                  ja: 'main への直接 push、権限のない自動マージ、メイン作業ツリーでの checkout を機械的に止める。',
-                  en: 'Mechanically block direct pushes to main, unauthorized auto-merges, and branch checkouts in the main worktree.',
-                }} />
-              </span>
-            </li>
-            <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
-              <span aria-hidden="true">·</span>
-              <span>
-                <strong class="font-semibold text-zinc-900 dark:text-poi-focus">
-                  <T text={{ ja: '秘密情報の混入防止（secret-guard）：', en: 'Prevent secret leaks (secret-guard): ' }} />
-                </strong>
-                <T text={{
-                  ja: '.env や鍵の読み書き・git add を settings.json の deny とフックで遮断する。',
-                  en: 'Block reading, writing, or staging .env and key files via settings.json deny rules and pre-tool hooks.',
-                }} />
-              </span>
-            </li>
-          </ul>
-        </div>
+        {decisions.map((d) => (
+          <div class="p-6 sm:p-7">
+            <p class="ui-kicker">{d.kicker}</p>
+            <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus"><T text={d.title} /></h3>
+            <ul class="mt-3 space-y-2">
+              {d.items.map((it) => (
+                <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
+                  <span aria-hidden="true">·</span>
+                  <span>
+                    <strong class="font-semibold text-zinc-900 dark:text-poi-focus"><T text={it.lead} /></strong>
+                    <T text={it.body} />
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
   {/* サービスへのリンク（2つ・右寄せ） */}
-  <nav aria-label="Service navigation" class="mt-20 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-zinc-200 pt-10 sm:mt-24 sm:justify-end sm:pt-12 dark:border-poi-border/60">
-    {services.map((s) => (
-      <a
-        href={`/services/${s.slug}/`}
-        class="group inline-flex items-center gap-2 font-mono type-caption text-zinc-700 transition-colors duration-200 hover:text-poi-accent dark:text-poi-text dark:hover:text-poi-accent"
-      >
-        <span class="text-poi-accent">{s.no}</span>
-        <span class="text-poi-muted">—</span>
-        <span class="font-sans type-body font-medium text-zinc-900 transition-colors duration-200 group-hover:text-poi-accent dark:text-poi-focus dark:group-hover:text-poi-accent">
-          <T text={s.title} />
-        </span>
-        <LucideIcon name="arrow-right" class="h-3.5 w-3.5 text-poi-accent transition-transform duration-200 group-hover:translate-x-0.5" />
-      </a>
-    ))}
-  </nav>
+  <OtherServices others={services} />
 </MainLayout>

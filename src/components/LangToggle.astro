@@ -19,21 +19,13 @@
       const button = this.querySelector<HTMLButtonElement>("button");
 
       if (button) {
+        const setActive = (label: Element | null, active: boolean) => {
+          for (const c of ["font-semibold", "text-poi-accent"]) label?.classList.toggle(c, active);
+          for (const c of ["text-zinc-400", "dark:text-poi-muted/50"]) label?.classList.toggle(c, !active);
+        };
         const updateUI = (lang: string) => {
-          const jaLabel = this.querySelector(".lang-label-ja");
-          const enLabel = this.querySelector(".lang-label-en");
-
-          if (lang === "en") {
-            jaLabel?.classList.remove("font-semibold", "text-poi-accent");
-            jaLabel?.classList.add("text-zinc-400", "dark:text-poi-muted/50");
-            enLabel?.classList.remove("text-zinc-400", "dark:text-poi-muted/50");
-            enLabel?.classList.add("font-semibold", "text-poi-accent");
-          } else {
-            enLabel?.classList.remove("font-semibold", "text-poi-accent");
-            enLabel?.classList.add("text-zinc-400", "dark:text-poi-muted/50");
-            jaLabel?.classList.remove("text-zinc-400", "dark:text-poi-muted/50");
-            jaLabel?.classList.add("font-semibold", "text-poi-accent");
-          }
+          setActive(this.querySelector(".lang-label-ja"), lang !== "en");
+          setActive(this.querySelector(".lang-label-en"), lang === "en");
         };
 
         const currentLang = document.documentElement.dataset.lang || "ja";
