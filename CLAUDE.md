@@ -45,10 +45,11 @@ PR 前に `npm run typecheck` と `npm run test` を通す。実行確認が必�
 
 ### 多言語
 
-日英の両方を HTML に出し、`<html data-lang>` に応じて CSS（`global.css`）が片方を隠す。言語の初期値は `MainLayout.astro` が `localStorage` から決め（未設定時は `'ja'`）、`LangToggle.astro` が切り替える。
+日英の両方を HTML に出し、`<html data-lang>` に応じて CSS（`global.css`）が片方を隠す。言語の初期値は `MainLayout.astro` が `localStorage` から決め（未設定時は `'ja'`）、`LangToggle.astro` が切り替える。md 未満では切り替えを出さず、保存した言語にかかわらず日本語で出す。
 
 - コンポーネントに直書きする文言は `<span class="lang-ja">` と `<span class="lang-en">` を並べる
 - `src/data/` のデータに持たせる文言は `MultilingualText`（`src/lib/i18n.ts`）で `{ ja, en }` の両方を持ち、描画側で同じ2つの span に展開する
+- md 未満でしか出さないもの（スマホ版の図、`FoldToggle.astro` のボタン）は日本語だけで書く。図の部品（`src/components/diagram/`）は `en` を渡さなければ日本語だけを出す
 
 ### API レイヤー
 

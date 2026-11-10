@@ -1,20 +1,13 @@
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { skillLinks } from "./skill-links";
+import { downstreamSteps, upstreamCols } from "./workflow";
 
-const page = readFileSync(
-  new URL("../pages/services/ai-development/workflow.astro", import.meta.url),
-  "utf8",
-);
-
-const tagsInArrays = [...page.matchAll(/tags: \[([^\]]*)\]/g)].flatMap((m) =>
-  [...m[1].matchAll(/'([^']+)'/g)].map((t) => t[1]),
-);
-const tagsByName = [...page.matchAll(/<SkillTag name="([^"]+)">/g)].map((m) => m[1]);
+const steps = [...upstreamCols.flatMap((c) => c.items), ...downstreamSteps];
+const tags = steps.flatMap((st) => st.tags);
 
 describe("skillLinks", () => {
   it("ワークフローのページに出るスキル名はすべてリンク先を持つ", () => {
-    const names = [...tagsInArrays, ...tagsByName];
+    const names = tags;
     expect(names.length).toBeGreaterThan(0);
     for (const name of names) expect(skillLinks[name], name).toBeDefined();
   });

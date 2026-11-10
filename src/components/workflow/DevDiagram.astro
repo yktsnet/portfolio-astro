@@ -1,7 +1,7 @@
 ---
-import N from './WfNode.astro';
-import Lane from './WfLaneTitle.astro';
-import DgText from '../services/DgText.astro';
+import N from '../diagram/DgNode.astro';
+import Lane from '../diagram/DgLane.astro';
+import DgText from '../diagram/DgText.astro';
 
 interface Props {
   kind: 'overview' | 'spec' | 'verify';
@@ -21,7 +21,7 @@ const viewBox = {
 }[kind];
 
 // スマホ用の縦組み。横組みを縮めると文字が読めず、横にスクロールさせると全体が一度に見えない
-// 担当の並び（左に顧客理解、右に実装）は横組みと同じにし、流れだけを上から下にする。箱が狭いので文は短くしている
+// 担当の並び（左に顧客理解、右に実装）は横組みと同じにし、流れだけを上から下にする。箱が狭いので文は短くしている。md 未満は日本語だけで出すので、英語は持たない
 const spMk = `${mk}-sp`;
 const spMkAcc = `${mkAcc}-sp`;
 const spEnd = `url(#${spMk})`;
@@ -52,25 +52,25 @@ const spViewBox = {
       {/* 担当をまたぐ3本は、あいだが狭く言葉を添えられない。線の種類を入る先の箱の見た目と揃え、
           何が届くかは入る先の箱の2行目に書く。2行目はそこにだけ置き、ほかの箱は1行にして詰めない */}
       <rect class="dg-box" x="2" y="6" width="150" height="398" rx="12" style="fill: none" />
-      <Lane x={32} y={30} maxX={144} icon="user-check" ja="顧客理解担当" en="Customer Und." subJa="現場と試作から決める" subEn="Decides what to build" />
+      <Lane x={32} y={30} maxX={144} icon="user-check" ja="顧客理解担当" subJa="現場と試作から決める" />
       <rect class="dg-box" x="196" y="6" width="150" height="398" rx="12" style="fill: none" />
-      <Lane x={226} y={30} maxX={338} icon="user-round-pen" ja="実装担当" en="Implementation" subJa="約束を切って作り検証" subEn="Builds & verifies" />
+      <Lane x={226} y={30} maxX={338} icon="user-round-pen" ja="実装担当" subJa="約束を切って作り検証" />
 
-      <N x={10} y={78} w={134} h={46} ja="利用者の現場" en="User's workplace" />
+      <N x={10} y={78} w={134} h={46} ja="利用者の現場" />
       <path class="dg-line" marker-end={spEnd} d="M77 124 V160" />
-      <N x={10} y={162} w={134} h={54} ja="試作を触り決める" en="Try & decide" subJa="PRの動く試作で" subEn="Via PR prototype" kind="human" />
+      <N x={10} y={162} w={134} h={54} ja="試作を触り決める" subJa="PRの動く試作で" kind="human" />
       <path class="dg-line" marker-end={spEnd} d="M77 216 V252" />
-      <N x={10} y={254} w={134} h={46} ja="要件の正本・FB" en="Spec & FB" />
+      <N x={10} y={254} w={134} h={46} ja="要件の正本・FB" />
       <path class="dg-line wf-dashed" marker-end={spEnd} d="M77 300 V336" />
-      <N x={10} y={338} w={134} h={54} ja="問いの Issue" en="Question Issues" subJa="仮置きの点を渡す" subEn="Open assumptions" kind="dashed" />
+      <N x={10} y={338} w={134} h={54} ja="問いの Issue" subJa="仮置きの点を渡す" kind="dashed" />
 
-      <N x={204} y={74} w={134} h={54} ja="起票（AC・保証）" en="Draft ACs" subJa="決めた要件・FBから" subEn="From spec & FB" kind="impl" />
+      <N x={204} y={74} w={134} h={54} ja="起票（AC・保証）" subJa="決めた要件・FBから" kind="impl" />
       <path class="dg-line" marker-end={spEnd} d="M271 128 V164" />
-      <N x={204} y={166} w={134} h={46} ja="実装セッション" en="Build sessions" />
+      <N x={204} y={166} w={134} h={46} ja="実装セッション" />
       <path class="dg-line" marker-end={spEnd} d="M271 212 V248" />
-      <N x={204} y={250} w={134} h={54} ja="確認者・使い心地" en="Verifier & UX" subJa="作った者は判定しない" subEn="Never self-judged" kind="agent" />
+      <N x={204} y={250} w={134} h={54} ja="確認者・使い心地" subJa="作った者は判定しない" kind="agent" />
       <path class="dg-line" marker-end={spEnd} d="M271 304 V340" />
-      <N x={204} y={342} w={134} h={46} ja="PR・マージ" en="PR & merge" kind="impl" />
+      <N x={204} y={342} w={134} h={46} ja="PR・マージ" kind="impl" />
 
       <path class="dg-line" marker-end={spEnd} d="M144 277 H160 V96 H202" />
       <path class="dg-acc wf-strong" marker-end={spEndAcc} d="M204 372 H174 V182 H146" />
@@ -83,57 +83,57 @@ const spViewBox = {
       {/* 色は人が決める最後の更新と、そこへ入る試作の線だけに付ける。狭い幅で色の箱が並ぶと、どこが要か分からなくなる */}
       {/* 先に動く実装担当を1段上げ、問いが右から左へ渡る所を同じ高さに並べる。
           最後の更新は両方の段から入るので、横幅いっぱいの箱にして矢印をまっすぐ落とす */}
-      <N x={74} y={6} w={200} h={54} ja="未確定を含む要件" en="Open requirements" subJa="回答待ちで止めない" subEn="Do not block on Q&A" />
+      <N x={74} y={6} w={200} h={54} ja="未確定を含む要件" subJa="回答待ちで止めない" />
       <path class="dg-line" marker-end={spEnd} d="M248 60 V90" />
       <path class="dg-line wf-dashed" marker-end={spEnd} d="M100 60 V176" />
 
       <rect class="dg-box" x="190" y="92" width="156" height="218" rx="12" style="fill: none" />
-      <Lane x={220} y={116} maxX={338} icon="user-round-pen" ja="実装担当" en="Implementation" subJa="止めずに試作" subEn="Prototype first" />
-      <N x={198} y={150} w={140} h={54} ja="仮置きで先に実装" en="Build on guesses" subJa="仮置き一覧へ分離" subEn="Assumption list" />
+      <Lane x={220} y={116} maxX={338} icon="user-round-pen" ja="実装担当" subJa="止めずに試作" />
+      <N x={198} y={150} w={140} h={54} ja="仮置きで先に実装" subJa="仮置き一覧へ分離" />
       <path class="dg-line" marker-end={spEnd} d="M268 204 V240" />
-      <N x={198} y={242} w={140} h={54} ja="問いの Issue 起票" en="Open questions" subJa="出典と仮案を添付" subEn="Source & default" />
+      <N x={198} y={242} w={140} h={54} ja="問いの Issue 起票" subJa="出典と仮案を添付" />
 
       <rect class="dg-box" x="2" y="178" width="156" height="224" rx="12" stroke-dasharray="4 4" style="fill: none" />
-      <Lane x={32} y={202} maxX={150} icon="user-check" ja="顧客理解担当" en="Customer Und." subJa="並行して照会・回収" subEn="Parallel Q&A" />
-      <N x={10} y={242} w={140} h={54} ja="依頼主へ照会" en="Send questions" subJa="/qa-send" subEn="/qa-send" />
+      <Lane x={32} y={202} maxX={150} icon="user-check" ja="顧客理解担当" subJa="並行して照会・回収" />
+      <N x={10} y={242} w={140} h={54} ja="依頼主へ照会" subJa="/qa-send" />
       <path class="dg-line wf-dashed" marker-end={spEnd} d="M80 296 V332" />
-      <N x={10} y={334} w={140} h={54} ja="回答を1か所に回収" en="Collect answers" subJa="/qa-collect" subEn="/qa-collect" />
+      <N x={10} y={334} w={140} h={54} ja="回答を1か所に回収" subJa="/qa-collect" />
 
       {/* 問いを渡す */}
       <path class="dg-line wf-dashed" marker-end={spEnd} d="M198 269 H152" />
 
       {/* 合流: 回答と試作の反応で、正本と実装を更新する */}
       <path class="dg-line" marker-end={spEnd} d="M80 388 V434" />
-      <DgText x={88} y={422} ja="回答を反映" en="Apply answers" class="dg-small" anchor="start" />
+      <DgText x={88} y={422} ja="回答を反映" class="dg-small" anchor="start" />
       <path class="dg-acc wf-strong" marker-end={spEndAcc} d="M268 296 V434" />
-      <DgText x={260} y={352} ja="試作で" en="Tacit needs" class="dg-acctext" anchor="end" />
-      <DgText x={260} y={369} ja="暗黙知が出る" en="surface" class="dg-acctext" anchor="end" />
-      <N x={40} y={436} w={268} h={54} ja="正本と実装を更新" en="Update spec & build" subJa="/client-next · 違えば直す" subEn="/client-next · fix if needed" kind="human" />
+      <DgText x={260} y={352} ja="試作で" class="dg-acctext" anchor="end" />
+      <DgText x={260} y={369} ja="暗黙知が出る" class="dg-acctext" anchor="end" />
+      <N x={40} y={436} w={268} h={54} ja="正本と実装を更新" subJa="/client-next · 違えば直す" kind="human" />
     </>
   )}
 
   {kind === 'verify' && (
     <>
-      <N x={74} y={6} w={200} h={58} ja="Issue で約束を承認" en="Approve promises" subJa="/issue-draft" subEn="/issue-draft" kind="impl" />
+      <N x={74} y={6} w={200} h={58} ja="Issue で約束を承認" subJa="/issue-draft" kind="impl" />
       <path class="dg-line" marker-end={spEnd} d="M174 64 V100" />
-      <DgText x={184} y={87} ja="Issue だけ渡す" en="Fresh context" class="dg-small" anchor="start" />
-      <N x={74} y={102} w={200} h={58} ja="1セッション通し実装" en="Single-session build" subJa="/issue-work · 3本並行" subEn="/issue-work ×3" />
+      <DgText x={184} y={87} ja="Issue だけ渡す" class="dg-small" anchor="start" />
+      <N x={74} y={102} w={200} h={58} ja="1セッション通し実装" subJa="/issue-work · 3本並行" />
 
       {/* 実装から2つの検証へ分かれ、どちらも PR へ集まる */}
       <path class="dg-line" marker-end={spEnd} d="M140 160 V182 H97 V206" />
       <path class="dg-line" marker-end={spEnd} d="M208 160 V182 H259 V206" />
-      <N x={22} y={208} w={150} h={58} ja="操作役 → 使い心地" en="UX check" subJa="screen-operator" subEn="screen-operator" kind="impl" />
-      <N x={184} y={208} w={150} h={58} ja="別文脈の確認者" en="Isolated Verifier" subJa="issue-verifier" subEn="issue-verifier" kind="agent" />
+      <N x={22} y={208} w={150} h={58} ja="操作役 → 使い心地" subJa="screen-operator" kind="impl" />
+      <N x={184} y={208} w={150} h={58} ja="別文脈の確認者" subJa="issue-verifier" kind="agent" />
       <path class="dg-line" marker-end={spEnd} d="M97 266 V290 H140 V312" />
       <path class="dg-line" marker-end={spEnd} d="M259 266 V290 H208 V312" />
-      <DgText x={174} y={294} ja="合否と証拠" en="Pass/fail" class="dg-small" />
-      <N x={74} y={314} w={200} h={58} ja="証拠付き PR" en="Evidence PR" subJa="外れた点だけ確認" subEn="Check failures" kind="impl" />
+      <DgText x={174} y={294} ja="合否と証拠" class="dg-small" />
+      <N x={74} y={314} w={200} h={58} ja="証拠付き PR" subJa="外れた点だけ確認" kind="impl" />
 
       {/* 手戻りを仕組みへ戻し、次の実装に反映する */}
       <path class="dg-line wf-dashed" marker-end={spEnd} d="M174 372 V424" />
-      <DgText x={184} y={394} ja="手戻りを集計" en="Collect rework" class="dg-small" anchor="start" />
-      <DgText x={184} y={410} ja="/rework-review" en="/rework-review" class="dg-small" anchor="start" />
-      <N x={74} y={426} w={200} h={54} ja="Skill・Hook を更新" en="Update Skills & Hooks" subJa="再発を手順と機械で防ぐ" subEn="Prevent repeat failures" kind="dashed" />
+      <DgText x={184} y={394} ja="手戻りを集計" class="dg-small" anchor="start" />
+      <DgText x={184} y={410} ja="/rework-review" class="dg-small" anchor="start" />
+      <N x={74} y={426} w={200} h={54} ja="Skill・Hook を更新" subJa="再発を手順と機械で防ぐ" kind="dashed" />
       <path class="dg-line wf-dashed" marker-end={spEnd} d="M74 453 H10 V131 H72" />
     </>
   )}

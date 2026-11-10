@@ -3,7 +3,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import T from '../../components/T.astro';
 import RepoLink from '../../components/RepoLink.astro';
 import FoldToggle from '../../components/FoldToggle.astro';
-import SectionHead from '../../components/services/SectionHead.astro';
+import SectionHead from '../../components/SectionHead.astro';
 import ServiceDiagram from '../../components/services/ServiceDiagram.astro';
 import ServiceHero from '../../components/services/ServiceHero.astro';
 import OtherServices from '../../components/services/OtherServices.astro';
@@ -262,7 +262,7 @@ const zenn = {
       </div>
       {/* スマホでは自分の場合だけを出す。SaaS と開発会社は、4行をまとめて開く1つのボタンで出し、開くと左右に並ぶ */}
       <FoldToggle variant="band" class="border-b ui-subpanel px-5 py-3">
-        <T text={{ ja: 'SaaS・開発会社の場合と並べる', en: 'Show SaaS and dev firm side by side' }} />
+        SaaS・開発会社の場合と並べる
       </FoldToggle>
       <div class="divide-y divide-zinc-200 dark:divide-poi-border/60">
         {compare.map((row) => (

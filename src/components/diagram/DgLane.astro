@@ -10,9 +10,9 @@ interface Props {
   maxX: number;
   icon: string;
   ja: string;
-  en: string;
+  en?: string;
   subJa: string;
-  subEn: string;
+  subEn?: string;
 }
 const { x, y, maxX, icon, ja, en, subJa, subEn } = Astro.props;
 
@@ -21,10 +21,15 @@ const place = (title: string, sub: string) => {
   const text = `— ${sub}`;
   return subX + textWidth(text, 11.5) <= maxX ? { x: subX, y, text } : { x, y: y + 17, text: sub };
 };
-const subs = { ja: place(ja, subJa), en: place(en, subEn) };
+// en を渡さないときは日本語だけを出す（md 未満でしか出さない図）
+const rows = en === undefined || subEn === undefined
+  ? [{ title: ja, sub: place(ja, subJa), cls: undefined }]
+  : [{ title: ja, sub: place(ja, subJa), cls: 'lang-ja' }, { title: en, sub: place(en, subEn), cls: 'lang-en' }];
 ---
 <svg class="dg-acc" x={x - 22} y={y - 13} width="16" height="16" viewBox="0 0 24 24" style="stroke-width: 2" set:html={getLucideIcon(icon)} />
-<text class="dg-acctext lang-ja" x={x} y={y}>{ja}</text>
-<text class="dg-acctext lang-en" x={x} y={y}>{en}</text>
-<text class="dg-small lang-ja" x={subs.ja.x} y={subs.ja.y}>{subs.ja.text}</text>
-<text class="dg-small lang-en" x={subs.en.x} y={subs.en.y}>{subs.en.text}</text>
+{rows.map((r) => (
+  <>
+    <text class:list={['dg-acctext', r.cls]} x={x} y={y}>{r.title}</text>
+    <text class:list={['dg-small', r.cls]} x={r.sub.x} y={r.sub.y}>{r.sub.text}</text>
+  </>
+))}
