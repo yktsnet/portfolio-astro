@@ -13,170 +13,15 @@ import ProcessSteps from '../../components/services/ProcessSteps.astro';
 import FitList from '../../components/services/FitList.astro';
 import { cases } from '../../data/cases';
 import { services } from '../../data/services';
-import type { MultilingualText } from '../../lib/i18n';
-import type { Fit, OfferingDetail, SectionLink, Step } from '../../types';
+import type { SectionLink } from '../../types';
+import { offeringDetails, options, compare, steps, fits, misfits, zenn } from '../../data/operations';
 
 // サービス名・説明・提供できることの名前はトップのカードと同じ値を使い、文言をずらさない
 const s = services.find((x) => x.slug === 'operations')!;
 const others = services.filter((x) => x.slug !== 'operations');
 
-// 必要なものはこのページのカードにだけ出す
-type OperationsOfferingDetail = OfferingDetail & { needs: MultilingualText };
-
 // 数字はトップの CASE と同じ値を使い、言い方をずらさない
 const { metrics } = cases.find((c) => c.service === 'operations')!;
-
-// services.ts の offerings と同じ順に並べる（勤怠システム、Excel帳票の書類管理）
-const offeringDetails: OperationsOfferingDetail[] = [
-  {
-    line: {
-      ja: '給与の根拠になる勤務の記録を、人の申告ではなく機械で残す。スタッフは出退勤のときにカードをかざすだけで、給与計算に使う集計は管理者が見慣れたスプレッドシートに自動で並ぶ。勤務の流れは今のまま変えない。',
-      en: 'The record that payroll rests on is kept by machine, not by what people report. Staff just tap a card when arriving and leaving, and the payroll tally lands in the spreadsheet managers already use. The daily routine stays as it is.',
-    },
-    before: [
-      { ja: '出退勤を紙に自己申告するので、水増しや書き忘れがそのまま給与に入る', en: 'Hours are self-reported on paper, so padding and forgotten entries go straight into pay' },
-      { ja: '月末に管理者が手で集計し、給与を手書きで計算する手間が毎月かかる', en: 'Every month a manager tallies by hand and writes up payroll' },
-    ],
-    after: [
-      { ja: '申告と実際の勤務がずれず、二度かざしや退勤の打刻忘れも仕組みが見分ける', en: 'Reported and actual hours stay in line, and double taps or missed clock-outs are caught by the system' },
-      { ja: '給与計算用の集計がスプレッドシートに自動で並び、月末の手作業がなくなる', en: 'The payroll tally lands in a spreadsheet, and the month-end handwork is gone' },
-    ],
-    decisions: [
-      {
-        title: { ja: 'スマホもボタンも使わない', en: 'No phone, no buttons' },
-        body: { ja: '操作が1つ増えるたびに、打刻されない日が出る。', en: 'Every extra step means days with no clock-in.' },
-      },
-      {
-        title: { ja: '異常を推測で埋めない', en: 'No guessing over gaps' },
-        body: { ja: '打刻忘れは印を付けて残し、管理者が直す。給与に推測した値を混ぜない。', en: 'Missed clock-ins are flagged for the manager to fix. Guesses never reach payroll.' },
-      },
-    ],
-    needs: {
-      ja: 'Raspberry Pi、市販のカードリーダー、1枚100円ほどのカード',
-      en: 'A Raspberry Pi, an off-the-shelf card reader, and cards at about 100 yen each',
-    },
-  },
-  {
-    line: {
-      ja: '毎回繰り返している、契約書のExcelへの手入力と過去の書類探しをなくす。Webのフォームに項目を入れれば、Excelへの書き込みからPDFまで自動で済む。パソコンの操作に不慣れな人は、フォームを使わずに今まで通りExcelに書いて共有フォルダに保存すればよく、それだけでPDFになる。',
-      en: 'This removes chores repeated every time: typing contracts into Excel by hand and hunting for old documents. Enter the fields in a web form and everything from filling the Excel file to the PDF is done. Staff less at home with computers can skip the form, keep writing in Excel as before and save to the shared folder; that alone makes the PDF.',
-    },
-    before: [
-      { ja: '前の契約書をコピーし、名前や部屋番号をExcelに1件ずつ打ち込み直す', en: 'Copy the last contract and retype names and room numbers into Excel one by one' },
-      { ja: '春の入退去の時期に、その打ち込みが集中する', en: 'That retyping piles up in the spring move-in season' },
-      { ja: '過去の書類は、フォルダを1つずつ開いて探す', en: 'Finding an old document means opening folders one by one' },
-    ],
-    after: [
-      { ja: 'フォームに入れるだけで、Excelへの手入力がなくなる', en: 'Fill in the form and the hand-typing into Excel is gone' },
-      { ja: '繁忙期でも、保存した時点でPDFができる', en: 'Even in peak season, the PDF is ready the moment it is saved' },
-      { ja: '過去の書類は、1つの一覧から全文検索で見つかる', en: 'Old documents turn up from one list with full-text search' },
-    ],
-    decisions: [
-      {
-        title: { ja: '様式を作り直さない', en: 'Keep the templates' },
-        body: { ja: 'いま使っている契約書のExcelに、そのまま項目を流し込む。', en: 'Fields go straight into the contract templates already in use.' },
-      },
-      {
-        title: { ja: '業種ごとの違いを対応表に分ける', en: 'Industry details stay separate' },
-        body: { ja: '様式と項目の対応表を替えれば、ほかの業種の書類にも使える。', en: 'Swap the templates and the field mapping to use it in another industry.' },
-      },
-    ],
-    needs: {
-      ja: '共有フォルダを置くサーバー（社内に置くか、借りる）',
-      en: 'A server for the shared folder, on-site or rented',
-    },
-  },
-];
-
-// 経営者が頼み方を選ぶときに比べる観点。SaaS・開発会社の列は一般にそうなりやすい形を書く
-const options: MultilingualText[] = [
-  { ja: 'SaaS', en: 'SaaS' },
-  { ja: '開発会社', en: 'Dev firm' },
-  { ja: '私の場合', en: 'My approach' },
-];
-const compare: { point: MultilingualText; cells: MultilingualText[] }[] = [
-  {
-    point: { ja: '始め方', en: 'Getting started' },
-    cells: [
-      { ja: '製品の機能に合わせて、まとめて切り替える', en: 'Switch over to fit the product' },
-      { ja: '要件を固めてから作り始める', en: 'Fix the requirements, then build' },
-      { ja: '手間の大きい作業1つから小さく始める', en: 'Start small, with the single most costly task' },
-    ],
-  },
-  {
-    point: { ja: '何を作るか', en: 'What gets built' },
-    cells: [
-      { ja: '製品にある機能から選ぶ', en: 'Chosen from the product\'s features' },
-      { ja: '依頼した内容を作る', en: 'What you specify' },
-      { ja: '会計の数字を一緒に見て、経費が減り売上につながるところから決める', en: 'Decided together from the accounts, where costs drop or sales grow' },
-    ],
-  },
-  {
-    point: { ja: '現場の操作', en: 'For your staff' },
-    cells: [
-      { ja: '製品の画面と手順に合わせる', en: 'Follow the product\'s screens and steps' },
-      { ja: '作った画面の使い方を覚える', en: 'Learn the screens that were built' },
-      { ja: '今の手順に合わせて作るので、覚え直しが要らない', en: 'Built around the current routine, so nothing to relearn' },
-    ],
-  },
-  {
-    point: { ja: '導入後', en: 'After launch' },
-    cells: [
-      { ja: '製品の更新に合わせて使う', en: 'Use it as the product updates' },
-      { ja: '保守契約の範囲で直す', en: 'Fixes within the maintenance contract' },
-      { ja: '使われ方を見て直し、現場で回り出すまで付き合う', en: 'I adjust it until it runs on its own' },
-    ],
-  },
-];
-
-const steps: Step[] = [
-  {
-    no: '01',
-    title: { ja: '数字から直すものを決める', en: 'Decide what to fix from the numbers' },
-    done: {
-      ja: '費用の6割が人件費で、中身を追うと勤務時間の申告に水増しが見つかった。正確な記録が先に要るので、勤怠を最初に直した。',
-      en: 'Labor was 60% of costs, and tracing it turned up padded hours. Accurate records had to come first, so attendance was fixed first.',
-    },
-  },
-  {
-    no: '02',
-    title: { ja: '現場のやり方を変えずに作る', en: 'Build without changing how people work' },
-    done: {
-      ja: 'スタッフはExcelで改行する操作にも慣れていなかった。そこで、説明しなくても使えることを条件にして作った。',
-      en: 'The staff were not even used to adding a line break in Excel, so working without any explanation became a requirement for what I built.',
-    },
-  },
-  {
-    no: '03',
-    title: { ja: '回り出すまで付き合って渡す', en: 'Stay until it runs, then hand it over' },
-    done: {
-      ja: '最初に納めた勤怠の道具が定着して、相談が増えた。書類作成の自動化は、そのあとに頼まれた。',
-      en: 'Once the first attendance tool took hold, more requests followed; document automation came after that.',
-    },
-  },
-];
-
-const fits: Fit[] = [
-  { text: { ja: '数名から数十名の事業所', en: 'Offices of a few to a few dozen people' } },
-  { text: { ja: 'Excelや紙の運用が回っていて、やり方は変えたくない', en: 'Excel and paper already work, and the routine should stay' } },
-  { text: { ja: 'SaaSを入れたが、使われずに元のやり方に戻った', en: 'A SaaS was tried, and everyone went back to the old way' } },
-  { text: { ja: '管理者が転記と集計に毎月何時間も使っている', en: 'Managers spend hours every month copying and tallying' } },
-];
-
-const misfits: Fit[] = [
-  {
-    text: { ja: '数十名を超える規模', en: 'More than a few dozen people' },
-    reason: { ja: '集計の仕組みを別に用意する必要がある', en: 'the tally needs a different backend' },
-  },
-  {
-    text: { ja: '厳密な本人確認が要る打刻', en: 'Clock-ins that need strict identity checks' },
-    reason: { ja: 'カードの貸し借りは仕組みでは防げない', en: 'lending a card cannot be prevented' },
-  },
-  {
-    text: { ja: '業務のやり方ごと作り替えたい', en: 'Redesigning how the work itself is done' },
-    reason: { ja: '今のやり方を残すことを前提に作る', en: 'it is built to keep the current routine' },
-  },
-];
 
 const sections: SectionLink[] = [
   { id: 'overview', label: { ja: '概要', en: 'Overview' } },
@@ -186,16 +31,6 @@ const sections: SectionLink[] = [
   { id: 'process', label: { ja: '進め方', en: 'Process' } },
   { id: 'fit', label: { ja: '合う現場', en: 'Fit' } },
 ];
-
-// 記事の題名は長く、スマホでリンクが3行に折れるので、要点だけに縮めて出す
-const zenn = {
-  title: {
-    ja: '勤怠を NFC カード1枚に集約する',
-    en: 'Attendance on one NFC card',
-  },
-  href: 'https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2',
-};
-
 ---
 
 <MainLayout title={s.title.en} description={`${s.title.ja}。${s.summary.ja}`} sections={sections}>

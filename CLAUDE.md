@@ -29,7 +29,7 @@ PR 前に `npm run typecheck` と `npm run test` を通す。実行確認が必�
 
 ### ページ描画とデータの流れ
 
-`src/data/services.ts` はトップページの Services 節、詳細ページの冒頭（サービス名・説明）、提供できることの名前のデータソース。詳細ページの残りは `src/pages/services/<slug>.astro` に直書きしている。サービスごとの簡易図は `src/components/services/Diagram*.astro` に SVG で直書きしている。
+`src/data/services.ts` はトップページの Services 節、詳細ページの冒頭（サービス名・説明）、提供できることの名前のデータソース。詳細ページの残りの文言は `src/data/<slug>.ts` に置き、組みは `src/pages/services/<slug>.astro` に書く。開発の進め方のページも同じく、文言は `src/data/workflow.ts` にある。サービスごとの簡易図は `src/components/services/Diagram*.astro` に SVG で直書きしている。
 
 トップページの About・Services の各節は `src/pages/index.astro` に直書きしている。Works の節は `src/data/works.ts` のデータを `src/components/WorkList.astro` のカードで並べ、最初の6枚より後は「すべて見る」で開く。Services の提供物からリンクしているリポは Works に載せない（`src/data/works.test.ts` が弾く）。About の節の年表と技術の範囲は `src/components/Career.astro` にある。`/about` はトップの About の節へ転送する。
 
