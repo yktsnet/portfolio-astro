@@ -1,43 +1,15 @@
 ---
-// スマホでは見出しだけ出して本文を畳む組。md 以上では開いたままにする（開閉の見た目は global.css の .fold-*）
-import LucideIcon from './LucideIcon.astro';
-
+// スマホでは見出しだけ出して本文を畳む組。開くのは囲む [data-fold-group] の FoldToggle で、
+// 項目ごとには開かせない（global.css の [data-fold-group]）。md 以上では開いたままにする
 interface Props {
   as?: 'h3' | 'p';
   class?: string;
-  // 見出しがスマホで畳むためだけのもので、md 以上では要らないとき
+  // 見出しがスマホで中身を示すためだけのもので、md 以上では要らないとき
   mobileHeadOnly?: boolean;
 }
 const { as: Tag = 'h3', class: className, mobileHeadOnly = false } = Astro.props;
 ---
-<div class:list={['fold', className]} data-fold>
-  <Tag class:list={[mobileHeadOnly && 'md:hidden']}>
-    {/* カード全体をリンクにしている場所でも押せるよう、重なりの上に出す */}
-    <button type="button" class="fold-head relative z-10 flex w-full items-start justify-between gap-3 text-left" aria-expanded="false">
-      <span class="min-w-0 flex-1"><slot name="head" /></span>
-      <LucideIcon name="chevron-down" class="fold-chevron mt-1 h-4 w-4 shrink-0 text-zinc-400 transition-transform duration-200 dark:text-poi-muted" />
-    </button>
-  </Tag>
+<div class={className}>
+  {Astro.slots.has('head') && <Tag class:list={['block w-full text-left', mobileHeadOnly && 'md:hidden']}><slot name="head" /></Tag>}
   <div class="fold-body"><slot /></div>
 </div>
-
-<script>
-  const wide = window.matchMedia('(min-width: 48rem)');
-  const heads = [...document.querySelectorAll<HTMLButtonElement>('[data-fold] .fold-head')];
-  // md 以上では常に開いているので、読み上げにも開いた状態を伝え、Tab の順からも外す
-  const sync = () => {
-    for (const head of heads) {
-      const open = wide.matches || head.closest('[data-fold]')!.hasAttribute('data-open');
-      head.setAttribute('aria-expanded', String(open));
-      head.tabIndex = wide.matches ? -1 : 0;
-    }
-  };
-  for (const head of heads) {
-    head.addEventListener('click', () => {
-      head.closest('[data-fold]')!.toggleAttribute('data-open');
-      sync();
-    });
-  }
-  wide.addEventListener('change', sync);
-  sync();
-</script>

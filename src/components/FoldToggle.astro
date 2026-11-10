@@ -1,0 +1,43 @@
+---
+// スマホで、囲む [data-fold-group] の中の .fold-body をまとめて開閉するボタン。md 以上では出さない
+import T from './T.astro';
+import LucideIcon from './LucideIcon.astro';
+
+interface Props {
+  // box: 枠付きのボタン、band: カードの中の帯（罫線と余白は呼ぶ側で足す）
+  variant?: 'box' | 'band';
+  class?: string;
+}
+const { variant = 'box', class: className } = Astro.props;
+// slot が無ければ、開閉で言葉を入れ替える既定の文言を出す
+const hasLabel = Astro.slots.has('default');
+---
+<button
+  type="button"
+  data-fold-toggle
+  aria-expanded="false"
+  class:list={[
+    'group relative z-10 flex w-full items-center justify-between gap-3 text-left type-caption font-semibold text-zinc-700 md:hidden dark:text-poi-text',
+    variant === 'box' && 'rounded-lg border border-zinc-200 px-4 py-2.5 dark:border-poi-border/60',
+    className,
+  ]}
+>
+  {hasLabel ? (
+    <span class="min-w-0 flex-1"><slot /></span>
+  ) : (
+    <span>
+      <span class="group-aria-expanded:hidden"><T text={{ ja: '説明を開く', en: 'Show details' }} /></span>
+      <span class="hidden group-aria-expanded:inline"><T text={{ ja: '説明を閉じる', en: 'Hide details' }} /></span>
+    </span>
+  )}
+  <LucideIcon name="chevron-down" class="h-4 w-4 shrink-0 text-zinc-400 transition-transform duration-200 group-aria-expanded:rotate-180 dark:text-poi-muted" />
+</button>
+
+<script>
+  for (const btn of document.querySelectorAll<HTMLButtonElement>('[data-fold-toggle]')) {
+    btn.addEventListener('click', () => {
+      const open = btn.closest('[data-fold-group]')!.toggleAttribute('data-open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  }
+</script>

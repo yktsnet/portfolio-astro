@@ -1,5 +1,5 @@
 ---
-import Fold from './Fold.astro';
+import FoldToggle from './FoldToggle.astro';
 import { getBrandIcon } from '../lib/brand-icons';
 import type { MultilingualText } from '../lib/i18n';
 
@@ -79,13 +79,16 @@ const timeline: LocationGroup[] = [
 ];
 ---
 
-{/* 技術の範囲と経歴の年表。スマホでは畳んだ2行が上下に続くので、罫線は coverage が上、timeline が上下を引く */}
+{/* 技術の範囲と経歴の年表。スマホでは畳んだ2行が上下に続くので、罫線は coverage が上、timeline が上下を引く。
+    中身が1つだけなので、見出しの行をそのまま開閉のボタンにする */}
 {part === 'coverage' && (
-  <Fold as="p" class="border-t border-zinc-200 py-3.5 md:border-t-0 md:py-0 dark:border-poi-border/60">
-    <Fragment slot="head">
-      <span class="font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted">COVERAGE</span>
-      <span class="ml-2.5 type-small text-zinc-700 md:hidden dark:text-poi-text"><span class="lang-ja">技術の範囲</span><span class="lang-en">Tech coverage</span></span>
-    </Fragment>
+  <div data-fold-group class="border-t border-zinc-200 py-3.5 md:border-t-0 md:py-0 dark:border-poi-border/60">
+    <FoldToggle variant="band">
+      <span class="font-mono type-caption font-normal tracking-widest uppercase text-zinc-500 dark:text-poi-muted">COVERAGE</span>
+      <span class="ml-2.5 type-small font-normal text-zinc-700 dark:text-poi-text"><span class="lang-ja">技術の範囲</span><span class="lang-en">Tech coverage</span></span>
+    </FoldToggle>
+    <p class="hidden font-mono type-caption tracking-widest uppercase text-zinc-500 md:block dark:text-poi-muted">COVERAGE</p>
+    <div class="fold-body">
 
     {/* ビジネス層: 5領域と並列にせず、上から翻訳して落とす縦の関係で見せる（Issue 39） */}
     <div class="mt-4 rounded-xl border border-zinc-200 dark:border-poi-border/70 bg-zinc-50/60 dark:bg-white/2 px-4 py-3.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -136,16 +139,18 @@ const timeline: LocationGroup[] = [
         </tbody>
       </table>
     </div>
-  </Fold>
+    </div>
+  </div>
 )}
 
 {part === 'timeline' && (
-  <Fold as="p" class="border-y border-zinc-200 py-3.5 md:border-y-0 md:py-0 dark:border-poi-border/60">
-    <Fragment slot="head">
-      <span class="font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted">TIMELINE</span>
-      <span class="ml-2.5 type-small text-zinc-700 md:hidden dark:text-poi-text"><span class="lang-ja">経歴</span><span class="lang-en">Career</span></span>
-    </Fragment>
-    <div class="mt-4 space-y-5 pb-2 md:pb-0">
+  <div data-fold-group class="border-y border-zinc-200 py-3.5 md:border-y-0 md:py-0 dark:border-poi-border/60">
+    <FoldToggle variant="band">
+      <span class="font-mono type-caption font-normal tracking-widest uppercase text-zinc-500 dark:text-poi-muted">TIMELINE</span>
+      <span class="ml-2.5 type-small font-normal text-zinc-700 dark:text-poi-text"><span class="lang-ja">経歴</span><span class="lang-en">Career</span></span>
+    </FoldToggle>
+    <p class="hidden font-mono type-caption tracking-widest uppercase text-zinc-500 md:block dark:text-poi-muted">TIMELINE</p>
+    <div class="fold-body mt-4 space-y-5 pb-2 md:pb-0">
       {timeline.map(({ location, items }) => (
         <div>
           <p class="font-mono type-caption text-poi-accent mb-2.5">@{location}</p>
@@ -170,7 +175,7 @@ const timeline: LocationGroup[] = [
         </div>
       ))}
     </div>
-  </Fold>
+  </div>
 )}
 
 <style>

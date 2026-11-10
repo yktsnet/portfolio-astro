@@ -152,14 +152,9 @@
   }
 }
 
-/* スマホでは見出しだけ出して本文を畳み、md 以上では常に開く（Fold.astro） */
-.fold-body { display: none; }
-.fold[data-open] > .fold-body { display: block; }
-.fold[data-open] .fold-chevron { transform: rotate(180deg); }
-@media (width >= 48rem) {
-  .fold-body { display: block; }
-  .fold-chevron { display: none; }
-  .fold-head { pointer-events: none; }
+/* スマホでは本文を畳み、節ごとに FoldToggle でまとめて開く。md 以上では常に開く */
+@media (width < 48rem) {
+  [data-fold-group]:not([data-open]) .fold-body { display: none; }
 }
 
 /* Multi-language visibility rules */

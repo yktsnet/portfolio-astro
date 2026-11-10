@@ -13,6 +13,7 @@ import { gddArticle } from '../../../data/articles';
 import type { MultilingualText } from '../../../lib/i18n';
 import type { SectionLink } from '../../../types';
 import Fold from '../../../components/Fold.astro';
+import FoldToggle from '../../../components/FoldToggle.astro';
 
 const sections: SectionLink[] = [
   { id: 'overview', label: { ja: '全体像', en: 'Big picture' } },
@@ -276,7 +277,9 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
       <div class="p-6 sm:p-8">
         <DevDiagram kind="overview" label="顧客理解担当と実装担当を動く試作と問いのIssueでつなぐ全体図" />
       </div>
-      <div class="grid grid-cols-1 divide-y divide-zinc-200 border-t ui-subpanel md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
+      <div data-fold-group class="border-t ui-subpanel">
+      <FoldToggle variant="band" class="border-b px-6 py-3 dark:border-poi-border/60" />
+      <div class="grid grid-cols-1 divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
         {overviewPoints.map((p) => (
           <div class="p-6 sm:p-7">
             <Fold>
@@ -288,6 +291,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
             </Fold>
           </div>
         ))}
+      </div>
       </div>
     </div>
     <WfContrast
@@ -324,8 +328,10 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
       <div class="p-6 sm:p-8">
         <DevDiagram kind="spec" label="実装担当の仮置き試作と、顧客理解担当の問いの照会・回収を並行させる図" />
       </div>
-      <div class="grid grid-cols-1 divide-y divide-zinc-200 border-t ui-subpanel md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
-        {/* Skill のラベルはリンクなので見出しに入れず、本文の先頭の行に置く。見出しはスマホで開閉のボタンになる */}
+      <div data-fold-group class="border-t ui-subpanel">
+      <FoldToggle variant="band" class="border-b px-6 py-3 dark:border-poi-border/60" />
+      <div class="grid grid-cols-1 divide-y divide-zinc-200 md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
+        {/* Skill のラベルは本文の先頭の行に置き、スマホで見出しだけを並べたときに混ぜない */}
         {upstreamCols.map((col) => (
           <div class="p-6 sm:p-7">
             <p class="ui-kicker">{col.kicker}</p>
@@ -353,6 +359,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
             </ul>
           </div>
         ))}
+      </div>
       </div>
     </div>
     <WfContrast
@@ -391,7 +398,9 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
       </div>
 
       {/* 下段：左に01〜04の手順、右に実際の成果物（IssueのACとPRの判定表） */}
-      <div class="grid grid-cols-1 divide-y divide-zinc-200 border-t ui-subpanel lg:grid-cols-12 lg:divide-x lg:divide-y-0 dark:divide-poi-border/60">
+      <div data-fold-group class="border-t ui-subpanel">
+      <FoldToggle variant="band" class="border-b px-6 py-3 dark:border-poi-border/60" />
+      <div class="grid grid-cols-1 divide-y divide-zinc-200 lg:grid-cols-12 lg:divide-x lg:divide-y-0 dark:divide-poi-border/60">
         <div class="flex flex-col justify-between p-6 sm:p-7 lg:col-span-7">
           <div>
             {/* 手順の本文には、そうする理由だけを書く。やり方は上の図と見出しが示している */}
@@ -451,6 +460,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
           </Fold>
         </div>
       </div>
+      </div>
     </div>
     <WfContrast
       title={{
@@ -478,7 +488,9 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
         en: 'Architectural decisions and mechanical guards',
       }}
     />
-    <div class="mt-5 grid gap-10 sm:mt-6 md:grid-cols-2 md:gap-8">
+    <div data-fold-group class="mt-5 sm:mt-6">
+    <FoldToggle class="mb-5" />
+    <div class="grid gap-10 md:grid-cols-2 md:gap-8">
       {decisions.map((d) => (
           <div class="border-t-2 border-zinc-300 pt-5 dark:border-poi-border">
             <Fold>
@@ -500,6 +512,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
             </Fold>
           </div>
         ))}
+    </div>
     </div>
   </section>
 

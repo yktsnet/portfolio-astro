@@ -2,7 +2,7 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import T from '../../components/T.astro';
 import RepoLink from '../../components/RepoLink.astro';
-import LucideIcon from '../../components/LucideIcon.astro';
+import FoldToggle from '../../components/FoldToggle.astro';
 import SectionHead from '../../components/services/SectionHead.astro';
 import ServiceDiagram from '../../components/services/ServiceDiagram.astro';
 import ServiceHero from '../../components/services/ServiceHero.astro';
@@ -187,10 +187,11 @@ const sections: SectionLink[] = [
   { id: 'fit', label: { ja: '合う現場', en: 'Fit' } },
 ];
 
+// 記事の題名は長く、スマホでリンクが3行に折れるので、要点だけに縮めて出す
 const zenn = {
   title: {
-    ja: 'Raspberry Pi 2 と GAS で事務所の勤怠を NFC カード1枚に集約する',
-    en: 'Consolidating office attendance onto one NFC card with Raspberry Pi 2 and GAS',
+    ja: '勤怠を NFC カード1枚に集約する',
+    en: 'Attendance on one NFC card',
   },
   href: 'https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2',
 };
@@ -252,7 +253,7 @@ const zenn = {
   {/* 3b. ほかの頼み方との違い: 経営者が SaaS や開発会社と比べて選べるようにする */}
   <section id="compare" class="scroll-mt-32 mt-20 sm:mt-24">
     <SectionHead size="heading" kicker="Comparison" title={{ ja: 'SaaS・開発会社との違い', en: 'Compared with SaaS and dev firms' }} />
-    <div class="ui-card mt-5 overflow-hidden sm:mt-6">
+    <div data-fold-group class="ui-card mt-5 overflow-hidden sm:mt-6">
       <div class="hidden border-b ui-subpanel md:grid md:grid-cols-[9rem_1fr_1fr_1.3fr]">
         <span></span>
         {options.map((o, i) => (
@@ -260,25 +261,18 @@ const zenn = {
         ))}
       </div>
       {/* スマホでは自分の場合だけを出す。SaaS と開発会社は、4行をまとめて開く1つのボタンで出し、開くと左右に並ぶ */}
-      <button
-        type="button"
-        id="cmp-toggle"
-        aria-expanded="false"
-        aria-controls="cmp"
-        class="group flex w-full items-center justify-between gap-3 border-b ui-subpanel px-5 py-3 text-left type-caption font-semibold text-zinc-700 md:hidden dark:text-poi-text"
-      >
+      <FoldToggle variant="band" class="border-b ui-subpanel px-5 py-3">
         <T text={{ ja: 'SaaS・開発会社の場合と並べる', en: 'Show SaaS and dev firm side by side' }} />
-        <LucideIcon name="chevron-down" class="h-4 w-4 shrink-0 text-zinc-400 transition-transform duration-200 group-aria-expanded:rotate-180 dark:text-poi-muted" />
-      </button>
-      <div id="cmp" class="cmp divide-y divide-zinc-200 dark:divide-poi-border/60">
+      </FoldToggle>
+      <div class="divide-y divide-zinc-200 dark:divide-poi-border/60">
         {compare.map((row) => (
           <div class="grid grid-cols-2 md:grid-cols-[9rem_1fr_1fr_1.3fr]">
             <p class="col-span-2 px-5 pt-4 type-small font-semibold text-zinc-900 md:col-span-1 md:py-4 dark:text-poi-focus"><T text={row.point} /></p>
             {row.cells.map((c, i) => (
               <p class:list={[
                 'type-small leading-6',
-                i === 0 && 'cmp-other py-2 pl-5 pr-2 text-zinc-500 md:px-5 md:py-4 dark:text-poi-muted',
-                i === 1 && 'cmp-other py-2 pl-2 pr-5 text-zinc-500 md:px-5 md:py-4 dark:text-poi-muted',
+                i === 0 && 'fold-body py-2 pl-5 pr-2 text-zinc-500 md:px-5 md:py-4 dark:text-poi-muted',
+                i === 1 && 'fold-body py-2 pl-2 pr-5 text-zinc-500 md:px-5 md:py-4 dark:text-poi-muted',
                 i === 2 && 'col-span-2 mx-5 mb-4 mt-1.5 rounded-lg bg-poi-accent/5 px-3.5 py-2.5 text-zinc-900 md:col-span-1 md:m-0 md:rounded-none md:px-5 md:py-4 dark:text-poi-focus',
               ]}>
                 <span class:list={['mb-0.5 block type-label md:hidden', i === 2 ? 'text-poi-accent' : '']}><T text={options[i]} /></span>
@@ -312,18 +306,3 @@ const zenn = {
   <OtherServices others={others} />
 </MainLayout>
 
-<style>
-  @media (width < 48rem) {
-    .cmp:not([data-open]) .cmp-other {
-      display: none;
-    }
-  }
-</style>
-
-<script>
-  const toggle = document.getElementById('cmp-toggle');
-  toggle?.addEventListener('click', () => {
-    const open = document.getElementById('cmp')?.toggleAttribute('data-open') ?? false;
-    toggle.setAttribute('aria-expanded', String(open));
-  });
-</script>
