@@ -10,8 +10,9 @@ interface Props {
 }
 const { service: s, reverse = false } = Astro.props;
 ---
-{/* スマホでは図を先に出し、何の話かを見てから文章を読めるようにする */}
-<article class="group relative grid overflow-hidden ui-card transition-colors duration-200 hover:border-poi-accent/50 dark:hover:border-poi-accent/50 md:grid-cols-2">
+{/* スマホでは図を先に出し、何の話かを見てから文章を読めるようにする。
+    md 以上はカード全体がリンク。スマホではカードが1画面を超えて画面全体がリンクになるので、ボタンだけをリンクにする */}
+<article class="group relative grid overflow-hidden ui-card transition-colors duration-200 md:hover:border-poi-accent/50 dark:md:hover:border-poi-accent/50 md:grid-cols-2">
   <div class:list={["flex flex-col justify-between p-5 sm:p-9 lg:p-10", reverse && "md:order-2"]}>
     <div>
       <p class="flex items-center gap-2 font-mono type-label text-poi-accent">
@@ -19,10 +20,8 @@ const { service: s, reverse = false } = Astro.props;
         <span>{s.no}</span>
         <span class="tracking-widest text-zinc-500 dark:text-poi-muted">{s.kicker}</span>
       </p>
-      <h3 class="mt-3 type-heading font-semibold text-zinc-900 transition-colors group-hover:text-poi-accent dark:text-poi-focus">
-        <a href={`/services/${s.slug}/`} class="after:absolute after:inset-0 after:content-[''] focus-visible:underline outline-hidden">
-          <T text={s.title} />
-        </a>
+      <h3 class="mt-3 type-heading font-semibold text-zinc-900 transition-colors md:group-hover:text-poi-accent dark:text-poi-focus">
+        <T text={s.title} />
       </h3>
       <p class="mt-3.5 type-body leading-7 text-zinc-700 dark:text-poi-muted"><T text={s.summary} /></p>
 
@@ -47,10 +46,14 @@ const { service: s, reverse = false } = Astro.props;
     </div>
 
     <div class="mt-5 md:mt-8">
-      <span class="inline-flex items-center gap-1.5 rounded-md border border-poi-accent/35 bg-poi-accent/5 px-3 py-1.5 font-mono type-caption text-poi-accent">
+      <a
+        href={`/services/${s.slug}/`}
+        class="inline-flex items-center gap-1.5 rounded-md border border-poi-accent/35 bg-poi-accent/5 px-3 py-1.5 font-mono type-caption text-poi-accent md:after:absolute md:after:inset-0 md:after:content-[''] focus-visible:underline outline-hidden"
+      >
         <span class="lang-ja">詳しく見る</span><span class="lang-en">Learn more</span>
+        <span class="sr-only"><T text={s.title} /></span>
         <LucideIcon name="arrow-right" class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
-      </span>
+      </a>
     </div>
   </div>
   <div class:list={[
