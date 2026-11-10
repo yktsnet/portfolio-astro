@@ -1,0 +1,47 @@
+---
+import T from './T.astro';
+import LucideIcon from './LucideIcon.astro';
+import RepoLink from './RepoLink.astro';
+import type { CaseStudy } from '../data/cases';
+
+interface Props {
+  study: CaseStudy;
+}
+const { study: c } = Astro.props;
+// 数字と「その後の発展」で字の大きさが違うので、行の高さを固定して下の説明の位置をそろえる
+const head = 'flex h-8 items-end whitespace-nowrap text-poi-accent';
+const label = 'mt-1.5 type-caption leading-5 text-zinc-600 dark:text-poi-muted';
+---
+{/* 数字だけを並べると何の結果か分からないので、経緯の2行を先に置き、数字はその下に1列ずつ立てる */}
+<div class="border-y border-zinc-200 py-5 sm:py-6 dark:border-poi-border/60">
+  <p class="font-mono type-label tracking-widest text-zinc-500 dark:text-poi-muted">
+    CASE<span class="ml-2.5 font-sans tracking-normal"><T text={c.client} /></span>
+  </p>
+  <p class="mt-2 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={c.lead} /></p>
+  <p class="mt-1 type-small leading-6 text-zinc-600 dark:text-poi-muted"><T text={c.action} /></p>
+
+  <dl class="mt-4 grid grid-cols-2 gap-x-6 gap-y-5 sm:gap-x-8 md:grid-cols-4">
+    {c.metrics.map((m) => (
+      <div>
+        <dt class:list={[head, 'font-mono type-display font-medium']}>
+          <span><T text={m.value} /><span class="ml-0.5 type-caption"><T text={m.unit} /></span></span>
+        </dt>
+        <dd class={label}><T text={m.label} /></dd>
+      </div>
+    ))}
+    <div>
+      <dt class:list={[head, 'pb-1 type-small font-medium']}>
+        <span class="lang-ja">その後の発展</span><span class="lang-en">What followed</span>
+      </dt>
+      <dd class={label}><T text={c.followUp} /></dd>
+    </div>
+  </dl>
+
+  <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+    <a href={`/services/${c.service}/#case`} class="group inline-flex items-center gap-1.5 font-mono type-caption text-poi-accent hover:underline focus-visible:underline outline-hidden">
+      <span class="lang-ja">導入例を詳しく見る</span><span class="lang-en">Read the case</span>
+      <LucideIcon name="arrow-right" class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+    </a>
+    <RepoLink label={c.article.label} href={c.article.href} icon="zenn" />
+  </div>
+</div>

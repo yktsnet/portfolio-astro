@@ -10,9 +10,10 @@ import MetricGrid from '../../components/services/MetricGrid.astro';
 import OfferingDetailCard from '../../components/services/OfferingDetailCard.astro';
 import ProcessSteps from '../../components/services/ProcessSteps.astro';
 import FitList from '../../components/services/FitList.astro';
+import { cases } from '../../data/cases';
 import { services } from '../../data/services';
 import type { MultilingualText } from '../../lib/i18n';
-import type { Fit, Metric, OfferingDetail, SectionLink, Step } from '../../types';
+import type { Fit, OfferingDetail, SectionLink, Step } from '../../types';
 
 // サービス名・説明・提供できることの名前はトップのカードと同じ値を使い、文言をずらさない
 const s = services.find((x) => x.slug === 'operations')!;
@@ -21,23 +22,8 @@ const others = services.filter((x) => x.slug !== 'operations');
 // 必要なものはこのページのカードにだけ出す
 type OperationsOfferingDetail = OfferingDetail & { needs: MultilingualText };
 
-const metrics: Metric[] = [
-  {
-    value: { ja: '−5', en: '−5' },
-    unit: { ja: '時間/月', en: 'h/mo' },
-    label: { ja: '管理者が勤怠の集計にかけていた時間', en: 'Admin time spent tallying attendance' },
-  },
-  {
-    value: { ja: '−3〜4', en: '−30–40k' },
-    unit: { ja: '万円/月', en: 'JPY/mo' },
-    label: { ja: '打刻の偽装と記入漏れで出ていた給与の差異', en: 'Payroll gap from faked or missed clock-ins' },
-  },
-  {
-    value: { ja: '初日', en: 'Day one' },
-    unit: { ja: 'から', en: '' },
-    label: { ja: '説明なしでスタッフ全員が使い始めた', en: 'All staff started using it with no instructions' },
-  },
-];
+// 数字はトップの帯と同じ値を使い、言い方をずらさない
+const { metrics } = cases.find((c) => c.service === 'operations')!;
 
 // services.ts の offerings と同じ順に並べる（勤怠システム、Excel帳票の書類管理）
 const offeringDetails: OperationsOfferingDetail[] = [
