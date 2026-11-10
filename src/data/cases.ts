@@ -5,23 +5,34 @@ export type CaseStudy = {
   // services.ts の slug。帯のリンク先と詳細ページの導入例がこれで対応する
   service: string;
   client: MultilingualText;
-  headline: MultilingualText;
-  story: MultilingualText;
+  lead: MultilingualText;
+  action: MultilingualText;
+  // 数字の並びの最後に置く、数字にならないその後の広がり
+  followUp: MultilingualText;
+  article: { label: MultilingualText; href: string };
   metrics: Metric[];
 };
 
-// トップの帯と詳細ページの導入例が同じ数字と同じ言い方を出すよう、ここに1つだけ置く
+// トップの帯と詳細ページの導入例が同じ数字を出すよう、ここに1つだけ置く
 export const cases: CaseStudy[] = [
   {
     service: "operations",
     client: { ja: "マンション管理会社", en: "A property management company" },
-    headline: {
-      ja: "引退を見据えたオーナーが、現場を離れられなかった。",
-      en: "The owner wanted to step back ahead of retirement, but could not leave.",
+    lead: {
+      ja: "会計を見ると人件費が6割。その根拠の勤務時間は自己申告で、確かめる手段がなかった。",
+      en: "The accounts showed labor at 60% of costs, and the hours behind it were self-reported, with no way to check them.",
     },
-    story: {
-      ja: "経営の実務が特定の人に頼ったままだった。そこに外部から入り、勤務の流れは変えずに、勤怠の集計と書類作成を自動にした。",
-      en: "Day-to-day management depended on specific people. I came in from outside and automated attendance tallying and paperwork, without changing the daily routine.",
+    action: {
+      ja: "勤務の流れは変えずに、出退勤をカードをかざすだけにして、申告を記録に替えた。",
+      en: "Without changing the daily routine, clocking in became a single card tap, turning reports into records.",
+    },
+    followUp: {
+      ja: "契約書の作成や法人化の相談も受けている",
+      en: "Now also asked to help with contract paperwork and incorporation",
+    },
+    article: {
+      label: { ja: "Zenn — 経緯を書いた記事", en: "Zenn — the full story" },
+      href: "https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2",
     },
     metrics: [
       {
