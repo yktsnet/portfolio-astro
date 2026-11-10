@@ -206,7 +206,8 @@ const sections: SectionLink[] = [
       </div>
 
       <div class="flex flex-col gap-4 border-t ui-subpanel p-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-5 lg:px-9">
-        <div class="relative z-10 flex flex-wrap items-center gap-x-5 gap-y-2">
+        {/* スマホではボタンの行き先の workflow のページに同じ記事のリンクがあるので、ここでは出さない */}
+        <div class="relative z-10 hidden flex-wrap items-center gap-x-5 gap-y-2 md:flex">
           <RepoLink {...gddArticle} />
         </div>
         <a
