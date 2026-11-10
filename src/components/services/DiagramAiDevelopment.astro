@@ -1,9 +1,58 @@
 ---
 import DgText from './DgText.astro';
+
+const label = '開発キットで成果物と利用状況をそろえ、それをマネジメントが同じ基準で読んで評価し、評価から育成と採用を決め、育成で決まった次に伸ばす軸に合わせて開発キットから配る図';
 ---
 {/* 言いたいのは「開発でそろえた成果物を、マネジメントが同じ基準で読んで評価・育成・採用に使う」こと。
     上の段が開発、下の段がマネジメントで、育成で決まった軸が開発キットへ戻る。研修はこの外にあるので入れない */}
-<svg class="dg h-auto w-full" viewBox="0 0 440 338" role="img" aria-label="開発キットで成果物と利用状況をそろえ、それをマネジメントが同じ基準で読んで評価し、評価から育成と採用を決め、育成で決まった次に伸ばす軸に合わせて開発キットから配る図">
+{/* スマホ用。幅 440 のまま縮めると文字が 9px ほどになるので、同じ組みを幅 320 に詰めて別に持つ。
+    評価の上に浮かせていた「可視化」は、狭いと隣の言葉とぶつかるので箱の中に入れる */}
+<svg class="dg mx-auto block h-auto w-full max-w-[340px] md:hidden" viewBox="0 0 320 338" role="img" aria-label={label}>
+  <defs>
+    <marker id="dg-ai-mk-sp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="dg-mk" d="M0 1L9 5L0 9z" /></marker>
+  </defs>
+
+  <rect class="dg-lane" x="2" y="2" width="316" height="112" rx="10" />
+  <DgText x={12} y={21} ja="開発" en="Development" class="dg-small" anchor="start" />
+  <rect class="dg-lane" x="2" y="126" width="316" height="210" rx="10" />
+  <DgText x={40} y={145} ja="マネジメント" en="Management" class="dg-small" anchor="start" />
+
+  <path class="dg-line" marker-end="url(#dg-ai-mk-sp)" d="M248 102 V183 H222" />
+  <DgText x={240} y={143} ja="同じ基準で読む" en="Same criteria" class="dg-small" anchor="end" />
+  <path class="dg-line" marker-end="url(#dg-ai-mk-sp)" d="M26 254 V106" />
+
+  <rect class="dg-box" x="12" y="32" width="120" height="70" rx="8" />
+  <g class="dg-line" transform="translate(61, 38) scale(0.9)"><path d="m7.5 4.27 9 5.15" /><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></g>
+  <DgText x={72} y={89} ja="開発キット" en="Dev kit" />
+
+  <path class="dg-line" marker-end="url(#dg-ai-mk-sp)" d="M132 67 H184" />
+  <DgText x={158} y={58} ja="標準化" en="Align" class="dg-small" />
+
+  <rect class="dg-box" x="188" y="32" width="120" height="70" rx="8" />
+  <g class="dg-line" transform="translate(237, 36) scale(0.9)"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></g>
+  <DgText x={248} y={78} ja="そろった成果物" en="Aligned output" />
+  <DgText x={248} y={93} ja="と利用状況" en="and usage" class="dg-small" />
+
+  <rect class="dg-accbox" x="100" y="150" width="120" height="66" rx="8" />
+  <g class="dg-acc" transform="translate(149, 155) scale(0.9)"><path d="m16 11 2 2 4-4" /><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /></g>
+  <DgText x={160} y={193} ja="評価" en="Evaluation" class="dg-acctext" />
+  <DgText x={160} y={208} ja="可視化" en="Made visible" class="dg-small" />
+
+  <path class="dg-line" marker-end="url(#dg-ai-mk-sp)" d="M140 216 V236 H72 V250" />
+  <path class="dg-line" marker-end="url(#dg-ai-mk-sp)" d="M180 216 V236 H248 V250" />
+
+  <rect class="dg-box" x="12" y="254" width="120" height="72" rx="8" />
+  <g class="dg-line" transform="translate(61, 259) scale(0.9)"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></g>
+  <DgText x={72} y={299} ja="育成" en="Growth" />
+  <DgText x={72} y={316} ja="次に伸ばす軸" en="Next axis" class="dg-small" />
+
+  <rect class="dg-box" x="188" y="254" width="120" height="72" rx="8" />
+  <g class="dg-line" transform="translate(237, 259) scale(0.9)"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M19 8v6" /><path d="M22 11h-6" /></g>
+  <DgText x={248} y={299} ja="採用" en="Hiring" />
+  <DgText x={248} y={316} ja="候補者も同じ基準" en="Same criteria" class="dg-small" />
+</svg>
+
+<svg class="dg hidden h-auto w-full md:block" viewBox="0 0 440 338" role="img" aria-label={label}>
   <defs>
     <marker id="dg-ai-mk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="dg-mk" d="M0 1L9 5L0 9z" /></marker>
   </defs>

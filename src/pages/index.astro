@@ -4,6 +4,7 @@ import T from '../components/T.astro';
 import Career from '../components/Career.astro';
 import CaseBlock from '../components/CaseBlock.astro';
 import Fold from '../components/Fold.astro';
+import FoldToggle from '../components/FoldToggle.astro';
 import LucideIcon from '../components/LucideIcon.astro';
 import RepoLink from '../components/RepoLink.astro';
 import SectionHead from '../components/services/SectionHead.astro';
@@ -119,9 +120,10 @@ const sections: SectionLink[] = [
         スマホでは 原則・実例・技術・経歴 の順に並べたいので、列の箱を外して order で並べ替える */}
     <div class="mt-10 flex flex-col border-t border-zinc-200 pt-10 sm:mt-12 sm:pt-12 md:grid md:grid-cols-2 md:items-start md:gap-x-12 dark:border-poi-border/60">
       <div class="contents md:block">
-        <div class="order-1">
+        <div data-fold-group class="order-1">
           <p class="font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted">PRINCIPLES</p>
           {/* 箱はリンクになるものと図に使う。ここは読むだけなので線で区切る */}
+          <FoldToggle class="mt-4" />
           <ol class="mt-4 space-y-5 md:space-y-7">
             {origins.map((o) => (
               <li class="border-l-2 border-poi-accent/50 pl-4 sm:pl-5">
@@ -184,7 +186,8 @@ const sections: SectionLink[] = [
     />
 
     {/* md 以上はカード全体がリンク。スマホは中に開閉があるので、押し間違えないようボタンだけをリンクにする */}
-    <article class="group relative mt-10 overflow-hidden ui-card transition-colors duration-200 sm:mt-12 md:hover:border-poi-accent/50 dark:md:hover:border-poi-accent/50">
+    <article data-fold-group class="group relative mt-10 overflow-hidden ui-card transition-colors duration-200 sm:mt-12 md:hover:border-poi-accent/50 dark:md:hover:border-poi-accent/50">
+      <FoldToggle variant="band" class="border-b ui-subpanel px-6 py-3" />
       <div class="grid divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
         {flow.map((f) => (
           <div class="p-6 sm:p-8 lg:p-9">

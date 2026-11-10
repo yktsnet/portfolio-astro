@@ -1,6 +1,7 @@
 ---
 import T from '../T.astro';
 import Fold from '../Fold.astro';
+import FoldToggle from '../FoldToggle.astro';
 import type { Step } from '../../types';
 
 
@@ -9,7 +10,9 @@ interface Props {
 }
 const { steps } = Astro.props;
 ---
-<ol class="mt-6 grid gap-6 md:grid-cols-3 md:gap-8">
+<div data-fold-group class="mt-6">
+<FoldToggle class="mb-5" />
+<ol class="grid gap-6 md:grid-cols-3 md:gap-8">
   {steps.map((st) => (
     <li class="border-t-2 border-poi-accent/60 pt-4 md:pt-5">
       <Fold>
@@ -22,3 +25,4 @@ const { steps } = Astro.props;
     </li>
   ))}
 </ol>
+</div>

@@ -1,8 +1,47 @@
 ---
 import DgText from './DgText.astro';
+
+const label = '導入の前後で、現場がExcelや紙に入力する流れは変わらず、勤怠の申告だけがICカードに替わり、手作業の転記と集計が裏側の自動処理に置き換わる図';
 ---
 {/* 言いたいのは「上の段（現場の入力）は流れが変わらず、下の段（転記と集計）だけが入れ替わる」こと */}
-<svg class="dg h-auto w-full" viewBox="0 0 440 300" role="img" aria-label="導入の前後で、現場がExcelや紙に入力する流れは変わらず、勤怠の申告だけがICカードに替わり、手作業の転記と集計が裏側の自動処理に置き換わる図">
+{/* スマホ用。幅 440 のまま縮めると文字が 9px ほどになるので、幅を詰めた組みを別に持つ。箱が狭いので文は短くしている */}
+<svg class="dg mx-auto block h-auto w-full max-w-[340px] md:hidden" viewBox="0 0 300 232" role="img" aria-label={label}>
+  <defs>
+    <marker id="dg-op-mk-sp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="dg-mk" d="M0 1L9 5L0 9z" /></marker>
+  </defs>
+
+  <DgText x={62} y={18} ja="これまで" en="Before" class="dg-small" />
+  <DgText x={238} y={18} ja="導入後" en="After" class="dg-small" />
+
+  <rect class="dg-box" x="2" y="30" width="120" height="84" rx="8" />
+  <g class="dg-line" transform="translate(39, 42) scale(0.9)"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M12 3v18" /><path d="M3 9h18" /><path d="M3 15h18" /></g>
+  <g class="dg-line" transform="translate(64, 42) scale(0.9)"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M16 13H8" /><path d="M16 17H8" /></g>
+  <DgText x={62} y={88} ja="Excel・紙" en="Excel, paper" />
+  <DgText x={62} y={104} ja="現場の入力" en="Staff input" class="dg-small" />
+
+  <rect class="dg-box" x="178" y="30" width="120" height="84" rx="8" />
+  <g class="dg-line" transform="translate(215, 42) scale(0.9)"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M12 3v18" /><path d="M3 9h18" /><path d="M3 15h18" /></g>
+  <g class="dg-line" transform="translate(240, 42) scale(0.9)"><path d="M16 10h2" /><path d="M16 14h2" /><path d="M6.17 15a3 3 0 0 1 5.66 0" /><circle cx="9" cy="11" r="2" /><rect x="2" y="5" width="20" height="14" rx="2" /></g>
+  <DgText x={238} y={88} ja="Excel・ICカード" en="Excel, cards" />
+  <DgText x={238} y={104} ja="現場の入力" en="Staff input" class="dg-small" />
+
+  <path class="dg-line" marker-end="url(#dg-op-mk-sp)" d="M124 72H176" />
+  <DgText x={150} y={92} ja="同じ流れ" en="same" class="dg-small" />
+
+  <rect class="dg-box" x="2" y="136" width="120" height="90" rx="8" stroke-dasharray="4 4" />
+  <g class="dg-line" transform="translate(51, 148) scale(0.9)"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></g>
+  <DgText x={62} y={194} ja="手で転記・集計" en="Manual tally" />
+  <DgText x={62} y={212} ja="月末と繁忙期に集中" en="Piles up monthly" class="dg-small" />
+
+  <rect class="dg-accbox" x="178" y="136" width="120" height="90" rx="8" />
+  <g class="dg-acc" transform="translate(227, 148) scale(0.9)"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></g>
+  <DgText x={238} y={194} ja="裏側で自動" en="Automated" class="dg-acctext" />
+  <DgText x={238} y={212} ja="PDF・検索・給与集計" en="PDF, search, pay" class="dg-small" />
+
+  <path class="dg-line" marker-end="url(#dg-op-mk-sp)" d="M124 181H176" />
+</svg>
+
+<svg class="dg hidden h-auto w-full md:block" viewBox="0 0 440 300" role="img" aria-label={label}>
   <defs>
     <marker id="dg-op-mk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="dg-mk" d="M0 1L9 5L0 9z" /></marker>
   </defs>
