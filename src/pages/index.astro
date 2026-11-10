@@ -2,7 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import T from '../components/T.astro';
 import Career from '../components/Career.astro';
-import CaseBand from '../components/CaseBand.astro';
+import CaseBlock from '../components/CaseBlock.astro';
 import Fold from '../components/Fold.astro';
 import LucideIcon from '../components/LucideIcon.astro';
 import RepoLink from '../components/RepoLink.astro';
@@ -115,45 +115,53 @@ const sections: SectionLink[] = [
       />
     </div>
 
-    <div class="mt-8 space-y-5 sm:mt-10">
-      {cases.map((c) => <CaseBand study={c} />)}
-    </div>
-
-    <div class="mt-12 grid gap-12 sm:mt-16 md:grid-cols-2 md:items-start">
-      <div>
-        <p class="font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted">PRINCIPLES</p>
-        {/* 箱はリンクになるものと図に使う。ここは読むだけなので線で区切る */}
-        <ol class="mt-4 space-y-5 md:space-y-7">
-          {origins.map((o) => (
-            <li class="border-l-2 border-poi-accent/50 pl-4 sm:pl-5">
-              <Fold>
-                <Fragment slot="head">
-                  <span class="flex items-baseline gap-2.5 ui-kicker font-normal">
-                    <span>{o.tag}</span>
-                    <span class="text-poi-accent"><T text={o.from} /></span>
-                  </span>
-                  <span class="mt-1.5 block type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={o.title} /></span>
-                </Fragment>
-                <p class="mt-2 type-body leading-7 text-zinc-700 dark:text-poi-muted"><T text={o.body} /></p>
-              </Fold>
-            </li>
-          ))}
-        </ol>
+    {/* About の下は1つの段。左に考え方と経歴、右に実例と技術を置き、2列の高さをそろえる。
+        スマホでは 原則・実例・技術・経歴 の順に並べたいので、列の箱を外して order で並べ替える */}
+    <div class="mt-10 flex flex-col border-t border-zinc-200 pt-10 sm:mt-12 sm:pt-12 md:grid md:grid-cols-2 md:items-start md:gap-x-12 dark:border-poi-border/60">
+      <div class="contents md:block">
+        <div class="order-1">
+          <p class="font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted">PRINCIPLES</p>
+          {/* 箱はリンクになるものと図に使う。ここは読むだけなので線で区切る */}
+          <ol class="mt-4 space-y-5 md:space-y-7">
+            {origins.map((o) => (
+              <li class="border-l-2 border-poi-accent/50 pl-4 sm:pl-5">
+                <Fold>
+                  <Fragment slot="head">
+                    <span class="flex items-baseline gap-2.5 ui-kicker font-normal">
+                      <span>{o.tag}</span>
+                      <span class="text-poi-accent"><T text={o.from} /></span>
+                    </span>
+                    <span class="mt-1.5 block type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={o.title} /></span>
+                  </Fragment>
+                  <p class="mt-2 type-body leading-7 text-zinc-700 dark:text-poi-muted"><T text={o.body} /></p>
+                </Fold>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div class="order-4 md:mt-12">
+          <Career part="timeline" />
+        </div>
       </div>
 
-      <div>
-        <Career />
+      <div class="contents md:block">
+        <div class="order-2 mt-12 space-y-12 md:mt-0">
+          {cases.map((c) => <CaseBlock study={c} />)}
+        </div>
+        <div class="order-3 mt-12">
+          <Career part="coverage" />
+        </div>
       </div>
     </div>
   </section>
 
-  {/* 2. Services: 経営者の困りごとから入る。経歴は About が述べている */}
+  {/* 2. Services: 開発と、事務・採用を、同じエンジニアリングで変えるという1つの話として出す */}
   <section id="services" class="mt-20 scroll-mt-32 border-t border-zinc-200 pt-16 sm:mt-24 sm:pt-20 dark:border-poi-border/60">
     <SectionHead
       kicker="Services"
       title={{
-        ja: '特定の人に頼った事務と、見る人でぶれる採用・評価。\n経営者のこの2つの困りごとを、仕事として受けている。',
-        en: 'Office work that depends on particular people, and hiring and evaluation that vary by reviewer.\nI take on these two problems that owners face.',
+        ja: '開発を良くすることと、事務や採用を良くすること。\n分かれていた2つを、同じエンジニアリングで変える。',
+        en: 'Making development better, and making office work and hiring better.\nTwo things once kept apart, changed by the same engineering.',
       }}
     />
     <div class="mt-8 space-y-6 sm:mt-12 sm:space-y-12">

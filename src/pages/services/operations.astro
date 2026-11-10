@@ -22,7 +22,7 @@ const others = services.filter((x) => x.slug !== 'operations');
 // 必要なものはこのページのカードにだけ出す
 type OperationsOfferingDetail = OfferingDetail & { needs: MultilingualText };
 
-// 数字はトップの帯と同じ値を使い、言い方をずらさない
+// 数字はトップの CASE と同じ値を使い、言い方をずらさない
 const { metrics } = cases.find((c) => c.service === 'operations')!;
 
 // services.ts の offerings と同じ順に並べる（勤怠システム、Excel帳票の書類管理）

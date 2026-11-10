@@ -1,0 +1,48 @@
+---
+import T from './T.astro';
+import LucideIcon from './LucideIcon.astro';
+import RepoLink from './RepoLink.astro';
+import type { CaseStudy } from '../data/cases';
+
+interface Props {
+  study: CaseStudy;
+}
+const { study: c } = Astro.props;
+const tile = 'rounded-lg bg-zinc-100/80 px-3.5 py-3 dark:bg-poi-panel/40';
+// 数字と文字で字の高さが違うので、行の高さを固定して下の説明の位置をそろえる
+const head = 'flex h-7 items-end whitespace-nowrap';
+// 面の幅だと説明が1文字だけ次の行へ落ちるので、行の長さをそろえ、対応するブラウザでは文節で折り返す
+const label = 'mt-1 text-balance [word-break:auto-phrase] type-caption leading-5 text-zinc-600 dark:text-poi-muted';
+---
+{/* PRINCIPLES の隣に置き、原則がどう数字になったかを1件で見せる。
+    全体は箱に入れず、数字とその後の発展だけを同じ大きさの面に載せる */}
+<div>
+  <p class="font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted">CASE</p>
+  <p class="mt-4 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={c.lead} /></p>
+  <p class="mt-2 type-body leading-7 text-zinc-700 dark:text-poi-muted"><T text={c.action} /></p>
+
+  <dl class="mt-4 grid grid-cols-2 gap-2">
+    {c.metrics.map((m) => (
+      <div class={tile}>
+        <dt class:list={[head, 'font-mono type-heading font-medium text-poi-accent']}>
+          <span><T text={m.value} /><span class="ml-1.5 type-caption font-normal text-zinc-500 dark:text-poi-muted"><T text={m.unit} /></span></span>
+        </dt>
+        <dd class={label}><T text={m.label} /></dd>
+      </div>
+    ))}
+    <div class={tile}>
+      <dt class:list={[head, 'pb-0.5 type-small font-medium text-zinc-800 dark:text-poi-text']}>
+        <span class="lang-ja">その後の発展</span><span class="lang-en">What followed</span>
+      </dt>
+      <dd class={label}><T text={c.followUp} /></dd>
+    </div>
+  </dl>
+
+  <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
+    <a href={`/services/${c.service}/#case`} class="group inline-flex items-center gap-1.5 font-mono type-caption text-poi-accent hover:underline focus-visible:underline outline-hidden">
+      <span class="lang-ja">導入例を詳しく見る</span><span class="lang-en">Read the case</span>
+      <LucideIcon name="arrow-right" class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+    </a>
+    <RepoLink label={c.article.label} href={c.article.href} icon="zenn" />
+  </div>
+</div>
