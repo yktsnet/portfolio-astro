@@ -1,0 +1,21 @@
+---
+// SVG の <text> を日英2つ出し、言語の切り替えは global.css の lang-* に任せる。
+// en を渡さないときは日本語だけを1つ出す（md 未満でしか出さない図。MainLayout が日本語に固定する）
+interface Props {
+  x: number;
+  y: number;
+  ja: string;
+  en?: string;
+  class?: string;
+  anchor?: 'start' | 'middle' | 'end';
+}
+const { x, y, ja, en, class: cls = 'dg-text', anchor = 'middle' } = Astro.props;
+---
+{en === undefined ? (
+  <text x={x} y={y} class={cls} text-anchor={anchor}>{ja}</text>
+) : (
+  <>
+    <text x={x} y={y} class={`${cls} lang-ja`} text-anchor={anchor}>{ja}</text>
+    <text x={x} y={y} class={`${cls} lang-en`} text-anchor={anchor}>{en}</text>
+  </>
+)}

@@ -6,9 +6,9 @@ import { getBrandIcon } from '../lib/brand-icons';
 const zenn = getBrandIcon('zenn');
 const linkClass = 'relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-md text-zinc-700 transition-colors hover:text-poi-accent dark:text-poi-text dark:hover:text-poi-accent';
 ---
-{/* スマホではサイト名とアイコン群を1行に収めるため、言語の切り替えを出さず間隔も詰める */}
+{/* md 未満は日本語だけで出す（MainLayout）ので、言語の切り替えも出さない。スマホでは間隔も詰めて1行に収める */}
 <div class="ms-auto flex items-center sm:gap-1">
-  <div class="hidden sm:block">
+  <div class="hidden md:block">
     <LangToggle />
   </div>
   <a

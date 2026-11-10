@@ -1,6 +1,5 @@
 ---
-// スマホで、囲む [data-fold-group] の中の .fold-body をまとめて開閉するボタン。md 以上では出さない
-import T from './T.astro';
+// スマホで、囲む [data-fold-group] の中の .fold-body をまとめて開閉するボタン。md 以上では出さないので、文言は日本語だけで書く
 import LucideIcon from './LucideIcon.astro';
 
 interface Props {
@@ -26,8 +25,8 @@ const hasLabel = Astro.slots.has('default');
     <span class="min-w-0 flex-1"><slot /></span>
   ) : (
     <span>
-      <span class="group-aria-expanded:hidden"><T text={{ ja: '説明を開く', en: 'Show details' }} /></span>
-      <span class="hidden group-aria-expanded:inline"><T text={{ ja: '説明を閉じる', en: 'Hide details' }} /></span>
+      <span class="group-aria-expanded:hidden">説明を開く</span>
+      <span class="hidden group-aria-expanded:inline">説明を閉じる</span>
     </span>
   )}
   <LucideIcon name="chevron-down" class="h-4 w-4 shrink-0 text-zinc-400 transition-transform duration-200 group-aria-expanded:rotate-180 dark:text-poi-muted" />

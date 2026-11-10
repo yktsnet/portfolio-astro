@@ -1,0 +1,79 @@
+---
+import DgText from './DgText.astro';
+import { getLucideIcon } from '../../lib/lucide';
+import { textWidth } from '../../lib/svg-text';
+
+// box: 通常の工程や成果物、human: 顧客理解担当（人）が判断する所、
+// impl: 実装担当（人）が判断する所、agent: 文脈を切った別エージェント、
+// dashed: 仮置きや未確定の経路
+type Kind = 'box' | 'human' | 'impl' | 'agent' | 'dashed';
+
+interface Props {
+  x: number;
+  y: number;
+  w: number;
+  h?: number;
+  ja: string;
+  en?: string;
+  subJa?: string;
+  subEn?: string;
+  kind?: Kind;
+}
+// en を渡さないときは日本語だけを1組出す（md 未満でしか出さない図）
+const { x, y, w, h = 48, ja, en, subJa, subEn, kind = 'box' } = Astro.props;
+
+const isHuman = kind === 'human' || kind === 'impl';
+const icon =
+  kind === 'human'
+    ? 'user-check'
+    : kind === 'impl'
+      ? 'user-round-pen'
+      : kind === 'agent'
+        ? 'bot'
+        : null;
+const iconSize = 15;
+const gap = 6;
+
+// アイコンと文字をまとめて箱の中央に置く。字幅が言語で違うので、言語ごとに位置を出す
+const place = (text: string, cls?: string) => {
+  const tw = textWidth(text, 13);
+  const left = x + (w - (icon ? iconSize + gap + tw : tw)) / 2;
+  return { text, cls, left, cx: icon ? left + iconSize + gap + tw / 2 : x + w / 2 };
+};
+const labels = en === undefined ? [place(ja)] : [place(ja, 'lang-ja'), place(en, 'lang-en')];
+const mainY = subJa ? y + h / 2 - 5 : y + h / 2 + 4.5;
+const subY = y + h / 2 + 16;
+
+const rectClass = isHuman
+  ? 'dg-accbox'
+  : kind === 'dashed'
+    ? 'dg-box wf-goto'
+    : 'dg-box';
+const textClass = isHuman
+  ? 'dg-acctext'
+  : kind === 'dashed'
+    ? 'dg-muted-text'
+    : 'dg-text';
+const rx = 8;
+---
+<g class="wf-node">
+  <rect class={rectClass} x={x} y={y} width={w} height={h} rx={rx} />
+  {labels.map((l) => (
+    <>
+      {icon && (
+        <svg
+          class:list={[isHuman ? 'dg-acc' : 'dg-line', l.cls]}
+          x={l.left}
+          y={mainY - 12}
+          width={iconSize}
+          height={iconSize}
+          viewBox="0 0 24 24"
+          style="stroke-width: 2"
+          set:html={getLucideIcon(icon)}
+        />
+      )}
+      <text class:list={[textClass, l.cls]} x={l.cx} y={mainY} text-anchor="middle">{l.text}</text>
+    </>
+  ))}
+  {subJa && <DgText x={x + w / 2} y={subY} ja={subJa} en={subEn} class="dg-small" />}
+</g>
