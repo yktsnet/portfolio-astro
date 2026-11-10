@@ -32,8 +32,8 @@ const overviewPoints: Point[] = [
       en: 'Why "Customer Understanding" instead of "Requirements Analyst"',
     },
     body: {
-      ja: 'AI で実装が速くなると、ずれたものを速く作ることが最大の失敗になる。仕様書をまとめる仕事は AI に移し、人の時間は「現場を見て、試作を先に触り、何を作るべきかを決めること」に使う。',
-      en: 'When AI makes building fast, the biggest failure is building the wrong thing fast. Spec writing moves to AI; human time goes into observing the site, touching prototypes first, and deciding what to build.',
+      ja: 'AI で実装が速くなると、ずれたものを速く作ることが最大の失敗になる。仕様書をまとめる仕事は AI に移し、人の時間は何を作るべきかを決めることに使う。',
+      en: 'When AI makes building fast, the biggest failure is building the wrong thing fast. Spec writing moves to AI; human time goes into deciding what to build.',
     },
   },
   {
@@ -69,8 +69,8 @@ const downstreamSteps: StepItem[] = [
     },
     tags: ['/issue-draft'],
     body: {
-      ja: '後から条件を決めると、できたコードに合わせた甘い条件になる。完了条件（AC）と壊さない振る舞い（保証）を先に書き、人が判断すべき項目だけを承認する。',
-      en: 'Defining criteria after the code is written leads to lenient tests tailored to the implementation. Acceptance criteria (AC) and invariants (guarantees) are written and approved upfront.',
+      ja: '後から条件を決めると、できたコードに合わせた甘い条件になる。',
+      en: 'Defining criteria after the code is written leads to lenient tests tailored to the implementation.',
     },
   },
   {
@@ -81,8 +81,8 @@ const downstreamSteps: StepItem[] = [
     },
     tags: ['/issue-work'],
     body: {
-      ja: '起票時の相談の文脈を持ち込むと、書かれていない暗黙の了解で実装が進む。Issue だけを渡した新セッションを開き、独立した worktree で3本を並行して作る。',
-      en: 'Carrying over the drafting conversation lets unwritten assumptions slip into code. A fresh session receives only the Issue, building up to 3 issues in parallel across isolated worktrees.',
+      ja: '起票時の相談の文脈を持ち込むと、書かれていない暗黙の了解で実装が進む。',
+      en: 'Carrying over the drafting conversation lets unwritten assumptions slip into code.',
     },
   },
   {
@@ -93,8 +93,8 @@ const downstreamSteps: StepItem[] = [
     },
     tags: ['screen-operator', 'issue-verifier'],
     body: {
-      ja: '自分で書いたテストで自分の実装を確かめると、自分の解釈で合格にする。画面は操作役がたどって写真を撮り、人は「使い心地」だけを見る。合否は別文脈の確認者が AC ごとに判定する。',
-      en: 'An agent testing its own code grades on its own interpretation. A screen operator captures UI flows so humans check only UX feel, while an isolated verifier judges each AC.',
+      ja: '自分で書いたテストで自分の実装を確かめると、自分の解釈で合格にする。',
+      en: 'An agent testing its own code grades on its own interpretation.',
     },
   },
   {
@@ -238,8 +238,8 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
         en: 'Locking requirements in documents and losing what only the site knows',
       }}
       body={{
-        ja: '利用者が慣れで避けている手間や書かれていない例外は、現場にしかなく、聞き取りや文書には出てこない。要件を決める人まで実装の確認に追われると、それを拾う時間もなくなる。',
-        en: 'Chores users work around out of habit and unwritten exceptions exist only on site; they never show up in interviews or documents. When the person deciding requirements is also tied up checking the build, there is no time left to pick them up.',
+        ja: '要件を決める人まで実装の確認に追われると、現場にしかない情報を拾う時間がなくなる。',
+        en: 'When the person deciding requirements is also tied up checking the build, there is no time left to pick up what only the site knows.',
       }}
       fix={{
         ja: '顧客理解の担当を実装から切り離し、現場を見て試作を触ってもらうことに時間を充てる。',
@@ -258,8 +258,8 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
         en: 'Build on explicit assumptions in parallel with Q&A collection',
       }}
       lead={{
-        ja: '受託開発で手が止まる最大の理由は、実装の遅さではなく「先方の回答待ち」にある。実装担当は仮置きで試作を進め、顧客理解担当が並行して問いを照会・回収する。',
-        en: 'The biggest delay in contract development is waiting for client answers, not coding speed. Implementation keeps prototyping on explicit assumptions while Customer Understanding sends and collects questions in parallel.',
+        ja: '受託開発で手が止まる最大の理由は、実装の遅さではなく「先方の回答待ち」にある。',
+        en: 'The biggest delay in contract development is waiting for client answers, not coding speed.',
       }}
     />
     <div class="ui-card mt-5 overflow-hidden sm:mt-6">
@@ -359,8 +359,8 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
         en: 'AI filling in ambiguity without asking',
       }}
       body={{
-        ja: '回答を待たずに進めるほど、AI はもっともらしい前提で空白を埋めていく。どこを推測したかが残らないので、誰も確かめないまま本番に入る。',
-        en: 'The further work goes without answers, the more gaps AI fills with plausible assumptions. Nothing records where it guessed, so the guesses reach production with no one checking.',
+        ja: 'どこを推測したかが残らないので、誰も確かめないまま本番に入る。',
+        en: 'Nothing records where it guessed, so the guesses reach production with no one checking.',
       }}
       fix={{
         ja: '仮に決めた点は仮置き一覧に分けて残し、先方の判断が要る点は問いの Issue にする。',
@@ -392,6 +392,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
       <div class="grid grid-cols-1 divide-y divide-zinc-200 border-t ui-subpanel lg:grid-cols-12 lg:divide-x lg:divide-y-0 dark:divide-poi-border/60">
         <div class="flex flex-col justify-between p-6 sm:p-7 lg:col-span-7">
           <div>
+            {/* 手順の本文には、そうする理由だけを書く。やり方は上の図と見出しが示している */}
             <p class="ui-kicker">Verification Flow</p>
             <ol class="mt-3.5 space-y-3.5">
               {downstreamSteps.map((st) => (
@@ -453,8 +454,8 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
         en: 'Leaving verification to the builder AI or to human eyes',
       }}
       body={{
-        ja: 'AI は確かめる側が見るものに合わせて解くので、自分で確かめるとテストを実装に合わせて通してしまう。人が全差分を読もうとしても量に追いつかず、承認が形だけになる。',
-        en: 'AI solves for whatever the checker looks at, so checking its own work makes the tests fit the code. Humans who try to read every diff cannot keep up, and approval becomes a rubber stamp.',
+        ja: '人が全差分を読もうとしても量に追いつかず、承認が形だけになる。',
+        en: 'Humans who try to read every diff cannot keep up, and approval becomes a rubber stamp.',
       }}
       fix={{
         ja: '完了条件と保証は作る前に人が承認し、合否は作った者とは別の文脈で判定する。',

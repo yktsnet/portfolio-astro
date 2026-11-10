@@ -185,7 +185,8 @@ const sections: SectionLink[] = [
       }}
     />
 
-    <article class="group relative mt-10 overflow-hidden ui-card transition-colors duration-200 hover:border-poi-accent/50 sm:mt-12 dark:hover:border-poi-accent/50">
+    {/* md 以上はカード全体がリンク。スマホは中に開閉があるので、押し間違えないようボタンだけをリンクにする */}
+    <article class="group relative mt-10 overflow-hidden ui-card transition-colors duration-200 sm:mt-12 md:hover:border-poi-accent/50 dark:md:hover:border-poi-accent/50">
       <div class="grid divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
         {flow.map((f) => (
           <div class="p-6 sm:p-8 lg:p-9">
@@ -209,7 +210,7 @@ const sections: SectionLink[] = [
         </div>
         <a
           href="/services/ai-development/workflow/"
-          class="inline-flex items-center gap-1.5 self-start rounded-md border border-poi-accent/35 bg-poi-accent/5 px-3.5 py-2 font-mono type-caption text-poi-accent after:absolute after:inset-0 after:content-[''] focus-visible:underline outline-hidden sm:self-auto"
+          class="inline-flex items-center gap-1.5 self-start rounded-md border border-poi-accent/35 bg-poi-accent/5 px-3.5 py-2 font-mono type-caption text-poi-accent md:after:absolute md:after:inset-0 md:after:content-[''] focus-visible:underline outline-hidden sm:self-auto"
         >
           <span class="lang-ja">3つの図で詳しく見る</span><span class="lang-en">See the workflow in 3 diagrams</span>
           <LucideIcon name="arrow-right" class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
