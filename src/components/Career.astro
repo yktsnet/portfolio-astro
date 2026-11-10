@@ -6,6 +6,12 @@ import type { MultilingualText } from '../lib/i18n';
 type TimelineEntry = { year: string; label: MultilingualText };
 type LocationGroup = { location: string; items: TimelineEntry[] };
 type StackItem = { name: string; brand: string | null };
+
+interface Props {
+  // トップでは2つを別の列に置くので、片方ずつ出す
+  part: 'coverage' | 'timeline';
+}
+const { part } = Astro.props;
 type CoverageRow = { area: string; items: StackItem[] };
 
 // 抽象表現なので代表技術を手選びする
@@ -73,16 +79,16 @@ const timeline: LocationGroup[] = [
 ];
 ---
 
-{/* 経歴の年表と技術の範囲。右カラムに縦積み、または単体でも使える構成 */}
-<div class="divide-y divide-zinc-200 border-y border-zinc-200 md:space-y-10 md:divide-y-0 md:border-y-0 dark:divide-poi-border/60 dark:border-poi-border/60">
-  <Fold as="p" class="py-3.5 md:py-0">
+{/* 技術の範囲と経歴の年表。スマホでは畳んだ2行が上下に続くので、罫線は coverage が上、timeline が上下を引く */}
+{part === 'coverage' && (
+  <Fold as="p" class="border-t border-zinc-200 py-3.5 md:border-t-0 md:py-0 dark:border-poi-border/60">
     <Fragment slot="head">
       <span class="font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted">COVERAGE</span>
       <span class="ml-2.5 type-small text-zinc-700 md:hidden dark:text-poi-text"><span class="lang-ja">技術の範囲</span><span class="lang-en">Tech coverage</span></span>
     </Fragment>
 
     {/* ビジネス層: 5領域と並列にせず、上から翻訳して落とす縦の関係で見せる（Issue 39） */}
-    <div class="mt-3 rounded-xl border border-zinc-200 dark:border-poi-border/70 bg-zinc-50/60 dark:bg-white/2 px-4 py-3.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+    <div class="mt-4 rounded-xl border border-zinc-200 dark:border-poi-border/70 bg-zinc-50/60 dark:bg-white/2 px-4 py-3.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
       <span class="font-mono type-small font-medium text-zinc-800 dark:text-poi-focus/90">Business</span>
       <span class="type-caption text-zinc-500 dark:text-poi-muted lang-ja">会計・原価から手を付ける順番を決める</span>
       <span class="type-caption text-zinc-500 dark:text-poi-muted lang-en">Setting priorities from accounting and cost structure</span>
@@ -131,13 +137,15 @@ const timeline: LocationGroup[] = [
       </table>
     </div>
   </Fold>
+)}
 
-  <Fold as="p" class="py-3.5 md:py-0">
+{part === 'timeline' && (
+  <Fold as="p" class="border-y border-zinc-200 py-3.5 md:border-y-0 md:py-0 dark:border-poi-border/60">
     <Fragment slot="head">
       <span class="font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted">TIMELINE</span>
       <span class="ml-2.5 type-small text-zinc-700 md:hidden dark:text-poi-text"><span class="lang-ja">経歴</span><span class="lang-en">Career</span></span>
     </Fragment>
-    <div class="mt-3 space-y-5 pb-2 md:pb-0">
+    <div class="mt-4 space-y-5 pb-2 md:pb-0">
       {timeline.map(({ location, items }) => (
         <div>
           <p class="font-mono type-caption text-poi-accent mb-2.5">@{location}</p>
@@ -163,7 +171,7 @@ const timeline: LocationGroup[] = [
       ))}
     </div>
   </Fold>
-</div>
+)}
 
 <style>
   .brand-icon {

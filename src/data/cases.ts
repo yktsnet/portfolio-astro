@@ -2,9 +2,8 @@ import type { MultilingualText } from "../lib/i18n";
 import type { Metric } from "../types";
 
 export type CaseStudy = {
-  // services.ts の slug。帯のリンク先と詳細ページの導入例がこれで対応する
+  // services.ts の slug。トップの CASE のリンク先と詳細ページの導入例がこれで対応する
   service: string;
-  client: MultilingualText;
   lead: MultilingualText;
   action: MultilingualText;
   // 数字の並びの最後に置く、数字にならないその後の広がり
@@ -13,18 +12,17 @@ export type CaseStudy = {
   metrics: Metric[];
 };
 
-// トップの帯と詳細ページの導入例が同じ数字を出すよう、ここに1つだけ置く
+// トップの CASE と詳細ページの導入例が同じ数字を出すよう、ここに1つだけ置く
 export const cases: CaseStudy[] = [
   {
     service: "operations",
-    client: { ja: "マンション管理会社", en: "A property management company" },
     lead: {
-      ja: "会計を見ると人件費が6割。その根拠の勤務時間は自己申告で、確かめる手段がなかった。",
-      en: "The accounts showed labor at 60% of costs, and the hours behind it were self-reported, with no way to check them.",
+      ja: "人件費6割の根拠を、確かめる手段がなかった",
+      en: "Labor was 60% of costs, with no way to check the hours behind it",
     },
     action: {
-      ja: "勤務の流れは変えずに、出退勤をカードをかざすだけにして、申告を記録に替えた。",
-      en: "Without changing the daily routine, clocking in became a single card tap, turning reports into records.",
+      ja: "マンション管理会社で会計を見ると、人件費が6割で、その根拠の勤務時間は自己申告だった。勤務の流れは変えずに、出退勤をカードをかざすだけにして、申告を記録に替えた。",
+      en: "At a property management company, the accounts showed labor at 60% of costs, and the hours behind it were self-reported. Without changing the daily routine, clocking in became a single card tap, turning reports into records.",
     },
     followUp: {
       ja: "契約書の作成や法人化の相談も受けている",
