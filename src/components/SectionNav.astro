@@ -1,0 +1,78 @@
+---
+// ページ内の節へのリンクをヘッダーの下に並べ、いま読んでいる節に印を付ける
+import T from './T.astro';
+import type { SectionLink } from '../types';
+
+interface Props {
+  sections: SectionLink[];
+}
+const { sections } = Astro.props;
+---
+<nav
+  aria-label="Sections"
+  data-section-nav
+  class="section-nav -mx-5 overflow-x-auto overflow-y-hidden px-5 sm:-mx-8 sm:px-8"
+>
+  <ol class="flex gap-5 whitespace-nowrap sm:gap-8">
+    {sections.map((s) => (
+      <li>
+        <a
+          href={`#${s.id}`}
+          data-section-link={s.id}
+          class="block border-b-2 border-transparent py-2.5 font-mono type-caption text-zinc-500 transition-colors duration-200 hover:text-zinc-900 aria-[current=true]:border-poi-accent aria-[current=true]:text-zinc-900 dark:text-poi-muted dark:hover:text-poi-focus dark:aria-[current=true]:text-poi-focus"
+        >
+          {typeof s.label === 'string' ? s.label : <T text={s.label} />}
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script>
+  const nav = document.querySelector<HTMLElement>('[data-section-nav]');
+  const header = document.getElementById('main-header');
+  if (nav && header) {
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('[data-section-link]')];
+    const targets = links.map((l) => document.getElementById(l.dataset.sectionLink ?? ''));
+    let current = -1;
+    let queued = false;
+
+    const update = () => {
+      queued = false;
+      // ヘッダーの下端を少し過ぎた節を「いま読んでいる節」とする
+      const line = header.offsetHeight + 32;
+      let next = 0;
+      targets.forEach((t, i) => {
+        if (t && t.getBoundingClientRect().top <= line) next = i;
+      });
+      // 最後の節が短いと上端が線まで届かないので、末尾まで来たら最後の節にする
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) next = links.length - 1;
+      if (next === current) return;
+      current = next;
+      links.forEach((l, i) => (i === next ? l.setAttribute('aria-current', 'true') : l.removeAttribute('aria-current')));
+      // 節が多くて横にあふれるページでは、印の付いたリンクを見える位置へ寄せる
+      nav.scrollTo({ left: links[next].offsetLeft - 20, behavior: 'smooth' });
+    };
+
+    window.addEventListener('scroll', () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(update);
+    }, { passive: true });
+    update();
+  }
+</script>
+
+<style>
+  /* 下の線は影で引く。枠線にして現在地の下線を1px 重ねると、縦にあふれてスクロールバーが出る */
+  .section-nav {
+    box-shadow: inset 0 -1px 0 var(--color-zinc-200);
+    scrollbar-width: none;
+  }
+  .section-nav::-webkit-scrollbar {
+    display: none;
+  }
+  :global(.dark) .section-nav {
+    box-shadow: inset 0 -1px 0 color-mix(in oklab, var(--color-poi-border) 60%, transparent);
+  }
+</style>

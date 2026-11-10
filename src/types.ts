@@ -9,6 +9,9 @@ export interface SiteConfig {
   url: string;
 }
 
+// ヘッダーの下に出す、ページ内の節へのリンク
+export type SectionLink = { id: string; label: string | MultilingualText };
+
 export type Link = { label: MultilingualText; href: string; icon?: string };
 
 // サービス詳細ページと、その節を描く部品で共有する

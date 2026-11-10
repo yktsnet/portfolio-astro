@@ -8,14 +8,18 @@ interface Props {
 }
 const { works } = Astro.props;
 
-// 最初から出す枚数
+// 最初から出す枚数。スマホは1列で縦に長くなるので半分にする
 const INITIAL = 6;
+const INITIAL_SP = 3;
 ---
 <div>
-  <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+  <div id="work-grid" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
     {works.map((w, idx) => (
       <article
-        class="work-card group relative flex flex-col ui-card p-4 transition-colors duration-200 hover:border-poi-accent/50 dark:hover:border-poi-accent/50"
+        class:list={[
+          "work-card group relative flex flex-col ui-card p-4 transition-colors duration-200 hover:border-poi-accent/50 dark:hover:border-poi-accent/50",
+          idx >= INITIAL_SP && idx < INITIAL && "work-sp-extra",
+        ]}
         hidden={idx >= INITIAL}
       >
         <h3 class="flex items-center gap-2 type-small font-semibold text-zinc-900 dark:text-poi-focus">
@@ -33,7 +37,7 @@ const INITIAL = 6;
           </a>
           <LucideIcon name="external-link" class="ml-auto h-3 w-3 shrink-0 text-zinc-400 transition-colors group-hover:text-poi-accent dark:text-poi-muted/60" />
         </h3>
-        <p class="mt-2 type-small leading-6 text-zinc-600 dark:text-poi-muted"><T text={w.description} /></p>
+        <p class="mt-2 type-small leading-6 text-zinc-700 dark:text-poi-muted"><T text={w.description} /></p>
         <p class="mt-auto flex select-none items-center gap-2 pt-3 font-mono type-label text-zinc-500 dark:text-poi-muted">
           <span class="inline-flex items-center gap-1">
             <LucideIcon name={getCategoryIcon(w.categoryTag)} class="h-3 w-3 shrink-0 opacity-60" />
@@ -70,8 +74,17 @@ const INITIAL = 6;
     document.querySelectorAll<HTMLElement>('.work-card').forEach((card, i) => {
       card.hidden = !expanded && i >= initial;
     });
+    document.getElementById('work-grid')?.toggleAttribute('data-expanded', expanded);
     more.setAttribute('aria-expanded', String(expanded));
     more.querySelector('.work-more-open')?.classList.toggle('hidden', expanded);
     more.querySelector('.work-more-close')?.classList.toggle('hidden', !expanded);
   });
 </script>
+
+<style>
+  @media (width < 40rem) {
+    #work-grid:not([data-expanded]) .work-sp-extra {
+      display: none;
+    }
+  }
+</style>

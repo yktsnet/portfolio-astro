@@ -1,32 +1,38 @@
 ---
 import RightNav from './RightNav.astro';
 import Logo from './Logo.astro';
+import SectionNav from './SectionNav.astro';
+import type { SectionLink } from '../types';
 
 interface Props {
   currentPath: string;
+  sections?: SectionLink[];
 }
 
-const { currentPath } = Astro.props;
+const { currentPath, sections } = Astro.props;
 
 const isHome = currentPath === "/";
 ---
 {/* スクロールしても上に残す。背景を敷いて下の本文と重ならないようにする */}
 <header
-  class="group sticky top-0 z-40 -mx-5 mb-9 flex items-center justify-between bg-zinc-50/90 px-5 py-3 backdrop-blur sm:-mx-8 sm:mb-12 sm:px-8 dark:bg-poi-base/90"
+  class="group sticky top-0 z-40 -mx-5 mb-9 bg-zinc-50/90 px-5 backdrop-blur sm:-mx-8 sm:mb-12 sm:px-8 dark:bg-poi-base/90"
   id="main-header"
 >
-  <div class="relative flex sm:flex-col">
-    <a
-      aria-current={isHome ? "page" : false}
-      class="inline-flex items-center"
-      href="/"
-    >
-      <div class="group/logo me-3 sm:grayscale sm:hover:filter-none sm:transition-[filter]">
-        <Logo class="site-logo-icon transition-transform duration-500 ease-out group-hover/logo:rotate-180" />
-      </div>
-      <span class="type-display font-bold text-zinc-900 dark:text-poi-focus">ykts.net</span>
-    </a>
-  </div>
+  <div class="flex items-center justify-between py-2 sm:py-3">
+    <div class="relative flex sm:flex-col">
+      <a
+        aria-current={isHome ? "page" : false}
+        class="inline-flex items-center"
+        href="/"
+      >
+        <div class="group/logo me-3 sm:grayscale sm:hover:filter-none sm:transition-[filter]">
+          <Logo class="site-logo-icon transition-transform duration-500 ease-out group-hover/logo:rotate-180" />
+        </div>
+        <span class="font-mono type-display font-bold text-zinc-900 dark:text-poi-focus">ykts.net</span>
+      </a>
+    </div>
 
-  <RightNav />
+    <RightNav />
+  </div>
+  {sections && <SectionNav sections={sections} />}
 </header>

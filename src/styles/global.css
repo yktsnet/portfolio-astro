@@ -40,6 +40,19 @@
   }
 }
 
+/* 見出しは行の長さをそろえ、対応するブラウザでは文節の切れ目で折り返す */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    word-break: auto-phrase;
+  }
+  body {
+    line-break: strict;
+  }
+}
+
 /* 文字の大きさはこの type-* だけで指定する（text-sm などの直書きは src/styles/type-scale.test.ts が弾く）。
    行間は Tailwind の text-* と同じく既定を持ち、leading-* を書けばそちらが勝つ。2段のものは sm 以上で大きくなる */
 @utility type-display {
@@ -114,7 +127,7 @@
   @apply border-zinc-200 bg-zinc-100/60 dark:border-poi-border/70 dark:bg-poi-panel/35;
 }
 @utility ui-kicker {
-  @apply font-mono type-label tracking-widest uppercase text-poi-muted;
+  @apply font-mono type-label tracking-widest uppercase text-zinc-500 dark:text-poi-muted;
 }
 
 @layer utilities {
@@ -139,6 +152,16 @@
   }
 }
 
+/* スマホでは見出しだけ出して本文を畳み、md 以上では常に開く（Fold.astro） */
+.fold-body { display: none; }
+.fold[data-open] > .fold-body { display: block; }
+.fold[data-open] .fold-chevron { transform: rotate(180deg); }
+@media (width >= 48rem) {
+  .fold-body { display: block; }
+  .fold-chevron { display: none; }
+  .fold-head { pointer-events: none; }
+}
+
 /* Multi-language visibility rules */
 html[data-lang="en"] .lang-ja {
   display: none !important;
@@ -150,6 +173,8 @@ html:not([data-lang="en"]) .lang-en {
 
 /* サービスの簡易図。SVG の線と文字をテーマに追従させる */
 .dg {
+  /* 図の文字は等幅の字幅を前提に配置している（src/lib/svg-text.ts） */
+  font-family: var(--font-mono);
   --dg-ink: #52525b;
   --dg-soft: #d4d4d8;
   --dg-panel: #ffffff;

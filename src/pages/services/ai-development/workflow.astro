@@ -11,6 +11,15 @@ import OtherServices from '../../../components/services/OtherServices.astro';
 import { services } from '../../../data/services';
 import { gddArticle } from '../../../data/articles';
 import type { MultilingualText } from '../../../lib/i18n';
+import type { SectionLink } from '../../../types';
+import Fold from '../../../components/Fold.astro';
+
+const sections: SectionLink[] = [
+  { id: 'overview', label: { ja: '全体像', en: 'Big picture' } },
+  { id: 'upstream', label: { ja: '上流', en: 'Upstream' } },
+  { id: 'downstream', label: { ja: '下流', en: 'Downstream' } },
+  { id: 'decisions', label: { ja: '設計判断とガード', en: 'Decisions & guards' } },
+];
 
 type Point = { no: string; title: MultilingualText; body: MultilingualText };
 type StepItem = { no: string; title: MultilingualText; tags: string[]; body: MultilingualText };
@@ -167,13 +176,13 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
 ];
 ---
 
-<MainLayout title="Development Workflow" description="AI と開発するときの仕組みを、顧客理解と実装の分担と別文脈での検証で図解する。">
+<MainLayout title="Development Workflow" description="AI と開発するときの仕組みを、顧客理解と実装の分担と別文脈での検証で図解する。" sections={sections}>
   {/* ヒーロー */}
   <section>
     <a href="/" class="inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors duration-200 hover:text-zinc-900 dark:text-poi-muted dark:hover:text-poi-focus">
       <span aria-hidden="true">←</span> Top
     </a>
-    <p class="mt-8 flex items-center gap-2 font-mono type-caption tracking-widest uppercase text-poi-muted sm:mt-10">
+    <p class="mt-8 flex items-center gap-2 font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted sm:mt-10">
       <LucideIcon name="user-round-pen" class="h-4 w-4 text-poi-accent" />
       <span>Workflow</span>
     </p>
@@ -192,7 +201,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
   </section>
 
   {/* 01: 全体像 */}
-  <section id="overview" class="mt-14 scroll-mt-24 sm:mt-16">
+  <section id="overview" class="mt-14 scroll-mt-32 sm:mt-16">
     <SectionHead
       size="heading"
       kicker="Big Picture"
@@ -212,9 +221,13 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
       <div class="grid grid-cols-1 divide-y divide-zinc-200 border-t ui-subpanel md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
         {overviewPoints.map((p) => (
           <div class="p-6 sm:p-7">
-            <p class="font-mono type-caption text-zinc-400 dark:text-poi-muted">{p.no}</p>
-            <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus"><T text={p.title} /></h3>
-            <p class="mt-2 type-small leading-6 text-zinc-600 dark:text-poi-muted"><T text={p.body} /></p>
+            <Fold>
+              <Fragment slot="head">
+                <span class="block font-mono type-caption font-normal text-zinc-400 dark:text-poi-muted">{p.no}</span>
+                <span class="mt-1.5 block type-body font-semibold text-zinc-900 dark:text-poi-focus"><T text={p.title} /></span>
+              </Fragment>
+              <p class="mt-2 type-body leading-7 text-zinc-700 dark:text-poi-muted"><T text={p.body} /></p>
+            </Fold>
           </div>
         ))}
       </div>
@@ -236,7 +249,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
   </section>
 
   {/* 02: 上流 */}
-  <section id="upstream" class="mt-20 scroll-mt-24 sm:mt-24">
+  <section id="upstream" class="mt-20 scroll-mt-32 sm:mt-24">
     <SectionHead
       size="heading"
       kicker="Upstream"
@@ -357,7 +370,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
   </section>
 
   {/* 03: 下流 */}
-  <section id="downstream" class="mt-20 scroll-mt-24 sm:mt-24">
+  <section id="downstream" class="mt-20 scroll-mt-32 sm:mt-24">
     <SectionHead
       size="heading"
       kicker="Downstream"
@@ -406,13 +419,13 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
         </div>
 
         <div class="flex flex-col justify-between divide-y divide-zinc-200 lg:col-span-5 dark:divide-poi-border/60">
-          <div class="p-6 sm:p-7">
-            <p class="ui-kicker">Sample 01 — <T text={{ ja: 'Issue の AC と保証', en: 'Issue ACs & Guarantees' }} /></p>
+          <Fold as="p" class="p-6 sm:p-7">
+            <span slot="head" class="ui-kicker">Sample 01 — <T text={{ ja: 'Issue の AC と保証', en: 'Issue ACs & Guarantees' }} /></span>
             <pre class="lang-ja mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-zinc-200 bg-white p-3.5 type-small leading-6 text-zinc-700 dark:border-poi-border/60 dark:bg-poi-base/60 dark:text-poi-text">{acSampleJa}</pre>
             <pre class="lang-en mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-zinc-200 bg-white p-3.5 type-small leading-6 text-zinc-700 dark:border-poi-border/60 dark:bg-poi-base/60 dark:text-poi-text">{acSampleEn}</pre>
-          </div>
-          <div class="p-6 sm:p-7">
-            <p class="ui-kicker">Sample 03→04 — <T text={{ ja: 'PR 本文に載る確認者の判定', en: 'Verifier table in PR body' }} /></p>
+          </Fold>
+          <Fold as="p" class="p-6 sm:p-7">
+            <span slot="head" class="ui-kicker">Sample 03→04 — <T text={{ ja: 'PR 本文に載る確認者の判定', en: 'Verifier table in PR body' }} /></span>
             <ul class="mt-3 divide-y divide-zinc-200 rounded-lg border border-zinc-200 bg-white px-4 dark:divide-poi-border/60 dark:border-poi-border/60 dark:bg-poi-base/60">
               {verdicts.map((v) => (
                 <li class="group flex items-center justify-between gap-3 py-3">
@@ -430,7 +443,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
                 </li>
               ))}
             </ul>
-          </div>
+          </Fold>
         </div>
       </div>
     </div>
@@ -451,7 +464,7 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
   </section>
 
   {/* 04: 補足（01〜03の後ろに小さく添える1枚のまとめ） */}
-  <section id="decisions" class="mt-20 scroll-mt-24 sm:mt-24">
+  <section id="decisions" class="mt-20 scroll-mt-32 sm:mt-24">
     <SectionHead
       size="heading"
       kicker="Architecture & Guards"
@@ -460,15 +473,14 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
         en: 'Architectural decisions and mechanical guards',
       }}
     />
-    <div class="ui-card mt-5 overflow-hidden sm:mt-6">
-      <div class="grid grid-cols-1 divide-y divide-zinc-200 md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
-        {decisions.map((d) => (
-          <div class="p-6 sm:p-7">
+    <div class="mt-5 grid gap-10 sm:mt-6 md:grid-cols-2 md:gap-8">
+      {decisions.map((d) => (
+          <div class="border-t-2 border-zinc-300 pt-5 dark:border-poi-border">
             <p class="ui-kicker">{d.kicker}</p>
             <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus"><T text={d.title} /></h3>
             <ul class="mt-3 space-y-2">
               {d.items.map((it) => (
-                <li class="flex gap-2 type-small leading-6 text-zinc-600 dark:text-poi-muted">
+                <li class="flex gap-2 type-small leading-6 text-zinc-700 dark:text-poi-muted">
                   <span aria-hidden="true">·</span>
                   <span>
                     <strong class="font-semibold text-zinc-900 dark:text-poi-focus"><T text={it.lead} /></strong>
@@ -479,7 +491,6 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
             </ul>
           </div>
         ))}
-      </div>
     </div>
   </section>
 

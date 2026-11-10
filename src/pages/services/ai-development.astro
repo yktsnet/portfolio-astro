@@ -14,7 +14,7 @@ import ProcessSteps from '../../components/services/ProcessSteps.astro';
 import FitList from '../../components/services/FitList.astro';
 import { services } from '../../data/services';
 import { gddArticle } from '../../data/articles';
-import type { Fit, Link, Metric, OfferingDetail, Step } from '../../types';
+import type { Fit, Link, Metric, OfferingDetail, SectionLink, Step } from '../../types';
 
 // サービス名・説明・提供できることの名前はトップのカードと同じ値を使い、文言をずらさない
 const s = services.find((x) => x.slug === 'ai-development')!;
@@ -158,6 +158,15 @@ const fits: Fit[] = [
   },
 ];
 
+const sections: SectionLink[] = [
+  { id: 'overview', label: { ja: '概要', en: 'Overview' } },
+  { id: 'case', label: { ja: '導入例', en: 'Case' } },
+  { id: 'offer', label: { ja: '提供できること', en: 'Offer' } },
+  { id: 'process', label: { ja: '進め方', en: 'Process' } },
+  { id: 'study', label: { ja: '勉強会', en: 'Study group' } },
+  { id: 'fit', label: { ja: '合う現場', en: 'Fit' } },
+];
+
 const misfits: Fit[] = [
   {
     text: { ja: 'GitHub以外で開発している', en: 'Development outside GitHub' },
@@ -175,12 +184,12 @@ const misfits: Fit[] = [
 
 ---
 
-<MainLayout title={s.title.en} description={`${s.title.ja}。${s.summary.ja}`}>
+<MainLayout title={s.title.en} description={`${s.title.ja}。${s.summary.ja}`} sections={sections}>
   {/* 1. サービス名と説明（トップのカードと同じ文） */}
   <ServiceHero service={s} />
 
   {/* 2. 導入例: 勤務先での変化。成果の数字は出せないので、出せる数と変わったことを書く */}
-  <section class="mt-14 sm:mt-16">
+  <section id="case" class="scroll-mt-32 mt-14 sm:mt-16">
     <SectionHead size="heading" kicker="Case & Results" title={{ ja: '導入例：勤務先の開発会社', en: 'Example: the development company I work for' }} />
     <div class="ui-card mt-5 overflow-hidden sm:mt-6">
       <MetricGrid metrics={changes} />
@@ -191,7 +200,7 @@ const misfits: Fit[] = [
             en: 'At the development company I work for, I aligned and distributed the development process and made usage and where each person stands visible. How well each person uses it, hidden in a larger team, is visible so we can reach out and teach.',
           }} />
         </p>
-        <p class="mt-3 max-w-3xl type-small leading-7 text-zinc-600 dark:text-poi-muted">
+        <p class="mt-3 max-w-3xl type-body leading-7 text-zinc-700 dark:text-poi-muted">
           <T text={{
             ja: '採用にも同じ評価基準を使い、見る人によるぶれや、入社後の食い違いを減らせる。',
             en: 'The same criteria are used in hiring, reducing variation by evaluator and mismatches after joining.',
@@ -202,7 +211,7 @@ const misfits: Fit[] = [
   </section>
 
   {/* 3. 提供できること: 開発キットと評価。キットがあって初めて評価ができる */}
-  <section class="mt-20 sm:mt-24">
+  <section id="offer" class="scroll-mt-32 mt-20 sm:mt-24">
     <SectionHead size="heading" kicker="What I offer" title={{ ja: '提供できること', en: 'What I offer' }} />
     <div class="mt-5 grid gap-6 sm:mt-6 lg:grid-cols-2">
       {s.offerings.slice(0, 2).map((o, idx) => {
@@ -228,7 +237,7 @@ const misfits: Fit[] = [
   </section>
 
   {/* 4. 進め方: 考え方はトップに任せ、ここでは導入例で実際にどうしたかだけを書く */}
-  <section class="mt-20 sm:mt-24">
+  <section id="process" class="scroll-mt-32 mt-20 sm:mt-24">
     <SectionHead
       size="heading"
       kicker="Process"
@@ -239,7 +248,7 @@ const misfits: Fit[] = [
   </section>
 
   {/* 5. 勉強会: 単独でも頼める。評価の材料を作る場にもなる */}
-  <section class="mt-20 sm:mt-24">
+  <section id="study" class="scroll-mt-32 mt-20 sm:mt-24">
     <SectionHead
       size="heading"
       kicker="Study group"
@@ -252,7 +261,7 @@ const misfits: Fit[] = [
           <LucideIcon name={training.offering.icon} class="h-5 w-5 text-poi-accent" />
           <T text={training.offering.title} />
         </h3>
-        <p class="mt-3 type-body leading-7 text-zinc-600 dark:text-poi-muted"><T text={training.line} /></p>
+        <p class="mt-3 type-body leading-7 text-zinc-700 dark:text-poi-muted"><T text={training.line} /></p>
 
         <BeforeAfter
           beforeLabel={{ ja: '課題', en: 'The problem' }}
@@ -265,7 +274,7 @@ const misfits: Fit[] = [
           {training.links.map((l) => <RepoLink label={l.label} href={l.href} />)}
         </div>
       </div>
-      <div class="flex items-center rounded-xl border ui-subpanel p-5">
+      <div class="order-first flex items-center rounded-xl border ui-subpanel p-5 lg:order-none">
         <DiagramSesTraining />
       </div>
     </article>
