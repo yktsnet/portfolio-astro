@@ -3,6 +3,13 @@ name: CI/CD
 on:
   push:
     branches: [main]
+    # 文書だけの変更では、ビルドも配信もしない。PR の CI は絞らない（Dependabot の PR は CI の合格がマージの条件）
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'issues/**'
+      - 'context/**'
+      - 'LICENSE'
   pull_request:
     branches: [main]
   repository_dispatch:

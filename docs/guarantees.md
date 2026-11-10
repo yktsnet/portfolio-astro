@@ -46,4 +46,4 @@
 
 ## About
 
-対象は `src/lib/api.ts` が公開する Hono ルート（`/api/*`）の HTTP レベルの入出力契約（ステータスコード・レスポンス形状）。対象外はハンドラ内部の実装詳細（KVキー名・Telegram/Turnstile への実際の送信内容・`@folio-agent/handler` 側の挙動）や、Astro ページ・コンポーネントの描画結果。**ここに載っていない振る舞いは約束ではなく、予告なく変わりうる。** 本ドキュメントは design-decisions.md 相当のドキュメントと同格の位置づけとする。
+対象は `src/lib/api.ts` が公開する Hono ルート（`/api/*`）の HTTP レベルの入出力契約（ステータスコード・レスポンス形状）と、`src/lib/contact-form.ts` の `buildContactBody` が送信用に組む値。対象外はハンドラ内部の実装詳細（D1 のテーブル・Telegram/Turnstile への実際の送信内容・`@folio-agent/handler` 側の挙動）や、Astro ページ・コンポーネントの描画結果。**ここに載っていない振る舞いは約束ではなく、予告なく変わりうる。**

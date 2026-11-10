@@ -25,6 +25,8 @@ npx vitest run src/lib/api.test.ts
 
 PR 前に `npm run typecheck` と `npm run test` を通す。実行確認が必要な検証は PR の `## 検証手順` に書いて user に委ねる。
 
+API（`src/lib/api.ts`）と Contact フォーム（`src/lib/contact-form.ts`）の振る舞いを変えたら、保証台帳 `docs/guarantees.md` と対応するテストも直す。
+
 ## アーキテクチャの要点
 
 ### ページ描画とデータの流れ
