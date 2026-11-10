@@ -1,5 +1,6 @@
 ---
 import T from '../T.astro';
+import Fold from '../Fold.astro';
 import type { Step } from '../../types';
 
 
@@ -8,12 +9,16 @@ interface Props {
 }
 const { steps } = Astro.props;
 ---
-<ol class="mt-6 grid gap-8 md:grid-cols-3">
+<ol class="mt-6 grid gap-6 md:grid-cols-3 md:gap-8">
   {steps.map((st) => (
-    <li class="border-t-2 border-poi-accent/60 pt-5">
-      <p class="font-mono type-caption text-poi-accent">{st.no}</p>
-      <h3 class="mt-2 type-subheading font-semibold text-zinc-900 dark:text-poi-focus"><T text={st.title} /></h3>
-      <p class="mt-2 type-body leading-7 text-zinc-700 dark:text-poi-muted"><T text={st.done} /></p>
+    <li class="border-t-2 border-poi-accent/60 pt-4 md:pt-5">
+      <Fold>
+        <Fragment slot="head">
+          <span class="block font-mono type-caption font-normal text-poi-accent">{st.no}</span>
+          <span class="mt-2 block type-subheading font-semibold text-zinc-900 dark:text-poi-focus"><T text={st.title} /></span>
+        </Fragment>
+        <p class="mt-2 type-body leading-7 text-zinc-700 dark:text-poi-muted"><T text={st.done} /></p>
+      </Fold>
     </li>
   ))}
 </ol>

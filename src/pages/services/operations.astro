@@ -2,6 +2,7 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import T from '../../components/T.astro';
 import RepoLink from '../../components/RepoLink.astro';
+import LucideIcon from '../../components/LucideIcon.astro';
 import SectionHead from '../../components/services/SectionHead.astro';
 import ServiceHero from '../../components/services/ServiceHero.astro';
 import OtherServices from '../../components/services/OtherServices.astro';
@@ -269,16 +270,26 @@ const zenn = {
           <p class:list={['px-5 py-3.5 type-caption font-semibold', i === 2 ? 'text-poi-accent' : 'text-zinc-500 dark:text-poi-muted']}><T text={o} /></p>
         ))}
       </div>
-      {/* スマホでは SaaS と開発会社を左右に並べ、その下に自分の場合を色付きで出す */}
-      <div class="divide-y divide-zinc-200 dark:divide-poi-border/60">
+      {/* スマホでは自分の場合だけを出す。SaaS と開発会社は、4行をまとめて開く1つのボタンで出し、開くと左右に並ぶ */}
+      <button
+        type="button"
+        id="cmp-toggle"
+        aria-expanded="false"
+        aria-controls="cmp"
+        class="group flex w-full items-center justify-between gap-3 border-b ui-subpanel px-5 py-3 text-left type-caption font-semibold text-zinc-700 md:hidden dark:text-poi-text"
+      >
+        <T text={{ ja: 'SaaS・開発会社の場合と並べる', en: 'Show SaaS and dev firm side by side' }} />
+        <LucideIcon name="chevron-down" class="h-4 w-4 shrink-0 text-zinc-400 transition-transform duration-200 group-aria-expanded:rotate-180 dark:text-poi-muted" />
+      </button>
+      <div id="cmp" class="cmp divide-y divide-zinc-200 dark:divide-poi-border/60">
         {compare.map((row) => (
           <div class="grid grid-cols-2 md:grid-cols-[9rem_1fr_1fr_1.3fr]">
             <p class="col-span-2 px-5 pt-4 type-small font-semibold text-zinc-900 md:col-span-1 md:py-4 dark:text-poi-focus"><T text={row.point} /></p>
             {row.cells.map((c, i) => (
               <p class:list={[
                 'type-small leading-6',
-                i === 0 && 'py-2 pl-5 pr-2 text-zinc-500 md:px-5 md:py-4 dark:text-poi-muted',
-                i === 1 && 'py-2 pl-2 pr-5 text-zinc-500 md:px-5 md:py-4 dark:text-poi-muted',
+                i === 0 && 'cmp-other py-2 pl-5 pr-2 text-zinc-500 md:px-5 md:py-4 dark:text-poi-muted',
+                i === 1 && 'cmp-other py-2 pl-2 pr-5 text-zinc-500 md:px-5 md:py-4 dark:text-poi-muted',
                 i === 2 && 'col-span-2 mx-5 mb-4 mt-1.5 rounded-lg bg-poi-accent/5 px-3.5 py-2.5 text-zinc-900 md:col-span-1 md:m-0 md:rounded-none md:px-5 md:py-4 dark:text-poi-focus',
               ]}>
                 <span class:list={['mb-0.5 block type-label md:hidden', i === 2 ? 'text-poi-accent' : '']}><T text={options[i]} /></span>
@@ -311,3 +322,19 @@ const zenn = {
   {/* 6. ほかのサービス */}
   <OtherServices others={others} />
 </MainLayout>
+
+<style>
+  @media (width < 48rem) {
+    .cmp:not([data-open]) .cmp-other {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('cmp-toggle');
+  toggle?.addEventListener('click', () => {
+    const open = document.getElementById('cmp')?.toggleAttribute('data-open') ?? false;
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+</script>

@@ -60,6 +60,64 @@ const overviewPoints: Point[] = [
   },
 ];
 
+// 上流の2列。図の左右（顧客理解担当、実装担当）と同じ順に並べる
+const upstreamCols: { kicker: string; title: MultilingualText; items: StepItem[] }[] = [
+  {
+    kicker: 'Customer Understanding',
+    title: {
+      ja: '顧客理解担当：照会・回収を回し、試作から要件を決める',
+      en: 'Customer Understanding: run Q&A skills and decide specs from prototypes',
+    },
+    items: [
+      {
+        no: '01',
+        title: { ja: '照会と1か所への回収', en: 'Send & centralize answers' },
+        tags: ['/qa-send', '/qa-collect'],
+        body: {
+          ja: '照会文面を下書きして送り、照会表・MTG・チャットのどこで出た回答も問いの Issue 1か所に集約する。',
+          en: 'Draft inquiries to send, and funnel answers from spreadsheets, meetings, or chat into a single Question Issue.',
+        },
+      },
+      {
+        no: '02',
+        title: { ja: '2段階レビューと正本の更新', en: 'Two-stage review & canonical spec updates' },
+        tags: [],
+        body: {
+          ja: '試作を利用者より先に触り（社内レビュー）、直ったものを利用者に見せて反応を引き出す（利用者レビュー）。決まった要件を正本へマージするのはこの担当だけに絞る。',
+          en: 'Touch the prototype before users do (internal review), then show the refined version to users to draw out feedback. Only this role merges confirmed specs.',
+        },
+      },
+    ],
+  },
+  {
+    kicker: 'Implementation',
+    title: {
+      ja: '実装担当：未確定を「仮置き」と「問い」に分けて試作',
+      en: 'Implementation: split unknowns into assumptions and question Issues',
+    },
+    items: [
+      {
+        no: '03',
+        title: { ja: '仮置き一覧に分離して作る', en: 'Isolate in an assumption list' },
+        tags: [],
+        body: {
+          ja: 'AI が黙って選んだ前提がそのまま本番に残らないよう、仮に置いた仕様は一覧に明記して確定分と分ける。',
+          en: 'So silent AI guesses never slip into production, provisional choices are recorded in a dedicated assumption list separate from confirmed specs.',
+        },
+      },
+      {
+        no: '04',
+        title: { ja: '問いを起こし、回答を読む', en: 'Open questions & apply answers' },
+        tags: ['/client-next'],
+        body: {
+          ja: '先方の判断が要る点は同じ変更で「問いの Issue」に起こして渡す。戻った回答は次の起票時に読み、仮置きと違えば直しの Issue にする。',
+          en: 'Items needing client decisions are opened as Question Issues in the same change. Returned answers are read on the next draft and turned into fix Issues if they differ.',
+        },
+      },
+    ],
+  },
+];
+
 const downstreamSteps: StepItem[] = [
   {
     no: '01',
@@ -267,90 +325,34 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
         <DevDiagram kind="spec" label="実装担当の仮置き試作と、顧客理解担当の問いの照会・回収を並行させる図" />
       </div>
       <div class="grid grid-cols-1 divide-y divide-zinc-200 border-t ui-subpanel md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
-        {/* 左列：顧客理解担当（図の上段と同じ順） */}
-        <div class="p-6 sm:p-7">
-          <p class="ui-kicker">Customer Understanding</p>
-          <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
-            <T text={{
-              ja: '顧客理解担当：照会・回収を回し、試作から要件を決める',
-              en: 'Customer Understanding: run Q&A skills and decide specs from prototypes',
-            }} />
-          </h3>
-          <ul class="mt-3.5 space-y-3">
-            <li class="flex gap-3 type-small leading-6">
-              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">01</span>
-              <div class="text-zinc-600 dark:text-poi-muted">
-                <p class="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
-                  <span class="mr-0.5"><T text={{ ja: '照会と1か所への回収', en: 'Send & centralize answers' }} /></span>
-                  <SkillTag name="/qa-send">/qa-send</SkillTag>
-                  <SkillTag name="/qa-collect">/qa-collect</SkillTag>
-                </p>
-                <p class="mt-0.5">
-                  <T text={{
-                    ja: '照会文面を下書きして送り、照会表・MTG・チャットのどこで出た回答も問いの Issue 1か所に集約する。',
-                    en: 'Draft inquiries to send, and funnel answers from spreadsheets, meetings, or chat into a single Question Issue.',
-                  }} />
-                </p>
-              </div>
-            </li>
-            <li class="flex gap-3 type-small leading-6">
-              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">02</span>
-              <div class="text-zinc-600 dark:text-poi-muted">
-                <p class="font-semibold text-zinc-900 dark:text-poi-focus">
-                  <T text={{ ja: '2段階レビューと正本の更新', en: 'Two-stage review & canonical spec updates' }} />
-                </p>
-                <p class="mt-0.5">
-                  <T text={{
-                    ja: '試作を利用者より先に触り（社内レビュー）、直ったものを利用者に見せて反応を引き出す（利用者レビュー）。決まった要件を正本へマージするのはこの担当だけに絞る。',
-                    en: 'Touch the prototype before users do (internal review), then show the refined version to users to draw out feedback. Only this role merges confirmed specs.',
-                  }} />
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        {/* 右列：実装担当 */}
-        <div class="p-6 sm:p-7">
-          <p class="ui-kicker">Implementation</p>
-          <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus">
-            <T text={{
-              ja: '実装担当：未確定を「仮置き」と「問い」に分けて試作',
-              en: 'Implementation: split unknowns into assumptions and question Issues',
-            }} />
-          </h3>
-          <ul class="mt-3.5 space-y-3">
-            <li class="flex gap-3 type-small leading-6">
-              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">03</span>
-              <div class="text-zinc-600 dark:text-poi-muted">
-                <p class="font-semibold text-zinc-900 dark:text-poi-focus">
-                  <T text={{ ja: '仮置き一覧に分離して作る', en: 'Isolate in an assumption list' }} />
-                </p>
-                <p class="mt-0.5">
-                  <T text={{
-                    ja: 'AI が黙って選んだ前提がそのまま本番に残らないよう、仮に置いた仕様は一覧に明記して確定分と分ける。',
-                    en: 'So silent AI guesses never slip into production, provisional choices are recorded in a dedicated assumption list separate from confirmed specs.',
-                  }} />
-                </p>
-              </div>
-            </li>
-            <li class="flex gap-3 type-small leading-6">
-              <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-0.5">04</span>
-              <div class="text-zinc-600 dark:text-poi-muted">
-                <p class="flex flex-wrap items-center gap-x-2 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
-                  <span><T text={{ ja: '問いを起こし、回答を読む', en: 'Open questions & apply answers' }} /></span>
-                  <SkillTag name="/client-next">/client-next</SkillTag>
-                </p>
-                <p class="mt-0.5">
-                  <T text={{
-                    ja: '先方の判断が要る点は同じ変更で「問いの Issue」に起こして渡す。戻った回答は次の起票時に読み、仮置きと違えば直しの Issue にする。',
-                    en: 'Items needing client decisions are opened as Question Issues in the same change. Returned answers are read on the next draft and turned into fix Issues if they differ.',
-                  }} />
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
+        {/* Skill のラベルはリンクなので見出しに入れず、本文の先頭の行に置く。見出しはスマホで開閉のボタンになる */}
+        {upstreamCols.map((col) => (
+          <div class="p-6 sm:p-7">
+            <p class="ui-kicker">{col.kicker}</p>
+            <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus"><T text={col.title} /></h3>
+            <ul class="mt-3.5 space-y-3">
+              {col.items.map((st) => (
+                <li class="flex gap-3">
+                  <span class="pt-0.5 font-mono type-caption text-zinc-400 dark:text-poi-muted">{st.no}</span>
+                  <Fold as="p" class="min-w-0 flex-1 type-small leading-6">
+                    <span slot="head" class="font-semibold text-zinc-900 dark:text-poi-focus"><T text={st.title} /></span>
+                    {st.tags.length > 0 && (
+                      <p class="mt-1 flex flex-wrap gap-1.5">
+                        {st.tags.map((tag) => (
+                          <SkillTag name={tag}>
+                            {!tag.startsWith('/') && <LucideIcon name="bot" class="h-3 w-3 text-poi-accent" />}
+                            <span>{tag}</span>
+                          </SkillTag>
+                        ))}
+                      </p>
+                    )}
+                    <p class="mt-1 text-zinc-700 dark:text-poi-muted"><T text={st.body} /></p>
+                  </Fold>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
     <WfContrast
@@ -397,19 +399,21 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
             <ol class="mt-3.5 space-y-3.5">
               {downstreamSteps.map((st) => (
                 <li class="flex gap-3">
-                  <span class="font-mono type-caption text-zinc-400 dark:text-poi-muted pt-1">{st.no}</span>
-                  <div class="type-small leading-6">
-                    <p class="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-semibold text-zinc-900 dark:text-poi-focus">
-                      <span class="mr-0.5"><T text={st.title} /></span>
-                      {st.tags.map((tag) => (
-                        <SkillTag name={tag}>
-                          {!tag.startsWith('/') && <LucideIcon name="bot" class="h-3 w-3 text-poi-accent" />}
-                          <span>{tag}</span>
-                        </SkillTag>
-                      ))}
-                    </p>
-                    <p class="mt-0.5 text-zinc-600 dark:text-poi-muted"><T text={st.body} /></p>
-                  </div>
+                  <span class="pt-0.5 font-mono type-caption text-zinc-400 dark:text-poi-muted">{st.no}</span>
+                  <Fold as="p" class="min-w-0 flex-1 type-small leading-6">
+                    <span slot="head" class="font-semibold text-zinc-900 dark:text-poi-focus"><T text={st.title} /></span>
+                    {st.tags.length > 0 && (
+                      <p class="mt-1 flex flex-wrap gap-1.5">
+                        {st.tags.map((tag) => (
+                          <SkillTag name={tag}>
+                            {!tag.startsWith('/') && <LucideIcon name="bot" class="h-3 w-3 text-poi-accent" />}
+                            <span>{tag}</span>
+                          </SkillTag>
+                        ))}
+                      </p>
+                    )}
+                    <p class="mt-1 text-zinc-700 dark:text-poi-muted"><T text={st.body} /></p>
+                  </Fold>
                 </li>
               ))}
             </ol>
@@ -477,19 +481,23 @@ const decisions: { kicker: string; title: MultilingualText; items: { lead: Multi
     <div class="mt-5 grid gap-10 sm:mt-6 md:grid-cols-2 md:gap-8">
       {decisions.map((d) => (
           <div class="border-t-2 border-zinc-300 pt-5 dark:border-poi-border">
-            <p class="ui-kicker">{d.kicker}</p>
-            <h3 class="mt-1.5 type-body font-semibold text-zinc-900 dark:text-poi-focus"><T text={d.title} /></h3>
-            <ul class="mt-3 space-y-2">
-              {d.items.map((it) => (
-                <li class="flex gap-2 type-small leading-6 text-zinc-700 dark:text-poi-muted">
-                  <span aria-hidden="true">·</span>
-                  <span>
-                    <strong class="font-semibold text-zinc-900 dark:text-poi-focus"><T text={it.lead} /></strong>
-                    <T text={it.body} />
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <Fold>
+              <Fragment slot="head">
+                <span class="block ui-kicker font-normal">{d.kicker}</span>
+                <span class="mt-1.5 block type-body font-semibold text-zinc-900 dark:text-poi-focus"><T text={d.title} /></span>
+              </Fragment>
+              <ul class="mt-3 space-y-2">
+                {d.items.map((it) => (
+                  <li class="flex gap-2 type-small leading-6 text-zinc-700 dark:text-poi-muted">
+                    <span aria-hidden="true">·</span>
+                    <span>
+                      <strong class="font-semibold text-zinc-900 dark:text-poi-focus"><T text={it.lead} /></strong>
+                      <T text={it.body} />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Fold>
           </div>
         ))}
     </div>
