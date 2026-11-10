@@ -8,7 +8,6 @@ export type CaseStudy = {
   action: MultilingualText;
   // 数字の並びの最後に置く、数字にならないその後の広がり
   followUp: MultilingualText;
-  article: { label: MultilingualText; href: string };
   metrics: Metric[];
 };
 
@@ -27,10 +26,6 @@ export const cases: CaseStudy[] = [
     followUp: {
       ja: "契約書の作成や法人化の相談も受けている",
       en: "Now also asked to help with contract paperwork and incorporation",
-    },
-    article: {
-      label: { ja: "Zenn — 経緯を書いた記事", en: "Zenn — the full story" },
-      href: "https://zenn.dev/yktsnet/articles/202604-nfc-attendance-raspberry-pi-2",
     },
     metrics: [
       {

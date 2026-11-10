@@ -1,7 +1,6 @@
 ---
 import T from './T.astro';
 import LucideIcon from './LucideIcon.astro';
-import RepoLink from './RepoLink.astro';
 import type { CaseStudy } from '../data/cases';
 
 interface Props {
@@ -38,11 +37,10 @@ const label = 'mt-1 text-balance [word-break:auto-phrase] type-caption leading-5
     </div>
   </dl>
 
-  <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
+  <div class="mt-4">
     <a href={`/services/${c.service}/#case`} class="group inline-flex items-center gap-1.5 font-mono type-caption text-poi-accent hover:underline focus-visible:underline outline-hidden">
       <span class="lang-ja">導入例を詳しく見る</span><span class="lang-en">Read the case</span>
       <LucideIcon name="arrow-right" class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
     </a>
-    <RepoLink label={c.article.label} href={c.article.href} icon="zenn" />
   </div>
 </div>

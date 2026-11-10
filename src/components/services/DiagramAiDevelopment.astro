@@ -1,46 +1,63 @@
 ---
 import DgText from './DgText.astro';
 ---
-{/* 言いたいのは「開発キットでそろった成果物を評価が読み、評価で決まった軸に合わせてキットから配る」循環。研修はこの外にあるので入れない */}
-<svg class="dg h-auto w-full" viewBox="0 0 440 334" role="img" aria-label="開発キットを配ると成果物と利用状況がそろい、それを評価が読み、評価で次に伸ばす軸が決まり、その軸に合わせて開発キットから配る循環の図">
+{/* 言いたいのは「開発でそろえた成果物を、マネジメントが同じ基準で読んで評価・育成・採用に使う」こと。
+    上の段が開発、下の段がマネジメントで、育成で決まった軸が開発キットへ戻る。研修はこの外にあるので入れない */}
+<svg class="dg h-auto w-full" viewBox="0 0 440 338" role="img" aria-label="開発キットで成果物と利用状況をそろえ、それをマネジメントが同じ基準で読んで評価し、評価から育成と採用を決め、育成で決まった次に伸ばす軸に合わせて開発キットから配る図">
   <defs>
     <marker id="dg-ai-mk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="dg-mk" d="M0 1L9 5L0 9z" /></marker>
   </defs>
 
-  {/* 外周の循環矢印 */}
-  <path class="dg-line" marker-end="url(#dg-ai-mk)" d="M299 59 A 100 100 0 0 1 359 122" />
-  <path class="dg-line" marker-end="url(#dg-ai-mk)" d="M359 216 A 100 100 0 0 1 299 273" />
-  <path class="dg-line" marker-end="url(#dg-ai-mk)" d="M141 273 A 100 100 0 0 1 81 203" />
-  <path class="dg-line" marker-end="url(#dg-ai-mk)" d="M81 129 A 100 100 0 0 1 141 59" />
+  {/* 2つの段 */}
+  <rect class="dg-lane" x="2" y="2" width="436" height="112" rx="10" />
+  <DgText x={14} y={21} ja="開発" en="Development" class="dg-small" anchor="start" />
+  <rect class="dg-lane" x="2" y="126" width="436" height="210" rx="10" />
+  <DgText x={50} y={145} ja="マネジメント" en="Management" class="dg-small" anchor="start" />
 
-  {/* 上: 開発キット（標準化） */}
-  <DgText x={220} y={18} ja="標準化" en="Standardize" class="dg-small" />
-  <rect class="dg-box" x="145" y="26" width="150" height="66" rx="8" />
-  <g class="dg-line" transform="translate(209, 33) scale(0.9)">
+  {/* 段をまたぐ矢印: そろった成果物を評価が読む、育成で決まった軸がキットへ戻る */}
+  <path class="dg-line" marker-end="url(#dg-ai-mk)" d="M354 102 V183 H294" />
+  <DgText x={346} y={143} ja="同じ基準で読む" en="Same criteria" class="dg-small" anchor="end" />
+  <path class="dg-line" marker-end="url(#dg-ai-mk)" d="M30 254 V106" />
+
+  {/* 開発の段: キットを配ると、成果物と利用状況がそろう */}
+  <rect class="dg-box" x="16" y="32" width="140" height="70" rx="8" />
+  <g class="dg-line" transform="translate(75, 38) scale(0.9)">
     <path d="m7.5 4.27 9 5.15" /><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" />
   </g>
-  <DgText x={220} y={78} ja="開発キット" en="Dev kit" />
+  <DgText x={86} y={89} ja="開発キット" en="Dev kit" />
 
-  {/* 右: キットを回すと出てくるもの */}
-  <rect class="dg-box" x="284" y="126" width="150" height="86" rx="8" />
-  <g class="dg-line" transform="translate(348, 134) scale(0.9)">
+  <path class="dg-line" marker-end="url(#dg-ai-mk)" d="M156 67 H280" />
+  <DgText x={218} y={58} ja="標準化" en="Standardize" class="dg-small" />
+
+  <rect class="dg-box" x="284" y="32" width="140" height="70" rx="8" />
+  <g class="dg-line" transform="translate(343, 36) scale(0.9)">
     <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" />
   </g>
-  <DgText x={359} y={178} ja="そろった成果物" en="Aligned output" />
-  <DgText x={359} y={198} ja="と利用状況" en="and usage" class="dg-small" />
+  <DgText x={354} y={78} ja="そろった成果物" en="Aligned output" />
+  <DgText x={354} y={93} ja="と利用状況" en="and usage" class="dg-small" />
 
-  {/* 下: 評価（可視化。ここだけアクセント色） */}
-  <rect class="dg-accbox" x="145" y="240" width="150" height="66" rx="8" />
-  <g class="dg-acc" transform="translate(209, 247) scale(0.9)">
+  {/* マネジメントの段: 評価（可視化。ここだけアクセント色）から、育成と採用を決める */}
+  <DgText x={220} y={145} ja="可視化" en="Make visible" class="dg-small" />
+  <rect class="dg-accbox" x="150" y="150" width="140" height="66" rx="8" />
+  <g class="dg-acc" transform="translate(209, 156) scale(0.9)">
     <path d="m16 11 2 2 4-4" /><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
   </g>
-  <DgText x={220} y={292} ja="評価" en="Evaluation" class="dg-acctext" />
-  <DgText x={220} y={326} ja="可視化" en="Make visible" class="dg-small" />
+  <DgText x={220} y={203} ja="評価" en="Evaluation" class="dg-acctext" />
 
-  {/* 左: 評価で決まり、次にキットから配るものを選ぶ */}
-  <rect class="dg-box" x="6" y="133" width="150" height="66" rx="8" />
-  <g class="dg-line" transform="translate(70, 140) scale(0.9)">
+  <path class="dg-line" marker-end="url(#dg-ai-mk)" d="M195 216 V236 H96 V250" />
+  <path class="dg-line" marker-end="url(#dg-ai-mk)" d="M245 216 V236 H354 V250" />
+
+  <rect class="dg-box" x="16" y="254" width="140" height="72" rx="8" />
+  <g class="dg-line" transform="translate(75, 259) scale(0.9)">
     <circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" />
   </g>
-  <DgText x={81} y={185} ja="次に伸ばす軸" en="Next axis" />
+  <DgText x={86} y={299} ja="育成" en="Growth" />
+  <DgText x={86} y={316} ja="次に伸ばす軸" en="Next axis" class="dg-small" />
+
+  <rect class="dg-box" x="284" y="254" width="140" height="72" rx="8" />
+  <g class="dg-line" transform="translate(343, 259) scale(0.9)">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M19 8v6" /><path d="M22 11h-6" />
+  </g>
+  <DgText x={354} y={299} ja="採用" en="Hiring" />
+  <DgText x={354} y={316} ja="候補者も同じ基準" en="Same criteria" class="dg-small" />
 </svg>

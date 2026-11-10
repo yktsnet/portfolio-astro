@@ -61,8 +61,8 @@ export const services: Service[] = [
     kicker: "AI DEVELOPMENT",
     title: { ja: "AI開発の標準化と、採用・育成・評価", en: "Standardized AI Development, and Hiring, Growth & Evaluation" },
     summary: {
-      ja: "AIを使う開発の手順をそろえて配り、誰が担当しても同じ形の成果物が出るようにする（標準化）。そろった成果物と利用状況から一人ひとりの現在地が見え（可視化）、採用・育成・評価も同じ基準で決められる。",
-      en: "I align and distribute the AI development process so output keeps the same shape whoever does the work (standardization). The aligned output and usage show where each person stands (visibility), so hiring, growth and evaluation can be decided on the same criteria.",
+      ja: "AIを使う開発の手順をそろえて配り（標準化）、そろった成果物と利用状況から一人ひとりの現在地を出す（可視化）。その同じ基準で、採用・育成・評価を決められる。",
+      en: "I align and distribute the AI development process (standardization), then read where each person stands from the aligned output and usage (visibility). Hiring, growth and evaluation can then be decided on those same criteria.",
     },
     offerings: [
       {
