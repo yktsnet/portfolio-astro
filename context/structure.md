@@ -10,7 +10,7 @@ src/
     diagram/      # SVG の図の部品（文字・箱・段の見出し）
     services/     # サービスのページとトップのサービスのカードで使う部品
     workflow/     # 開発の進め方のページで使う部品
-  data/           # 静的データ (services.ts / works.ts / photos.ts / workflow.ts など)
+  data/           # 静的データとページの文言 (services.ts / works.ts / operations.ts / workflow.ts など)
   layouts/        # ページレイアウト
   lib/            # ユーティリティ・APIロジック・i18n
   pages/          # ルーティング (Astroファイル構造に対応)
@@ -27,6 +27,7 @@ src/
 ## データフロー
 
 - サービス・Works・写真は `src/data/*.ts`
+- サービスの詳細ページの文言は `src/data/<slug>.ts`（`operations.ts`・`ai-development.ts`）。組みは `src/pages/services/<slug>.astro`
 - 開発の進め方のページ（`/services/ai-development/workflow/`）の文言は `src/data/workflow.ts`。図は `DevDiagram.astro` に直書き
 - トップページの各節は `src/pages/index.astro` に直書き
 - 経歴の年表と技術の範囲は `Career.astro` に直書き
