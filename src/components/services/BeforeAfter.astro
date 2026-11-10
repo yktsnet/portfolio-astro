@@ -8,10 +8,12 @@ interface Props {
   afterLabel: MultilingualText;
   before: MultilingualText[];
   after: MultilingualText[];
+  // 上の区切り線と余白を呼び出し側で持つとき
+  bare?: boolean;
 }
-const { beforeLabel, afterLabel, before, after } = Astro.props;
+const { beforeLabel, afterLabel, before, after, bare = false } = Astro.props;
 ---
-<div class="mt-6 grid gap-5 border-t border-zinc-200 pt-5 sm:grid-cols-2 dark:border-poi-border/60">
+<div class:list={["grid gap-5 sm:grid-cols-2", bare ? "mt-4 md:mt-0" : "mt-6 border-t border-zinc-200 pt-5 dark:border-poi-border/60"]}>
   <div>
     <p class="type-caption font-semibold text-zinc-500 dark:text-poi-muted"><T text={beforeLabel} /></p>
     <ul class="mt-2 space-y-1.5">

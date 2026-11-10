@@ -2,6 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import T from '../components/T.astro';
 import Career from '../components/Career.astro';
+import Fold from '../components/Fold.astro';
 import LucideIcon from '../components/LucideIcon.astro';
 import RepoLink from '../components/RepoLink.astro';
 import SectionHead from '../components/services/SectionHead.astro';
@@ -11,6 +12,7 @@ import { services } from '../data/services';
 import { works } from '../data/works';
 import { gddArticle } from '../data/articles';
 import { siteConfig } from '../site.config';
+import type { SectionLink } from '../types';
 
 // 4つのうち3つは導入事例の数字。最後の1つだけ経歴から取る
 const numbers = [
@@ -50,11 +52,49 @@ const origins = [
     },
   },
 ];
+
+// 顧客理解と実装の分担（全体）、上流、下流の順。詳細ページの3つの図と同じ並び
+const flow = [
+  {
+    icon: 'users',
+    tag: 'BIG PICTURE',
+    title: { ja: '顧客理解と実装を分けてつなぐ', en: 'Connect customer understanding and implementation' },
+    body: {
+      ja: '利用者の慣れや書かれていない例外は、現場にしかない。顧客理解の担当を実装から切り離して現場と試作から何を作るかを決め、実装とは動く試作と問いでつなぐ。',
+      en: 'User habits and unwritten exceptions exist only on site. Customer Understanding stays apart from implementation and decides what to build from the site and prototypes, connected to implementation through working prototypes and questions.',
+    },
+  },
+  {
+    icon: 'flask-conical',
+    tag: 'UPSTREAM',
+    title: { ja: '答えを待たずに「仮置き」で試作', en: 'Prototype on explicit assumptions' },
+    body: {
+      ja: '先方の回答を待てば手が止まり、待たずに進めれば AI が黙って推測で埋める。未確定の点は仮置き一覧に分けて先に動く画面を見せ、並行して問いを照会・回収する。',
+      en: 'Waiting for client answers stalls the work; moving on without them lets AI fill gaps with silent guesses. Unknowns go into an assumption list so working screens can be shown first, while questions are sent and collected in parallel.',
+    },
+  },
+  {
+    icon: 'shield-check',
+    tag: 'DOWNSTREAM',
+    title: { ja: '約束を先に承認し、別文脈で判定', en: 'Approve promises first, verify separately' },
+    body: {
+      ja: '自分で書いたテストで自分の実装を確かめると解釈が甘くなる。入口で完了条件（AC）と壊さない保証を承認し、出口では別文脈の確認者が証拠付きで判定する。',
+      en: 'Checking your own code with your own tests leads to lenient grading. Approve ACs and guarantees upfront, and verify in a separate session with test evidence.',
+    },
+  },
+];
+
+const sections: SectionLink[] = [
+  { id: 'about', label: 'About' },
+  { id: 'services', label: 'Services' },
+  { id: 'workflow', label: 'Workflow' },
+  { id: 'works', label: 'Works' },
+];
 ---
 
-<MainLayout title={siteConfig.author}>
+<MainLayout title={siteConfig.author} sections={sections}>
   {/* 1. About: どういう人か・なぜ1人で回せるかを先に完結させる */}
-  <section id="about" class="scroll-mt-28">
+  <section id="about" class="scroll-mt-32">
     <div class="flex items-center gap-6">
       <img src="/images/profile/me.webp" alt="Katsuhiro Yamakawa" class="h-24 w-24 shrink-0 rounded-full object-cover sm:h-28 sm:w-28" />
       <div>
@@ -80,7 +120,7 @@ const origins = [
     <dl class="mt-8 grid grid-cols-2 gap-x-6 gap-y-6 border-y border-zinc-200 py-5 sm:mt-10 sm:gap-8 sm:py-6 dark:border-poi-border/60 md:grid-cols-4">
       {numbers.map((n) => (
         <div>
-          <dt class="font-mono type-label tracking-widest text-poi-muted">{n.tag}</dt>
+          <dt class="font-mono type-label tracking-widest text-zinc-500 dark:text-poi-muted">{n.tag}</dt>
           <dd class="mt-2 font-mono type-display font-medium text-poi-accent">
             <T text={n.value} /><span class="ml-0.5 type-caption"><T text={n.unit} /></span>
           </dd>
@@ -91,19 +131,24 @@ const origins = [
 
     <div class="mt-12 grid gap-12 sm:mt-16 md:grid-cols-2 md:items-start">
       <div>
-        <p class="font-mono type-caption tracking-widest uppercase text-poi-muted">PRINCIPLES</p>
-        <div class="mt-3 space-y-4">
+        <p class="font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted">PRINCIPLES</p>
+        {/* 箱はリンクになるものと図に使う。ここは読むだけなので線で区切る */}
+        <ol class="mt-4 space-y-5 md:space-y-7">
           {origins.map((o) => (
-            <article class="ui-card ui-card-hover p-5 sm:p-6">
-              <p class="flex items-baseline justify-between ui-kicker">
-                <span>{o.tag}</span>
-                <span class="text-poi-accent"><T text={o.from} /></span>
-              </p>
-              <h3 class="mt-2 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={o.title} /></h3>
-              <p class="mt-2 type-small leading-7 text-zinc-600 dark:text-poi-muted"><T text={o.body} /></p>
-            </article>
+            <li class="border-l-2 border-poi-accent/50 pl-4 sm:pl-5">
+              <Fold>
+                <Fragment slot="head">
+                  <span class="flex items-baseline gap-2.5 ui-kicker font-normal">
+                    <span>{o.tag}</span>
+                    <span class="text-poi-accent"><T text={o.from} /></span>
+                  </span>
+                  <span class="mt-1.5 block type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={o.title} /></span>
+                </Fragment>
+                <p class="mt-2 type-body leading-7 text-zinc-700 dark:text-poi-muted"><T text={o.body} /></p>
+              </Fold>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
 
       <div>
@@ -113,7 +158,7 @@ const origins = [
   </section>
 
   {/* 2. Services: 経営・現場・教育から来ている仕事の受け方 */}
-  <section id="services" class="mt-20 scroll-mt-28 border-t border-zinc-200 pt-16 sm:mt-24 sm:pt-20 dark:border-poi-border/60">
+  <section id="services" class="mt-20 scroll-mt-32 border-t border-zinc-200 pt-16 sm:mt-24 sm:pt-20 dark:border-poi-border/60">
     <SectionHead
       kicker="Services"
       title={{
@@ -127,7 +172,7 @@ const origins = [
   </section>
 
   {/* 3. Workflow: AIと開発するときの自分の進め方（Servicesとは独立した3本目の柱） */}
-  <section id="workflow" class="mt-20 scroll-mt-28 border-t border-zinc-200 pt-16 sm:mt-24 sm:pt-20 dark:border-poi-border/60">
+  <section id="workflow" class="mt-20 scroll-mt-32 border-t border-zinc-200 pt-16 sm:mt-24 sm:pt-20 dark:border-poi-border/60">
     <SectionHead
       kicker="Workflow"
       title={{
@@ -142,53 +187,20 @@ const origins = [
 
     <article class="group relative mt-10 overflow-hidden ui-card transition-colors duration-200 hover:border-poi-accent/50 sm:mt-12 dark:hover:border-poi-accent/50">
       <div class="grid divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
-        <div class="p-6 sm:p-8 lg:p-9">
-          <p class="flex items-center gap-2 font-mono type-caption text-poi-accent">
-            <LucideIcon name="users" class="h-4 w-4" />
-            <span>BIG PICTURE</span>
-          </p>
-          <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
-            <T text={{ ja: '顧客理解と実装を分けてつなぐ', en: 'Connect customer understanding and implementation' }} />
-          </h3>
-          <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted">
-            <T text={{
-              ja: '利用者の慣れや書かれていない例外は、現場にしかない。顧客理解の担当を実装から切り離して現場と試作から何を作るかを決め、実装とは動く試作と問いでつなぐ。',
-              en: 'User habits and unwritten exceptions exist only on site. Customer Understanding stays apart from implementation and decides what to build from the site and prototypes, connected to implementation through working prototypes and questions.',
-            }} />
-          </p>
-        </div>
-
-        <div class="p-6 sm:p-8 lg:p-9">
-          <p class="flex items-center gap-2 font-mono type-caption text-poi-accent">
-            <LucideIcon name="flask-conical" class="h-4 w-4" />
-            <span>UPSTREAM</span>
-          </p>
-          <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
-            <T text={{ ja: '答えを待たずに「仮置き」で試作', en: 'Prototype on explicit assumptions' }} />
-          </h3>
-          <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted">
-            <T text={{
-              ja: '先方の回答を待てば手が止まり、待たずに進めれば AI が黙って推測で埋める。未確定の点は仮置き一覧に分けて先に動く画面を見せ、並行して問いを照会・回収する。',
-              en: 'Waiting for client answers stalls the work; moving on without them lets AI fill gaps with silent guesses. Unknowns go into an assumption list so working screens can be shown first, while questions are sent and collected in parallel.',
-            }} />
-          </p>
-        </div>
-
-        <div class="p-6 sm:p-8 lg:p-9">
-          <p class="flex items-center gap-2 font-mono type-caption text-poi-accent">
-            <LucideIcon name="shield-check" class="h-4 w-4" />
-            <span>DOWNSTREAM</span>
-          </p>
-          <h3 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
-            <T text={{ ja: '約束を先に承認し、別文脈で判定', en: 'Approve promises first, verify separately' }} />
-          </h3>
-          <p class="mt-3 type-small leading-7 text-zinc-600 dark:text-poi-muted">
-            <T text={{
-              ja: '自分で書いたテストで自分の実装を確かめると解釈が甘くなる。入口で完了条件（AC）と壊さない保証を承認し、出口では別文脈の確認者が証拠付きで判定する。',
-              en: 'Checking your own code with your own tests leads to lenient grading. Approve ACs and guarantees upfront, and verify in a separate session with test evidence.',
-            }} />
-          </p>
-        </div>
+        {flow.map((f) => (
+          <div class="p-6 sm:p-8 lg:p-9">
+            <Fold>
+              <Fragment slot="head">
+                <span class="flex items-center gap-2 font-mono type-caption font-normal text-poi-accent">
+                  <LucideIcon name={f.icon} class="h-4 w-4" />
+                  <span>{f.tag}</span>
+                </span>
+                <span class="mt-3 block type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus"><T text={f.title} /></span>
+              </Fragment>
+              <p class="mt-3 type-body leading-7 text-zinc-700 dark:text-poi-muted"><T text={f.body} /></p>
+            </Fold>
+          </div>
+        ))}
       </div>
 
       <div class="flex flex-col gap-4 border-t ui-subpanel p-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-5 lg:px-9">
@@ -207,7 +219,7 @@ const origins = [
   </section>
 
   {/* 4. Works: Services に出していない公開リポを、仕事・道具・検証を分けずに並べる */}
-  <section id="works" class="mt-16 scroll-mt-28 border-t border-zinc-200 pt-12 sm:mt-20 sm:pt-14 dark:border-poi-border/60">
+  <section id="works" class="mt-16 scroll-mt-32 border-t border-zinc-200 pt-12 sm:mt-20 sm:pt-14 dark:border-poi-border/60">
     <SectionHead
       kicker="Works"
       title={{ ja: '作ったものの一覧', en: "Everything I've Built" }}

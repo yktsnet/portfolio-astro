@@ -8,14 +8,14 @@ interface Props {
 }
 const { service: s } = Astro.props;
 ---
-<section>
+<section id="overview" class="scroll-mt-32">
   <a href="/#services" class="inline-flex items-center gap-1.5 font-mono type-caption text-zinc-500 transition-colors duration-200 hover:text-zinc-900 dark:text-poi-muted dark:hover:text-poi-focus">
     <span aria-hidden="true">←</span> Services
   </a>
   <p class="mt-8 flex items-center gap-2 font-mono type-caption tracking-widest text-poi-accent sm:mt-10">
     <LucideIcon name={s.icon} />
     <span>{s.no}</span>
-    <span class="text-poi-muted">— {s.kicker}</span>
+    <span class="text-zinc-500 dark:text-poi-muted">— {s.kicker}</span>
   </p>
   <h1 class="mt-3 max-w-3xl type-display font-semibold leading-normal tracking-tight text-zinc-900 dark:text-poi-focus">
     <T text={s.title} />

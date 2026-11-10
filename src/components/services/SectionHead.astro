@@ -9,14 +9,17 @@ interface Props {
   size?: 'display' | 'heading';
 }
 const { kicker, title, lead, size = 'display' } = Astro.props;
+// 見出しの改行は sm 以上でだけ効かせる。スマホでは幅に任せて折り返す
+const lines = (s: string) => s.split('\n');
 ---
 <div class="max-w-3xl">
-  <p class="font-mono type-caption tracking-widest uppercase text-poi-muted">{kicker}</p>
+  <p class="font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted">{kicker}</p>
   <h2 class:list={[
-    "mt-2 font-semibold leading-relaxed tracking-tight text-zinc-900 dark:text-poi-focus sm:whitespace-pre-line",
+    "mt-2 font-semibold leading-relaxed tracking-tight text-zinc-900 dark:text-poi-focus",
     size === 'heading' ? 'type-heading' : 'type-display',
   ]}>
-    <T text={title} />
+    <span class="lang-ja">{lines(title.ja).map((l, i) => <>{i > 0 && <br class="max-sm:hidden" />}{l}</>)}</span>
+    <span class="lang-en">{lines(title.en).map((l, i) => <>{i > 0 && <>{' '}<br class="max-sm:hidden" /></>}{l}</>)}</span>
   </h2>
   {lead && (
     <p class:list={[
