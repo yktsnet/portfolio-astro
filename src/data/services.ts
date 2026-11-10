@@ -59,10 +59,10 @@ export const services: Service[] = [
     no: "02",
     icon: "sparkles",
     kicker: "AI DEVELOPMENT",
-    title: { ja: "開発組織のAI活用", en: "AI in Development Teams" },
+    title: { ja: "開発組織の採用・育成・評価", en: "Hiring, Growth and Evaluation for Development Teams" },
     summary: {
-      ja: "AIの使い方が個人任せで、人によって差が開き、うまくいくやり方もチームに広がらない。開発の手順をそろえて配り（標準化）、使い方と現在地が分かるようにする（可視化）。",
-      en: "AI use is left to each person, so the gap widens and what works never spreads across the team. I align and distribute the development process (standardization) and make usage and where each person stands visible (visibility).",
+      ja: "誰を採り、どう育て、どう評価するかが、見る人ごとの感覚で決まっている。AIを使う開発の手順をそろえて配り（標準化）、そろった成果物と利用状況から一人ひとりの現在地を出す（可視化）。採用・育成・評価を、その同じ基準で決める。",
+      en: "Who to hire, how to grow them and how to rate them come down to each reviewer's gut feeling. I align and distribute the AI development process (standardization), then read where each person stands from the aligned output and usage (visibility). Hiring, growth and evaluation are decided on those same criteria.",
     },
     offerings: [
       {

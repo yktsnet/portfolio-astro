@@ -2,25 +2,19 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import T from '../components/T.astro';
 import Career from '../components/Career.astro';
+import CaseBand from '../components/CaseBand.astro';
 import Fold from '../components/Fold.astro';
 import LucideIcon from '../components/LucideIcon.astro';
 import RepoLink from '../components/RepoLink.astro';
 import SectionHead from '../components/services/SectionHead.astro';
 import ServiceCard from '../components/services/ServiceCard.astro';
 import WorkList from '../components/WorkList.astro';
+import { cases } from '../data/cases';
 import { services } from '../data/services';
 import { works } from '../data/works';
 import { gddArticle } from '../data/articles';
 import { siteConfig } from '../site.config';
 import type { SectionLink } from '../types';
-
-// 4つのうち3つは導入事例の数字。最後の1つだけ経歴から取る
-const numbers = [
-  { tag: 'ATTENDANCE', value: { ja: '−5', en: '−5' }, unit: { ja: '時間/月', en: 'h/mo' }, label: { ja: '管理者の勤怠集計の工数', en: 'Admin hours on attendance' } },
-  { tag: 'PAYROLL', value: { ja: '−3〜4', en: '−30–40k' }, unit: { ja: '万円/月', en: 'JPY/mo' }, label: { ja: '給与計算の月次差異', en: 'Monthly payroll discrepancy' } },
-  { tag: 'ADOPTION', value: { ja: '初日', en: 'Day one' }, unit: { ja: 'から', en: '' }, label: { ja: '説明なしで現場に定着', en: 'Adopted without instructions' } },
-  { tag: 'MANAGEMENT', value: { ja: '12', en: '12' }, unit: { ja: '年', en: 'yrs' }, label: { ja: '学習塾の経営', en: 'Running a tutoring school' } },
-];
 
 // 見出しの「決めるのは経営から、作るのは現場から、渡すのは教育から」を1枚ずつに分ける
 const origins = [
@@ -117,17 +111,9 @@ const sections: SectionLink[] = [
       />
     </div>
 
-    <dl class="mt-8 grid grid-cols-2 gap-x-6 gap-y-6 border-y border-zinc-200 py-5 sm:mt-10 sm:gap-8 sm:py-6 dark:border-poi-border/60 md:grid-cols-4">
-      {numbers.map((n) => (
-        <div>
-          <dt class="font-mono type-label tracking-widest text-zinc-500 dark:text-poi-muted">{n.tag}</dt>
-          <dd class="mt-2 font-mono type-display font-medium text-poi-accent">
-            <T text={n.value} /><span class="ml-0.5 type-caption"><T text={n.unit} /></span>
-          </dd>
-          <dd class="mt-1 type-caption text-zinc-600 dark:text-poi-muted"><T text={n.label} /></dd>
-        </div>
-      ))}
-    </dl>
+    <div class="mt-8 space-y-5 sm:mt-10">
+      {cases.map((c) => <CaseBand study={c} />)}
+    </div>
 
     <div class="mt-12 grid gap-12 sm:mt-16 md:grid-cols-2 md:items-start">
       <div>
@@ -157,13 +143,13 @@ const sections: SectionLink[] = [
     </div>
   </section>
 
-  {/* 2. Services: 経営・現場・教育から来ている仕事の受け方 */}
+  {/* 2. Services: 経営者の困りごとから入る。経歴は About が述べている */}
   <section id="services" class="mt-20 scroll-mt-32 border-t border-zinc-200 pt-16 sm:mt-24 sm:pt-20 dark:border-poi-border/60">
     <SectionHead
       kicker="Services"
       title={{
-        ja: '経営・現場・教育の3つでやってきたことを、\n2つの仕事として受けている。',
-        en: 'What I learned across management, the floor, and teaching,\nI now take on as two areas of work.',
+        ja: '特定の人に頼った事務と、見る人でぶれる採用・評価。\n経営者のこの2つの困りごとを、仕事として受けている。',
+        en: 'Office work that depends on particular people, and hiring and evaluation that vary by reviewer.\nI take on these two problems that owners face.',
       }}
     />
     <div class="mt-8 space-y-6 sm:mt-12 sm:space-y-12">

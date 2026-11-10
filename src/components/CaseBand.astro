@@ -1,0 +1,35 @@
+---
+import T from './T.astro';
+import LucideIcon from './LucideIcon.astro';
+import MetricGrid from './services/MetricGrid.astro';
+import type { CaseStudy } from '../data/cases';
+
+interface Props {
+  study: CaseStudy;
+}
+const { study: c } = Astro.props;
+---
+{/* 数字だけを並べると何の結果か分からないので、経緯を先に置いて数字をその下に従える */}
+<article class="group relative overflow-hidden ui-card transition-colors duration-200 hover:border-poi-accent/50 dark:hover:border-poi-accent/50">
+  <div class="p-5 sm:p-7">
+    <p class="flex items-baseline gap-2.5 font-mono type-label tracking-widest">
+      <span class="text-poi-accent">CASE</span>
+      <span class="font-sans tracking-normal text-zinc-500 dark:text-poi-muted"><T text={c.client} /></span>
+    </p>
+    <h2 class="mt-3 type-subheading font-semibold leading-relaxed text-zinc-900 dark:text-poi-focus">
+      <a href={`/services/${c.service}/#case`} class="after:absolute after:inset-0 after:content-[''] focus-visible:underline outline-hidden">
+        <T text={c.headline} />
+      </a>
+    </h2>
+    <p class="mt-2 max-w-3xl type-body leading-7 text-zinc-700 dark:text-poi-muted"><T text={c.story} /></p>
+  </div>
+  <div class="border-t border-zinc-200 dark:border-poi-border/60">
+    <MetricGrid metrics={c.metrics} />
+  </div>
+  <div class="flex justify-end border-t ui-subpanel px-5 py-3 sm:px-7">
+    <span class="inline-flex items-center gap-1.5 font-mono type-caption text-poi-accent">
+      <span class="lang-ja">導入例を詳しく見る</span><span class="lang-en">Read the case</span>
+      <LucideIcon name="arrow-right" class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+    </span>
+  </div>
+</article>
