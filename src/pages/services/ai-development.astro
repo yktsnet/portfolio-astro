@@ -4,6 +4,7 @@ import T from '../../components/T.astro';
 import LucideIcon from '../../components/LucideIcon.astro';
 import RepoLink from '../../components/RepoLink.astro';
 import SectionHead from '../../components/services/SectionHead.astro';
+import ServiceDiagram from '../../components/services/ServiceDiagram.astro';
 import ServiceHero from '../../components/services/ServiceHero.astro';
 import OtherServices from '../../components/services/OtherServices.astro';
 import DiagramSesTraining from '../../components/services/DiagramSesTraining.astro';
@@ -186,8 +187,10 @@ const misfits: Fit[] = [
 ---
 
 <MainLayout title={s.title.en} description={`${s.title.ja}。${s.summary.ja}`} sections={sections}>
-  {/* 1. サービス名と説明（トップのカードと同じ文） */}
-  <ServiceHero service={s} />
+  {/* 1. サービス名と説明、概念の図（どれもトップのカードと同じもの） */}
+  <ServiceHero service={s}>
+    <ServiceDiagram slot="diagram" slug={s.slug} />
+  </ServiceHero>
 
   {/* 2. 導入例: 勤務先での変化。成果の数字は出せないので、出せる数と変わったことを書く */}
   <section id="case" class="scroll-mt-32 mt-14 sm:mt-16">

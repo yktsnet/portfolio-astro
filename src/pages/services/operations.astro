@@ -4,6 +4,7 @@ import T from '../../components/T.astro';
 import RepoLink from '../../components/RepoLink.astro';
 import LucideIcon from '../../components/LucideIcon.astro';
 import SectionHead from '../../components/services/SectionHead.astro';
+import ServiceDiagram from '../../components/services/ServiceDiagram.astro';
 import ServiceHero from '../../components/services/ServiceHero.astro';
 import OtherServices from '../../components/services/OtherServices.astro';
 import MetricGrid from '../../components/services/MetricGrid.astro';
@@ -197,8 +198,10 @@ const zenn = {
 ---
 
 <MainLayout title={s.title.en} description={`${s.title.ja}。${s.summary.ja}`} sections={sections}>
-  {/* 1. サービス名と説明（トップのカードと同じ文） */}
-  <ServiceHero service={s} />
+  {/* 1. サービス名と説明、概念の図（どれもトップのカードと同じもの） */}
+  <ServiceHero service={s}>
+    <ServiceDiagram slot="diagram" slug={s.slug} />
+  </ServiceHero>
 
   {/* 2. 導入の結果: 数字、事例の背景、経緯を書いた記事 */}
   <section id="case" class="scroll-mt-32 mt-14 sm:mt-16">
