@@ -7,13 +7,14 @@ interface Props {
 }
 const { metrics } = Astro.props;
 ---
+{/* スマホは1件を1行（左に数字、右に説明）にして縦の長さを抑える */}
 <dl class="grid divide-y divide-zinc-200 md:grid-cols-3 md:divide-x md:divide-y-0 dark:divide-poi-border/60">
   {metrics.map((m) => (
-    <div class="p-6 sm:p-7">
-      <dt class="whitespace-nowrap font-mono type-metric font-medium text-poi-accent">
+    <div class="flex items-center gap-4 px-5 py-3.5 md:block md:p-7">
+      <dt class="w-38 shrink-0 whitespace-nowrap font-mono type-metric font-medium text-poi-accent md:w-auto">
         <T text={m.value} /><span class="ml-1.5 type-body"><T text={m.unit} /></span>
       </dt>
-      <dd class="mt-2.5 type-small leading-6 text-zinc-700 dark:text-poi-muted"><T text={m.label} /></dd>
+      <dd class="type-small leading-5 text-zinc-700 md:mt-2.5 md:leading-6 dark:text-poi-muted"><T text={m.label} /></dd>
     </div>
   ))}
 </dl>
