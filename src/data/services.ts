@@ -74,7 +74,7 @@ export const services: Service[] = [
       {
         icon: "user-check",
         title: { ja: "エンジニア評価制度づくり", en: "Engineer Evaluation System" },
-        short: { ja: "同じ評価基準で育成と採用を決め、利用状況で現在地を見る", en: "Shared criteria decide growth and hiring; usage shows where staff stand" },
+        short: { ja: "評価・現在地・採用を1つの画面で回す。現場はシートに書くだけ", en: "Reviews, standing and hiring on one screen; reviewers just fill in a sheet" },
         repos: [gh("mgmt-kit")],
       },
       {
