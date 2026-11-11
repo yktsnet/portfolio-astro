@@ -19,7 +19,3 @@
 | [api-chat](api-chat.md) |
 | [contact-form](contact-form.md) |
 
-## Gaps
-
-- `POST /api/contact` は `TURNSTILE_SECRET_KEY` が未設定なら、`cfToken` を渡しても Turnstile の検証をせずに続行する。テストは `cfToken` を渡さない場合だけを確かめている
-- `buildContactBody(form)` は `name`・`email`・`phone`・`message` の入力要素がフォームに無ければ、そのフィールドを空文字列で返す。テストは `message` の要素を置いたまま空にしており、要素が無い場合を確かめていない

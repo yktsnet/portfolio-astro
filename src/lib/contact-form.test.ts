@@ -66,4 +66,15 @@ describe('buildContactBody', () => {
     expect(JSON.stringify(body)).toContain('"message":""');
     expect(JSON.stringify(body)).toContain('"cfToken":""');
   });
+
+  it('returns empty strings when the name, email, phone and message elements are missing', () => {
+    const form = document.createElement('form');
+    document.body.appendChild(form);
+    const body = buildContactBody(form);
+
+    expect(body.name).toBe('');
+    expect(body.email).toBe('');
+    expect(body.phone).toBe('');
+    expect(body.message).toBe('');
+  });
 });
