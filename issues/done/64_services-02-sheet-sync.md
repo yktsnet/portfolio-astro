@@ -1,3 +1,45 @@
+## PR記録: feat: Describe mgmt-kit board in service 02
+issue: 64 (64_services-02-sheet-sync.md)
+PR: https://github.com/yktsnet/portfolio-astro/pull/248
+
+## 変更内容
+`mgmt-kit` が Board を中心に置き、エンジニアの仕事とそれを評価するエンジニアでない人をつなぐことを先頭に出したので、サービス02の「エンジニア評価制度づくり」の文面を合わせた。
+
+- トップのサービス02のカードで、「エンジニア評価制度づくり」の一言を「評価・現在地・採用を1つの画面で回す。現場はシートに書くだけ」にした
+- 詳細ページの「エンジニア評価制度づくり」のカードで、導入文を、エンジニアでない人が読んで決められる形にすること・評価者はシートに書くだけでよいこと・育成と採用を同じ評価基準で決めることの3つにした
+- 「これまで」の1つ目を、成果物が経営や人事から読めないことにした。活用の度合いが見えない文は消した
+- 「導入後」の2つ目から、ライセンスの配分を消した
+- 「作り方の工夫」に「マネジメントは慣れたシートに書く」を足した
+- カードの下のリンクを、リポのトップ、評価基準のスライドの順にした
+- 「合う現場」に「評価や採用を決めるのが、エンジニアでない人」を足した
+- Issue 64 をこの範囲に書き直した。簡易図・サービス02の名前と説明・導入例・進め方は変えていない
+
+## 保証
+なし（文言とリンクの差し替えで、API と Contact フォームの振る舞いに触れない）
+
+## 静的確認結果
+- `npm run typecheck`: 0 errors
+- `npm run test`: 30 passed
+- 実装のコミットの差分: `src/data/ai-development.ts`, `src/data/services.ts`
+
+## 検証手順
+開発サーバーで `/` のサービス02のカードと `/services/ai-development/#offer` を開き、言い回しを見る。開発サーバーで確認済み。
+
+## 確認者の判定
+| # | 項目（要約） | 判定 | 証拠 |
+|---|---|---|---|
+| 1 | `npm run typecheck` と `npm run test` が通る | 合 | typecheck: `0 errors / 0 warnings / 0 hints`。test: `Test Files 8 passed (8) / Tests 30 passed (30)` |
+| 2 | トップの02のカードで「エンジニア評価制度づくり」の一言だけが変わる | 合 | ヘッドレスのブラウザでトップを開いた。ほかの4件の提供内容は main と同じ文面。`src/data/services.ts` の差分は該当する `short` の1行だけ |
+| 3 | 詳細ページの「導入後」にライセンスの配分の文が残っていない | 合 | 本文に「ライセンス」も「licenses」も無い |
+| 4 | 評価のカードの下に、mgmt-kit のリポ → 評価基準のスライドの順で2つのリンクが並ぶ | 合 | `#offer` の中のリンクは順に `https://github.com/yktsnet/mgmt-kit`、`.../mgmt-kit/blob/main/ladder/README.md` |
+
+目的に届かない点と範囲の外の指摘は無い。
+
+## 手戻り
+なし
+
+---
+
 ## Describe mgmt-kit board in service 02
 id: 64
 branch-slug: services-02-sheet-sync
