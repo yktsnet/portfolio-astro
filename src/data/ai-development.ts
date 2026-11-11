@@ -29,10 +29,9 @@ export const changes: Metric[] = [
 ];
 
 // 勤務先で配っているものの公開版。提供できることの各カードに、offerings と同じ順で1つずつ出す
-// 評価のカードは、リポのトップではなく評価基準を図で見せるスライドへ送る
 export const offeringRepos = [
   s.offerings[0].repos.find((r) => r.name === 'sdlc-kit')!,
-  { name: { ja: 'Slides — エンジニア評価基準', en: 'Slides — Engineer evaluation criteria' }, href: 'https://github.com/yktsnet/mgmt-kit/blob/main/ladder/README.md' },
+  s.offerings[1].repos.find((r) => r.name === 'mgmt-kit')!,
 ];
 
 export const steps: Step[] = [
@@ -91,16 +90,16 @@ export const offeringDetails: AiOfferingDetail[] = [
   },
   {
     line: {
-      ja: '誰をどう育て、誰を採るかを、見る人ごとの感覚ではなく同じ評価基準で決める。そろった成果物と利用状況を読んで、1人ずつの現在地と次に伸ばす軸を決める。',
-      en: 'Who to grow and who to hire is decided on shared criteria, not each evaluator\'s judgment. Reading the aligned output and usage, it sets where each person stands and which axis to grow next.',
+      ja: 'エンジニアの仕事を、エンジニアでない人が読んで決められる形にする。評価者はいつものシートに判定を書くだけで、1人ずつの段階と次に伸ばす軸が画面に出る。育成と採用は、同じ評価基準で決める。',
+      en: 'Engineers\' work is put in a form that people who are not engineers can read and decide on. Reviewers just write verdicts in their usual sheet, and each person\'s level and next axis to grow appear on screen. Growth and hiring are decided on the same criteria.',
     },
     before: [
+      { ja: '成果物はリポジトリにあり、経営や人事からは読めない', en: 'The work sits in repositories, where executives and HR cannot read it' },
       { ja: '評価と採用の基準が別々で、見る人によって判断がぶれる', en: 'Evaluation and hiring use separate criteria, so judgment varies by person' },
-      { ja: '誰がどれだけ活用しているかが見えない', en: 'No one can see who is making good use of it' },
     ],
     after: [
       { ja: '在籍者と採用候補者を、同じ5つの軸で比べられる', en: 'Staff and candidates are compared on the same five axes' },
-      { ja: 'メンバーごとの利用量と成果が毎日並び、ライセンスの配分も決められる', en: 'Usage and output per member are laid out daily, and licenses can be allocated' },
+      { ja: '1人ずつの段階・次に伸ばす軸・利用状況が、1つの画面に毎日並ぶ', en: 'Each person\'s level, next axis and usage are laid out on one screen every day' },
     ],
     decisions: [
       {
@@ -111,7 +110,12 @@ export const offeringDetails: AiOfferingDetail[] = [
         title: { ja: '採用でも同じ5つの軸を使う', en: 'Use the same five axes for hiring' },
         body: { ja: '在籍者は日々の成果物で、採用候補者は面接と課題で、同じ5つの軸を測る。型の運用だけは入社前に測れないので、入社後に測り直す。', en: 'Current staff are measured through daily deliverables, and candidates through interviews and tasks, on the same five axes. Workflow use cannot be measured before joining, so it is measured again after.' },
       },
+      {
+        title: { ja: 'マネジメントは慣れたシートに書く', en: 'Managers write in the sheet they know' },
+        body: { ja: '評価の判定や面接の記録は Drive のシートに書くだけにし、集計と見える化はアプリが受け持つ。', en: 'Review verdicts and interview notes only go into a sheet on Drive; the app handles the tallying and the display.' },
+      },
     ],
+    links: [{ label: { ja: 'Slides — エンジニア評価基準', en: 'Slides — Engineer evaluation criteria' }, href: 'https://github.com/yktsnet/mgmt-kit/blob/main/ladder/README.md' }],
   },
 ];
 
@@ -138,6 +142,7 @@ export const fits: Fit[] = [
   { text: { ja: '複数人がAIエージェントで開発している受託開発の会社', en: 'Contract development firms where several people build with AI agents' } },
   { text: { ja: '使い方と成果物の形を、担当者が替わってもそろえたい', en: 'Wanting usage and output to stay consistent when people change' } },
   { text: { ja: 'エンジニアの評価・採用・育成の基準がばらばら', en: 'Engineer evaluation, hiring and growth run on different criteria' } },
+  { text: { ja: '評価や採用を決めるのが、エンジニアでない人', en: 'Evaluation and hiring are decided by people who are not engineers' } },
   {
     text: { ja: '客先常駐の社員が多く、触れる機会に差がある', en: 'Many staff stationed at clients, with uneven access' },
     reason: { ja: '勉強会', en: 'study group' },
