@@ -119,6 +119,18 @@ describe('POST /api/contact', () => {
     const res = await app.fetch(jsonReq('/api/contact', validBody), envWithWebhook);
     expect(res.status).toBe(200);
   });
+
+  it('200 when secret is not set and cfToken is given, without calling siteverify', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 200 }));
+    vi.stubGlobal('fetch', fetchMock);
+    const res = await app.fetch(
+      jsonReq('/api/contact', { ...validBody, cfToken: 'some-token' }),
+      envWithWebhook
+    );
+    expect(res.status).toBe(200);
+    const urls = fetchMock.mock.calls.map(([input]) => String(input));
+    expect(urls.some((u) => u.includes('siteverify'))).toBe(false);
+  });
 });
 
 // --- /api/chat ---
