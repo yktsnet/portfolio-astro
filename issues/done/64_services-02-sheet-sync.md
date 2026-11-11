@@ -1,7 +1,7 @@
 ## Describe mgmt-kit board in service 02
 id: 64
 branch-slug: services-02-sheet-sync
-status: open
+status: close
 type: feat
 対象: src/data/services.ts, src/data/ai-development.ts
 目的: サービス02の「エンジニア評価制度づくり」は、`mgmt-kit` の Board（評価・現在地・採用・設定を1つの画面で回すウェブアプリ）で、画面として回る形になった。`mgmt-kit` の README は、エンジニアの仕事とそれを評価するエンジニアでない人をつなぐことを先頭に置き、判断する人はシートに書くだけでよいとしている。サイトの文面のうち Board と食い違うところを直し、この芯を「エンジニア評価制度づくり」のカードに出す。
