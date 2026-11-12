@@ -18,6 +18,12 @@
   transition: none !important;
 }
 
+/* テーマの切り替えで画面全体をクロスフェードする時間（ThemeToggle） */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 300ms;
+}
+
 @theme {
   --color-poi-base: #1b1e28;
   --color-poi-panel: #232735;
