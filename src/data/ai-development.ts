@@ -130,6 +130,7 @@ export const training = {
     { ja: '半分以上は、各自が手を動かして班で見せ合う時間にする', en: 'Over half the time is hands-on work and small-group show-and-tell' },
     { ja: '最終回で、自分で選んだ課題を形にして発表する', en: 'In the last session, each person presents a problem they chose and built' },
   ],
+  links: [{ label: { ja: 'Slides — AI勉強会の提案', en: 'Slides — AI study group proposal' }, href: 'https://github.com/yktsnet/mgmt-kit/blob/main/training/README.md' }],
 };
 
 export const fits: Fit[] = [
