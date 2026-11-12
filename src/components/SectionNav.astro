@@ -15,7 +15,7 @@ const { sections } = Astro.props;
 >
   <ol class="flex gap-5 whitespace-nowrap sm:gap-8">
     {sections.map((s) => (
-      <li>
+      <li class:list={[s.mdOnly && 'hidden md:block']}>
         <a
           href={`#${s.id}`}
           data-section-link={s.id}
@@ -41,12 +41,16 @@ const { sections } = Astro.props;
       queued = false;
       // ヘッダーの下端を少し過ぎた節を「いま読んでいる節」とする
       const line = header.offsetHeight + 32;
-      let next = 0;
-      targets.forEach((t, i) => {
+      // 画面幅で隠れたリンク（mdOnly）は飛ばす。隠れた節は上端が 0 になり、常に「読んでいる節」と判定されるため
+      const shown = links.map((_, i) => i).filter((i) => links[i].getClientRects().length > 0);
+      if (shown.length === 0) return;
+      let next = shown[0];
+      shown.forEach((i) => {
+        const t = targets[i];
         if (t && t.getBoundingClientRect().top <= line) next = i;
       });
       // 最後の節が短いと上端が線まで届かないので、末尾まで来たら最後の節にする
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) next = links.length - 1;
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) next = shown[shown.length - 1];
       if (next === current) return;
       current = next;
       links.forEach((l, i) => (i === next ? l.setAttribute('aria-current', 'true') : l.removeAttribute('aria-current')));

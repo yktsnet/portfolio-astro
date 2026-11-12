@@ -9,8 +9,8 @@ export interface SiteConfig {
   url: string;
 }
 
-// ヘッダーの下に出す、ページ内の節へのリンク
-export type SectionLink = { id: string; label: string | MultilingualText };
+// ヘッダーの下に出す、ページ内の節へのリンク。mdOnly は md 未満で節ごと出さないもの
+export type SectionLink = { id: string; label: string | MultilingualText; mdOnly?: boolean };
 
 export type Link = { label: MultilingualText; href: string; icon?: string };
 

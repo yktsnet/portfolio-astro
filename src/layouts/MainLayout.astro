@@ -45,13 +45,15 @@ const ogImageURL = new URL("/images/og-default.png", siteConfig.url).toString();
     <meta name="twitter:image" content={ogImageURL} />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12a1 1 0 0 1-10 0a1 1 0 0 0-10 0' stroke='%235de4c7'/><path d='M7 20.7a1 1 0 1 1 5-8.7a1 1 0 1 0 5-8.6' stroke='%23d482ab'/><path d='M7 3.3a1 1 0 1 1 5 8.6a1 1 0 1 0 5 8.6' stroke='%2389ddff'/><circle cx='12' cy='12' r='2.5' fill='%23cdffb8'/></svg>" type="image/svg+xml" />
     <script is:inline>
-      const theme = localStorage.getItem('theme')
+      // ストレージを禁じたブラウザでは localStorage が例外を投げ、このスクリプトごと止まる
+      const stored = (key) => { try { return localStorage.getItem(key); } catch { return null; } };
+      const theme = stored('theme')
         ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.classList.toggle('dark', theme !== 'light');
       // md 未満では言語を切り替えさせず日本語だけで出す。スマホでしか出さない図やボタンは日本語だけで書く
       const wideLang = window.matchMedia('(min-width: 48rem)');
       const applyLang = () => {
-        document.documentElement.dataset.lang = wideLang.matches && localStorage.getItem('portfolio_lang') === 'en' ? 'en' : 'ja';
+        document.documentElement.dataset.lang = wideLang.matches && stored('portfolio_lang') === 'en' ? 'en' : 'ja';
       };
       applyLang();
       wideLang.addEventListener('change', applyLang);
