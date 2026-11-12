@@ -62,14 +62,23 @@
             return null;
           }
         };
-        // 部品ごとに遷移の長さが違い、そのまま切り替えると色がまだらに変わるので、切り替える瞬間だけ遷移を止める
-        const setDark = (dark: boolean) => {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        // 部品ごとに遷移の長さが違い、そのまま切り替えると色がまだらに変わる。
+        // 部品の遷移は止めて新しい色を一度に確定させ、画面全体のクロスフェード（View Transitions）でなめらかに見せる
+        const applyDark = (dark: boolean) => {
           root.classList.add('theme-switching');
           root.classList.toggle('dark', dark);
           button.setAttribute("aria-checked", String(dark));
-          // 遷移を止めたまま新しい色を確定させてから戻す
           void getComputedStyle(root).color;
           root.classList.remove('theme-switching');
+        };
+        const setDark = (dark: boolean) => {
+          // 対応しないブラウザと、動きを減らす設定では一度に切り替える
+          if (!document.startViewTransition || reduceMotion.matches) {
+            applyDark(dark);
+            return;
+          }
+          document.startViewTransition(() => applyDark(dark));
         };
 
         button.setAttribute("role", "switch");
