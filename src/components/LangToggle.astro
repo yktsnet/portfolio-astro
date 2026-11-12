@@ -34,7 +34,11 @@
         button.addEventListener("click", () => {
           const newLang = document.documentElement.dataset.lang === "en" ? "ja" : "en";
           document.documentElement.dataset.lang = newLang;
-          localStorage.setItem("portfolio_lang", newLang);
+          try {
+            localStorage.setItem("portfolio_lang", newLang);
+          } catch {
+            // 保存できないブラウザでも、このページの中では切り替える
+          }
           updateUI(newLang);
         });
       }

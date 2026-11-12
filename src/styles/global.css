@@ -3,6 +3,21 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* スクロールバーやフォームの部品など、ブラウザが描く部分もテーマに合わせる */
+:root {
+  color-scheme: light;
+}
+:root.dark {
+  color-scheme: dark;
+}
+
+/* テーマを切り替える瞬間だけ遷移を止める（ThemeToggle）。切り替えボタンのアイコンの動きは残す */
+.theme-switching *:not(theme-toggle svg),
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+
 @theme {
   --color-poi-base: #1b1e28;
   --color-poi-panel: #232735;
