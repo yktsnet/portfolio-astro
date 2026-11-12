@@ -72,7 +72,6 @@ const sections: SectionLink[] = [
           <OfferingDetailCard offering={o} detail={d}>
             <div class="flex flex-wrap gap-x-5 gap-y-2 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
               <RepoLink label={repo.name} href={repo.href} />
-              {d.links?.map((l) => <RepoLink label={l.label} href={l.href} icon={l.icon ?? 'file-text'} />)}
             </div>
           </OfferingDetailCard>
         );
@@ -126,10 +125,6 @@ const sections: SectionLink[] = [
             after={training.plan}
           />
         </Fold>
-
-        <div class="mt-6 flex flex-wrap gap-x-5 gap-y-2 border-t border-zinc-200 pt-5 dark:border-poi-border/60">
-          {training.links.map((l) => <RepoLink label={l.label} href={l.href} />)}
-        </div>
       </div>
       <div class="order-first flex items-center rounded-xl border ui-subpanel p-5 lg:order-none">
         <DiagramSesTraining />

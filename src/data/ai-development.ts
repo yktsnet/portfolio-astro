@@ -1,13 +1,10 @@
 // /services/ai-development/ の各節に並べる文言。組みはページ（src/pages/services/ai-development.astro）に書く
 import { services } from './services';
-import { gddArticle } from './articles';
-import type { Fit, Link, Metric, OfferingDetail, Step } from '../types';
+import type { Fit, Metric, OfferingDetail, Step } from '../types';
 
 // 提供できることのリポと勉強会の名前は、トップのカードと同じサービスの値を読む
 const s = services.find((x) => x.slug === 'ai-development')!;
 
-// リポとは別に、記事やスライドへのリンクを添えられる
-export type AiOfferingDetail = OfferingDetail & { links?: Link[] };
 // 導入先の数字は出せないので、変わったことを文で並べる
 // 01 の数字の位置に、出せる数（配った Skill・集計する指標・評価基準の軸と段階）を置く
 export const changes: Metric[] = [
@@ -62,7 +59,7 @@ export const steps: Step[] = [
 ];
 
 // services.ts の offerings の先頭2つ（開発キット、エンジニアの評価）と同じ順に並べる
-export const offeringDetails: AiOfferingDetail[] = [
+export const offeringDetails: OfferingDetail[] = [
   {
     line: {
       ja: 'うまくいった進め方を、本人だけでなくチームの誰もが使えるようにする。開発の手順と安全機構を、リポジトリに取り込める単位にして配り、誰が担当しても同じ形の成果物が出るようにする。',
@@ -86,7 +83,6 @@ export const offeringDetails: AiOfferingDetail[] = [
         body: { ja: '壊れてはいけないことを人が承認し、テストと実装はエージェントに任せる（保証駆動開発）。', en: 'People approve what must not break; the agent writes the tests and code (guarantee-driven development).' },
       },
     ],
-    links: [gddArticle],
   },
   {
     line: {
@@ -115,7 +111,6 @@ export const offeringDetails: AiOfferingDetail[] = [
         body: { ja: '評価の判定や面接の記録は Drive のシートに書くだけにし、集計と見える化はアプリが受け持つ。', en: 'Review verdicts and interview notes only go into a sheet on Drive; the app handles the tallying and the display.' },
       },
     ],
-    links: [{ label: { ja: 'Slides — エンジニア評価基準', en: 'Slides — Engineer evaluation criteria' }, href: 'https://github.com/yktsnet/mgmt-kit/blob/main/ladder/README.md' }],
   },
 ];
 
@@ -135,7 +130,6 @@ export const training = {
     { ja: '半分以上は、各自が手を動かして班で見せ合う時間にする', en: 'Over half the time is hands-on work and small-group show-and-tell' },
     { ja: '最終回で、自分で選んだ課題を形にして発表する', en: 'In the last session, each person presents a problem they chose and built' },
   ],
-  links: [{ label: { ja: 'Slides — AI勉強会の提案', en: 'Slides — AI study group proposal' }, href: 'https://github.com/yktsnet/mgmt-kit/blob/main/training/README.md' }],
 };
 
 export const fits: Fit[] = [
