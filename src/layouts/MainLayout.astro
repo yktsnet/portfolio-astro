@@ -3,6 +3,7 @@ import '@fontsource/fira-code';
 import "../styles/global.css";
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import TrailGrid from '../components/TrailGrid.astro';
 import { siteConfig } from '../site.config';
 import type { SectionLink } from '../types';
 
@@ -68,7 +69,9 @@ const ogImageURL = new URL("/images/og-default.png", siteConfig.url).toString();
   <body class="bg-zinc-50 text-zinc-900 dark:bg-poi-base dark:text-poi-focus mx-auto flex min-h-screen max-w-5xl flex-col px-5 pt-4 font-sans type-body font-normal antialiased sm:px-8 sm:pt-6 transition-colors duration-300">
     <SiteHeader currentPath={Astro.url.pathname} sections={sections} />
     <main id="main" class="flex-1">
+      <TrailGrid class="mb-10" />
       <slot />
+      <TrailGrid class="mt-20" />
     </main>
     <SiteFooter />
     {showChat && (

@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
+import TrailGrid from '../../components/TrailGrid.astro';
 import T from '../../components/T.astro';
 import RepoLink from '../../components/RepoLink.astro';
 import FoldToggle from '../../components/FoldToggle.astro';
@@ -40,6 +41,7 @@ const sections: SectionLink[] = [
   </ServiceHero>
 
   {/* 2. 導入の結果: 数字、事例の背景、経緯を書いた記事 */}
+  <TrailGrid variant="divider" class="mt-14 sm:mt-16" />
   <section id="case" class="scroll-mt-32 mt-14 sm:mt-16">
     <SectionHead size="heading" kicker="Case & Results" title={{ ja: '導入例：マンション管理会社', en: 'Example: a property management company' }} />
     <div class="ui-card mt-5 overflow-hidden sm:mt-6">
@@ -124,6 +126,7 @@ const sections: SectionLink[] = [
   </section>
 
   {/* 4. 進め方: 考え方はトップに任せ、ここでは導入例で実際にどうしたかだけを書く */}
+  <TrailGrid variant="divider" class="mt-20 sm:mt-24" />
   <section id="process" class="scroll-mt-32 mt-20 sm:mt-24">
     <SectionHead
       size="heading"

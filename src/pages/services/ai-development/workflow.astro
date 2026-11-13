@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../../../layouts/MainLayout.astro';
+import TrailGrid from '../../../components/TrailGrid.astro';
 import T from '../../../components/T.astro';
 import LucideIcon from '../../../components/LucideIcon.astro';
 import RepoLink from '../../../components/RepoLink.astro';
@@ -49,6 +50,7 @@ const sections: SectionLink[] = [
   </section>
 
   {/* 01: 全体像 */}
+  <TrailGrid variant="divider" class="mt-14 sm:mt-16" />
   <section id="overview" class="mt-14 scroll-mt-32 sm:mt-16">
     <SectionHead
       size="heading"
@@ -268,6 +270,7 @@ const sections: SectionLink[] = [
   </section>
 
   {/* 04: 補足（01〜03の後ろに小さく添える1枚のまとめ） */}
+  <TrailGrid variant="divider" class="mt-20 sm:mt-24" />
   <section id="decisions" class="mt-20 scroll-mt-32 sm:mt-24">
     <SectionHead
       size="heading"
