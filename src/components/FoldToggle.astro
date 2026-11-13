@@ -33,10 +33,32 @@ const hasLabel = Astro.slots.has('default');
 </button>
 
 <script>
+  // ボタンが開く中身より下にあると、開閉のままではブラウザ次第で中身が画面の上へ外れるか、ボタンが指の下から逃げる。
+  // 開いて最初の中身が画面より上にあればそこへ移り、閉じたらボタンを押した位置に戻す。
+  // スクロールアンカリングの有無に左右されないよう、開閉の後の配置から絶対位置を出して scrollTo する
+  const headerBottom = () => document.getElementById('main-header')?.getBoundingClientRect().bottom ?? 0;
+  const GAP = 12;
+
   for (const btn of document.querySelectorAll<HTMLButtonElement>('[data-fold-toggle]')) {
     btn.addEventListener('click', () => {
-      const open = btn.closest('[data-fold-group]')!.toggleAttribute('data-open');
+      const group = btn.closest('[data-fold-group]')!;
+      const btnTopBefore = btn.getBoundingClientRect().top;
+      const open = group.toggleAttribute('data-open');
       btn.setAttribute('aria-expanded', String(open));
+
+      if (open) {
+        // Fold の見出しごと見せるため、.fold-body ではなくそれを包む Fold の要素を基準にする
+        const first = group.querySelector('.fold-body')?.parentElement;
+        if (!first) return;
+        const top = first.getBoundingClientRect().top;
+        const viewTop = headerBottom() + GAP;
+        // ボタンより下で開く組（Career など）は、そのままで中身が見える
+        if (top >= viewTop) return;
+        const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: window.scrollY + top - viewTop, behavior: smooth ? 'smooth' : 'auto' });
+      } else {
+        window.scrollTo({ top: window.scrollY + btn.getBoundingClientRect().top - btnTopBefore, behavior: 'auto' });
+      }
     });
   }
 </script>
