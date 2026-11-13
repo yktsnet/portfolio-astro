@@ -161,8 +161,8 @@ const sections: SectionLink[] = [
   </section>
 
   {/* 2. Services: 開発と、事務・採用を、同じエンジニアリングで変えるという1つの話として出す */}
-  <section id="services" class="mt-20 scroll-mt-32 sm:mt-24">
-    <TrailGrid variant="divider" class="mb-16 sm:mb-20" />
+  <TrailGrid variant="divider" class="mt-20 sm:mt-24" />
+  <section id="services" class="mt-16 scroll-mt-32 sm:mt-20">
     <SectionHead
       kicker="Services"
       title={{
@@ -176,8 +176,8 @@ const sections: SectionLink[] = [
   </section>
 
   {/* 3. Workflow: AIと開発するときの自分の進め方（Servicesとは独立した3本目の柱） */}
-  <section id="workflow" class="mt-20 scroll-mt-32 sm:mt-24">
-    <TrailGrid variant="divider" class="mb-16 sm:mb-20" />
+  <TrailGrid variant="divider" class="mt-20 sm:mt-24" />
+  <section id="workflow" class="mt-16 scroll-mt-32 sm:mt-20">
     <SectionHead
       kicker="Workflow"
       title={{
@@ -227,18 +227,20 @@ const sections: SectionLink[] = [
   </section>
 
   {/* 4. Works: Services に出していない公開リポを、仕事・道具・検証を分けずに並べる。スマホでは出さない */}
-  <section id="works" class="hidden mt-16 scroll-mt-32 sm:mt-20 md:block">
-    <TrailGrid variant="divider" class="mb-12 sm:mb-14" />
-    <SectionHead
-      kicker="Works"
-      title={{ ja: '作ったものの一覧', en: "Everything I've Built" }}
-      lead={{
-        ja: 'Services で紹介したもの以外の公開リポ。自分で使う道具、確かめるために作ったもの、移行のサンプルを分けずに並べている。',
-        en: 'Public repositories beyond those in Services: tools I use myself, things built to find something out, and migration samples, listed together.',
-      }}
-    />
-    <div class="mt-6">
-      <WorkList works={works} />
-    </div>
-  </section>
+  <div class="hidden md:block">
+    <TrailGrid variant="divider" class="mt-20" />
+    <section id="works" class="mt-14 scroll-mt-32">
+      <SectionHead
+        kicker="Works"
+        title={{ ja: '作ったものの一覧', en: "Everything I've Built" }}
+        lead={{
+          ja: 'Services で紹介したもの以外の公開リポ。自分で使う道具、確かめるために作ったもの、移行のサンプルを分けずに並べている。',
+          en: 'Public repositories beyond those in Services: tools I use myself, things built to find something out, and migration samples, listed together.',
+        }}
+      />
+      <div class="mt-6">
+        <WorkList works={works} />
+      </div>
+    </section>
+  </div>
 </MainLayout>
