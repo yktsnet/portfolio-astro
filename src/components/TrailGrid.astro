@@ -107,8 +107,7 @@ const { variant = 'band', class: className } = Astro.props;
         `<mask id="${id}-mv"><rect width="${cols}" height="${rows}" fill="url(#${id}-v)" /></mask>` +
         `<mask id="${id}-mh"><rect width="${cols}" height="${rows}" fill="url(#${id}-h)" /></mask></defs>` +
         `<g${fadeTop ? ` mask="url(#${id}-mv)"` : ''}><g mask="url(#${id}-mh)">` +
-        `<rect width="${cols}" height="${rows}" fill="url(#${id}-p)" />` +
-        `<path class="trail-grid-line" d="M 0 ${rows} H ${cols}" /></g></g>`;
+        `<rect width="${cols}" height="${rows}" fill="url(#${id}-p)" /></g></g>`;
       this.#layer = document.createElementNS(SVG, 'g');
       this.#svg.append(this.#layer);
       if (!wide.matches) this.#paintStatic();
