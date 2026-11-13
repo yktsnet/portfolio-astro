@@ -1,6 +1,6 @@
 ---
 interface Props {
-  /** band はページの上下に置く帯、divider は節の境の罫線の代わりに置く細い帯 */
+  /** band はページの上下に置く帯、divider は節の境の罫線の代わりに置く細い帯。違うのは高さと固定のマスの数だけ */
   variant?: 'band' | 'divider';
   class?: string;
 }
@@ -90,24 +90,23 @@ const { variant = 'band', class: className } = Astro.props;
       this.#cell = cell;
       this.#lit.clear();
       const id = `trail-grid-${Math.random().toString(36).slice(2)}`;
-      // 細い帯は高さが無いので、上側は溶かさず左右の端だけを溶かす
-      const fadeTop = this.dataset.variant !== 'divider';
       this.#svg.setAttribute('viewBox', `0 0 ${cols} ${rows}`);
       this.#svg.setAttribute('width', String(w));
       this.#svg.setAttribute('height', String(rows * cell));
-      // 背景に溶かすのは方眼の線だけ。色のマスには掛けず、どこで描いても同じ濃さで出す
+      // 線は pattern で繰り返すと型の端で太さの半分が切れ、外枠だけ太く見える。すべて1本ずつ引いて太さをそろえる
+      // 線をマスの境目の真ん中に置くと2つの画素にまたがってにじむので、境目の内側へ太さの半分だけ寄せる
+      const half = 0.0235;
+      const at = (k: number, last: number) => (k === last ? k - half : k + half);
+      let lines = '';
+      for (let x = 0; x <= cols; x++) lines += `M ${at(x, cols)} 0 V ${rows} `;
+      for (let y = 0; y <= rows; y++) lines += `M 0 ${at(y, rows)} H ${cols} `;
+      // 左右の端だけを背景に溶かす。溶かすのは方眼の線だけで、色のマスには掛けない
       this.#svg.innerHTML =
-        `<defs><pattern id="${id}-p" width="1" height="1" patternUnits="userSpaceOnUse">` +
-        `<path class="trail-grid-line" d="M 1 0 H 0 V 1" /></pattern>` +
-        `<linearGradient id="${id}-v" x1="0" y1="0" x2="0" y2="1">` +
-        `<stop offset="0" stop-color="#fff" stop-opacity="0" /><stop offset="0.55" stop-color="#fff" /></linearGradient>` +
-        `<linearGradient id="${id}-h" x1="0" y1="0" x2="1" y2="0">` +
+        `<defs><linearGradient id="${id}-h" x1="0" y1="0" x2="1" y2="0">` +
         `<stop offset="0" stop-color="#fff" stop-opacity="0" /><stop offset="0.12" stop-color="#fff" />` +
         `<stop offset="0.88" stop-color="#fff" /><stop offset="1" stop-color="#fff" stop-opacity="0" /></linearGradient>` +
-        `<mask id="${id}-mv"><rect width="${cols}" height="${rows}" fill="url(#${id}-v)" /></mask>` +
-        `<mask id="${id}-mh"><rect width="${cols}" height="${rows}" fill="url(#${id}-h)" /></mask></defs>` +
-        `<g${fadeTop ? ` mask="url(#${id}-mv)"` : ''}><g mask="url(#${id}-mh)">` +
-        `<rect width="${cols}" height="${rows}" fill="url(#${id}-p)" /></g></g>`;
+        `<mask id="${id}-mh"><rect y="-1" width="${cols}" height="${rows + 2}" fill="url(#${id}-h)" /></mask></defs>` +
+        `<path class="trail-grid-line" mask="url(#${id}-mh)" d="${lines}" />`;
       this.#layer = document.createElementNS(SVG, 'g');
       this.#svg.append(this.#layer);
       if (!wide.matches) this.#paintStatic();
@@ -116,15 +115,13 @@ const { variant = 'band', class: className } = Astro.props;
     #paintStatic() {
       // 同じページの中では、境どうし・上下の帯どうしで同じ並びにして、目が散らないようにする
       const r = seeded(hash(`${LOAD_SEED}#${this.dataset.variant}`));
-      // 帯の上側は溶けて見えにくいので下半分に置く。左右の端も溶けるので避ける
-      const divider = this.dataset.variant === 'divider';
-      const top = divider ? 0 : 0.45;
-      const [colors, grays] = STATIC[divider ? 'divider' : 'band'];
+      // 左右の端は溶けて見えにくいので避ける
+      const [colors, grays] = STATIC[this.dataset.variant === 'divider' ? 'divider' : 'band'];
       const used = new Set<number>();
       const place = (fill: string) => {
         for (let tries = 0; tries < 20; tries++) {
           const x = Math.floor(this.#cols * (0.15 + r() * 0.7));
-          const y = Math.min(this.#rows - 1, Math.floor(this.#rows * (top + r() * (1 - top))));
+          const y = Math.floor(r() * this.#rows);
           const i = y * this.#cols + x;
           if (used.has(i)) continue;
           used.add(i);
