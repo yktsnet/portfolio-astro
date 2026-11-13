@@ -242,7 +242,7 @@ html:not([data-lang="en"]) .lang-en {
 }
 /* 上端と下端の線は半分が枠の外にはみ出すので、切らずに出す */
 .trail-grid-svg { display: block; overflow: visible; }
-.trail-grid-line { fill: none; stroke: var(--trail-line); stroke-width: 0.047px; }
+.trail-grid-line { fill: none; stroke: var(--trail-line); }
 .trail-grid-pixel {
   opacity: 0.9;
   transform-box: fill-box;

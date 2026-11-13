@@ -6,7 +6,8 @@ interface Props {
 }
 const { variant = 'band', class: className } = Astro.props;
 ---
-{/* 10px 角の方眼の上で、マウスが通ったマスに色を付けてすぐ消す。md 未満ではマウスが無いので、色のマスをいくつか固定で置く */}
+{/* 10px 角の方眼の上で、マウスが通ったマスに色を付けてすぐ消す。md 未満ではマウスが無いので、色のマスをいくつか固定で置く。
+    md 未満の画面は狭く、10px のマスでは目立つので、マスを細かくする */}
 <trail-grid
   aria-hidden="true"
   data-variant={variant}
@@ -24,6 +25,10 @@ const { variant = 'band', class: className } = Astro.props;
   // md 未満で固定で置くマスの数（色・灰色）。細い境は帯より少なくする
   const STATIC = { band: [3, 4], divider: [1, 2] } as const;
   const wide = window.matchMedia('(min-width: 48rem)');
+  const CELL_PX = 10;
+  // md 未満でマスを何倍細かくするか
+  const MOBILE_FINENESS = 1.25;
+  const LINE_PX = 0.47;
 
   // 読み込みのたびに変わる種。帯の種類と合わせて並びを決める
   const LOAD_SEED = Math.floor(Math.random() * 2 ** 32);
@@ -79,8 +84,8 @@ const { variant = 'band', class: className } = Astro.props;
     }
 
     #layout(w: number, h: number) {
-      // 幅を 10px 前後で割り切れる列の数にして、端に半端なマスを出さない
-      const cols = Math.ceil(w / 10);
+      // 幅をマスの大きさ前後で割り切れる列の数にして、端に半端なマスを出さない
+      const cols = Math.ceil(w / (wide.matches ? CELL_PX : CELL_PX / MOBILE_FINENESS));
       const cell = cols ? w / cols : 0;
       // 行の数は四捨五入にして、指定した高さから大きくはみ出さないようにする
       const rows = cell ? Math.max(1, Math.round(h / cell)) : 0;
@@ -95,7 +100,9 @@ const { variant = 'band', class: className } = Astro.props;
       this.#svg.setAttribute('height', String(rows * cell));
       // 線は pattern で繰り返すと型の端で太さの半分が切れ、外枠だけ太く見える。すべて1本ずつ引いて太さをそろえる
       // 線をマスの境目の真ん中に置くと2つの画素にまたがってにじむので、境目の内側へ太さの半分だけ寄せる
-      const half = 0.0235;
+      // 線の太さはマスの大きさによらず同じ px にする
+      const stroke = LINE_PX / cell;
+      const half = stroke / 2;
       const at = (k: number, last: number) => (k === last ? k - half : k + half);
       let lines = '';
       for (let x = 0; x <= cols; x++) lines += `M ${at(x, cols)} 0 V ${rows} `;
@@ -106,7 +113,7 @@ const { variant = 'band', class: className } = Astro.props;
         `<stop offset="0" stop-color="#fff" stop-opacity="0" /><stop offset="0.12" stop-color="#fff" />` +
         `<stop offset="0.88" stop-color="#fff" /><stop offset="1" stop-color="#fff" stop-opacity="0" /></linearGradient>` +
         `<mask id="${id}-mh"><rect y="-1" width="${cols}" height="${rows + 2}" fill="url(#${id}-h)" /></mask></defs>` +
-        `<path class="trail-grid-line" mask="url(#${id}-mh)" d="${lines}" />`;
+        `<path class="trail-grid-line" stroke-width="${stroke}" mask="url(#${id}-mh)" d="${lines}" />`;
       this.#layer = document.createElementNS(SVG, 'g');
       this.#svg.append(this.#layer);
       if (!wide.matches) this.#paintStatic();
