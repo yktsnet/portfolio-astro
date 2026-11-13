@@ -220,3 +220,33 @@ html:not([data-lang="en"]) .lang-en {
 .dg .wf-strong { stroke-width: 2.2; }
 .dg .wf-goto { stroke-dasharray: 4 3; fill: none; }
 .dg .dg-muted-text { fill: var(--dg-muted); font-size: 13px; }
+
+/* マウスで描く方眼（TrailGrid.astro）。ライト・ダークで色を持ち替える */
+.trail-grid {
+  --trail-line: rgb(228 228 231 / 0.8);
+  --trail-gray-1: #d4d4d8;
+  --trail-gray-2: #a1a1aa;
+  --trail-gray-3: #71717a;
+  --trail-teal: #5de4c7;
+  --trail-pink: #e9a6c8;
+  --trail-blue: #89ddff;
+  --trail-lime: #b9f0a0;
+}
+.dark .trail-grid {
+  --trail-line: rgb(48 52 70 / 0.7);
+  --trail-gray-1: #303446;
+  --trail-gray-2: #4b5168;
+  --trail-gray-3: #767c9d;
+  --trail-pink: #d482ab;
+  --trail-lime: #a6e3a1;
+}
+.trail-grid-svg { display: block; }
+.trail-grid-line { fill: none; stroke: var(--trail-line); stroke-width: 0.094px; }
+.trail-grid-pixel {
+  opacity: 0.9;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transform: scale(1);
+  transition: transform 0.5s cubic-bezier(0.3, 0.41, 0.04, 1.01), fill 0.15s ease-out;
+}
+.trail-grid-pixel.is-exiting { transform: scale(0); }

@@ -10,6 +10,7 @@ import RepoLink from '../components/RepoLink.astro';
 import SectionHead from '../components/SectionHead.astro';
 import ServiceCard from '../components/services/ServiceCard.astro';
 import WorkList from '../components/WorkList.astro';
+import TrailGrid from '../components/TrailGrid.astro';
 import { cases } from '../data/cases';
 import { services } from '../data/services';
 import { works } from '../data/works';
@@ -118,7 +119,9 @@ const sections: SectionLink[] = [
 
     {/* About の下は1つの段。左に考え方と経歴、右に実例と技術を置き、2列の高さをそろえる。
         スマホでは 原則・実例・技術・経歴 の順に並べたいので、列の箱を外して order で並べ替える */}
-    <div class="mt-10 flex flex-col border-t border-zinc-200 pt-10 sm:mt-12 sm:pt-12 md:grid md:grid-cols-2 md:items-start md:gap-x-12 dark:border-poi-border/60">
+    {/* 罫線の代わりに TrailGrid で区切る */}
+    <TrailGrid variant="divider" class="mt-10 sm:mt-12" />
+    <div class="mt-10 flex flex-col sm:mt-12 md:grid md:grid-cols-2 md:items-start md:gap-x-12">
       <div class="contents md:block">
         <div data-fold-group class="order-1">
           <p class="font-mono type-caption tracking-widest uppercase text-zinc-500 dark:text-poi-muted">PRINCIPLES</p>
@@ -158,7 +161,8 @@ const sections: SectionLink[] = [
   </section>
 
   {/* 2. Services: 開発と、事務・採用を、同じエンジニアリングで変えるという1つの話として出す */}
-  <section id="services" class="mt-20 scroll-mt-32 border-t border-zinc-200 pt-16 sm:mt-24 sm:pt-20 dark:border-poi-border/60">
+  <section id="services" class="mt-20 scroll-mt-32 sm:mt-24">
+    <TrailGrid variant="divider" class="mb-16 sm:mb-20" />
     <SectionHead
       kicker="Services"
       title={{
@@ -172,7 +176,8 @@ const sections: SectionLink[] = [
   </section>
 
   {/* 3. Workflow: AIと開発するときの自分の進め方（Servicesとは独立した3本目の柱） */}
-  <section id="workflow" class="mt-20 scroll-mt-32 border-t border-zinc-200 pt-16 sm:mt-24 sm:pt-20 dark:border-poi-border/60">
+  <section id="workflow" class="mt-20 scroll-mt-32 sm:mt-24">
+    <TrailGrid variant="divider" class="mb-16 sm:mb-20" />
     <SectionHead
       kicker="Workflow"
       title={{
@@ -222,7 +227,8 @@ const sections: SectionLink[] = [
   </section>
 
   {/* 4. Works: Services に出していない公開リポを、仕事・道具・検証を分けずに並べる。スマホでは出さない */}
-  <section id="works" class="hidden mt-16 scroll-mt-32 border-t border-zinc-200 pt-12 sm:mt-20 sm:pt-14 dark:border-poi-border/60 md:block">
+  <section id="works" class="hidden mt-16 scroll-mt-32 sm:mt-20 md:block">
+    <TrailGrid variant="divider" class="mb-12 sm:mb-14" />
     <SectionHead
       kicker="Works"
       title={{ ja: '作ったものの一覧', en: "Everything I've Built" }}
