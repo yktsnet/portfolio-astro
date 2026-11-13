@@ -78,8 +78,8 @@ export const works: Work[] = [
     categoryTag: "ai",
     publishedAt: "2026.07",
     description: {
-      ja: "このサイトの受付チャットを動かす npm パッケージ。ページや記事から知識をビルド時に作るので、手で更新しなくてよい。",
-      en: "The npm package behind this site's chat. Knowledge is built from the pages, Zenn articles, and GitHub READMEs at build time, so nothing is updated by hand.",
+      ja: "ポートフォリオサイトに置く受付チャットの npm パッケージ。ページや記事から知識をビルド時に作るので、手で更新しなくてよい。",
+      en: "An npm package for a reception chat on a portfolio site. Knowledge is built from the pages, Zenn articles, and GitHub READMEs at build time, so nothing is updated by hand.",
     },
   }),
   work({

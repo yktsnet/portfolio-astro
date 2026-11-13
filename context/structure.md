@@ -39,7 +39,6 @@ src/
 | エンドポイント | 役割 |
 |---|---|
 | `POST /api/contact` | Turnstile検証 → Telegramへ転送 |
-| `POST /api/chat` | folio-agent のチャット応答 |
 
 ## 静的アセット
 

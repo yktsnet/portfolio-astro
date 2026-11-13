@@ -12,8 +12,6 @@ on:
       - 'LICENSE'
   pull_request:
     branches: [main]
-  repository_dispatch:
-    types: [zenn-updated]
   workflow_dispatch:
 
 jobs:
@@ -33,52 +31,28 @@ jobs:
         run: npm run build
         env:
           CF_REMOTE_BINDINGS: 'false'
-          # ingest が README を取る GitHub API は、未認証だとランナーで共有する IP ごとの回数制限にかかる
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     needs: test
-    # push（main）以外に repository_dispatch（Zenn リポからの更新通知）・
-    # workflow_dispatch（手動再ビルド）でも deploy を走らせる。
-    # これらのイベントは既定ブランチ実行のため github.ref は本来 main のはずだが、
-    # workflow_dispatch は任意 ref からの手動実行も許容するため event_name でも判定する。
-    if: github.ref == 'refs/heads/main' || github.event_name == 'repository_dispatch' || github.event_name == 'workflow_dispatch'
+    # workflow_dispatch は任意の ref から手動で走らせられるため、event_name でも判定する
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       contents: read
       deployments: write
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/checkout@v7
-        with:
-          repository: yktsnet/zenn
-          path: zenn-articles
-          token: ${{ secrets.ZENN_REPO_TOKEN }}
       - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
       - run: npm ci
-      # articlesDir をランナー上の checkout 先に一時的に書き換えて記事を取り込む。
-      # config の実体（ローカル開発用パス）はコミットしないためリポジトリには反映しない。
-      - name: Sync Zenn articles
-        run: |
-          node -e "
-            const fs = require('node:fs');
-            const path = require('node:path');
-            const configPath = 'folio-agent.config.json';
-            const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-            config.zenn.articlesDir = path.join(process.env.GITHUB_WORKSPACE, 'zenn-articles', 'articles');
-            fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-          "
-          npm run sync-zenn
-      # build 中に KV/D1 の remote バインディング解決で Cloudflare 接続が必要なため、
+      # build 中に KV の remote バインディング解決で Cloudflare 接続が必要なため、
       # deploy だけでなく build にも認証情報を渡す
       - run: npm run build
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
