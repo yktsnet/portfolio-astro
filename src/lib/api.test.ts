@@ -1,17 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { createChatHandler, createGeminiGenerator } from '@folio-agent/handler';
 import { app } from './api';
-
-vi.mock('@folio-agent/handler', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@folio-agent/handler')>()),
-  createChatHandler: vi.fn(
-    () => async () =>
-      new Response(JSON.stringify({ answer: 'mocked answer', route: 'thoughts' }), {
-        headers: { 'Content-Type': 'application/json' },
-      })
-  ),
-  createGeminiGenerator: vi.fn(() => async () => 'generated'),
-}));
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -130,67 +118,5 @@ describe('POST /api/contact', () => {
     expect(res.status).toBe(200);
     const urls = fetchMock.mock.calls.map(([input]) => String(input));
     expect(urls.some((u) => u.includes('siteverify'))).toBe(false);
-  });
-});
-
-// --- /api/chat ---
-
-describe('POST /api/chat', () => {
-  it('500 when DB, GEMINI_API_KEY or ASSETS not bound', async () => {
-    const res = await app.fetch(jsonReq('/api/chat', { message: 'hi' }), {});
-    expect(res.status).toBe(500);
-    expect(await res.json()).toMatchObject({ error: 'server_config_error' });
-  });
-
-  // knowledge は失敗時にキャッシュが破棄されるため、失敗系を正常系より先に実行する
-  it('500 knowledge_unavailable when knowledge.json cannot be fetched', async () => {
-    const env = {
-      DB: {},
-      GEMINI_API_KEY: 'test-key',
-      ASSETS: { fetch: vi.fn().mockResolvedValue(new Response('', { status: 404 })) },
-    };
-    const res = await app.fetch(jsonReq('/api/chat', { message: 'hi' }), env);
-    expect(res.status).toBe(500);
-    expect(await res.json()).toMatchObject({ error: 'knowledge_unavailable' });
-  });
-
-  it('loads knowledge.json via ASSETS and delegates to the folio-agent handler', async () => {
-    const env = {
-      DB: {},
-      GEMINI_API_KEY: 'test-key',
-      ASSETS: {
-        fetch: vi.fn().mockResolvedValue(
-          new Response(JSON.stringify({
-            pages: [
-              { url: '/about/', title: 'About', text: 'About me' },
-              { url: 'https://zenn.dev/yktsnet/articles/a', title: '記事', text: 'Article' },
-            ],
-          }), {
-            headers: { 'Content-Type': 'application/json' },
-          })
-        ),
-      },
-    };
-    const res = await app.fetch(jsonReq('/api/chat', { message: 'hi' }), env);
-
-    expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ answer: 'mocked answer', route: 'thoughts' });
-    expect(env.ASSETS.fetch).toHaveBeenCalledWith('http://localhost/knowledge.json');
-    expect(vi.mocked(createGeminiGenerator)).toHaveBeenCalledWith(
-      expect.objectContaining({
-        apiKey: 'test-key',
-        knowledge: '# About（このサイトのページ）\n\nAbout me\n\n# 記事\nURL: https://zenn.dev/yktsnet/articles/a\n\nArticle',
-        contactUrl: 'https://ykts.net/contact/',
-      })
-    );
-    expect(vi.mocked(createChatHandler)).toHaveBeenCalledWith(
-      expect.objectContaining({
-        db: env.DB,
-        answerLinks: [
-          { url: 'https://zenn.dev/yktsnet/articles/a', title: '記事' },
-          { url: 'https://ykts.net/contact/', title: 'Contactページ' },
-        ],
-      })
-    );
   });
 });

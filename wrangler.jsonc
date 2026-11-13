@@ -25,14 +25,5 @@
                         "id": "a1fd815828144dcea2f420e960be567b",
                         "remote": true
                 }
-        ],
-        "d1_databases": [
-                {
-                        "binding": "DB",
-                        "database_name": "ykts-folio-agent",
-                        "database_id": "865bb1b9-1cb3-4e0c-ba52-8b8d65797eb8",
-                        // スキーマの正本は @folio-agent/handler に同梱の migrations。版を上げたら migrations apply で足りない分だけ当たる
-                        "migrations_dir": "node_modules/@folio-agent/handler/migrations"
-                }
         ]
 }

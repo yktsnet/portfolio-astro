@@ -14,7 +14,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
-      include: ['hono', 'simple-icons', '@folio-agent/handler'],
+      include: ['hono', 'simple-icons'],
     },
     ssr: {
       external: ["node:fs", "node:path"],

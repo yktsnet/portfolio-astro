@@ -29,8 +29,8 @@ bash .claude/scripts/dev-preflight.sh <起動先>
 止まったときは、出力に書かれた対処に従う。Cloudflare のログインは user に頼む。`wrangler` は
 permissions で拒否しているので、Claude は実行しない。
 
-`CF_REMOTE_BINDINGS=false` で起動すると、KV（`SESSION`）はローカルに置き換わる。`/api/chat` と `/api/contact` は、
-ログインの有無にかかわらず、手元では API キー（`GEMINI_API_KEY` など）が無いため動かない。
+`CF_REMOTE_BINDINGS=false` で起動すると、KV（`SESSION`）はローカルに置き換わる。`/api/contact` は、
+ログインの有無にかかわらず、手元では API キー（`TELEGRAM_BOT_TOKEN` など）が無いため動かない。
 
 ## 3. 起動する
 

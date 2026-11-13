@@ -26,8 +26,7 @@ Selected with a focus on balancing flexibility and implementation speed.
 Cloudflare Pages
   ├─ Static output (SSG)
   └─ /api/*  ─ Edge Functions (Hono)
-                  ├─ /api/contact  ─ Telegram + Turnstile
-                  └─ /api/chat     ─ Folio Agent (Gemini API + Cloudflare D1)
+                  └─ /api/contact  ─ Telegram + Turnstile
 ```
 
 ## Deploy
@@ -40,7 +39,7 @@ Required GitHub Secrets are managed in repository operations documentation (not 
 ```bash
 npm install
 npm run dev
-npm run build     # Production build (astro build + folio-agent-ingest to generate knowledge.json)
+npm run build     # Production build
 npm run preview   # Local check after build
 npm test          # Unit tests
 npm run typecheck # Type checking
