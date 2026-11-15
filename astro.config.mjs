@@ -20,6 +20,10 @@ export default defineConfig({
       external: ["node:fs", "node:path"],
     },
   },
+  // 描画を止める CSS の往復を消すため、ページの CSS を HTML に埋め込む
+  build: {
+    inlineStylesheets: 'always',
+  },
   integrations: [sitemap()],
   redirects: {
     '/about': '/#about',

@@ -35,7 +35,7 @@
   --color-poi-accent-hover: #4ebca5;
   --color-poi-muted: #a6accd;
 
-  --color-light-accent: #d0679d;
+  --color-light-accent: #b03e78;
 
   --font-sans:
     'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans',
@@ -153,8 +153,8 @@
 
 @layer utilities {
   :root {
-    /* poi-accent の実体色。ライト=ピンク(#d0679d) / ダーク=ティール(#5de4c7) */
-    --color-accent: 208 103 157;
+    /* poi-accent の実体色。ライト=ピンク(#b03e78) / ダーク=ティール(#5de4c7)。ライトは背景 zinc-50 との文字のコントラスト 4.5:1 を満たす濃さにしている */
+    --color-accent: 176 62 120;
   }
 
   .dark {
