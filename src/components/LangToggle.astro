@@ -8,7 +8,7 @@
   >
     <span class="lang-label-ja font-semibold text-poi-accent">JA</span>
     <span class="mx-1 text-zinc-300 dark:text-poi-border">/</span>
-    <span class="lang-label-en text-zinc-400 dark:text-poi-muted/50 hover:text-zinc-700 dark:hover:text-poi-text">EN</span>
+    <span class="lang-label-en text-zinc-500 dark:text-poi-muted/50 hover:text-zinc-700 dark:hover:text-poi-text">EN</span>
   </button>
 </lang-toggle>
 
@@ -21,7 +21,7 @@
       if (button) {
         const setActive = (label: Element | null, active: boolean) => {
           for (const c of ["font-semibold", "text-poi-accent"]) label?.classList.toggle(c, active);
-          for (const c of ["text-zinc-400", "dark:text-poi-muted/50"]) label?.classList.toggle(c, !active);
+          for (const c of ["text-zinc-500", "dark:text-poi-muted/50"]) label?.classList.toggle(c, !active);
         };
         const updateUI = (lang: string) => {
           setActive(this.querySelector(".lang-label-ja"), lang !== "en");

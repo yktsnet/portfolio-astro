@@ -6,6 +6,7 @@
 src/
   assets/
     photos/       # フォトギャラリー用 (.webp)。ビルド時に寸法取得・リサイズする
+    profile/      # プロフィール画像。表示の大きさに合わせてビルド時にリサイズする
   components/     # 再利用可能なAstroコンポーネント。ページをまたいで使うものは直下に置く
     diagram/      # SVG の図の部品（文字・箱・段の見出し）
     services/     # サービスのページとトップのサービスのカードで使う部品
@@ -44,6 +45,6 @@ src/
 
 ```
 public/
-  images/
-    profile/      # プロフィール画像
+  _headers        # 静的ページに付けるセキュリティヘッダー（CSP など）
+  images/         # OGP の既定画像
 ```

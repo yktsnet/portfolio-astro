@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import MainLayout from '../layouts/MainLayout.astro';
 import T from '../components/T.astro';
 import Career from '../components/Career.astro';
@@ -16,6 +17,7 @@ import { services } from '../data/services';
 import { works } from '../data/works';
 import { gddArticle } from '../data/articles';
 import { siteConfig } from '../site.config';
+import profilePhoto from '../assets/profile/me.webp';
 import type { SectionLink } from '../types';
 
 // 見出しの「決めるのは経営から、作るのは現場から、渡すのは教育から」を1枚ずつに分ける
@@ -92,7 +94,8 @@ const sections: SectionLink[] = [
   {/* 1. About: どういう人か・なぜ1人で回せるかを先に完結させる */}
   <section id="about" class="scroll-mt-32">
     <div class="flex items-center gap-6">
-      <img src="/images/profile/me.webp" alt="Katsuhiro Yamakawa" class="h-24 w-24 shrink-0 rounded-full object-cover sm:h-28 sm:w-28" />
+      {/* 元画像は 3:2 で、正方形に object-cover で切り抜く。高さを埋める幅（表示幅の 1.5 倍）を sizes に渡して、ぼけない解像度を選ばせる */}
+      <Image src={profilePhoto} alt="Katsuhiro Yamakawa" widths={[144, 168, 288, 336, 432, 504]} sizes="(min-width: 640px) 168px, 144px" loading="eager" fetchpriority="high" class="h-24 w-24 shrink-0 rounded-full object-cover sm:h-28 sm:w-28" />
       <div>
         <h1 class="type-display font-semibold tracking-tight text-zinc-900 dark:text-poi-focus">Katsuhiro Yamakawa</h1>
         <a href="https://github.com/yktsnet" target="_blank" rel="noopener noreferrer" class="mt-1 inline-flex items-center gap-1.5 font-mono type-subheading text-poi-accent hover:underline focus-visible:underline outline-hidden">
