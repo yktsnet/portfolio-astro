@@ -19,7 +19,7 @@ export const changes: Metric[] = [
     label: { ja: '誰がどれだけ活用しているかが毎日分かる', en: 'Who is using it well is visible every day' },
   },
   {
-    value: { ja: '5×5', en: '5×5' },
+    value: { ja: '8×5', en: '8×5' },
     unit: { ja: '軸×段階', en: 'axes × levels' },
     label: { ja: '在籍者と候補者を同じ評価基準で点数化', en: 'Staff and candidates scored on the same criteria' },
   },
@@ -94,7 +94,7 @@ export const offeringDetails: OfferingDetail[] = [
       { ja: '評価と採用の基準が別々で、見る人によって判断がぶれる', en: 'Evaluation and hiring use separate criteria, so judgment varies by person' },
     ],
     after: [
-      { ja: '在籍者と採用候補者を、同じ5つの軸で比べられる', en: 'Staff and candidates are compared on the same five axes' },
+      { ja: '在籍者と採用候補者を、同じ8つの軸で比べられる', en: 'Staff and candidates are compared on the same eight axes' },
       { ja: '1人ずつの段階・次に伸ばす軸・利用状況が、1つの画面に毎日並ぶ', en: 'Each person\'s level, next axis and usage are laid out on one screen every day' },
     ],
     decisions: [
@@ -103,8 +103,8 @@ export const offeringDetails: OfferingDetail[] = [
         body: { ja: '何を測るかを先に決め、それが成果物に出るように開発キットを作っている。', en: 'What to measure is decided first, and the kit is built so it shows up in the output.' },
       },
       {
-        title: { ja: '採用でも同じ5つの軸を使う', en: 'Use the same five axes for hiring' },
-        body: { ja: '在籍者は日々の成果物で、採用候補者は面接と課題で、同じ5つの軸を測る。型の運用だけは入社前に測れないので、入社後に測り直す。', en: 'Current staff are measured through daily deliverables, and candidates through interviews and tasks, on the same five axes. Workflow use cannot be measured before joining, so it is measured again after.' },
+        title: { ja: '採用でも同じ8つの軸を使う', en: 'Use the same eight axes for hiring' },
+        body: { ja: '在籍者は日々の成果物で、採用候補者は面接と課題で、同じ8つの軸を測る。型の運用だけは入社前に測れないので、入社後に測り直す。', en: 'Current staff are measured through daily deliverables, and candidates through interviews and tasks, on the same eight axes. Workflow use cannot be measured before joining, so it is measured again after.' },
       },
       {
         title: { ja: 'マネジメントは慣れたシートに書く', en: 'Managers write in the sheet they know' },
