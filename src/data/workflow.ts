@@ -24,8 +24,8 @@ export const overviewPoints: Point[] = [
       en: 'Why surface tacit knowledge with prototypes instead of upfront specs',
     },
     body: {
-      ja: '利用者が慣れで回避している手間や書かれていない例外は、質問表では出てこない。答えを待って文書を重ねるより、仮置きで動く画面を先に見せるほうが、顧客自身も自分の要件に気づける。',
-      en: 'Workarounds users take for granted and unwritten edge cases never appear in questionnaires. Showing a working screen built on explicit assumptions lets clients recognize their own needs far faster than piling up documents.',
+      ja: '利用者が慣れで回避している手間や書かれていない例外は、質問表では出てこない。答えを待って文書を重ねるより、仮置きで動く画面を先に見せるほうが、顧客自身も自分の要件に気づける。先に決めるのはデータの形だけで、設計書は読み手が要るときに実装から起こす。',
+      en: 'Workarounds users take for granted and unwritten edge cases never appear in questionnaires. Showing a working screen built on explicit assumptions lets clients recognize their own needs far faster than piling up documents. Only the shape of the data is decided upfront; design documents are derived from the implementation when a reader needs them.',
     },
   },
   {
