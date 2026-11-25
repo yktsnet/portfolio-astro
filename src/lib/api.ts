@@ -29,18 +29,30 @@ app.post('/api/contact', async (c) => {
     return c.json({ error: 'name, email, phone are required' }, 400);
   }
 
+  // Telegram の sendMessage は 4096 文字が上限。HTML エスケープで伸びる分を見込んで抑える
+  if (name.length > 200 || email.length > 200 || phone.length > 200 || message.length > 3000) {
+    return c.json({ error: 'input_too_long' }, 400);
+  }
+
   const token = String(body.cfToken || '');
   const tsSecret = c.env?.TURNSTILE_SECRET_KEY;
   if (tsSecret) {
     if (!token) {
       return c.json({ error: 'turnstile_failed' }, 403);
     }
-    const tsRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ secret: tsSecret, response: token }),
-    });
-    const tsData = (await tsRes.json()) as { success: boolean; 'error-codes'?: string[] };
+    let tsData: { success: boolean; 'error-codes'?: string[] };
+    try {
+      const tsRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ secret: tsSecret, response: token }),
+      });
+      if (!tsRes.ok) throw new Error(`siteverify returned ${tsRes.status}`);
+      tsData = (await tsRes.json()) as typeof tsData;
+    } catch (err) {
+      console.error('Turnstile siteverify unavailable:', err);
+      return c.json({ error: 'turnstile_unavailable' }, 502);
+    }
     if (!tsData.success) {
       console.warn('Turnstile verification failed:', tsData['error-codes']);
       return c.json({ error: 'turnstile_failed' }, 403);
