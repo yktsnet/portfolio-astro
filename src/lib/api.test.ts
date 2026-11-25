@@ -119,4 +119,53 @@ describe('POST /api/contact', () => {
     const urls = fetchMock.mock.calls.map(([input]) => String(input));
     expect(urls.some((u) => u.includes('siteverify'))).toBe(false);
   });
+
+  it('400 when an input exceeds its length limit, without calling external APIs', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 200 }));
+    vi.stubGlobal('fetch', fetchMock);
+    const cases = [
+      { name: 'a'.repeat(201) },
+      { email: 'a'.repeat(201) },
+      { phone: '1'.repeat(201) },
+      { message: 'a'.repeat(3001) },
+    ];
+    for (const over of cases) {
+      const res = await app.fetch(jsonReq('/api/contact', { ...validBody, ...over }), envWithWebhook);
+      expect(res.status).toBe(400);
+      expect(await res.json()).toMatchObject({ error: 'input_too_long' });
+    }
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('200 when inputs are exactly at their length limits', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(null, { status: 200 })));
+    const res = await app.fetch(
+      jsonReq('/api/contact', {
+        name: 'a'.repeat(200),
+        email: 'a'.repeat(200),
+        phone: '1'.repeat(200),
+        message: 'a'.repeat(3000),
+      }),
+      envWithWebhook
+    );
+    expect(res.status).toBe(200);
+  });
+
+  it('502 when Turnstile siteverify is unavailable', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const failures: Array<() => Promise<Response>> = [
+      () => Promise.reject(new TypeError('network down')),
+      () => Promise.resolve(new Response('oops', { status: 503 })),
+      () => Promise.resolve(new Response('<html>not json</html>', { status: 200 })),
+    ];
+    for (const fail of failures) {
+      vi.stubGlobal('fetch', vi.fn().mockImplementation(fail));
+      const res = await app.fetch(
+        jsonReq('/api/contact', { ...validBody, cfToken: 'some-token' }),
+        { ...envWithWebhook, TURNSTILE_SECRET_KEY: 'test-secret' }
+      );
+      expect(res.status).toBe(502);
+      expect(await res.json()).toMatchObject({ error: 'turnstile_unavailable' });
+    }
+  });
 });

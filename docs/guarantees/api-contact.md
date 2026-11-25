@@ -6,6 +6,7 @@
 |---|---|
 | `POST /api/contact` はボディを JSON として読めなければ、400 で `{ error: 'invalid_json' }` を返す | `POST /api/contact > 400 for invalid JSON` |
 | `POST /api/contact` は `name`・`email`・`phone` のいずれかが欠けていれば、400 を返す | `POST /api/contact > 400 when required fields missing` |
+| `POST /api/contact` は `name`・`email`・`phone` が各 200 文字を超えるか `message` が 3000 文字を超えれば、400 で `{ error: 'input_too_long' }` を返す | `POST /api/contact > 400 when an input exceeds its length limit, without calling external APIs` |
 | `POST /api/contact` は `TELEGRAM_BOT_TOKEN` か `TELEGRAM_CHAT_ID` が未設定なら、500 で `{ error: 'server_config_error' }` を返す | `POST /api/contact > 500 when Telegram config not configured` |
 | `POST /api/contact` は Telegram API への送信が成功すれば、200 で `{ ok: true }` を返す | `POST /api/contact > 200 on success` |
 | `POST /api/contact` は Telegram API が 2xx 以外を返せば、502 を返す | `POST /api/contact > 502 when Telegram API fails` |
@@ -19,3 +20,4 @@
 | `POST /api/contact` は `cfToken` が空か未指定なら、Turnstile の siteverify を呼ばない | `POST /api/contact > 403 when secret is set but cfToken is empty, without calling siteverify` |
 | `POST /api/contact` は `TURNSTILE_SECRET_KEY` が未設定なら、`cfToken` を渡さなくても Turnstile の検証をせずに続行する | `POST /api/contact > 200 when secret is not set, regardless of cfToken` |
 | `POST /api/contact` は `TURNSTILE_SECRET_KEY` が未設定なら、`cfToken` を渡しても Turnstile の検証をせずに続行する | `POST /api/contact > 200 when secret is not set and cfToken is given, without calling siteverify` |
+| `POST /api/contact` は `TURNSTILE_SECRET_KEY` が設定されていて Turnstile の siteverify がネットワーク例外・非 2xx・非 JSON 応答で失敗すれば、502 で `{ error: 'turnstile_unavailable' }` を返す | `POST /api/contact > 502 when Turnstile siteverify is unavailable` |

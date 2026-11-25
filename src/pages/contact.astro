@@ -64,7 +64,7 @@ const inputClass =
         <T text={{ ja: '送信', en: 'Send Message' }} />
       </button>
 
-      <p id="cf-status" class="type-body hidden"></p>
+      <p id="cf-status" role="status" class="type-body hidden"></p>
     </form>
 
     {/* 何を頼めるかを、フォームの横で確かめられるようにする */}
@@ -100,7 +100,7 @@ const inputClass =
   </div>
 </MainLayout>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
 
 <script>
   import { buildContactBody } from '../lib/contact-form';
@@ -156,8 +156,10 @@ const inputClass =
         btn.disabled = false;
         return;
       }
+      // トークンが出ないまま待ち続けるとボタンが押せなくなるため、10 秒で諦めて戻す
+      const deadline = Date.now() + 10_000;
       const check = setInterval(() => {
-        if (widget.value) {
+        if (widget.value || Date.now() >= deadline) {
           clearInterval(check);
           btn.disabled = false;
         }
@@ -177,8 +179,8 @@ const inputClass =
         setMsg(status, MSG.sent);
         status.className = 'type-body text-green-600 dark:text-green-400';
         form.reset();
-        btn.disabled = false;
         btn.innerHTML = btnLabel;
+        resetTurnstile();
         return;
       }
 

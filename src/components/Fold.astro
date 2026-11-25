@@ -7,7 +7,7 @@ interface Props {
   // 見出しがスマホで中身を示すためだけのもので、md 以上では要らないとき
   mobileHeadOnly?: boolean;
 }
-const { as: Tag = 'h3', class: className, mobileHeadOnly = false } = Astro.props;
+const { as: Tag = 'h3', class: className, mobileHeadOnly = false }: Props = Astro.props;
 ---
 <div class={className}>
   {Astro.slots.has('head') && <Tag class:list={['block w-full text-left', mobileHeadOnly && 'md:hidden']}><slot name="head" /></Tag>}
