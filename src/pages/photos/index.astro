@@ -56,6 +56,7 @@ function toRhythmChunks(items: Photo[]): Chunk[] {
 ---
 
 <MainLayout title="Photos" description="Photos taken by Katsuhiro Yamakawa.">
+  <h1 class="sr-only">Photos</h1>
   <nav id="photo-index" aria-label="Photo sections" class="mb-16 rounded-md border border-zinc-200/80 px-5 py-4 sm:px-6 sm:py-5 dark:border-poi-border/50">
     <ul class="flex flex-col">
       {sections.map((section) => (
@@ -74,9 +75,9 @@ function toRhythmChunks(items: Photo[]): Chunk[] {
 
   <div>
     {sections.map((section) => (
-      <section id={section.id} class="mb-20">
+      <section id={section.id} class="mb-20 scroll-mt-32">
         <!-- 見出しはスクロール中も残し、いまどのセクションかを示す -->
-        <div class="sticky top-0 z-10 flex items-baseline gap-3 bg-zinc-50/90 py-3 mb-3 backdrop-blur dark:bg-poi-base/90">
+        <div class="sticky top-[68px] sm:top-[76px] z-10 flex items-baseline gap-3 bg-zinc-50/90 py-3 mb-3 backdrop-blur dark:bg-poi-base/90">
           <h2 class="type-subheading font-normal text-light-accent dark:text-poi-accent">
             {section.location}
           </h2>
@@ -140,12 +141,22 @@ function toRhythmChunks(items: Photo[]): Chunk[] {
 
   <!-- Lightbox -->
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button
+      type="button"
+      id="lightbox-close"
+      aria-label="Close photo viewer"
+      class="absolute top-4 right-4 sm:top-6 sm:right-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+    >
+      <svg aria-hidden="true" class="h-5 w-5" fill="none" focusable="false" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
     <img id="lightbox-img" src="" alt="" />
     <p id="lightbox-meta" class="lightbox-meta"></p>
   </div>
 
   <button
-    class="fixed inset-e-4 bottom-8 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-light-accent dark:hover:border-poi-accent sm:inset-e-8 sm:h-12 sm:w-12"
+    class="pointer-events-none fixed inset-e-4 bottom-8 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 opacity-0 transition-all duration-300 hover:border-light-accent dark:hover:border-poi-accent sm:inset-e-8 sm:h-12 sm:w-12"
     id="to-top-btn"
   >
     <span class="sr-only">Back to index</span>
@@ -187,15 +198,19 @@ function toRhythmChunks(items: Photo[]): Chunk[] {
 
 <script>
   const lightbox = document.getElementById("lightbox")!;
+  const lightboxClose = document.getElementById("lightbox-close") as HTMLButtonElement;
   const lightboxImg = document.getElementById("lightbox-img") as HTMLImageElement;
   const lightboxMeta = document.getElementById("lightbox-meta")!;
+  let triggerBtn: HTMLElement | null = null;
 
   document.querySelectorAll<HTMLButtonElement>(".photo-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
+      triggerBtn = btn;
       lightboxImg.src = btn.dataset.src ?? "";
       lightboxMeta.textContent = btn.dataset.meta ?? "";
       lightbox.classList.add("open");
       document.body.style.overflow = "hidden";
+      lightboxClose.focus();
     });
   });
 
@@ -205,8 +220,11 @@ function toRhythmChunks(items: Photo[]): Chunk[] {
   });
 
   function close() {
+    if (!lightbox.classList.contains("open")) return;
     lightbox.classList.remove("open");
     document.body.style.overflow = "";
+    triggerBtn?.focus();
+    triggerBtn = null;
   }
 
   // Back to index
