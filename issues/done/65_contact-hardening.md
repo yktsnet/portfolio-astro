@@ -1,3 +1,46 @@
+## PR記録: fix: Harden the contact form and /api/contact
+issue: 65 (65_contact-hardening.md)
+PR: https://github.com/yktsnet/portfolio-astro/pull/266
+
+## 変更内容
+- `src/lib/api.ts`: Turnstile `siteverify` の通信失敗・非 2xx・非 JSON 応答を捕捉し、502 `{ error: 'turnstile_unavailable' }` を返す。`name`・`email`・`phone` が各 200 文字、`message` が 3000 文字を超えたら外部 API を呼ぶ前に 400 `{ error: 'input_too_long' }` を返す
+- `src/pages/contact.astro`: 送信成功時にも Turnstile をリセットする。`resetTurnstile()` のポーリングを 10 秒で打ち切り、ボタンを再有効化する。`#cf-status` に `role="status"`、Turnstile の `<script>` に `is:inline` を付ける
+- `src/components/Fold.astro`: 型チェックの hint（ts6196 `Props` 未使用）を消すため、`Astro.props` の分割代入に `Props` を注釈する（Issue の対象外だが user の承認を得て加えた）
+- 見送り: フォーム側の `maxlength` は付けていない（上限超過時は汎用の失敗メッセージが出る）
+
+## 保証
+- 入力長超過で 400 `input_too_long` → `src/lib/api.test.ts` `POST /api/contact > 400 when an input exceeds its length limit, without calling external APIs`（境界値は `200 when inputs are exactly at their length limits`）
+- siteverify の異常で 502 `turnstile_unavailable` → `POST /api/contact > 502 when Turnstile siteverify is unavailable`（例外・503・非 JSON の3通り）
+- 送信成功後の Turnstile リセット、10 秒でのボタン再有効化 → なし（`window.turnstile` 依存のブラウザ挙動のため）
+- 維持する保証 → 既存テストがすべて通る
+
+## 静的確認結果
+- `npm run typecheck`: 0 errors / 0 warnings / 0 hints
+- `npm run test`: 32 passed
+
+## 検証手順
+- 本番またはプレビュー環境で `/contact/` から実際に送信し、成功後に Turnstile がリセットされて再送できることを確かめる
+
+## 確認者の判定
+| # | 項目 | 判定 |
+|---|---|---|
+| 1 | typecheck でエラー・警告・hint が出ない | 合 |
+| 2 | test 全件通過、502・400 のテスト追加 | 合 |
+| 3 | 送信成功後に `turnstile.reset()` が呼ばれる | 合 |
+| 4 | 空トークンのまま 10 秒でボタン再有効化 | 合 |
+| 5 | `#cf-status` に `role="status"` | 合 |
+
+テストの正しさ3件・保証すべて「合」。範囲の外として `Fold.astro`（承認済み）、目的に届かない点としてフォームの `maxlength` 未設定が挙がった。
+
+## 待ちと手戻り
+
+| 種類 | 何が起きたか | 失ったもの | 原因の分類 | 仕組みで防げたか |
+|---|---|---|---|---|
+| 手戻り | 開発サーバーの起動をフックが Cloudflare 未ログインで止め、`CF_REMOTE_BINDINGS=false` で起動し直した | 1回。1分未満 | ガードの摩擦 | 防げない（`/api/*` を使う起動では止めるのが正しい） |
+| 手戻り | 起動直後の `/contact/` が Vite の依存最適化の競合で 500 を返し、再起動した | 1回。約1分 | 道具の欠け | 防げた：起動フックが初回応答を確かめて再起動すれば |
+
+---
+
 ## Contact フォームと /api/contact の信頼性・アクセシビリティ改善
 id: 65
 branch-slug: contact-hardening
